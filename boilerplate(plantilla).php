@@ -14,7 +14,7 @@
     ?>    
 
     <main class="container-fluid">
-
+            
     </main>
 
     <?php
