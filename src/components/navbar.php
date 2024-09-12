@@ -1,6 +1,8 @@
 <?php
-echo '<nav
-        class="navbar navbar-expand-sm navbar-light bg-light"
+
+?>
+<nav
+        class="navbar navbar-expand-sm navbar-dark bg-dark"
     >
         <div class="container">
             <a class="navbar-brand" href="#">Bruno Tis</a>
@@ -71,19 +73,46 @@ echo '<nav
                             aria-labelledby="dropdownId"
                         >
                             <a class="dropdown-item" href="#"
-                                >Action 1</a
+                                >Comprar</a
                             >
                             <a class="dropdown-item" href="#"
-                                >Action 2</a
+                                >Vender</a
                             >
                         </div>
                     </li>
                     <li class="nav-item">
-                        
+                        <a href="#" class="nav-link">
+                            Sucursales
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="dropdownId"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            >Seguros</a
+                        >
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownId"
+                        >
+                            <a class="dropdown-item" href="#"
+                                >Compra tu SOAP</a
+                            >
+                            <a class="dropdown-item" href="#"
+                                >Empresas</a
+                            >
+                            <a class="dropdown-item" href="#"
+                                >Contra accidentes</a
+                            >
+                        </div>
                     </li>
                 </ul>
                 <form class="d-flex my-2 my-lg-0">
-                    <input
+                    <!-----<input
                         class="form-control me-sm-2"
                         type="text"
                         placeholder="Search"
@@ -94,10 +123,12 @@ echo '<nav
                     >
                         Search
                     </button>
+                    -->
+                    <a href="#" class="nav-link">
+                            <button class="btn btn-outline-light my-2 my-sm-0">
+                            Agenda tu visita
+                            </button>
+                    </a>
                 </form>
             </div>
-        </div>
-    </nav>';
-    
-?>
-
+    </nav>
