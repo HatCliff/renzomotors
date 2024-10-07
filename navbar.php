@@ -1,12 +1,12 @@
 <?php
-$carpetaMain = __DIR__;
+$carpetaMain = 'http://localhost/tis';
 ?>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
     <div class="container-fluid">
         
-        <a class="navbar-brand" href='/index.php'>
+        <a class="navbar-brand" href='http://localhost/tis'>
             <img src="<?php echo $carpetaMain; ?>/logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>

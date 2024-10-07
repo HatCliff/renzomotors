@@ -1,8 +1,8 @@
 <?php
-$host = "us-cluster-east-01.k8s.cleardb.net";
-$usuario = "bf158755f83171";      
-$contrasena = "f5bd4a28";       
-$base_datos = "heroku_0bcf63a67107691";  
+$host = "localhost";
+$usuario = "root";      
+$contrasena = "";       
+$base_datos = "proy_base";  
 
 $conexion = new mysqli($host, $usuario, $contrasena, $base_datos);
 
