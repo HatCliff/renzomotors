@@ -15,7 +15,7 @@ session_start();
         <div class="mb-3">
 
             <div class="input-group">
-                <span class="input-group-text"><label for="" class="form-label">Correo</label></span>
+                <span class="input-group-text"><label for="" class="form-label">C</label></span>
                 <input
                     type="text"
                     class="form-control"
@@ -26,7 +26,7 @@ session_start();
                 />
             </div>
             <div class="input-group">    
-                <span class="input-group-text"><label for="" class="form-label">Contra</label></span>
+                <span class="input-group-text"><label for="" class="form-label"><img src="./../icons/lock.svg" alt="Contraseña" width="10px"></label></span>
                     <input
                         type="password"
                         class="form-control"
