@@ -1,5 +1,5 @@
 <?php
-$carpetaMain = 'http://localhost/';
+$carpetaMain = __DIR__;
 ?>
 
 <!-- NAV -->
