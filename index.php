@@ -1,6 +1,9 @@
-<?php
-include 'navbar.php';
-include 'conexion.php';
+<?php 
+session_start();
+if(!$_SESSION['user']){
+    header("Location: https://localhost/tis/auth/login.php");
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,8 +15,9 @@ include 'conexion.php';
     <link rel="shortcut icon" href="logo.png" type="image/png">
 </head>
 <body>
-
-
+    <?php
+    include './components/navbar.php';
+    ?>
     <div class="container mt-5 pt-5">
         <h1>Bienvenido a RenzoMotors</h1>
         <p>Tu automotora de confianza</p>
