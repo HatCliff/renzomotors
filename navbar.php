@@ -1,5 +1,5 @@
 <?php
-$carpetaMain = 'http://localhost/tis';
+$carpetaMain = 'http://localhost/';
 ?>
 
 <!-- NAV -->
