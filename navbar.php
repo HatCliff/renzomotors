@@ -36,7 +36,7 @@ $carpetaMain = 'http://localhost/tis';
     </div>
     <div class="offcanvas-body">
         <ul class="list-unstyled">
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/vehiculo/mantenedor_vehiculos.php'>Mantenedor de Vehiculos</a></li>
+            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/vehiculo/mantenedor_vehiculos.php'>Mantenedor de Vehículos</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/marcas/mantenedor_marcas.php'>Mantenedor de Marcas</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/paises/mantenedor_paises.php'>Mantenedor de Paises</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/anios/mantenedor_anios.php'>Mantenedor de Años</a></li>
