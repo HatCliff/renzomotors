@@ -6,7 +6,11 @@ $carpetaMain = 'http://localhost/tis';
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
     <div class="container-fluid">
         
+<<<<<<< HEAD
         <a class="navbar-brand" href='http://localhost/tis'>
+=======
+        <a class="navbar-brand" href='/index.php'>
+>>>>>>> origin/fmunozi
             <img src="<?php echo $carpetaMain; ?>/logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>
@@ -36,7 +40,11 @@ $carpetaMain = 'http://localhost/tis';
     </div>
     <div class="offcanvas-body">
         <ul class="list-unstyled">
+<<<<<<< HEAD
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/vehiculo/mantenedor_vehiculos.php'>Mantenedor de Vehículos</a></li>
+=======
+            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/vehiculo/mantenedor_vehiculos.php'>Mantenedor de Vehiculos</a></li>
+>>>>>>> origin/fmunozi
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/marcas/mantenedor_marcas.php'>Mantenedor de Marcas</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/paises/mantenedor_paises.php'>Mantenedor de Paises</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/anios/mantenedor_anios.php'>Mantenedor de Años</a></li>
