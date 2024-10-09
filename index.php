@@ -1,28 +1,25 @@
-<?php 
-session_start();
-if(!$_SESSION['user']){
-    header("Location: https://localhost/tis/auth/login.php");
-    die();
-}
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RenzoMotors</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="logo.png" type="image/png">
-</head>
-<body>
-    <?php
-    include './components/navbar.php';
-    ?>
-    <div class="container mt-5 pt-5">
-        <h1>Bienvenido a RenzoMotors</h1>
-        <p>Tu automotora de confianza</p>
-    </div>
+<?php
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+// Obtén la URI del navegador
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$vistas = '/views/';
+
+switch ($uri) {
+    case '/':
+    case '/index.php':
+    case '/renzomotors':
+        require __DIR__ . $vistas . 'public/index.php';
+        break;
+    case '/renzomotors/login':
+        require __DIR__ . $vistas . 'public/login.php';
+        break;
+    case '/renzomotors/dashboard':
+        require __DIR__ . $vistas . 'private/dashboard.php';
+        break;
+    default:
+        http_response_code(404);
+        require __DIR__ . $vistas . 'public/404.php';
+        break;
+}
+
+?>
