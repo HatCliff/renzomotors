@@ -16,7 +16,7 @@ session_start();
 <body style='height:100vh;' class="d-flex align-items-center justify-content-center">
     <div class="mx-auto" style="width: auto;">
         <div class="py-5 px-5">
-        <div class="mb-3 border py-5 px-5">
+        <div class="mb-3 border py-5 px-5" style="background-color:#f8f8f8; padding: 5vh 5vw !important;">
             <form action="./../auth/login.php" method="post">
                         
                 <h2 class="text-center">Renzo Motors</h2>
