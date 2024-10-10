@@ -1,7 +1,11 @@
 <?php 
 session_start();
     if(isset($_SESSION['usuario'])){
-        header('Location: /pages/dashboard');
+    //    header('Location: /pages/dashboard');
+    }
+
+    if(isset($_SESSION['error'])){
+        echo "<div class='mx-auto col-3 fixed-top alert alert-danger' role='alert'>Error ". $_SESSION['error_code'] . ": ". $_SESSION['error'] . "</div>";
     }
 ?>
 <!DOCTYPE html>
@@ -59,9 +63,7 @@ session_start();
                 </div>    
                 </form>
                 <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <img src="#" alt="" width="300" />
-                    </div>
+                    
                     <div
                         class="modal fade"
                         id="modalId"
