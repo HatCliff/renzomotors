@@ -1,0 +1,18 @@
+ErrorDocument 404 /renzomotors/404.php
+ErrorDocument 500 /renzomotors/404.php
+# or map them to one error document:
+# ErrorDocument 404 /pages/errors/error_redirect.php
+# ErrorDocument 500 /pages/errors/error_redirect.php
+
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} ^/404/$
+RewriteRule ^(.*)$ /404.php [L]
+
+RewriteCond %{REQUEST_URI} ^/500/$
+RewriteRule ^(.*)$ /500.php [L]
+
+RewriteCond %{REQUEST_URI} ^/login/$
+RewriteRule ^(.*)$ /renzomotors/pages/login.php [L]
+

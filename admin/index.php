@@ -1,9 +1,8 @@
 <?php 
-session_start();
-if(!$_SESSION['user']){
-    header("Location: https://localhost/tis/auth/login.php");
-    die();
-}
+//Si no hay una sesión iniciada, redirigir al login
+    if(!isset($_SESSION['usuario'])){
+        header('Location: /pages/login');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
