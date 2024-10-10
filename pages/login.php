@@ -1,8 +1,8 @@
 <?php 
 session_start();
-if(isset($_SESSION['usuario'])){
-    header('Location: /pages/dashboard');
-}
+    if(isset($_SESSION['usuario'])){
+        header('Location: /pages/dashboard');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,7 +18,7 @@ if(isset($_SESSION['usuario'])){
         <div class="py-5 px-5">
         <div class="mb-3 border py-5 px-5">
             <form action="./../auth/login.php" method="post">
-                    
+                        
                 <h2 class="text-center">Renzo Motors</h2>
                 <h5>Correo Electrónico</h5>
                 <div class="input-group">
@@ -26,12 +26,15 @@ if(isset($_SESSION['usuario'])){
                         <img src="./../src/icons/user.svg" alt="Usuario" width="10px">
                     </label></span>
                     <input
-                        type="text"
+                        type="email"
                         class="form-control"
                         name="email"
                         id=""
                         aria-describedby="helpId"
                         placeholder="Escribe aquí tu correo"
+                        required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        title="El formato del correo debe ser nombre@email.com"
                     />
                 </div>
                 <h5>Contraseña</h5>
@@ -44,12 +47,79 @@ if(isset($_SESSION['usuario'])){
                             id=""
                             aria-describedby="helpId"
                             placeholder="Contraseña"
+                            required
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
+                            title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
+
                         />
                 </div>
-                <small id="helpId" class="form-text text-muted">¿Olvidaste la contraseña? <a href="/pages/recover.php" class="">Restablecela</a></small>
+                <small id="helpId" class="form-text text-muted">¿Olvidaste la contraseña? <a data-bs-toggle="modal" data-bs-target="#modalId" class="">Restablecela</a></small>
                 <div class="d-grid gap-2 mt-3">
                     <input type="submit" value="Iniciar Sesión" class="btn btn-primary" style='background-color:#D9D9D9; color:black; border:2px;'>
                 </div>    
+                </form>
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <img src="#" alt="" width="300" />
+                    </div>
+                    <div
+                        class="modal fade"
+                        id="modalId"
+                        tabindex="-1"
+                        data-bs-backdrop="static"
+                        data-bs-keyboard="false"
+                        
+                        role="dialog"
+                        aria-labelledby="modalTitleId"
+                        aria-hidden="true"
+                    >
+                        <div
+                            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                            role="document"
+                        >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTitleId">
+                                        Restablecer contraseña.
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <form action="/recovery.php" method="post">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Correo electrónico</label>
+                                            <input
+                                                type="email"
+                                                class="form-control"
+                                                name="recoveryMail"
+                                                id=""
+                                                aria-describedby="helpId"
+                                                placeholder=""
+                                                required
+                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                            />
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary">Cerrar</button>
+                                        <input type="submit" value="Restablecer contraseña" class="btn btn-primary">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        const myModal = new bootstrap.Modal(
+                            document.getElementById("modalId"),
+                            options,
+                        );
+                    </script>
+                </div>
             </div>
         </form>
         </div>

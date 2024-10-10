@@ -1,5 +1,6 @@
 <?php 
-
+echo 'login';
+die();
 $email = $_POST['email'];
 $password = $_POST['password'];
 if($email == '' || $password == ''){
