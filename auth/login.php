@@ -15,7 +15,7 @@ if($email == 'test1@example.com' && $password == 'Pass123@'){
     session_start();
     $_SESSION['usuario'] = $email;
     echo $_SESSION['usuario'];
-    //header('Location: /pages/dashboard');
+    header('Location: /pages/dashboard');
 }
 else{
     $_SESSION['error'] = 'Usuario o contraseña incorrectos';
