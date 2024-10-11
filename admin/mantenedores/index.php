@@ -16,6 +16,7 @@
 <body>
     <?php
     include './components/navbar.php';
+    echo "prueba";
     ?>
     <div class="container mt-5 pt-5">
         <h1>Bienvenido a RenzoMotors</h1>
