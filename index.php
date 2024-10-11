@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<?php 
+session_start();
+if(isset($_SESSION['usuario'])){
+    //header('Location: /pages/dashboard');
+    //echo '<div>Dashboard</div>';
+}
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
