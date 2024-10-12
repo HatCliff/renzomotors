@@ -45,7 +45,7 @@ $id_fina = $_GET['id'];
 
                         <div class="modal-body">
                             <?php
-                                include("calcu.php");
+                                include("financiamiento.php");
                             ?>
                         </div>
 
