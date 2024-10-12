@@ -1,9 +1,9 @@
-<?php 
+ <?php 
 //Si no hay una sesión iniciada, redirigir al login
-    if(!isset($_SESSION['usuario'])){
-        header('Location: /renzomotors/pages/login');
-    }
-?>
+    // if(!isset($_SESSION['usuario'])){
+    //     header('Location: /renzomotors/pages/login');
+    // }
+?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>

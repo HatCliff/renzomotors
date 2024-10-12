@@ -15,6 +15,7 @@ if(isset($_SESSION['usuario'])){
 </head>
 <body>
     <?php
+        include('./admin/mantenedores/index.php');
         echo 'Navbar goes here';
     ?>
 </body>
