@@ -63,6 +63,11 @@ include('../components/navbar.php'); // Ajusta la ruta para navbar.php
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
                                                 <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado']}</h6>
                                             </div>";
+                                            echo"
+                                            <div class='card-img-overlay d-flex align-self-center justify-content-end mt-5 text-center'>
+                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>Color</h6>
+                                            </div>";
+                                            
                                         }
                                         echo "<div class='card-body m-4' >";
                                         $precio_formateado = number_format($fila['precio'], 0, ',', '.'); 
