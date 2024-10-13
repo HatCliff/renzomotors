@@ -1,8 +1,9 @@
 <?php
-include('../config/conexion.php'); // Ajusta esta ruta si es necesario
+include('../config/conexion.php');
+
 $idRecibida = $_GET['id'];
 
-//  obtener las fotos asociadas al vehículo para eliminarlas de la carpeta 
+//  obtener el precio asociadas al vehículo
 $query_precio = "SELECT precio FROM vehiculos WHERE id_vehiculo = $idRecibida";
 $result_precio = mysqli_query($conexion, $query_precio);
 
@@ -10,9 +11,8 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     $row = mysqli_fetch_assoc($result_precio);
     $precio_vehiculo = $row['precio'];
 }
-
-
 ?>
+<!-- Contenido del modal -->
     <div class="mt-3">
         <div class="row d-flex justify-content-center align-items-center text-center"> 
             <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold; font-size: 30px;">Valor del vehiculo</label>
@@ -32,9 +32,9 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Tipo de financiamiento</label>
         <select id="tipo_financiamiento" class="form-select" name="id_financiamiento" required>
             <?php
-                // Consulta a la base de datos
-                $fina = mysqli_query($conexion, "SELECT * FROM financiamiento");
-                while ($row = mysqli_fetch_assoc($fina)) {
+                // Consulta a la base de datos los tipo de financiamiento y sus datos
+                $financiamiento = mysqli_query($conexion, "SELECT * FROM financiamiento");
+                while ($row = mysqli_fetch_assoc($financiamiento)) {
                     echo "<option value='{$row['id_financiamiento']}' data-tasa='{$row['tasa_interes']}' data-req='{$row['requisitos']}' data-cut='" . (int)substr($row['plazo_maximo'], 0, 2) . "'>{$row['nombre']}</option>";
                 }
             ?>
@@ -44,11 +44,6 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     <div>
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Cantidad de cuotas</label>
         <input id="cuotas" type="number" class="form-control" placeholder="Ingrese la cantidad de cuotas" aria-label="Username" aria-describedby="addon-wrapping" required>
-    </div>
-    <br>
-    <div>
-        <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Rut</label>
-        <input type="number" id="rut_consulta" class="form-control" placeholder="Ingrese su rut sin guion ni puntos" aria-label="Ingrese su rut sin guion ni puntos" aria-describedby="addon-wrapping" required>
     </div>
     <br>
     <div class="form-check">
@@ -64,9 +59,8 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-dark" onclick="realizarCalculo()">CALCULAR</button>
     </div>
-
     <br>
-    
+    <!-- Informacion sobre los calculos ingresados -->
     <p id="usuario" cstyle="display: none;"></p>
     <p id="cae" cstyle="display: none;"></p>
     <p id="cuota"  style="display: none;"></p>
@@ -76,59 +70,38 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
 
     <script>
         function realizarCalculo() {
+            //Obtiene los datos ingresados
             const precio = <?php echo $precio_vehiculo; ?>;
             const degravamen = document.getElementById("degravamen").checked;
             const laboral= document.getElementById("laboral").checked;
             const pie= parseInt(document.getElementById("pie").value);
-            const run = parseInt(document.getElementById("rut_consulta").value);
-            
+            const cantidad= parseInt(document.getElementById("cuotas").value);
+            //Obtiene los datos sacado de financiamiento
             const selectTipoFinanciamiento = document.getElementById("tipo_financiamiento");
             const selectedOption = selectTipoFinanciamiento.options[selectTipoFinanciamiento.selectedIndex];
             const tasaInteres = parseFloat(selectedOption.getAttribute("data-tasa"));
             const requisito = selectedOption.getAttribute("data-req");
-
-            const cantidad= parseInt(document.getElementById("cuotas").value);
             const cantidad_cut = parseFloat(selectedOption.getAttribute("data-cut"));
 
-            // $conuslta = run;
-            // 
-            //     $query_cliente= "SELECT nombre FROM usuario_registrado WHERE rut = $consulta";
-            //     $result_cliente = mysqli_query($conexion, $query_cliente);
-            //     if ($result_cliente && mysqli_num_rows($result_cliente) > 0) {
-            //         $row = mysqli_fetch_assoc($result_cliente);
-            //         $nombre = $row['nombre'];
-            //     }
-            // 
-
-            // const nombre =
-
-            if(!cantidad || !pie || !run){
+            if(!cantidad || !pie){
                 alert("Faltan datos por ingresar"); 
             }
-
-            // if(!nombre)
-            // {
-                usuario.innerText = "Estimado cliente los resultados son los siguientes: ";
-            // }
 
             if(cantidad>=cantidad_cut)
             {
                 alert("La cantidad maxima de este tipo de financiamiento es de: "+cantidad_cut);                
             }
 
-            if(run.toString().length > 9){
-                alert("El rut no es valido" +run);
-            }
-            
             if(pie<=precio*0.20 && pie>=precio*0.80){
                 alert("El pie no se encuentra entre el 20% y 80% del vehiculo");
             }
 
-            if(cantidad<=cantidad_cut && pie>=precio*0.20 && pie<=precio*0.80 && run.toString().length<=9)
+            if(cantidad<=cantidad_cut && pie>=precio*0.20 && pie<=precio*0.80)
             {
                 const valorCredito = tasaInteres * precio + precio - pie;
                 const valorCuota = valorCredito / cantidad;
 
+                //transforma las cantidades en el formato de dinero CLP
                 const precioFormateado = precio.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
                 const creditoFormateado = valorCredito.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
                 const cuotaFormateada = valorCuota.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
@@ -142,13 +115,14 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
                 }else{
                     cae.innerText = "CAE: 0.1781%";
                 }
-
+                //Ingresa texto a las variables
+                usuario.innerText = "Estimado cliente los resultados son los siguientes: ";
                 credito.innerText = "Valor del crédito total: " + creditoFormateado;
                 cuota.innerText = "Valor por cuota= " + cuotaFormateada;
                 tasa.innerText = "Tasa de interés: " + tasaInteres;
                 informacion.innerText = "Requisitos: " + requisito;
 
-                
+                //Muestra por pantalla los datos ingresados
                 usuario.style.display = "block";
                 cae.style.display = "block";
                 credito.style.display = "block";
@@ -157,6 +131,5 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
                 informacion.style.display = "block";
             }           
         }
-            // buscar si es usuario, si es se coloca el nombre de forma contrario solo cliente
-</script>
+    </script>
 
