@@ -28,7 +28,7 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label for="nombre" class="form-label">Nombre</label>
-                                        <input type="text" name="nombre" class="form-control" id="nombre">
+                                        <input type="text" name="nombre" class="form-control" id="nombre" placeholder="" required>
                                     </div>
 
                                 </div>
@@ -38,7 +38,7 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" name="apellido" class="form-control" id="apellido">
+                                        <input type="text" name="apellido" class="form-control" id="apellido" required>
                                     </div>
 
                                 </div>
@@ -47,24 +47,25 @@
                             <div class="col-12">
                                 <div class="form-group mb-3">
                                     <label for="run" class="form-label">RUN</label>
-                                    <input type="text" name="run" maxlength="9" size="9" class="form-control mr-5">
+                                    <input type="text" name="run" maxlength="9" size="9" class="form-control mr-5" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <label for="inputEmail4" class="form-label">Correo</label>
-                                <input type="email" class="form-control" id="inputEmail4">
+                                <input type="email" class="form-control" id="inputEmail4" required>
                             </div>
+
                             <div class="col-12">
                                 <label for="inputPassword4" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="inputPassword4">
+                                <input type="password" class="form-control" id="inputPassword4" required>
                             </div>
 
 
 
 
                             <div class="col-12 d-flex justify-content-center mb-2 mt-4"> 
-                                <button type="submit" class="btn btn-secondary">Registrarse</button>
+                                <button type="submit" class="btn btn-dark">Registrarse</button>
                             </div>
                         </form>
                     </div>
