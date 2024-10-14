@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -11,16 +11,21 @@
 
 <body>
 
-    <div class="container pl-5 pr-5 text-center">
+    <div class="container px-5 ">
 
         <div class="row justify-content-sm-center">
 
             <div class="col-lg-6 col-sm-12 px-5 mt-2">
-                <div class="card">
+                <div class="card px-5 mt-4">
                     <div class="card-body">
                         <form>
+                            <div class="container d-flex my-3">
+                                <div class="d-flex justify-content-center align-items-center w-100">
+                                    <h5 class="mb-3">Registro</h5>
+                                </div>
+                            </div>
                             <div class="row ">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label for="nombre" class="form-label">Nombre</label>
                                         <input type="text" name="nombre" class="form-control" id="nombre">
@@ -30,20 +35,27 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" name="name" class="form-control" id="apellido">
+                                        <input type="text" name="apellido" class="form-control" id="apellido">
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label for="run" class="form-label">RUN</label>
+                                    <input type="text" name="run" maxlength="9" size="9" class="form-control mr-5">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
                                 <label for="inputEmail4" class="form-label">Correo</label>
                                 <input type="email" class="form-control" id="inputEmail4">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <label for="inputPassword4" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="inputPassword4">
                             </div>
@@ -51,8 +63,8 @@
 
 
 
-                            <div class="col-12 d-flex justify-content-center mb-2">
-                                <button type="submit" class="btn btn-secondary">Sign in</button>
+                            <div class="col-12 d-flex justify-content-center mb-2 mt-4"> 
+                                <button type="submit" class="btn btn-secondary">Registrarse</button>
                             </div>
                         </form>
                     </div>
