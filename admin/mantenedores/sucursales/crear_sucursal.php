@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $encargado_sucursal = $_POST['encargado_sucursal'];
     $direccion_sucursal = $_POST['direccion_sucursal'];
 
-    $query = "INSERT INTO sucursales (nombre_sucursal, encargado_sucursal, direccion_sucursal) 
+    $query = "INSERT INTO sucursal (nombre_sucursal, encargado_sucursal, direccion_sucursal) 
               VALUES ('$nombre_sucursal', '$encargado_sucursal', '$direccion_sucursal')";
     $resultado = mysqli_query($conexion, $query);
 

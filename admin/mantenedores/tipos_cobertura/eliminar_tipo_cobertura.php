@@ -7,7 +7,7 @@ $id = $_GET['id'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar el elemento del mantenedor
-    $query = "DELETE FROM tipo_cobertura WHERE id_tipo_cobertura = $id";
+    $query = "DELETE FROM cobertura WHERE id_cobertura = $id";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Tipo de cobertura eliminado con éxito'); window.location='mantenedor_tipo_coberturas.php';</script>";

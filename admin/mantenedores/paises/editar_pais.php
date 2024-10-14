@@ -4,7 +4,7 @@ include '../navbar.php';
 
 //obtener los datos del elemento a editar
 $id_pais = $_GET['id'];
-$query = "SELECT * FROM paises WHERE id_pais = $id_pais";
+$query = "SELECT * FROM pais WHERE id_pais = $id_pais";
 $resultado = mysqli_query($conexion, $query);
 
 if ($resultado) {
@@ -16,7 +16,7 @@ if ($resultado) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_pais = $_POST['nombre_pais'];
 
-    $query = "UPDATE paises SET nombre_pais='$nombre_pais' WHERE id_pais=$id_pais";
+    $query = "UPDATE pais SET nombre_pais='$nombre_pais' WHERE id_pais=$id_pais";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

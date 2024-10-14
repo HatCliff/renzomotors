@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $plazo_maximo = $_POST['plazo_maximo'];
     $requisitos = $_POST['requisitos'];
 
-    $query = "INSERT INTO financiamiento (nombre, tasa_interes, plazo_maximo, requisitos) 
-              VALUES ('$nombre', $tasa_interes, '$plazo_maximo', '$requisitos')";
+    $query = "INSERT INTO financiamiento (nombre_financiamiento, plazo_maximo_meses, tasa_interes, requisitos) 
+              VALUES ('$nombre', '$plazo_maximo', '$tasa_interes', '$requisitos')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

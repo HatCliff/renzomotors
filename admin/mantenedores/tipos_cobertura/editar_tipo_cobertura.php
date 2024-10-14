@@ -4,7 +4,7 @@ include '../navbar.php';
 
 // obtener el ID del tipo de cobertura a editar
 $id = $_GET['id'];
-$query = "SELECT * FROM tipo_cobertura WHERE id_tipo_cobertura = $id";
+$query = "SELECT * FROM cobertura WHERE id_cobertura = $id";
 $resultado = mysqli_query($conexion, $query);
 $tipo = mysqli_fetch_assoc($resultado);
 
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
 
     // actualizar en la base de datos
-    $query = "UPDATE tipo_cobertura SET nombre_tipo_cobertura = '$nombre' WHERE id_tipo_cobertura = $id";
+    $query = "UPDATE cobertura SET nombre_tipo_cobertura = '$nombre' WHERE id_cobertura = $id";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

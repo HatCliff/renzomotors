@@ -3,7 +3,7 @@ include '../conexion.php';
 include '../navbar.php';
 
 // Obtener todos los proveedores
-$query = "SELECT * FROM proveedores_seguro";
+$query = "SELECT * FROM proveedor";
 $resultado = mysqli_query($conexion, $query);
 ?>
 

@@ -26,7 +26,7 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //obtener y mostrar datos del mantenedor
-                $resultado = mysqli_query($conexion, "SELECT * FROM sucursales");
+                $resultado = mysqli_query($conexion, "SELECT * FROM sucursal");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_sucursal']}</td>

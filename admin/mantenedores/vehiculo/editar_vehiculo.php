@@ -2,8 +2,17 @@
 include '../conexion.php';
 include '../navbar.php';
 
+//consultar los datos asociados al id desde el mantenedor
+if (isset($_GET['id'])) {
+    
+    $id_vehiculo = $_GET['id'];
+    $query = "SELECT * FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
+    $resultado = mysqli_query($conexion, $query);
+    $vehiculo = mysqli_fetch_assoc($resultado);
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_vehiculo = $_POST['id_vehiculo'];
     $nombre_modelo = $_POST['nombre_modelo'];
     $id_marca = $_POST['id_marca'];
     $id_anio = $_POST['id_anio'];
@@ -11,26 +20,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_tipo_vehiculo = $_POST['id_tipo_vehiculo'];
     $id_transmision = $_POST['id_transmision'];
     $id_tipo_combustible = $_POST['id_tipo_combustible'];
+    $estado_vehiculo = $_POST['estado_vehiculo'];
     $id_pais = $_POST['id_pais'];
-    $colores = $_POST['colores']; 
+    $colores = $_POST['colores'];
+    $puertas = $_POST['puertas'];
+    $id_tipo_ruedas = $_POST['id_ruedas'];
+    $horsepower = $_POST['horsepower'];
+    $descripcion = $_POST['descripcion'];
+    $cantidad = $_POST['cantidad'];
 
     // actualizar información del vehículo
-    $query = "UPDATE vehiculos 
-              SET nombre_modelo='$nombre_modelo', id_marca='$id_marca', id_anio='$id_anio', precio='$precio', 
-                  id_tipo_vehiculo='$id_tipo_vehiculo', id_transmision='$id_transmision', 
-                  id_tipo_combustible='$id_tipo_combustible', id_pais='$id_pais' 
-              WHERE id_vehiculo='$id_vehiculo'";
+    $query = "UPDATE vehiculo 
+                SET nombre_modelo = '$nombre_modelo',
+                    precio_modelo = '$precio',
+                    estado_vehiculo = '$estado_vehiculo',
+                    descripcion_vehiculo = '$descripcion',
+                    cantidad_vehiculo = '$cantidad',
+                    cantidad_puertas = '$puertas',
+                    caballos_fuerza = '$horsepower',
+                    id_marca = '$id_marca',
+                    id_anio = '$id_anio',
+                    id_tipo_combustible = '$id_tipo_combustible',
+                    id_pais = '$id_pais',
+                    id_transmision = '$id_transmision',
+                    id_tipo_vehiculo = '$id_tipo_vehiculo',
+                    id_tipo_rueda = '$id_tipo_ruedas'
+                WHERE id_vehiculo = '$id_vehiculo';";
     $resultado = mysqli_query($conexion, $query);
 
     // actualizar colores asociados
     if (!empty($colores)) {
         // eliminar colores antiguos
-        $query_eliminar_colores = "DELETE FROM vehiculo_colores WHERE id_vehiculo = '$id_vehiculo'";
+        $query_eliminar_colores = "DELETE FROM color_vehiculo WHERE id_vehiculo = '$id_vehiculo'";
         mysqli_query($conexion, $query_eliminar_colores);
 
         // insertar los nuevos colores seleccionados
         foreach ($colores as $id_color) {
-            $query_color = "INSERT INTO vehiculo_colores (id_vehiculo, id_color) VALUES ('$id_vehiculo', '$id_color')";
+            $query_color = "INSERT INTO color_vehiculo (id_vehiculo, id_color) VALUES ('$id_vehiculo', '$id_color')";
             mysqli_query($conexion, $query_color);
         }
     }
@@ -47,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 move_uploaded_file($foto_tmp, $ruta_destino);
 
                 // insertar la ruta de la foto en la tabla fotos_vehiculos
-                $query_foto = "INSERT INTO fotos_vehiculos (id_vehiculo, ruta_foto) VALUES ('$id_vehiculo', '$ruta_destino')";
+                $query_foto = "INSERT INTO fotos_vehiculo (id_vehiculo, ruta_foto) VALUES ('$id_vehiculo', '$ruta_destino')";
                 mysqli_query($conexion, $query_foto);
             }
         }
@@ -60,14 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-//consultar los datos asociados al id desde el mantenedor
-if (isset($_GET['id'])) {
-    
-    $id_vehiculo = $_GET['id'];
-    $query = "SELECT * FROM vehiculos WHERE id_vehiculo = $id_vehiculo";
-    $resultado = mysqli_query($conexion, $query);
-    $vehiculo = mysqli_fetch_assoc($resultado);
-}
       
 ?>
 
@@ -87,10 +105,14 @@ if (isset($_GET['id'])) {
                 <input type="text" class="form-control" name="nombre_modelo" value="<?php echo $vehiculo['nombre_modelo']; ?>" required>
             </div>
             <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" name="descripcion" required><?php echo $vehiculo['descripcion_vehiculo']; ?></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="id_marca" class="form-label">Marca</label>
                 <select class="form-select" name="id_marca" required>
                     <?php
-                    $marcas = mysqli_query($conexion, "SELECT * FROM marcas");
+                    $marcas = mysqli_query($conexion, "SELECT * FROM marca");
                     while ($marca = mysqli_fetch_assoc($marcas)) {
                         $selected = ($marca['id_marca'] == $vehiculo['id_marca']) ? 'selected' : '';
                         echo "<option value='{$marca['id_marca']}' $selected>{$marca['nombre_marca']}</option>";
@@ -99,20 +121,27 @@ if (isset($_GET['id'])) {
                 </select>
             </div>
             <div class="mb-3">
+                <label for="horsepower" class="form-label">Caballos de Fuerza</label>
+                <input type="number" class="form-control" name="horsepower" value="<?php echo $vehiculo['caballos_fuerza']; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="puertas" class="form-label">Número de Puertas</label>
+                <select class="form-select" name="puertas"  value="<?php echo $vehiculo['cantidad_puertas']; ?>" required>
+                    <option value="2">2 Puertas</option>
+                    <option value="4">4 Puertas</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="id_anio" class="form-label">Año</label>
                 <select class="form-select" name="id_anio" required>
                     <?php
-                    $anios = mysqli_query($conexion, "SELECT * FROM anios");
+                    $anios = mysqli_query($conexion, "SELECT * FROM anio");
                     while ($anio = mysqli_fetch_assoc($anios)) {
                         $selected = ($anio['id_anio'] == $vehiculo['id_anio']) ? 'selected' : '';
                         echo "<option value='{$anio['id_anio']}' $selected>{$anio['anio']}</option>";
                     }
                     ?>
                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="precio" class="form-label">Precio</label>
-                <input type="number" class="form-control" name="precio" value="<?php echo $vehiculo['precio']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="id_tipo_vehiculo" class="form-label">Tipo de Vehículo</label>
@@ -130,7 +159,7 @@ if (isset($_GET['id'])) {
                 <label for="id_transmision" class="form-label">Transmisión</label>
                 <select class="form-select" name="id_transmision" required>
                     <?php
-                    $transmisiones = mysqli_query($conexion, "SELECT * FROM transmisiones");
+                    $transmisiones = mysqli_query($conexion, "SELECT * FROM transmision");
                     while ($transmision = mysqli_fetch_assoc($transmisiones)) {
                         $selected = ($transmision['id_transmision'] == $vehiculo['id_transmision']) ? 'selected' : '';
                         echo "<option value='{$transmision['id_transmision']}' $selected>{$transmision['nombre_transmision']}</option>";
@@ -151,10 +180,28 @@ if (isset($_GET['id'])) {
                 </select>
             </div>
             <div class="mb-3">
+                <label for="estado_vehiculo" class="form-label">Estado Vehiculo</label>
+                <select class="form-select" name="estado_vehiculo" value="<?php echo $vehiculo['estado_vehiculo']; ?>" required>
+                    <option value="usado">Usado</option>
+                    <option value="nuevo">Nuevo</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_ruedas" class="form-label">Ruedas</label>
+                <select class="form-select" name="id_ruedas" required>
+                    <?php
+                    $ruedas = mysqli_query($conexion, "SELECT * FROM tipo_rueda");
+                    while ($rueda = mysqli_fetch_assoc($ruedas)) {
+                        echo "<option value='{$rueda['id_tipo_rueda']}' $selected>{$rueda['nombre_tipo_rueda']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="id_pais" class="form-label">País de Origen</label>
                 <select class="form-select" name="id_pais" required>
                     <?php
-                    $paises = mysqli_query($conexion, "SELECT * FROM paises");
+                    $paises = mysqli_query($conexion, "SELECT * FROM pais");
                     while ($pais = mysqli_fetch_assoc($paises)) {
                         $selected = ($pais['id_pais'] == $vehiculo['id_pais']) ? 'selected' : '';
                         echo "<option value='{$pais['id_pais']}' $selected>{$pais['nombre_pais']}</option>";
@@ -162,23 +209,31 @@ if (isset($_GET['id'])) {
                     ?>
                 </select>
             </div>
-
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" name="precio" value="<?php echo $vehiculo['precio_modelo']; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" name="cantidad" value="<?php echo $vehiculo['cantidad_vehiculo']; ?>" required>
+            </div>
+            
             <!-- subir fotos -->
             <div class="mb-3">
                 <label for="fotos" class="form-label">Agregar Fotos</label>
                 <input type="file" class="form-control" name="fotos[]" multiple>
             </div>
-
+            
             <!-- Mostrar las fotos actuales -->
             <div class="mb-3">
                 <label class="form-label">Fotos Actuales</label>
                 <div class="row">
                     <?php
-                    $fotos = mysqli_query($conexion, "SELECT * FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
+                    $fotos = mysqli_query($conexion, "SELECT * FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
                     while ($foto = mysqli_fetch_assoc($fotos)) {
                         echo "<div class='col-md-3'>
                                 <img src='{$foto['ruta_foto']}' class='img-fluid mb-2' alt='Foto del vehículo'>
-                                <a href='eliminar_foto.php?id_foto={$foto['id_foto']}&id_vehiculo={$id_vehiculo}&ruta_foto={$foto['ruta_foto']}' class='btn btn-danger btn-sm'>Eliminar</a>
+                                <a href='eliminar_foto.php?id_foto={$foto['id_foto_vehiculo']}&id_vehiculo={$id_vehiculo}&ruta_foto={$foto['ruta_foto']}' class='btn btn-danger btn-sm'>Eliminar</a>
                               </div>";
                     }
                     ?>
@@ -193,13 +248,13 @@ if (isset($_GET['id'])) {
                             <?php
                                 // obtener los colores asociados al vehículo
                             $colores_vehiculo = [];
-                            $resultado_colores = mysqli_query($conexion, "SELECT id_color FROM vehiculo_colores WHERE id_vehiculo = $id_vehiculo");
+                            $resultado_colores = mysqli_query($conexion, "SELECT id_color FROM color_vehiculo WHERE id_vehiculo = $id_vehiculo");
                             while ($color_vehiculo = mysqli_fetch_assoc($resultado_colores)) {
                                 $colores_vehiculo[] = $color_vehiculo['id_color'];
                             }
 
                             // mostrar todos los colores
-                            $colores = mysqli_query($conexion, "SELECT * FROM colores");
+                            $colores = mysqli_query($conexion, "SELECT * FROM color");
                             while ($color = mysqli_fetch_assoc($colores)) {
                                 $checked = in_array($color['id_color'], $colores_vehiculo) ? 'checked' : '';
                                 $color_hex = $color['codigo_color']; // Asumimos que este campo contiene el código hexadecimal del color.

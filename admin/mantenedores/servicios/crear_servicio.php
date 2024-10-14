@@ -7,10 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_servicio = $_POST['nombre_servicio'];
     $descripcion = $_POST['descripcion'];
     $precio_servicio = $_POST['precio_servicio'];
+    $numero_en = $_POST['numero_en'];
     $sucursales = $_POST['sucursales'];
 
-    $query = "INSERT INTO servicios (nombre_servicio, descripcion, precio_servicio) 
-              VALUES ('$nombre_servicio', '$descripcion', '$precio_servicio')";
+    $query = "INSERT INTO servicio (nombre_servicio, descripcion_servicio, telefono_encargado, precio_servicio) 
+              VALUES ('$nombre_servicio', '$descripcion', '$numero_en', '$precio_servicio')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Insertar las asociaciones con las sucursales seleccionadas
         foreach ($sucursales as $id_sucursal) {
-            $query_insertar = "INSERT INTO servicio_sucursal (id_servicio, id_sucursal) VALUES ($id_servicio, $id_sucursal)";
+            $query_insertar = "INSERT INTO sucursal_servicio (id_servicio, id_sucursal) VALUES ($id_servicio, $id_sucursal)";
             mysqli_query($conexion, $query_insertar);
         }
 
@@ -49,6 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <textarea class="form-control" name="descripcion" required></textarea>
             </div>
             <div class="mb-3">
+                <label for="telefono_encargado" class="form-label">Teléfono Encargado</label>
+                <input type="number" class="form-control" name="numero_en" required>
+            </div>
+            <div class="mb-3">
                 <label for="precio_servicio" class="form-label">Precio del Servicio</label>
                 <input type="number" class="form-control" name="precio_servicio" required>
             </div>
@@ -56,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="sucursales" class="form-label">Sucursales Disponibles</label>
                 <select class="form-select" name="sucursales[]" multiple required>
                     <?php
-                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursales");
+                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
                     while ($sucursal = mysqli_fetch_assoc($sucursales)) {
                         echo "<option value='{$sucursal['id_sucursal']}'>{$sucursal['nombre_sucursal']}</option>";
                     }

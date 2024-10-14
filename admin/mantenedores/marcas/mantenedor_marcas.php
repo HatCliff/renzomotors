@@ -26,13 +26,13 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //obtener y mostrar los elementos del mantenedor
-                $resultado = mysqli_query($conexion, "SELECT * FROM marcas");
+                $resultado = mysqli_query($conexion, "SELECT * FROM marca");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_marca']}</td>
                             <td>{$fila['nombre_marca']}</td>
-                            <td>{$fila['descripcion']}</td>
-                            <td><img src='logos/{$fila['logo']}' alt='Logo' width='50'></td>
+                            <td>{$fila['descripcion_marca']}</td>
+                            <td><img src='logos/{$fila['logo_marca']}' alt='Logo' width='50'></td>
                             <td>
                                 <a href='editar_marca.php?id_marca={$fila['id_marca']}' class='btn btn-primary'>Editar</a>
                                 <a href='eliminar_marca.php?id_marca={$fila['id_marca']}' class='btn btn-danger' onclick='return confirm(\"¿Estás seguro de eliminar esta marca?\");'>Eliminar</a>

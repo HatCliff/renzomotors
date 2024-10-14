@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     move_uploaded_file($ruta_temporal, $directorio_destino);
 
     // Insertar en la base de datos
-    $query = "INSERT INTO marcas (nombre_marca, descripcion, logo) VALUES ('$nombre', '$descripcion', '$logo')";
+    $query = "INSERT INTO marca (nombre_marca, logo_marca, descripcion_marca) VALUES ('$nombre', '$logo', '$descripcion')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
