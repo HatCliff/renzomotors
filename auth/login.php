@@ -9,23 +9,23 @@ if($email == '' || $password == ''){
     $_SESSION['error_code'] = 401;
     header('Location: /pages/login.php');
 }
+$query = "SELECT * FROM usuarios WHERE email = '$email'";
 
-//require_once './../config/conexion.php';
-
-if($email == 'test1@example.com' && $password == 'Pass123@'){
-    session_start();
-    $_SESSION['usuario'] = $email;
-    echo $_SESSION['usuario'];
-    header('Location: /pages/dashboard');
+$result = mysqli_query($conexion, $query);
+if(mysqli_num_rows($result) > 0){
+    $row = mysqli_fetch_assoc($result);
+    if(!password_verify($password, $row['password'])){
+        $_SESSION['error'] = 'Usuario o contraseña incorrectos';
+        $_SESSION['error_code'] = 401;
+        header('Location: /pages/login.php');
+    }
+    $usuario = mysqli_fetch_assoc($result);
+    $_SESSION['usuario'] = $usuario;
+    header('Location: /pages/dashboard.php  ');
 }
 else{
     $_SESSION['error'] = 'Usuario o contraseña incorrectos';
     $_SESSION['error_code'] = 401;
-    http_response_code(401);
-    header('Location: /renzomotors/pages/login.php');
+    header('Location: /pages/login.php');
 }
-
-
-
-
 ?>
