@@ -1,4 +1,5 @@
 <?php
+require "./../config/conexion.php";
 session_start();
 
 $email = $_POST['email'];

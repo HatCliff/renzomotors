@@ -36,7 +36,7 @@ session_start();
                         id=""
                         aria-describedby="helpId"
                         placeholder="Escribe aquí tu correo"
-                        required
+                        required 
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                         title="El formato del correo debe ser nombre@email.com"
                     />
@@ -58,6 +58,7 @@ session_start();
                         />
                 </div>
                 <small id="helpId" class="form-text text-muted">¿Olvidaste la contraseña? <a data-bs-toggle="modal" data-bs-target="#modalId" class="">Restablecela</a></small>
+                <small id="helpId" class="form-text text-muted">¿No tienes cuenta? <a href="./registrarse" class="">Registrarse</a></small>
                 <div class="d-grid gap-2 mt-3">
                     <input type="submit" value="Iniciar Sesión" class="btn btn-primary" style='background-color:#D9D9D9; color:black; border:2px;'>
                 </div>    
