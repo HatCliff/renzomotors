@@ -21,7 +21,7 @@ include '../navbar.php';
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Descripción</th>
-                    <th>Fotos</th>
+                    <th>Imagenes</th>
                     <th>Tipos de Accesorio</th>
                     <th>Acciones</th>
                 </tr>
@@ -31,22 +31,22 @@ include '../navbar.php';
                 
                 //obtener y mostrar los elementos del mantenedor
 
-                $resultado = mysqli_query($conexion, "SELECT * FROM accesorios");
+                $resultado = mysqli_query($conexion, "SELECT * FROM accesorio");
                 while ($accesorio = mysqli_fetch_assoc($resultado)) {
-                    $sku = $accesorio['sku'];
+                    $sku = $accesorio['sku_accesorio'];
                 ?>
                 <tr>
-                    <td><?php echo $accesorio['sku']; ?></td>
-                    <td><?php echo $accesorio['nombre']; ?></td>
-                    <td><?php echo $accesorio['precio']; ?></td>
-                    <td><?php echo $accesorio['stock']; ?></td>
-                    <td><?php echo $accesorio['descripcion']; ?></td>
+                    <td><?php echo $accesorio['sku_accesorio']; ?></td>
+                    <td><?php echo $accesorio['nombre_accesorio']; ?></td>
+                    <td><?php echo $accesorio['precio_accesorio']; ?></td>
+                    <td><?php echo $accesorio['stock_accesorio']; ?></td>
+                    <td><?php echo $accesorio['descripcion_accesorio']; ?></td>
                     <td>
                         <?php
                         // Obtener fotos del accesorio
                         $resultado_fotos = mysqli_query($conexion, "SELECT * FROM fotos_accesorio WHERE sku_accesorio = '$sku'");
                         while ($foto = mysqli_fetch_assoc($resultado_fotos)) {
-                            echo "<img src='{$foto['foto']}' alt='Foto accesorio' width='100' height='100' class='img-thumbnail me-2'>";
+                            echo "<img src='{$foto['foto_accesorio']}' alt='Foto accesorio' width='100px' height='100px' class='img-thumbnail me-2'>";
                         }
                         ?>
                     </td>
@@ -54,9 +54,9 @@ include '../navbar.php';
                         <?php
                         // Obtener tipos de accesorio asociados
                         $query= "SELECT ta.nombre_tipo_accesorio 
-                        FROM tipos_accesorios ta
-                        INNER JOIN accesorio_tipo at ON ta.id_tipo_accesorio = at.id_tipo_accesorio
-                        WHERE at.sku_accesorio = '$sku'";
+                        FROM tipo_accesorio ta
+                        INNER JOIN pertenece_tipo pt ON ta.id_tipo_accesorio = pt.id_tipo_accesorio
+                        WHERE pt.sku_accesorio = '$sku'";
                         $resultado_tipos = mysqli_query($conexion,$query);
                         while ($tipo = mysqli_fetch_assoc($resultado_tipos)) {
                             echo $tipo['nombre_tipo_accesorio'] . '<br>';
@@ -64,8 +64,8 @@ include '../navbar.php';
                         ?>
                     </td>
                     <td>
-                        <a href="editar_accesorio.php?sku=<?php echo $accesorio['sku']; ?>" class="btn btn-primary btn-sm">Editar</a>
-                        <a href="eliminar_accesorio.php?sku=<?php echo $accesorio['sku']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este accesorio?')">Eliminar</a>
+                        <a href="editar_accesorio.php?sku=<?php echo $accesorio['sku_accesorio']; ?>" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="eliminar_accesorio.php?sku=<?php echo $accesorio['sku_accesorio']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este accesorio?')">Eliminar</a>
                     </td>
                 </tr>
                 <?php } ?>

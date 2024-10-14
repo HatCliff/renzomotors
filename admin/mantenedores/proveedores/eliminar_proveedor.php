@@ -7,7 +7,7 @@ $id_proveedor = $_GET['id'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar del mantendor
-    $query = "DELETE FROM proveedores_seguro WHERE id_proveedor = $id_proveedor";
+    $query = "DELETE FROM proveedor WHERE id_proveedor = $id_proveedor";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Proveedor eliminado con éxito'); window.location='mantenedor_proveedores.php';</script>";

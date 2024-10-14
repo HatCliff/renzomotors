@@ -29,7 +29,7 @@ include '../navbar.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_transmision = $_POST['nombre_transmision'];
 
-    $query = "INSERT INTO transmisiones (nombre_transmision) VALUES ('$nombre_transmision')";
+    $query = "INSERT INTO transmision (nombre_transmision) VALUES ('$nombre_transmision')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

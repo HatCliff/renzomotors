@@ -19,7 +19,7 @@ include '../navbar.php';
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Tasa de Interés</th>
-                    <th>Plazo Máximo</th>
+                    <th>Plazo Máximo (Meses)</th>
                     <th>Requisitos</th>
                     <th>Acciones</th>
                 </tr>
@@ -31,9 +31,9 @@ include '../navbar.php';
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_financiamiento']}</td>
-                            <td>{$fila['nombre']}</td>
+                            <td>{$fila['nombre_financiamiento']}</td>
                             <td>{$fila['tasa_interes']}</td>
-                            <td>{$fila['plazo_maximo']}</td>
+                            <td>{$fila['plazo_maximo_meses']}</td>
                             <td>{$fila['requisitos']}</td>
                             <td>
                                 <a href='editar_financiamiento.php?id={$fila['id_financiamiento']}' class='btn btn-primary'>Editar</a>

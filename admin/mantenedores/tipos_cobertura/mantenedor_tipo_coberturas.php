@@ -25,15 +25,15 @@ include '../navbar.php';
             <tbody>
                 <?php
                         //consultar datos desde el mantenedor
-                    $query = "SELECT * FROM tipo_cobertura";
+                    $query = "SELECT * FROM cobertura";
                     $resultado = mysqli_query($conexion, $query);
                     while ($tipo = mysqli_fetch_assoc($resultado)) { ?>
                     <tr>
-                        <td><?php echo $tipo['id_tipo_cobertura']; ?></td>
+                        <td><?php echo $tipo['id_cobertura']; ?></td>
                         <td><?php echo $tipo['nombre_tipo_cobertura']; ?></td>
                         <td>
-                            <a href="editar_tipo_cobertura.php?id=<?php echo $tipo['id_tipo_cobertura']; ?>" class="btn btn-primary">Editar</a>
-                            <a href="eliminar_tipo_cobertura.php?id=<?php echo $tipo['id_tipo_cobertura']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este tipo de cobertura?');">Eliminar</a>
+                            <a href="editar_tipo_cobertura.php?id=<?php echo $tipo['id_cobertura']; ?>" class="btn btn-primary">Editar</a>
+                            <a href="eliminar_tipo_cobertura.php?id=<?php echo $tipo['id_cobertura']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este tipo de cobertura?');">Eliminar</a>
                         </td>
                     </tr>
                 <?php } ?>

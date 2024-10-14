@@ -7,7 +7,7 @@ $id_color = $_GET['id_color'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantendor
-    $query = "DELETE FROM colores WHERE id_color = $id_color";
+    $query = "DELETE FROM color WHERE id_color = $id_color";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Color eliminado con éxito'); window.location='mantenedor_colores.php';</script>";

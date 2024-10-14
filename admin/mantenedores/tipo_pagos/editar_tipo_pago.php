@@ -5,7 +5,7 @@ include '../navbar.php';
 //obtener los datos previos del elemento
 if ($_GET['id']) {
     $id_tipo_pago = $_GET['id'];
-    $query = "SELECT * FROM tipos_pago WHERE id_tipo_pago = $id_tipo_pago";
+    $query = "SELECT * FROM tipo_pago WHERE id_tipo_pago = $id_tipo_pago";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -19,7 +19,7 @@ if ($_GET['id']) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
 
-    $query = "UPDATE tipos_pago SET nombre = '$nombre' WHERE id_tipo_pago = $id_tipo_pago";
+    $query = "UPDATE tipo_pago SET nombre_tipo_pago = '$nombre' WHERE id_tipo_pago = $id_tipo_pago";
     if (mysqli_query($conexion, $query)) {
         echo "<script>alert('Tipo de pago editado con éxito'); window.location='mantenedor_tipo_pagos.php';</script>";
     } else {
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="">
             <div class="mb-3">
                 <label for="nombre_tipo_pago" class="form-label">Nombre Tipo de Pago</label>
-                <input type="text" class="form-control" name="nombre" value="<?php echo $tipo_pago['nombre']; ?>" required>
+                <input type="text" class="form-control" name="nombre" value="<?php echo $tipo_pago['nombre_tipo_pago']; ?>" required>
             </div>
             <button type="submit" class="btn btn-success">Guardar Tipo de Pago</button>
         </form>

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_color = $_POST['nombre_color'];
     $codigo_color = $_POST['codigo_color'];
 
-    $query = "INSERT INTO colores (nombre_color, codigo_color) VALUES ('$nombre_color', '$codigo_color')";
+    $query = "INSERT INTO color (nombre_color, codigo_color) VALUES ('$nombre_color', '$codigo_color')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
