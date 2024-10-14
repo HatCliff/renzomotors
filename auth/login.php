@@ -1,4 +1,5 @@
 <?php
+$ENV = parse_ini_file(__DIR__ . "/../.env");
 require "./../config/conexion.php";
 session_start();
 
@@ -7,7 +8,8 @@ $password = $_POST['password'];
 if($email == '' || $password == ''){
     $_SESSION['error'] = 'Usuario o contraseña vacios';
     $_SESSION['error_code'] = 401;
-    header('Location: /pages/login.php');
+    header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+    exit();
 }
 $query = "SELECT * FROM usuarios WHERE email = '$email'";
 
@@ -17,15 +19,19 @@ if(mysqli_num_rows($result) > 0){
     if(!password_verify($password, $row['password'])){
         $_SESSION['error'] = 'Usuario o contraseña incorrectos';
         $_SESSION['error_code'] = 401;
-        header('Location: /pages/login.php');
+        header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+        exit();
     }
-    $usuario = mysqli_fetch_assoc($result);
-    $_SESSION['usuario'] = $usuario;
-    header('Location: /pages/dashboard.php  ');
+    //CAMIAR POR NOMBRE USUARIO;
+    $_SESSION['usuario'] = $row;
+    //$_SESSION['usuario'] = "".$row['email']."";
+    header('Location: /'.$ENV['PREFIX'].'/pages/dashboard.php');
+    exit();
 }
 else{
     $_SESSION['error'] = 'Usuario o contraseña incorrectos';
     $_SESSION['error_code'] = 401;
-    header('Location: /pages/login.php');
+    header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+    exit();
 }
 ?>
