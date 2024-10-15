@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,18 +34,18 @@ include '../navbar.php';
             </thead>
             <tbody>
                 <?php
-                // Consulta para obtener todos los datos del mantendeor 
-                $resultado = mysqli_query($conexion, "SELECT v.*, m.nombre_marca, a.anio, t.nombre_tipo_vehiculo, tr.nombre_transmision, c.nombre_tipo_combustible, p.nombre_pais
-                                                      FROM vehiculos v
-                                                      JOIN marcas m ON v.id_marca = m.id_marca
-                                                      JOIN anios a ON v.id_anio = a.id_anio
+                $resultado = mysqli_query($conexion, "SELECT v.*, m.nombre_marca, a.anio, t.nombre_tipo_vehiculo, tr.nombre_transmision, c.nombre_tipo_combustible, p.nombre_pais, r.nombre_tipo_rueda
+                                                      FROM vehiculo v
+                                                      JOIN marca m ON v.id_marca = m.id_marca
+                                                      JOIN anio a ON v.id_anio = a.id_anio
                                                       JOIN tipo_vehiculo t ON v.id_tipo_vehiculo = t.id_tipo_vehiculo
                                                       JOIN transmisiones tr ON v.id_transmision = tr.id_transmision
                                                       JOIN tipo_combustible c ON v.id_tipo_combustible = c.id_tipo_combustible
-                                                      JOIN paises p ON v.id_pais = p.id_pais");
+                                                      JOIN pais p ON v.id_pais = p.id_pais
+                                                      JOIN tipo_rueda r ON r.id_tipo_rueda = v.id_tipo_rueda
+                                                      ORDER BY v.id_vehiculo ASC");
 
                 while ($fila = mysqli_fetch_assoc($resultado)) {
-                    // Mostrar los datos del mantenedor
                     echo "<tr>
                             <td>{$fila['id_vehiculo']}</td>
                             <td>{$fila['nombre_modelo']}</td>
@@ -57,37 +57,51 @@ include '../navbar.php';
                             <td>{$fila['nombre_tipo_combustible']}</td>
                             <td>{$fila['estado']}</td>
                             <td>{$fila['nombre_pais']}</td>
-                            <td>";
-
-                    // Mostrar todas las fotos asociadas al mantenedor
+                            <td>{$fila['nombre_tipo_rueda']}</td>
+                            <td>{$fila['precio_modelo']}</td> 
+                            <td>{$fila['cantidad_vehiculo']}</td> 
+                            <td data-label='Fotos'>
+                                <div id='carousel-{$fila['id_vehiculo']}' class='carousel slide' data-bs-ride='carousel'>
+                                    <div class='carousel-inner'>";
+                    
                     $id_vehiculo = $fila['id_vehiculo'];
-                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
-
+                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                    $active_class = "active";
                     while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
-                        echo "<img src='{$foto['ruta_foto']}' alt='Foto vehículo' width='100' height='100' class='img-thumbnail me-2'>";
+                        echo "<div class='carousel-item $active_class'>
+                                <img src='{$foto['ruta_foto']}' alt='Foto vehículo' class='d-block w-100 img-thumbnail' style='object-fit:cover;'>
+                              </div>";
+                        $active_class = ""; // Solo la primera foto tiene la clase "active"
                     }
 
-                    echo "</td>";
+                    echo "</div>
+                        <button class='carousel-control-prev' type='button' data-bs-target='#carousel-{$fila['id_vehiculo']}' data-bs-slide='prev'>
+                            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Anterior</span>
+                        </button>
+                        <button class='carousel-control-next' type='button' data-bs-target='#carousel-{$fila['id_vehiculo']}' data-bs-slide='next'>
+                            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Siguiente</span>
+                        </button>
+                    </div>
+                </td>";
 
-                    // Obtener todos los colores asociados al mantenedor
-                    echo "<td>";
-                    $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
-                                                                  FROM vehiculo_colores vc
-                                                                  JOIN colores c ON vc.id_color = c.id_color
-                                                                  WHERE vc.id_vehiculo = $id_vehiculo");
+                echo "<td data-label='Colores'>";
+                $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
+                                                                  FROM color_vehiculo cv
+                                                                  JOIN color c ON cv.id_color = c.id_color
+                                                                  WHERE cv.id_vehiculo = $id_vehiculo");
+                while ($color = mysqli_fetch_assoc($colores_resultado)) {
+                    echo "<span style='background-color: {$color['codigo_color']}; width: 20px; height: 20px; display: inline-block; border-radius: 50%; margin: 2px; border: 1px solid #000;' 
+                          title='{$color['nombre_color']}'></span>";
+                }
+                echo "</td>";
 
-                    while ($color = mysqli_fetch_assoc($colores_resultado)) {
-                        echo "<span style='background-color: {$color['codigo_color']}; padding: 0 10px; margin-right: 5px; border: 1px solid #000;'></span> ";
-                    }
-
-                    echo "</td>";
-
-                    //editar o eliminar algun elemento del mantenedor
-                    echo "<td>
-                              <a href='editar_vehiculo.php?id={$fila['id_vehiculo']}' class='btn btn-primary'>Editar</a>
-                              <a href='eliminar_vehiculo.php?id={$fila['id_vehiculo']}' class='btn btn-danger' onclick='return confirm(\"¿Estás seguro de eliminar este vehículo?\");'>Eliminar</a>
-                          </td>
-                          </tr>";
+                echo "<td>
+                          <a href='editar_vehiculo.php?id={$fila['id_vehiculo']}' class='btn btn-primary'>Editar</a>
+                          <a href='eliminar_vehiculo.php?id={$fila['id_vehiculo']}' class='btn btn-danger' onclick='return confirm(\"¿Estás seguro de eliminar este vehículo?\");'>Eliminar</a>
+                      </td>
+                  </tr>";
                 }
                 ?>
             </tbody>

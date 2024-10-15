@@ -15,6 +15,7 @@ if(isset($_SESSION['usuario'])){
 </head>
 <body>
     <?php
+        include('./admin/indexadmin.php');
         echo 'Navbar goes here';
     ?>
 </body>

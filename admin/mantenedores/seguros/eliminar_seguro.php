@@ -1,5 +1,5 @@
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_seguro = $_GET['id'];
 $query = "DELETE FROM seguros WHERE id_seguro = $id_seguro";

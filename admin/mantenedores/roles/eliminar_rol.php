@@ -1,4 +1,6 @@
-<?php include '../conexion.php'; 
+<?php 
+include '../../../config/conexion.php';
+
 
 $id = $_GET['id_rol'];
 

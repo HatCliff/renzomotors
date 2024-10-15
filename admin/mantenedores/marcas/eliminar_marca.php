@@ -1,6 +1,6 @@
+<?php
+include '../../../config/conexion.php';
 
-<?php 
-include '../conexion.php'; 
 
 $id = $_GET['id_marca'];
 

@@ -1,5 +1,6 @@
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
+
 
 $id_tipo_vehiculo = $_GET['id_tipo_vehiculo'];
 

@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 // Obtener todos los proveedores
 $query = "SELECT * FROM proveedores_seguro";

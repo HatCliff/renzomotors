@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 // obtener el ID del tipo de cobertura a editar
 $id = $_GET['id'];

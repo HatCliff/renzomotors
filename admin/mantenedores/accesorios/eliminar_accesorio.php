@@ -1,5 +1,6 @@
 <?php
-include '../conexion.php';
+include '../../../config/conexion.php';
+
 
 $sku = $_GET['sku'];
 //eliminar las fotos del accesorio 

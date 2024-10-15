@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 if ($_GET['id_tipo_vehiculo']) {
     //consultar los datos del elemento a editar
