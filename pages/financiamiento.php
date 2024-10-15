@@ -35,7 +35,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
                 // Consulta a la base de datos los tipo de financiamiento y sus datos
                 $financiamiento = mysqli_query($conexion, "SELECT * FROM financiamiento");
                 while ($row = mysqli_fetch_assoc($financiamiento)) {
-                    echo "<option value='{$row['id_financiamiento']}' data-tasa='{$row['tasa_interes']}' data-req='{$row['requisitos']}' data-cut='" . (int)substr($row['plazo_maximo'], 0, 2) . "'>{$row['nombre']}</option>";
+                    echo "<option value='{$row['id_financiamiento']}' data-tasa='{$row['tasa_interes']}' data-req='{$row['requisitos']}' data-cut='" . (int)substr($row['plazo_maximo_meses'], 0, 2) . "'>{$row['nombre_financiamiento']}</option>";
                 }
             ?>
         </select>
