@@ -19,6 +19,7 @@ include '../navbar.php';
                     <th>ID</th>
                     <th>Nombre del Servicio</th>
                     <th>Descripción</th>
+                    <th>Telefono Encargado</th>
                     <th>Precio</th>
                     <th>Sucursales Disponibles</th>
                     <th>Acciones</th>
@@ -28,9 +29,9 @@ include '../navbar.php';
                 <?php
                 //obtener y mostrar los elemetos del matenendor
                 $query = "SELECT s.*, GROUP_CONCAT(sc.nombre_sucursal SEPARATOR ', ') AS sucursales 
-                          FROM servicios s 
-                          LEFT JOIN servicio_sucursal ss ON s.id_servicio = ss.id_servicio 
-                          LEFT JOIN sucursales sc ON ss.id_sucursal = sc.id_sucursal
+                          FROM servicio s 
+                          LEFT JOIN sucursal_servicio ss ON s.id_servicio = ss.id_servicio 
+                          LEFT JOIN sucursal sc ON ss.id_sucursal = sc.id_sucursal
                           GROUP BY s.id_servicio";
                 $resultado = mysqli_query($conexion, $query);
 
@@ -38,7 +39,8 @@ include '../navbar.php';
                     echo "<tr>
                             <td>{$fila['id_servicio']}</td>
                             <td>{$fila['nombre_servicio']}</td>
-                            <td>{$fila['descripcion']}</td>
+                            <td>{$fila['descripcion_servicio']}</td>
+                            <td>{$fila['telefono_encargado']}</td>
                             <td>{$fila['precio_servicio']}</td>
                             <td>{$fila['sucursales']}</td>
                             <td>

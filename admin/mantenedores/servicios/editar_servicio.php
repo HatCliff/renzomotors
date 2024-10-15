@@ -4,7 +4,7 @@ include '../navbar.php';
 
 //obtener los datos del elemento a editar
 $id_servicio = $_GET['id'];
-$query = "SELECT * FROM servicios WHERE id_servicio = $id_servicio";
+$query = "SELECT * FROM servicio WHERE id_servicio = $id_servicio";
 $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -14,7 +14,7 @@ $resultado = mysqli_query($conexion, $query);
     }
 
 // obtener las sucursales actuales del servicio
-        $query_sucursales = "SELECT id_sucursal FROM servicio_sucursal WHERE id_servicio = $id_servicio";
+        $query_sucursales = "SELECT id_sucursal FROM sucursal_servicio WHERE id_servicio = $id_servicio";
         $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
         $sucursales_actuales = [];
         while ($sucursal = mysqli_fetch_assoc($resultado_sucursales)) {
@@ -41,7 +41,11 @@ $resultado = mysqli_query($conexion, $query);
             </div>
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion" required><?php echo $servicio['descripcion']; ?></textarea>
+                <textarea class="form-control" name="descripcion" required><?php echo $servicio['descripcion_servicio']; ?></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="telefono_encargado" class="form-label">Teléfono Encargado</label>
+                <input type="number" class="form-control" name="numero_en" value="<?php echo $servicio['telefono_encargado']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="precio_servicio" class="form-label">Precio del Servicio</label>
@@ -51,7 +55,7 @@ $resultado = mysqli_query($conexion, $query);
                 <label for="sucursales" class="form-label">Sucursales Disponibles</label>
                 <select class="form-select" name="sucursales[]" multiple required>
                     <?php
-                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursales");
+                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
                     while ($sucursal = mysqli_fetch_assoc($sucursales)) {
                         $selected = in_array($sucursal['id_sucursal'], $sucursales_actuales) ? 'selected' : '';
                         echo "<option value='{$sucursal['id_sucursal']}' $selected>{$sucursal['nombre_sucursal']}</option>";
@@ -65,28 +69,29 @@ $resultado = mysqli_query($conexion, $query);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
+sucursal
 <?php
 //verifica y maneja las asociaciones al momento de actualizar los datos
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_servicio = $_POST['nombre_servicio'];
     $descripcion = $_POST['descripcion'];
     $precio_servicio = $_POST['precio_servicio'];
+    $numero_en = $_POST['numero_en'];
     $sucursales = $_POST['sucursales'];
 
-    $query = "UPDATE servicios 
-              SET nombre_servicio='$nombre_servicio', descripcion='$descripcion', precio_servicio='$precio_servicio'
+    $query = "UPDATE servicio 
+              SET nombre_servicio='$nombre_servicio', descripcion_servicio='$descripcion', telefono_encargado = '$numero_en', precio_servicio='$precio_servicio'
               WHERE id_servicio=$id_servicio";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
         // Eliminar las asociaciones actuales
-        $query_eliminar = "DELETE FROM servicio_sucursal WHERE id_servicio = $id_servicio";
+        $query_eliminar = "DELETE FROM sucursal_servicio WHERE id_servicio = $id_servicio";
         mysqli_query($conexion, $query_eliminar);
 
         // Insertar las nuevas asociaciones con las sucursales seleccionadas
         foreach ($sucursales as $id_sucursal) {
-            $query_insertar = "INSERT INTO servicio_sucursal (id_servicio, id_sucursal) VALUES ($id_servicio, $id_sucursal)";
+            $query_insertar = "INSERT INTO sucursal_servicio (id_servicio, id_sucursal) VALUES ($id_servicio, $id_sucursal)";
             mysqli_query($conexion, $query_insertar);
         }
 

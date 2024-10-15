@@ -7,7 +7,7 @@ $id = $_GET['id'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantendor
-    $query = "DELETE FROM paises WHERE id_pais = $id";
+    $query = "DELETE FROM pais WHERE id_pais = $id";
     $result = mysqli_query($conexion, $query);
 
     echo "<script>alert('Pais eliminado con éxito'); window.location='mantenedor_paises.php';</script>";

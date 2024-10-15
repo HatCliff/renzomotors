@@ -1,5 +1,5 @@
 <?php
-$carpetaMain = '/';
+$carpetaMain = 'http://localhost/xampp/renzomotors/';
 ?>
 
 <!-- NAV -->
@@ -23,6 +23,15 @@ $carpetaMain = '/';
                     ⌵ Mantenedores
                     </a>
                 </li>
+                <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Buscador
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href='<?php echo $carpetaMain;?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
+                <li><a class="dropdown-item" href="#">Accesorios</a></li>
+            </ul>
+            </li>
             </ul>
         </div>
     </div>
@@ -55,9 +64,6 @@ $carpetaMain = '/';
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/financiamiento/mantenedor_financiamientos.php'>Mantenedor de Financiamientos</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/roles/mantenedor_roles.php'>Mantenedor de Roles</a></li>
             <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>/permisos/mantenedor_permisos.php'>Mantenedor de Permisos</a></li>
-            
-            
-
         </ul>
     </div>
 </div>

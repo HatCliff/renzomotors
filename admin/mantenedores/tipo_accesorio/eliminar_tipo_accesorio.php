@@ -8,7 +8,7 @@ $id_tipo_accesorio = $_GET['id_tipo_accesorio'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantenedor
-    $query = "DELETE FROM tipos_accesorios WHERE id_tipo_accesorio='$id_tipo_accesorio'";
+    $query = "DELETE FROM tipo_accesorio WHERE id_tipo_accesorio='$id_tipo_accesorio'";
     $resultado = mysqli_query($conexion, $query);
 
 echo "<script>alert('Tipo de accesorio eliminado con éxito'); window.location='mantenedor_tipo_accesorios.php';</script>";

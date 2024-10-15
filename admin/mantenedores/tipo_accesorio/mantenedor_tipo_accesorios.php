@@ -4,7 +4,7 @@ include '../navbar.php';
 
 
 // Obtener todos los tipos de accesorios
-$query = "SELECT * FROM tipos_accesorios";
+$query = "SELECT * FROM tipo_accesorio";
 $resultado = mysqli_query($conexion, $query);
 ?>
 

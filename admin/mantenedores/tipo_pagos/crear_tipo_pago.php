@@ -28,7 +28,7 @@ include '../navbar.php';
 // si se sube, agregarlo al mantenedor
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_tipo_pago = $_POST['nombre_tipo_pago'];
-    $query = "INSERT INTO tipos_pago (nombre) 
+    $query = "INSERT INTO tipo_pago (nombre_tipo_pago) 
               VALUES ('$nombre_tipo_pago')";
     $resultado = mysqli_query($conexion, $query);
 

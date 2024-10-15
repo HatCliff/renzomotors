@@ -4,7 +4,7 @@ include '../navbar.php';
 
 //obtener los datos del elemento a editar
 $id_permiso = $_GET['id_permiso'];
-$query = "SELECT * FROM permisos WHERE id_permiso = $id_permiso";
+$query = "SELECT * FROM permiso WHERE id_permiso = $id_permiso";
 $resultado = mysqli_query($conexion, $query);
 
 if ($resultado) {
@@ -16,7 +16,7 @@ if ($resultado) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_permiso = $_POST['nombre_permiso'];
 
-    $query = "UPDATE permisos 
+    $query = "UPDATE permiso 
               SET nombre_permiso='$nombre_permiso'
               WHERE id_permiso = $id_permiso";
     $resultado = mysqli_query($conexion, $query);

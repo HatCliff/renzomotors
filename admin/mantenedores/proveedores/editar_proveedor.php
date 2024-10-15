@@ -4,7 +4,7 @@ include '../navbar.php';
 
 //obtener los datos previos del elemento
 $id_proveedor = $_GET['id'];
-$query = "SELECT * FROM proveedores_seguro WHERE id_proveedor = $id_proveedor";
+$query = "SELECT * FROM proveedor WHERE id_proveedor = $id_proveedor";
 $resultado = mysqli_query($conexion, $query);
 $proveedor = mysqli_fetch_assoc($resultado);
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_proveedor = $_POST['nombre_proveedor'];
 
     
-    $query = "UPDATE proveedores_seguro SET nombre_proveedor = '$nombre_proveedor' WHERE id_proveedor = $id_proveedor";
+    $query = "UPDATE proveedor SET nombre_proveedor = '$nombre_proveedor' WHERE id_proveedor = $id_proveedor";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

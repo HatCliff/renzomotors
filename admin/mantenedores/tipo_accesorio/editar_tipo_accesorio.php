@@ -6,7 +6,7 @@ include '../navbar.php';
 //obtener los datos previos del elemento
 if ($_GET['id_tipo_accesorio']) {
     $id_tipo_accesorio = $_GET['id_tipo_accesorio'];
-    $query = "SELECT * FROM tipos_accesorios WHERE id_tipo_accesorio = $id_tipo_accesorio";
+    $query = "SELECT * FROM tipo_accesorio WHERE id_tipo_accesorio = $id_tipo_accesorio";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
 
     // actualizar datos en la base de datos
-    $query = "UPDATE tipos_accesorios SET nombre_tipo_accesorio='$nombre' WHERE id_tipo_accesorio='$id_tipo_accesorio'";
+    $query = "UPDATE tipo_accesorio SET nombre_tipo_accesorio='$nombre' WHERE id_tipo_accesorio='$id_tipo_accesorio'";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

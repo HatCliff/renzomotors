@@ -24,7 +24,7 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //obtener y mostrar los elementos del mantenedor
-                $resultado = mysqli_query($conexion, "SELECT * FROM paises");
+                $resultado = mysqli_query($conexion, "SELECT * FROM pais");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_pais']}</td>

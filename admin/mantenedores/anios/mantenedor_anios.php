@@ -23,7 +23,7 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //obtener y mostrar los elementos del mantenedor
-                $resultado = mysqli_query($conexion, "SELECT * FROM anios");
+                $resultado = mysqli_query($conexion, "SELECT * FROM anio");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_anio']}</td>

@@ -24,7 +24,7 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //obtener y mostrar elementos del mantenedor
-                $query = "SELECT * FROM permisos";
+                $query = "SELECT * FROM permiso";
                 $resultado = mysqli_query($conexion, $query);
 
                 while ($fila = mysqli_fetch_assoc($resultado)) {
