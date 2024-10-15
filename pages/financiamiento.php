@@ -19,13 +19,23 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
             <?php
             $precio_formateado = number_format($precio_vehiculo, 0, ',', '.'); 
             echo "<p>\$ " . $precio_formateado . " CLP</p>";
+            $precio_minimo = number_format($precio_vehiculo*0.2, 0, ',', '.'); 
+            $precio_maximo = number_format($precio_vehiculo*0.8, 0, ',', '.'); 
             ?>
         </div>
     </div>
     <br>
+    <!-- Alerta de faltan datos; -->
+    <div class="alert alert-danger alert-container" id="alerta_datos" role="alert" style="display: none;">
+            
+    </div>
     <div>
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Pie</label>
-        <input type="number" class="form-control" placeholder="Ingrese el pie (20% - 80% del precio total)" aria-label="Username" aria-describedby="addon-wrapping" id="pie" required>
+        <!-- //alerta para cuando el pie no es un rango valdio -->
+        <div class="alert alert-danger alert-container" id="alerta_pie" role="alert" style="display: none;">
+            
+        </div>
+        <?php echo" <input type='number' class='form-control' placeholder='Ingrese el pie (Debe estar en el rango \$ " . $precio_minimo . "- \$ " . $precio_maximo . " CLP del precio total)' aria-label='Username' aria-describedby='addon-wrapping' id='pie' required>" ?>
     </div>
     <br>
     <div>
@@ -43,6 +53,10 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     <br>
     <div>
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Cantidad de cuotas</label>
+        <!-- //alerta de cantidad de cuotas es mayor al tipo de financiamiento -->
+        <div class="alert alert-danger alert-container" id="alerta_cuota" role="alert" style="display: none;">
+            
+        </div>
         <input id="cuotas" type="number" class="form-control" placeholder="Ingrese la cantidad de cuotas" aria-label="Username" aria-describedby="addon-wrapping" required>
     </div>
     <br>
@@ -83,17 +97,37 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
             const requisito = selectedOption.getAttribute("data-req");
             const cantidad_cut = parseFloat(selectedOption.getAttribute("data-cut"));
 
+            usuario.style.display = 'none'; // Ocultar mensaje de usuario
+            cae.style.display = 'none';
+            cuota.style.display = 'none';
+            credito.style.display = 'none';
+            tasa.style.display = 'none';
+            informacion.style.display = 'none'
+
             if(!cantidad || !pie){
-                alert("Faltan datos por ingresar"); 
+                alerta_datos.innerText = "¡Faltan datos por ingresar!"
+                alerta_datos.style.display = 'block';
+                return;
+            }else{
+                alerta_datos.style.display = 'none';
             }
 
             if(cantidad>=cantidad_cut)
             {
-                alert("La cantidad maxima de este tipo de financiamiento es de: "+cantidad_cut);                
+                alerta_cuota.innerText = "La cantidad maxima de este tipo de financiamiento es de: "+cantidad_cut;
+                alerta_cuota.style.display = 'block';
+                return;                
+            }else{
+                alerta_cuota.style.display = 'none'; 
             }
 
-            if(pie<=precio*0.20 && pie>=precio*0.80){
-                alert("El pie no se encuentra entre el 20% y 80% del vehiculo");
+            if(pie<=precio*0.20 || pie>=precio*0.80){
+                
+                alerta_pie.innerText = "El pie no se encuentra entre el 20% y 80% del vehiculo"
+                alerta_pie.style.display = 'block'; 
+                return;
+            }else{
+                alerta_pie.style.display = 'none'; 
             }
 
             if(cantidad<=cantidad_cut && pie>=precio*0.20 && pie<=precio*0.80)
