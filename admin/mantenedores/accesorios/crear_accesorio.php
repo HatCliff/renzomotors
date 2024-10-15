@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +15,7 @@ include '../navbar.php';
         <form method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="sku" class="form-label">SKU</label>
-                <input type="number" class="form-control" name="sku" required>
+                <input type="text" class="form-control" name="sku" required>
             </div>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
@@ -41,7 +41,7 @@ include '../navbar.php';
                 <label for="tipos_accesorio" class="form-label">Tipo de Accesorio</label>
                 <select class="form-select" name="tipos_accesorio[]" multiple required>
                     <?php
-                    $tipos = mysqli_query($conexion, "SELECT * FROM tipos_accesorios");
+                    $tipos = mysqli_query($conexion, "SELECT * FROM tipo_accesorio");
                     while ($tipo = mysqli_fetch_assoc($tipos)) {
                         echo "<option value='{$tipo['id_tipo_accesorio']}'>{$tipo['nombre_tipo_accesorio']}</option>";
                     }
@@ -65,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descripcion = $_POST['descripcion'];
     $tipos_accesorio = $_POST['tipos_accesorio'];
 
-    $query = "INSERT INTO accesorios (sku, nombre, precio, stock, descripcion) 
+    $query = "INSERT INTO accesorio (sku_accesorio, nombre_accesorio, precio_accesorio, stock_accesorio, descripcion_accesorio) 
               VALUES ('$sku', '$nombre', '$precio', '$stock', '$descripcion')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
         // insertar tipos de accesorio relacionados
         foreach ($tipos_accesorio as $id_tipo) {
-            $query_tipo = "INSERT INTO accesorio_tipo (sku_accesorio, id_tipo_accesorio) VALUES ('$sku', '$id_tipo')";
+            $query_tipo = "INSERT INTO pertenece_tipo (id_tipo_accesorio, sku_accesorio) VALUES ('$id_tipo', '$sku')";
             mysqli_query($conexion, $query_tipo);
         }
 
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $ruta_temporal = $_FILES['fotos']['tmp_name'][$key];
             $directorio_destino = "fotos/" . $foto;
             if (move_uploaded_file($ruta_temporal, $directorio_destino)) {
-                $query_foto = "INSERT INTO fotos_accesorio (sku_accesorio, foto) VALUES ('$sku', '$directorio_destino')";
+                $query_foto = "INSERT INTO fotos_accesorio (sku_accesorio, foto_accesorio) VALUES ('$sku', '$directorio_destino')";
                 mysqli_query($conexion, $query_foto);
             }
         }

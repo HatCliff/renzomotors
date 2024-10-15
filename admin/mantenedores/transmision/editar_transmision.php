@@ -1,11 +1,11 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //consultar los datos asociados al id desde el mantenedor
 if ($_GET['id_transmision']) {
     $id_transmision = $_GET['id_transmision'];
-    $query = "SELECT * FROM transmisiones WHERE id_transmision = $id_transmision";
+    $query = "SELECT * FROM transmision WHERE id_transmision = $id_transmision";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_transmision = $_POST['id_transmision'];
     $transmision_valor = $_POST['transmision'];
 
-    $query = "UPDATE transmisiones SET nombre_transmision = '$transmision_valor' WHERE id_transmision = $id_transmision";
+    $query = "UPDATE transmision SET nombre_transmision = '$transmision_valor' WHERE id_transmision = $id_transmision";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,7 +24,7 @@ include '../navbar.php';
             <tbody>
                 <?php
                 // Consulta para obtener todos los datos del mantendeor 
-                $resultado = mysqli_query($conexion, "SELECT * FROM transmisiones");
+                $resultado = mysqli_query($conexion, "SELECT * FROM transmision");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     // Mostrar los datos del mantenedor
                     echo "<tr>

@@ -1,10 +1,10 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 //obtener los datos del elemento
 if($_GET['id']){
     $id_sucursal = $_GET['id'];
-    $query = "SELECT * FROM sucursales WHERE id_sucursal = $id_sucursal";
+    $query = "SELECT * FROM sucursal WHERE id_sucursal = $id_sucursal";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $encargado_sucursal = $_POST['encargado_sucursal'];
     $direccion_sucursal = $_POST['direccion_sucursal'];
 
-    $query = "UPDATE sucursales 
+    $query = "UPDATE sucursal 
               SET nombre_sucursal='$nombre_sucursal', encargado_sucursal='$encargado_sucursal', direccion_sucursal='$direccion_sucursal'
               WHERE id_sucursal=$id_sucursal";
     $resultado = mysqli_query($conexion, $query);

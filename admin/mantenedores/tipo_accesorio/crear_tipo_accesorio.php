@@ -1,13 +1,13 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
 
     // Insertar elemento en la base de datos
-    $query = "INSERT INTO tipos_accesorios (nombre_tipo_accesorio) VALUES ('$nombre')";
+    $query = "INSERT INTO tipo_accesorio (nombre_tipo_accesorio) VALUES ('$nombre')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

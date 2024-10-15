@@ -1,12 +1,12 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
 
     // insertar en la base de datos
-    $query = "INSERT INTO tipo_cobertura (nombre_tipo_cobertura) VALUES ('$nombre')";
+    $query = "INSERT INTO cobertura (nombre_tipo_cobertura) VALUES ('$nombre')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

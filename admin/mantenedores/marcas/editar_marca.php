@@ -1,11 +1,11 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //obtener los datos del elemento a editar
 if ($_GET['id_marca']) {
     $id = $_GET['id_marca'];
-    $query = "SELECT * FROM marcas WHERE id_marca = $id";
+    $query = "SELECT * FROM marca WHERE id_marca = $id";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $logo = $logo_anterior;
     }
 
-    $query = "UPDATE marcas SET nombre_marca = '$nombre', descripcion = '$descripcion', logo = '$logo' WHERE id_marca = $id";
+    $query = "UPDATE marca SET nombre_marca = '$nombre', descripcion_marca = '$descripcion', logo_marca = '$logo' WHERE id_marca = $id";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -59,19 +59,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- formulario para editar -->
         <form action="editar_marca.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo ($marca['id_marca']); ?>">
-            <input type="hidden" name="logo_anterior" value="<?php echo ($marca['logo']); ?>">
+            <input type="hidden" name="logo_anterior" value="<?php echo ($marca['logo_marca']); ?>">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre" value="<?php echo ($marca['nombre_marca']); ?>" required>
             </div>
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion"><?php echo ($marca['descripcion']); ?></textarea>
+                <textarea class="form-control" name="descripcion"><?php echo ($marca['descripcion_marca']); ?></textarea>
             </div>
             <div class="mb-3">
                 <label for="logo" class="form-label">Logo</label>
                 <input type="file" class="form-control" name="logo" accept="image/png">
-                <p>Logo actual: <img src="logos/<?php echo ($marca['logo']); ?>" width="50" alt="Logo"></p>
+                <p>Logo actual: <img src="logos/<?php echo ($marca['logo_marca']); ?>" width="50" alt="Logo"></p>
             </div>
             <button type="submit" class="btn btn-success">Actualizar Marca</button>
         </form>

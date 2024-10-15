@@ -1,13 +1,14 @@
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
+
 
 $id_anio = $_GET['id_anio'];
 
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantendor
-    $query = "DELETE FROM anios WHERE id_anio = $id_anio";
+    $query = "DELETE FROM anio WHERE id_anio = $id_anio";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Año eliminado con éxito'); window.location='mantenedor_anios.php';</script>";

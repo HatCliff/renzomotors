@@ -1,6 +1,6 @@
 <?php
 include('../config/conexion.php'); 
-include('../components/navbar.php'); 
+include('../components/navbaruser.php'); 
 
 $id_fina = $_GET['id'];
 ?>
@@ -57,4 +57,3 @@ $id_fina = $_GET['id'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

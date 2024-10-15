@@ -1,10 +1,10 @@
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_vehiculo = $_GET['id'];
 
 //  obtener las fotos asociadas al vehículo para eliminarlas de la carpeta 
-$query_fotos = "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo";
+$query_fotos = "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo";
 $result_fotos = mysqli_query($conexion, $query_fotos);
 
 if ($result_fotos) {
@@ -18,15 +18,15 @@ if ($result_fotos) {
 }
 
 // eliminar las fotos de la base de datos
-$query_eliminar_fotos = "DELETE FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo";
+$query_eliminar_fotos = "DELETE FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo";
 mysqli_query($conexion, $query_eliminar_fotos);
 
 // eliminar los colores asociados al vehículo
-$query_eliminar_colores = "DELETE FROM vehiculo_colores WHERE id_vehiculo = $id_vehiculo";
+$query_eliminar_colores = "DELETE FROM color_vehiculo WHERE id_vehiculo = $id_vehiculo";
 mysqli_query($conexion, $query_eliminar_colores);
 
 // eliminar el vehículo
-$query_eliminar_vehiculo = "DELETE FROM vehiculos WHERE id_vehiculo = $id_vehiculo";
+$query_eliminar_vehiculo = "DELETE FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
 $resultado = mysqli_query($conexion, $query_eliminar_vehiculo);
 
 if ($resultado) {

@@ -1,11 +1,11 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //si se envia,subirlo al mantendor
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_proveedor = $_POST['nombre_proveedor'];
-    $query = "INSERT INTO proveedores_seguro (nombre_proveedor) VALUES ('$nombre_proveedor')";
+    $query = "INSERT INTO proveedor (nombre_proveedor) VALUES ('$nombre_proveedor')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

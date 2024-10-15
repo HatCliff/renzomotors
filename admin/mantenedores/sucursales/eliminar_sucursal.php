@@ -1,13 +1,13 @@
 ¿
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id = $_GET['id'];
 
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantenedor
-    $query = "DELETE FROM sucursales WHERE id_sucursal = $id";
+    $query = "DELETE FROM sucursal WHERE id_sucursal = $id";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Sucursal eliminada con éxito'); window.location='mantenedor_sucursales.php';</script>";

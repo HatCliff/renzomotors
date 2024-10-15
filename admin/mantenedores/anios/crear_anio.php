@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,7 +29,7 @@ include '../navbar.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $anio = $_POST['anio'];
 
-    $query = "INSERT INTO anios (anio) VALUES ('$anio')";
+    $query = "INSERT INTO anio (anio) VALUES ('$anio')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

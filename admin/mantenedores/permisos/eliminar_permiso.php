@@ -1,13 +1,13 @@
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_permiso = $_GET['id_permiso'];
 
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar elemento del mantenedor
-    $query = "DELETE FROM permisos WHERE id_permiso = $id_permiso";
+    $query = "DELETE FROM permiso WHERE id_permiso = $id_permiso";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Permiso eliminado con éxito'); window.location='mantenedor_permisos.php';</script>";

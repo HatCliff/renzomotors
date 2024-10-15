@@ -1,17 +1,13 @@
 <?php
-include '../conexion.php';
+include '../../../config/conexion.php';
 
 $id_servicio = $_GET['id'];
 
 // eliminar relaciones de servicios
-$delete_relaciones = "DELETE FROM servicio_sucursal WHERE id_servicio = $id_servicio";
+$delete_relaciones = "DELETE FROM sucursal_servicio WHERE id_servicio = $id_servicio";
             mysqli_query($conexion, $delete_relaciones);
             
-$query = "DELETE FROM servicios WHERE id_servicio = $id_servicio";
-$resultado = mysqli_query($conexion, $query);
-
-// eliminar elemento
-$query = "DELETE FROM accesorios WHERE sku='$sku'";
+$query = "DELETE FROM servicio WHERE id_servicio = $id_servicio";
 $resultado = mysqli_query($conexion, $query);
 
 if ($resultado) {

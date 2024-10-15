@@ -1,13 +1,13 @@
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_transmision = $_GET['id_transmision'];
 
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar del mantenedor
-    $query = "DELETE FROM transmisiones WHERE id_transmision = $id_transmision";
+    $query = "DELETE FROM transmision WHERE id_transmision = $id_transmision";
     $resultado = mysqli_query($conexion, $query);
 
     echo "<script>alert('Transmisión eliminada con éxito'); window.location='mantenedor_transmisiones.php';</script>";

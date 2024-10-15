@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,7 +29,7 @@ include '../navbar.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_pais = $_POST['nombre_pais'];
 
-    $query = "INSERT INTO paises (nombre_pais) VALUES ('$nombre_pais')";
+    $query = "INSERT INTO pais (nombre_pais) VALUES ('$nombre_pais')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

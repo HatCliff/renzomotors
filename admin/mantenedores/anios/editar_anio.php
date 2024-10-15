@@ -1,11 +1,11 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //obtener los datos del elemento a editar
 if ($_GET['id_anio']) {
     $id_anio = $_GET['id_anio'];
-    $query = "SELECT * FROM anios WHERE id_anio = $id_anio";
+    $query = "SELECT * FROM anio WHERE id_anio = $id_anio";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_anio = $_POST['id_anio'];
     $anio_valor = $_POST['anio'];
 
-    $query = "UPDATE anios SET anio = '$anio_valor' WHERE id_anio = $id_anio";
+    $query = "UPDATE anio SET anio = '$anio_valor' WHERE id_anio = $id_anio";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

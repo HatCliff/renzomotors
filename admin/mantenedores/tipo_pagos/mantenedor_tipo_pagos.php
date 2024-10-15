@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,11 +23,11 @@ include '../navbar.php';
             <tbody>
                 <?php
                 //consultar los datos del mantenedor
-                $resultado = mysqli_query($conexion, "SELECT * FROM tipos_pago");
+                $resultado = mysqli_query($conexion, "SELECT * FROM tipo_pago");
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>
                             <td>{$fila['id_tipo_pago']}</td>
-                            <td>{$fila['nombre']}</td>
+                            <td>{$fila['nombre_tipo_pago']}</td>
                             <td>
                                 <a href='editar_tipo_pago.php?id={$fila['id_tipo_pago']}' class='btn btn-primary'>Editar</a>
                                 <a href='eliminar_tipo_pago.php?id={$fila['id_tipo_pago']}' class='btn btn-danger' onclick='return confirm(\"¿Estás seguro de eliminar esta sucursal?\");'>Eliminar</a>

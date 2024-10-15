@@ -1,10 +1,10 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 
 // Obtener todos los tipos de accesorios
-$query = "SELECT * FROM tipos_accesorios";
+$query = "SELECT * FROM tipo_accesorio";
 $resultado = mysqli_query($conexion, $query);
 ?>
 

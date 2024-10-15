@@ -1,12 +1,12 @@
 <?php
 include('../config/conexion.php'); 
-include('../components/navbar.php'); 
+include('../components/navbaruser.php'); 
 
 $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
-            FROM vehiculos v
-            JOIN marcas m ON v.id_marca = m.id_marca
-            JOIN anios a ON v.id_anio = a.id_anio
-            JOIN paises p ON v.id_pais = p.id_pais
+            FROM vehiculo v
+            JOIN marca m ON v.id_marca = m.id_marca
+            JOIN anio a ON v.id_anio = a.id_anio
+            JOIN pais p ON v.id_pais = p.id_pais
             WHERE 1=1";
 
 $resultado = mysqli_query($conexion, $query);
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM marcas");
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM marca");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM anios");
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM anio");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmisiones");
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
@@ -223,24 +223,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Consulta para obtener todos vehiculos existentes
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         // Coloca cada vehiculo en tarjetas
-                        echo"<div class='col-md-4 col-sm-6 mb-4 d-flex justify-content-center mb-4'>";
+                        echo"<div class='col-md-4 d-flex justify-content-center mb-4'>";
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none'>";
-                                echo"<div class='card' style='width: 300px; height: 400px; background: #fffcf4; border-radius: 20px;'> ";
+                                echo"<div class='card' style='width: 400px; background: #fffcf4; border-radius: 20px;'> ";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
-                                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
+                                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
                                         $ruta_imagen = '../admin/mantenedores/vehiculo/fotos_vehiculos/' . basename($foto['ruta_foto']);
-                                        echo "<img src='$ruta_imagen' class='card-img-top ' alt='Foto vehículo' style='width: 100%; height: 200px; border-radius: 20px 20px 0 0'>";
+                                        echo "<img src='$ruta_imagen' class='card-img-top ' alt='Foto vehículo' style='width: 100%; height: 300px; border-radius: 20px 20px 0 0'>";
 
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
-                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado']}</h6>
+                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
-                                            FROM vehiculo_colores vc
-                                            JOIN colores c ON vc.id_color = c.id_color
+                                            FROM color_vehiculo vc
+                                            JOIN color c ON vc.id_color = c.id_color
                                             WHERE vc.id_vehiculo = $id_vehiculo");
                                         while ($color = mysqli_fetch_assoc($colores_resultado)) {
                                             while ($color = mysqli_fetch_assoc($colores_resultado)) {
@@ -254,8 +254,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         
                                     }
 
-                                    echo "<div class='card-body m-2' >";
-                                    $precio_formateado = number_format($fila['precio'], 0, ',', '.'); 
+                                    echo "<div class='card-body m-4' >";
+                                    $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.'); 
                                     echo "<h4 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h4>
                                             <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
                                     echo"<p class='card-text' style='color: #6D6D6D; font-weight: bold;'>{$fila['nombre_pais']}</p>";

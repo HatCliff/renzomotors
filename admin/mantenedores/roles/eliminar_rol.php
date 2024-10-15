@@ -1,13 +1,14 @@
-<?php include '../conexion.php'; 
+<?php 
+include '../../../config/conexion.php';
 
 $id = $_GET['id_rol'];
 
 // eliminar relaciones con permisos
-$query_permisos = "DELETE FROM roles_permisos WHERE id_rol='$id'";
+$query_permisos = "DELETE FROM rol_permiso WHERE id_rol='$id'";
 mysqli_query($conexion, $query_permisos);
 
 
-$query = "DELETE FROM roles WHERE id_rol = '$id'";
+$query = "DELETE FROM rol WHERE id_rol = '$id'";
 $resultado = mysqli_query($conexion, $query);
 //eliminar el elemento del mantenedor
 if ($resultado) {

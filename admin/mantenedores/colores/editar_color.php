@@ -1,10 +1,10 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //obtener los datos del elemento a editar
 $id_color = $_GET['id_color'];
-$query="SELECT * FROM colores WHERE id_color = $id_color";
+$query="SELECT * FROM color WHERE id_color = $id_color";
 $resultado = mysqli_query($conexion,$query);
 if ($resultado) {
     $color = mysqli_fetch_assoc($resultado);
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_color = $_POST['nombre_color'];
     $codigo_color = $_POST['codigo_color'];
 
-    $query = "UPDATE colores SET nombre_color = '$nombre_color', codigo_color = '$codigo_color' WHERE id_color = $id_color";
+    $query = "UPDATE color SET nombre_color = '$nombre_color', codigo_color = '$codigo_color' WHERE id_color = $id_color";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {

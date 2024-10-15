@@ -1,9 +1,10 @@
 <?php 
-include '../conexion.php';
+include '../../../config/conexion.php';
+
 
 $id_tipo_pago = $_GET['id'];
 //eliminar elemento del mantenedor
-$query_eliminar_tipo_pago = "DELETE FROM tipos_pago WHERE id_tipo_pago = $id_tipo_pago";
+$query_eliminar_tipo_pago = "DELETE FROM tipo_pago WHERE id_tipo_pago = $id_tipo_pago";
 $resultado = mysqli_query($conexion, $query_eliminar_tipo_pago);
 
 if ($resultado) {

@@ -1,11 +1,11 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 $id_rol = $_GET['id_rol'];
 
 // Consultar los datos del elemento
-$query = "SELECT * FROM roles WHERE id_rol = $id_rol";
+$query = "SELECT * FROM rol WHERE id_rol = $id_rol";
 $resultado = mysqli_query($conexion, $query);
 
 if ($resultado) {
@@ -15,7 +15,7 @@ if ($resultado) {
 }
 
 // Obtener los permisos actuales asociados al elemento
-$query_permisos = "SELECT id_permiso FROM roles_permisos WHERE id_rol = $id_rol";
+$query_permisos = "SELECT id_permiso FROM rol_permiso WHERE id_rol = $id_rol";
 $resultado_permisos = mysqli_query($conexion, $query_permisos);
 $permisos_actuales = [];
 while ($permiso = mysqli_fetch_assoc($resultado_permisos)) {
@@ -43,7 +43,7 @@ while ($permiso = mysqli_fetch_assoc($resultado_permisos)) {
                 <select class="form-select" name="permisos[]" multiple required>
                     <?php
                     // Consultar los permisos disponibles
-                    $permisos = mysqli_query($conexion, "SELECT * FROM permisos");
+                    $permisos = mysqli_query($conexion, "SELECT * FROM permiso");
                     while ($permiso = mysqli_fetch_assoc($permisos)) {
                         $selected = in_array($permiso['id_permiso'], $permisos_actuales) ? 'selected' : '';
                         echo "<option value='{$permiso['id_permiso']}' $selected>{$permiso['nombre_permiso']}</option>";
@@ -64,19 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $permisos = $_POST['permisos'];
 
     // Actualizar los datos del rol
-    $query = "UPDATE roles 
+    $query = "UPDATE rol 
               SET nombre_rol='$nombre_rol'
               WHERE id_rol=$id_rol";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
         // Eliminar las asociaciones actuales de permisos
-        $query_eliminar = "DELETE FROM roles_permisos WHERE id_rol = $id_rol";
+        $query_eliminar = "DELETE FROM rol_permiso WHERE id_rol = $id_rol";
         mysqli_query($conexion, $query_eliminar);
 
         // Insertar las nuevas asociaciones con los permisos seleccionados
         foreach ($permisos as $id_permiso) {
-            $query_insertar = "INSERT INTO roles_permisos (id_rol, id_permiso) VALUES ($id_rol, $id_permiso)";
+            $query_insertar = "INSERT INTO rol_permiso (id_rol, id_permiso) VALUES ($id_rol, $id_permiso)";
             mysqli_query($conexion, $query_insertar);
         }
 

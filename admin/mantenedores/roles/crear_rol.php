@@ -1,13 +1,13 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_rol = $_POST['nombre_rol'];
     $permisos = $_POST['permisos']; 
 
     // insertar el nuevo elemento en el mantenedor
-    $query = "INSERT INTO roles (nombre_rol) VALUES ('$nombre_rol')";
+    $query = "INSERT INTO rol (nombre_rol) VALUES ('$nombre_rol')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // insertar las asociaciones del elemento con los permisos
         foreach ($permisos as $id_permiso) {
-            $query_insertar = "INSERT INTO roles_permisos (id_rol, id_permiso) VALUES ($id_rol, $id_permiso)";
+            $query_insertar = "INSERT INTO rol_permiso (id_rol, id_permiso) VALUES ($id_rol, $id_permiso)";
             mysqli_query($conexion, $query_insertar);
         }
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <select class="form-select" name="permisos[]" multiple required>
                     <?php
                     // consultar los permisos disponibles
-                    $permisos = mysqli_query($conexion, "SELECT * FROM permisos");
+                    $permisos = mysqli_query($conexion, "SELECT * FROM permiso");
                     while ($permiso = mysqli_fetch_assoc($permisos)) {
                         echo "<option value='{$permiso['id_permiso']}'>{$permiso['nombre_permiso']}</option>";
                     }

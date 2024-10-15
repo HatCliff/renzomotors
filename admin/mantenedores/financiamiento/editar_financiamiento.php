@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 
 //obtener los datos del elemento a editar
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $requisitos = $_POST['requisitos'];
 
     $query = "UPDATE financiamiento 
-              SET nombre='$nombre', tasa_interes=$tasa_interes, plazo_maximo='$plazo_maximo', requisitos='$requisitos' 
+              SET nombre_financiamiento='$nombre', tasa_interes=$tasa_interes, plazo_maximo_meses='$plazo_maximo', requisitos='$requisitos' 
               WHERE id_financiamiento=$id_financiamiento";
     $resultado = mysqli_query($conexion, $query);
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form method="POST">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" value="<?php echo $financiamiento['nombre']; ?>" required>
+                <input type="text" class="form-control" name="nombre" value="<?php echo $financiamiento['nombre_financiamiento']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="tasa_interes" class="form-label">Tasa de Interés (%)</label>
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="plazo_maximo" class="form-label">Plazo Máximo</label>
-                <input type="text" class="form-control" name="plazo_maximo" value="<?php echo $financiamiento['plazo_maximo']; ?>" required>
+                <input type="text" class="form-control" name="plazo_maximo" value="<?php echo $financiamiento['plazo_maximo_meses']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="requisitos" class="form-label">Requisitos</label>
