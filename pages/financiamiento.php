@@ -112,7 +112,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
                 alerta_datos.style.display = 'none';
             }
 
-            if(cantidad>=cantidad_cut)
+            if(cantidad>cantidad_cut)
             {
                 alerta_cuota.innerText = "La cantidad maxima de este tipo de financiamiento es de: "+cantidad_cut;
                 alerta_cuota.style.display = 'block';

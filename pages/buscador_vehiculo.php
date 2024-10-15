@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body class="pt-5">
-    <div class="container mt-5 d-flex">
+    <div class="container mt-5">
         <div class="row mb-4  ">
             <!-- buscador y filtros -->
             <div class="row mb-4">
@@ -223,16 +223,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Consulta para obtener todos vehiculos existentes
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         // Coloca cada vehiculo en tarjetas
-                        echo"<div class='col-md-4 d-flex justify-content-center mb-4'>";
+                        echo"<div class='col-md-4 col-sm-6 mb-4 d-flex justify-content-center mb-4'>";
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none'>";
-                                echo"<div class='card' style='width: 400px; background: #fffcf4; border-radius: 20px;'> ";
+                                echo"<div class='card' style='width: 300px; height: 400px; background: #fffcf4; border-radius: 20px;'> ";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
                                         $ruta_imagen = '../admin/mantenedores/vehiculo/fotos_vehiculos/' . basename($foto['ruta_foto']);
-                                        echo "<img src='$ruta_imagen' class='card-img-top ' alt='Foto vehículo' style='width: 100%; height: 300px; border-radius: 20px 20px 0 0'>";
+                                        echo "<img src='$ruta_imagen' class='card-img-top ' alt='Foto vehículo' style='width: 100%; height: 200px; border-radius: 20px 20px 0 0'>";
 
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
@@ -254,7 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         
                                     }
 
-                                    echo "<div class='card-body m-4' >";
+                                    echo "<div class='card-body m-2' >";
                                     $precio_formateado = number_format($fila['precio'], 0, ',', '.'); 
                                     echo "<h4 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h4>
                                             <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
