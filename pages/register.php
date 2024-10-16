@@ -96,7 +96,7 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <label for="inputEmail4" class="form-label">Correo</label>
-                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$" placeholder="El correo debe contener un arroba (@) y terminar con .com o .cl"  required>
+                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$" title="El correo debe contener un arroba (@) y terminar con .com o .cl"  required>
                                         </div>
                                         
                                     </div>
@@ -104,7 +104,7 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                         <label for="inputPassword4" class="form-label">Contraseña</label>
-                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4"   required>
+                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}" title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." required>
                                     </div>
 
                                     <div class="col-12 d-flex justify-content-center mb-2 mt-4">
