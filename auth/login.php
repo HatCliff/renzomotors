@@ -11,7 +11,7 @@ if($email == '' || $password == ''){
     header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
     exit();
 }
-$query = "SELECT * FROM usuarios WHERE email = '$email'";
+$query = "SELECT * FROM usuario_registrado WHERE correo = '$email'";
 
 $result = mysqli_query($conexion, $query);
 if(mysqli_num_rows($result) > 0){
