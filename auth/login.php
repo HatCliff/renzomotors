@@ -11,12 +11,12 @@ if($email == '' || $password == ''){
     header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
     exit();
 }
-$query = "SELECT * FROM usuarios WHERE email = '$email'";
+$query = "SELECT * FROM usuario_registrado WHERE correo = '$email'";
 
 $result = mysqli_query($conexion, $query);
 if(mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_assoc($result);
-    if(!password_verify($password, $row['password'])){
+    if(!password_verify($password, $row['contrasenia'])){
         $_SESSION['error'] = 'Usuario o contraseña incorrectos';
         $_SESSION['error_code'] = 401;
         header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
