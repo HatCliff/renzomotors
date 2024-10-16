@@ -15,7 +15,7 @@
 </head>
 <body>
     <?php
-    include 'navbaradmin.php';
+    include('admin/navbaradmin.php');
     ?>
     <div class="container mt-5 pt-5">
         <h1>Bienvenido a RenzoMotors</h1>
