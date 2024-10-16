@@ -32,8 +32,9 @@
                 $correo = mysqli_real_escape_string($conexion, $correo);
 
                 //$tipo_persona = mysqli_real_escape_string($conexion, $tipo_persona);
+                $contrasenia =  password_hash($contrasenia, PASSWORD_DEFAULT);
 
-                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '".md5($contrasenia)."','$correo')";
+                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '$contrasenia','$correo')";
                 $result = mysqli_query($conexion, $query);
 
                 if($result){
@@ -50,7 +51,7 @@
                     <div class="col-lg-6 col-sm-12 px-5 mt-2">
                         <div class="card px-5 mt-4">
                             <div class="card-body">
-                                <form name="register" action="" method="post">
+                                <form action=""  name="register"  method="post">
                                     <div class="container d-flex my-3">
                                         <div class="d-flex justify-content-center align-items-center w-100">
                                             <h5 class="mb-3">Registro</h5>
@@ -86,18 +87,16 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <label for="inputEmail4" class="form-label">Correo</label>
-                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$"  required>
+                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$" placeholder="El correo debe contener un arroba (@) y terminar con .com o .cl"  required>
                                         </div>
                                         
                                     </div>
 
                                     <div class="col-12">
+                                        <div class="form-group mb-3">
                                         <label for="inputPassword4" class="form-label">Contraseña</label>
-                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4" required>
+                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4"   required>
                                     </div>
-
-
-
 
                                     <div class="col-12 d-flex justify-content-center mb-2 mt-4">
                                         <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>
@@ -113,7 +112,7 @@
                 </div>
             </div>
         <?php 
-        }
+    }
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
