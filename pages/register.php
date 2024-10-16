@@ -89,7 +89,7 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <label for="rut" class="form-label">RUN</label>
-                                            <input type="text" name="rut" maxlength="12" size="12" pattern="^\d{1,2}\.?\d{3}\.?\d{3}-?[\dkK]$" placeholder="12.345.125-5" class="form-control"  required>
+                                            <input type="text" name="rut" maxlength="12" size="12" pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" placeholder="12.345.125-5" class="form-control"  required/>
                                         </div>
                                     </div>
 
