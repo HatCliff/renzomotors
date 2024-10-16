@@ -31,9 +31,9 @@
                 $correo = stripslashes($_REQUEST['correo']);
                 $correo = mysqli_real_escape_string($conexion, $correo);
 
-                $tipo_persona = mysqli_real_escape_string($conexion, $tipo_persona);
+                //$tipo_persona = mysqli_real_escape_string($conexion, $tipo_persona);
 
-                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo, tipo_persona) VALUES ('$nombre', '$apellido', '$rut', '".md5($contrasenia)."','$correo', '$tipo_persona')";
+                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '".md5($contrasenia)."','$correo')";
                 $result = mysqli_query($conexion, $query);
 
                 if($result){
@@ -60,8 +60,7 @@
                                         <div class="col-12">
                                             <div class="form-group mb-3">
                                                 <label for="nombre" class="form-label">Nombre</label>
-                                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder=""
-                                                    required>
+                                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Juan" required>
                                             </div>
 
                                         </div>
@@ -71,7 +70,7 @@
                                         <div class="col-12">
                                             <div class="form-group mb-3">
                                                 <label for="apellido" class="form-label">Apellido</label>
-                                                <input type="text" name="apellido" class="form-control" id="apellido" required>
+                                                <input type="text" name="apellido" class="form-control" id="apellido" placeholder="Perez" required>
                                             </div>
 
                                         </div>
@@ -79,15 +78,17 @@
 
                                     <div class="col-12">
                                         <div class="form-group mb-3">
-                                            <label for="run" class="form-label">RUN</label>
-                                            <input type="text" name="rut" maxlength="9" size="9" class="form-control mr-5"
-                                                required>
+                                            <label for="rut" class="form-label">RUN</label>
+                                            <input type="text" name="rut" maxlength="12" size="12" pattern="^\d{1,2}\.?\d{3}\.?\d{3}-?[\dkK]$" placeholder="12.345.125-5" class="form-control"  required>
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="inputEmail4" class="form-label">Correo</label>
-                                        <input type="email" name="correo" class="form-control" id="inputEmail4" required>
+                                        <div class="form-group mb-3">
+                                            <label for="inputEmail4" class="form-label">Correo</label>
+                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$"  required>
+                                        </div>
+                                        
                                     </div>
 
                                     <div class="col-12">
