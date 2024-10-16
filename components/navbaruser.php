@@ -6,7 +6,7 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
     <div class="container-fluid">
         
-        <a class="navbar-brand" href='/'>
+        <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
             <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>
@@ -27,6 +27,9 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
                 <li><a class="dropdown-item" href="#">Accesorios</a></li>
             </ul>
             </li>
+            <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
+                </li>
             </ul>
         </div>
     </div>
