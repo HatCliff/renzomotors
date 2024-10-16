@@ -13,22 +13,22 @@
     <?php
 
         require('../config/conexion.php');
-        // If form submitted, insert values into the database.
-            if (isset($_REQUEST['submit'])) {
+        // Si se envía el formulario, inserte valores en la base de datos.
+            if (isset($_POST['submit'])) {
             
-                $nombre = stripslashes($_REQUEST['nombre']); // removes backslashes
+                $nombre = stripslashes($_POST['nombre']); // removes backslashes
                 $nombre = mysqli_real_escape_string($conexion, $nombre); //escapes special characters in a string
 
-                $apellido = stripslashes($_REQUEST['apellido']);
+                $apellido = stripslashes($_POST['apellido']);
                 $apellido = mysqli_real_escape_string($conexion, $apellido);
 
-                $rut = stripslashes($_REQUEST['rut']);
+                $rut = stripslashes($_POST['rut']);
                 $rut = mysqli_real_escape_string($conexion, $rut);
 
-                $contrasenia = stripslashes($_REQUEST['contrasenia']);
+                $contrasenia = stripslashes($_POST['contrasenia']);
                 $contrasenia = mysqli_real_escape_string($conexion, $contrasenia);
 
-                $correo = stripslashes($_REQUEST['correo']);
+                $correo = stripslashes($_POST['correo']);
                 $correo = mysqli_real_escape_string($conexion, $correo);
 
                 //$tipo_persona = mysqli_real_escape_string($conexion, $tipo_persona);
@@ -37,8 +37,17 @@
                 $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '$contrasenia','$correo')";
                 $result = mysqli_query($conexion, $query);
 
+                
+
                 if($result){
-                    echo "Se registro correctamente";
+                    $_SESSION['success'] = "Registro exitoso. Por favor, inicia sesión.";
+                    header('Location: login.php'); // Redirigir al login
+                    exit();
+                } else {
+                    $_SESSION['error'] = "Error al registrar el usuario.";
+                    $_SESSION['error_code'] = "Registro";
+                    header('Location: register.php');
+                    exit();
                 }
             }else{
                 

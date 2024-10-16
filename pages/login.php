@@ -32,7 +32,7 @@ session_start();
                     <input
                         type="email"
                         class="form-control"
-                        name="email"
+                        name="correo"
                         id=""
                         aria-describedby="helpId"
                         placeholder="Escribe aquí tu correo"
@@ -47,7 +47,7 @@ session_start();
                         <input
                             type="password"
                             class="form-control"
-                            name="password"
+                            name="contrasenia"
                             id=""
                             aria-describedby="helpId"
                             placeholder="Contraseña"
