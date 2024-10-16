@@ -7,7 +7,7 @@ $id_marcas = $_POST['id_marcas'] ?? [];
 $id_anios = $_POST['id_anios'] ?? [];
 $id_combustible = $_POST['id_combustible'] ?? [];
 $id_transmision = $_POST['id_transmision'] ?? [];
-$nombre_modelo = $_POST['modelo_i'] ?? ''; // Inicializa el modelo
+$nombre_modelo = $_POST['modelo_i'] ?? ''; 
 
 $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
             FROM vehiculo v
@@ -95,13 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-4">
                 <h1 class="mb-4">Vehiculos</h1>
                 <form method="POST" enctype="multipart/form-data" >
-                    <div class="d-flex align-items-center">
-                        <div class="col-5 me-5 ">
+                    <div class="d-flex flex-column flex-md-row align-items-center">
+                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
                             <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo" aria-label="Modelo del vehículo">
                         </div>
                             
-                        <div class="col-7 d-flex align-items-center">
-                            <div class="dropdown me-1">
+                        <div class="col-12 col-md-7 d-flex flex-wrap align-items-center">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="estadoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Estado
                                 </button>
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="dropdown me-1">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Ordenar por
                                 </button>
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="dropdown me-1">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="marcaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Marca
                                 </button>
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     ?>
                                 </ul>
                             </div>
-                            <div class="dropdown me-1">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     año
                                 </button>
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     ?>
                                 </ul>
                             </div>
-                            <div class="dropdown me-1">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     combustible
                                 </button>
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     ?>
                                 </ul>
                             </div>
-                            <div class="dropdown me-1">
+                            <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     transmision
                                 </button>
@@ -219,11 +219,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
-                    
-                    <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4"  >Limpiar Filtros</button>
-                                
+                    <div class="d-flex gap-2 mt-2">
+                        <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
+                        <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4"  >Limpiar Filtros</button>
+                    </div>                
                 </form>
                 <div class='alert alert-danger alert-container' id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
             </div>
@@ -235,9 +234,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         
                         // Coloca cada vehiculo en tarjetas
-                        echo"<div class='col-md-4 d-flex justify-content-center mb-4'>";
+                        echo"<div class='col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-4'>";
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none'>";
-                                echo"<div class='card' style='width: 400px; background: #fffcf4; border-radius: 20px;'> ";
+                                echo"<div class='card h-100'  style='width: 400px;background: #fffcf4; border-radius: 20px;'> ";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
@@ -258,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 $codigo_color = htmlspecialchars($color['codigo_color']); 
                                                 echo "
                                                 <div class='card-img-overlay d-flex align-self-center justify-content-end mt-5 text-center'>
-                                                    <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'>Color</h6>
+                                                    <h6 class='card-title border p-2' style='width: 80px; height: 30px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'></h6>
                                                 </div>";
                                         }
                                         
