@@ -12,6 +12,16 @@ if (isset($_GET['id'])) {
 }
 
 
+//consultar los datos asociados al id desde el mantenedor
+if (isset($_GET['id'])) {
+    
+    $id_vehiculo = $_GET['id'];
+    $query = "SELECT * FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
+    $resultado = mysqli_query($conexion, $query);
+    $vehiculo = mysqli_fetch_assoc($resultado);
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_modelo = $_POST['nombre_modelo'];
     $id_marca = $_POST['id_marca'];
