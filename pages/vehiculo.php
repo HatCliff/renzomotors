@@ -93,21 +93,20 @@ $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_veh
                                         include("opinion.php");
                                     ?>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Send message</button>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                     <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Escribe la tuya -></button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row overflow-auto" style="max-height: 400px;">
                 <?php
                     while ($row = mysqli_fetch_assoc($consulta)) {
-                      echo"<div class='card' style='width: 18rem;'>";
+                        
+                      echo"<div class='card me-2 mb-2' style='width: 18rem;'>";
                         echo" <div class='card-body'>";
-                            echo" <div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
+                            echo" <div class='rating d-flex start-content-center mb-3' style='font-size: 1.5rem;'>";
                                 for ($i = 1; $i <= 5; $i++) {
                                     if ($i <= $row['calificacion']) {
                                         echo '<i class="bi bi-star-fill text-warning"></i>';
@@ -117,8 +116,16 @@ $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_veh
                                 }
                             echo"</div>";
                             echo" <h5 class='card-title'>{$row['titulo_resenia']}</h5>";
-                            echo" <p class='card-text'>{$row['resenia']}</p>";
-                            echo" <h6 class='card-subtitle mb-2 text-body-secondary'>{$row['rut']}</h6>";
+                            echo" <p class='card-text mb-4'>{$row['resenia']}</p>";
+                            if($row['anonima']==1)
+                            {
+                                echo"<h6 class='card-subtitle mb-2 text-body-secondary'>anonimo</h6>";
+                            }else{
+                                $re = mysqli_query($conexion, "SELECT nombre FROM usuario_registrado where rut = '{$row['rut']}'");
+                                $nombreRow = mysqli_fetch_assoc($re);
+                                $nombre = $nombreRow['nombre'];
+                                echo" <h6 class='card-subtitle mb-2 text-body-secondary'>$nombre</h6>";
+                            }
                             $fechaFormatoInvertido = date("d-m-Y", strtotime($row['fecha_resenia']));
                             echo" <h6 class='card-subtitle mb-2 text-body-secondary'>$fechaFormatoInvertido</h6>";
                             

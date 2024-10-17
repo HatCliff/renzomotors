@@ -1,13 +1,9 @@
 <?php
 include('../config/conexion.php');
 
-if (!$conexion) {
-    die("Conexión fallida: " . mysqli_connect_error());
-}
-
 $idRecibida = $_GET['id'];
-$rut = '211648643'; // Puedes cambiar esto dinámicamente según el usuario.
-
+$rut = '2154879632'; // Puedes cambiar esto dinámicamente según el usuario.
+$current_rating = null;
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -22,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $resultado_check = mysqli_query($conexion, $query_check);
 
     if (mysqli_num_rows($resultado_check) > 0) {
+        
         // Si ya existe una reseña, mostrar un mensaje de error
         $error_message = "Ya has registrado una reseña para este vehículo.";
     } else {
@@ -45,14 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php endif; ?>
         
-        <form name="reseña" method="POST">
-          <div class="rating row-2 d-flex justify-content-center" style="font-size: 2rem;">
+        <form name="reseña" method="POST" onsubmit="return validateRating()">
+          <div class="rating row-2 d-flex justify-content-center" style="font-size: 2rem;" >
               <i class="bi bi-star" data-value="1"></i>
               <i class="bi bi-star" data-value="2"></i>
               <i class="bi bi-star" data-value="3"></i>
               <i class="bi bi-star" data-value="4"></i>
               <i class="bi bi-star" data-value="5"></i>
-              <input type="hidden" name="rating" id="rating" value="" />
+              <input type="hidden" name="rating" id="rating" value="<?php echo $current_rating; ?>" />
           </div>
           <div class="mb-3">
               <label for="titulo" class="form-label">Título Reseña</label>
@@ -66,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <input class="form-check-input" type="checkbox" name="anonimo" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">Anónimo</label>
           </div>
-          <button type="submit" class="btn btn-primary">Enviar Reseña</button>
+          <button type="submit" class="btn btn-primary" >Enviar Reseña</button>
         </form>
 
 <script>
