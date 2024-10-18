@@ -119,7 +119,7 @@ $opcionesVehiculos = obtenerOpcionesVehiculos($conexion);
                         <ul class="list-group">
                             <li class="list-group-item">Marca: <?= $vehiculo1['nombre_marca']; ?></li>
                             <li class="list-group-item">Año: <?= $vehiculo1['anio']; ?></li>
-                            <li class="list-group-item">Precio: <?= $vehiculo1['precio_modelo']; ?> €</li>
+                            <li class="list-group-item">Precio: <?= $vehiculo1['precio_modelo']; ?> $</li>
                             <li class="list-group-item">Caballos de fuerza: <?= $vehiculo1['caballos_fuerza']; ?> HP</li>
                             <li class="list-group-item">Puertas: <?= $vehiculo1['cantidad_puertas']; ?></li>
                             <li class="list-group-item">Transmisión: <?= $vehiculo1['nombre_transmision']; ?></li>
@@ -150,7 +150,7 @@ $opcionesVehiculos = obtenerOpcionesVehiculos($conexion);
                         <ul class="list-group">
                             <li class="list-group-item">Marca: <?= $vehiculo2['nombre_marca']; ?></li>
                             <li class="list-group-item">Año: <?= $vehiculo2['anio']; ?></li>
-                            <li class="list-group-item">Precio: <?= $vehiculo2['precio_modelo']; ?> €</li>
+                            <li class="list-group-item">Precio: <?= $vehiculo2['precio_modelo']; ?> $</li>
                             <li class="list-group-item">Caballos de fuerza: <?= $vehiculo2['caballos_fuerza']; ?> HP</li>
                             <li class="list-group-item">Puertas: <?= $vehiculo2['cantidad_puertas']; ?></li>
                             <li class="list-group-item">Transmisión: <?= $vehiculo2['nombre_transmision']; ?></li>
@@ -182,7 +182,7 @@ $opcionesVehiculos = obtenerOpcionesVehiculos($conexion);
                         <ul class="list-group">
                             <li class="list-group-item">Marca: <?= $vehiculo3['nombre_marca']; ?></li>
                             <li class="list-group-item">Año: <?= $vehiculo3['anio']; ?></li>
-                            <li class="list-group-item">Precio: <?= $vehiculo3['precio_modelo']; ?> €</li>
+                            <li class="list-group-item">Precio: <?= $vehiculo3['precio_modelo']; ?> $</li>
                             <li class="list-group-item">Caballos de fuerza: <?= $vehiculo3['caballos_fuerza']; ?> HP</li>
                             <li class="list-group-item">Puertas: <?= $vehiculo3['cantidad_puertas']; ?></li>
                             <li class="list-group-item">Transmisión: <?= $vehiculo3['nombre_transmision']; ?></li>
