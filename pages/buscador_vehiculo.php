@@ -60,6 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
             $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
         }
+    }else{
+        $estado =  [];
+        $orden =  '';
+        $id_marcas =  [];
+        $id_anios =  [];
+        $id_combustible =  [];
+        $id_transmision =  [];
+        $nombre_modelo =  ''; 
     }
 
     $resultado = mysqli_query($conexion, $query);
@@ -93,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row mb-4  ">
             <!-- buscador y filtros -->
             <div class="row mb-4">
-                <h1 class="mb-4">Vehiculos</h1>
+                <h1 class="mb-4">Vehículos</h1>
                 <form method="POST" enctype="multipart/form-data" >
                     <div class="d-flex flex-column flex-md-row align-items-center">
                         <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
@@ -199,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    transmision
+                                    transmisión
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
                                     <?php
@@ -234,36 +242,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         
                         // Coloca cada vehiculo en tarjetas
-                        echo"<div class='col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-4'>";
-                            echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none'>";
-                                echo"<div class='card h-100'  style='width: 400px;background: #fffcf4; border-radius: 20px;'> ";
+                        echo"<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch '>";
+                            echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
+                                echo"<div class='card h-100 d-flex flex-column'  style=' background: #fffcf4; border-radius: 20px;overflow: hidden;'>";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
-                                        $ruta_imagen = '../admin/mantenedores/vehiculo/fotos_vehiculos/' . basename($foto['ruta_foto']);
-                                        echo "<img src='$ruta_imagen' class='card-img-top ' alt='Foto vehículo' style='width: 100%; height: 300px; border-radius: 20px 20px 0 0'>";
-
+                                        $ruta_imagen = '../admin/mantenedores/vehiculo/'.$foto['ruta_foto'];
+                                        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
                                                 <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
+
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
                                             FROM color_vehiculo vc
                                             JOIN color c ON vc.id_color = c.id_color
                                             WHERE vc.id_vehiculo = $id_vehiculo");
-                                        while ($color = mysqli_fetch_assoc($colores_resultado)) {
-                                                $codigo_color = htmlspecialchars($color['codigo_color']); 
-                                                echo "
-                                                <div class='card-img-overlay d-flex align-self-center justify-content-end mt-5 text-center'>
-                                                    <h6 class='card-title border p-2' style='width: 80px; height: 30px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'></h6>
-                                                </div>";
-                                        }
-                                        
+                                        $color = mysqli_fetch_assoc($colores_resultado);
+                                        $codigo_color = htmlspecialchars($color['codigo_color']); 
+
+                                        echo"
+                                            <div class='card-img-overlay d-flex align-items-end flex-column justify-content-center text-center mt-4 mb-5'>
+                                                <h6 class='card-title border p-2 d-flex align-items-end flex-column ' style='width: 80px; height: 30px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'></h6>
+                                            </div>";      
                                     }
 
-                                    echo "<div class='card-body m-4' >";
+                                    echo "<div class='card-body m-3 flex-grow-1' >";
                                     $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.'); 
                                     echo "<h4 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h4>
                                             <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";

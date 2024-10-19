@@ -38,7 +38,7 @@ $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_veh
     <div class="container-fluid mt-5 ">
         <div class="row">
             <div class="col">
-                    <h1>Informacion del vehiculo</h1>
+                    <h1>Informacion del vehículo</h1>
                     <!-- Modal de financiamiento -->
                     <div class="modal fade" id="exampleModalToggle"  aria-hidden="true" aria-labelledby="exampleModalToggleLabel"tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -107,8 +107,8 @@ $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_veh
                       echo"<div class='card me-2 mb-2' style='width: 18rem;'>";
                         echo" <div class='card-body'>";
                             echo" <div class='rating d-flex start-content-center mb-3' style='font-size: 1.5rem;'>";
-                                for ($i = 1; $i <= 5; $i++) {
-                                    if ($i <= $row['calificacion']) {
+                                for ($i = 0; $i < 5; $i++) {
+                                    if ($i < $row['calificacion']) {
                                         echo '<i class="bi bi-star-fill text-warning"></i>';
                                     } else {
                                         echo '<i class="bi bi-star"></i>';
