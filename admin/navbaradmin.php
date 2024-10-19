@@ -52,6 +52,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>financiamiento/mantenedor_financiamientos.php'>Mantenedor de Financiamientos</a></li>
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>marcas/mantenedor_marcas.php'>Mantenedor de Marcas</a></li>
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_paises.php'>Mantenedor de Países</a></li>
+        <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_permisos.php'>Mantenedor de Permisos</a></li>
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>proveedores/mantenedor_proveedores.php'>Mantenedor de Proveedores de Seguros</a></li>
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>roles/mantenedor_roles.php'>Mantenedor de Roles</a></li>
         <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMantenedores; ?>ruedas/mantenedor_ruedas.php'>Mantenedor de Ruedas</a></li>
