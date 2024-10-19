@@ -20,7 +20,7 @@ $row = mysqli_fetch_assoc($resultado_compra_check);
 
 if (mysqli_num_rows($resultado_compra_check ) == 0) {
     // Si ya existe una reseña, mostrar un mensaje de error
-    $error_message = "usted no a realizado una compra de este vehiculo";
+    $error_message = "usted no a realizado una compra de este vehículo";
 
 }elseif($row['compra_concretada']==0){
     $error_message = "su compra todavia no esta concretada";  
@@ -28,7 +28,7 @@ if (mysqli_num_rows($resultado_compra_check ) == 0) {
 
 if($rut == '')
 {
-    $error_message = "Debe inicar sesion para escribir una opnion";  
+    $error_message = "Debe inicar sesion para escribir una opnión";  
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
