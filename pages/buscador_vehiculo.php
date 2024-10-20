@@ -151,11 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-<<<<<<< HEAD
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM marcas");
-=======
                                         $consulta = mysqli_query($conexion, "SELECT * FROM marca");
->>>>>>> fmunozi
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
@@ -174,19 +170,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-<<<<<<< HEAD
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM anios");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['anio']}' >";
-=======
                                         $consulta = mysqli_query($conexion, "SELECT * FROM anio");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' >";
->>>>>>> fmunozi
                                             echo "{$row['anio']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -205,11 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-<<<<<<< HEAD
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['nombre_tipo_combustible']}' >";
-=======
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['id_tipo_combustible']}' >";
->>>>>>> fmunozi
                                             echo "{$row['nombre_tipo_combustible']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -224,19 +208,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
-<<<<<<< HEAD
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmisiones");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['nombre_transmision']}' >";
-=======
                                         $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['id_transmision']}' >";
->>>>>>> fmunozi
                                             echo "{$row['nombre_transmision']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -246,14 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <button type="submit" class="btn btn-success mt-4">Aplicar Filtros</button>                   
-=======
                     <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
                     
                     <button type="submit" name="Limpiar" id="Limpiar"class="btn btn-success mt-4" onclick="location.reload();" >Limpiar Filtros</button>
                                 
->>>>>>> fmunozi
                 </form>
             </div>
         
@@ -268,11 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 echo"<div class='card' style='width: 400px; background: #fffcf4; border-radius: 20px;'> ";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
-<<<<<<< HEAD
-                                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
-=======
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
->>>>>>> fmunozi
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
                                         $ruta_imagen = '../admin/mantenedores/vehiculo/fotos_vehiculos/' . basename($foto['ruta_foto']);
@@ -280,21 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
-<<<<<<< HEAD
-                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado']}</h6>
-                                            </div>";
-
-                                        echo"
-                                            <div class='card-img-overlay d-flex align-self-center justify-content-end mt-5 text-center'>
-                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>Color</h6>
-                                            </div>";
-                                    }
-
-                                    echo "<div class='card-body m-4' >";
-                                    $precio_formateado = number_format($fila['precio'], 0, ',', '.'); 
-                                    echo "<h5 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h5>
-                                            <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
-=======
                                                 <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
@@ -318,7 +271,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     echo "<h4 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h4>
                                             <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
                                     echo"<p class='card-text' style='color: #6D6D6D; font-weight: bold;'>{$fila['nombre_pais']}</p>";
->>>>>>> fmunozi
                                     echo"</div>";
                                 echo"</div>";
                             echo "</a>";
@@ -330,9 +282,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<<<<<<< HEAD
 </html>
-
-=======
-</html>
->>>>>>> fmunozi
