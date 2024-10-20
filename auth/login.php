@@ -8,7 +8,7 @@ $password = $_POST['password'];
 if($email == '' || $password == ''){
     $_SESSION['error'] = 'Usuario o contraseña vacios';
     $_SESSION['error_code'] = 401;
-    header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+    header('Location: /xampp/renzomotors/pages/login.php');
     exit();
 }
 $query = "SELECT * FROM usuario_registrado WHERE correo = '$email'";
@@ -19,19 +19,19 @@ if(mysqli_num_rows($result) > 0){
     if(!password_verify($password, $row['contrasenia'])){
         $_SESSION['error'] = 'Usuario o contraseña incorrectos';
         $_SESSION['error_code'] = 401;
-        header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+        header('Location: /xampp/renzomotors/pages/login.php');
         exit();
     }
     //CAMIAR POR NOMBRE USUARIO;
     $_SESSION['usuario'] = $row;
     //$_SESSION['usuario'] = "".$row['email']."";
-    header('Location: /'.$ENV['PREFIX'].'/pages/dashboard.php');
+    header('Location: /xampp/renzomotors/pages/dashboard.php');
     exit();
 }
 else{
     $_SESSION['error'] = 'Usuario o contraseña incorrectos';
     $_SESSION['error_code'] = 401;
-    header('Location: /'.$ENV['PREFIX'].'/pages/login.php');
+    header('Location: /xampp/renzomotors/pages/login.php');
     exit();
 }
 ?>
