@@ -10,7 +10,7 @@ include '../../navbaradmin.php';
 </head>
 
 <body class="pt-5">
-    <div class="container mt-5">
+    <div class="container-fluid px-5 mt-5">
         <h1 class="mb-4 text-center">Vehículos</h1>
         <a href="crear_vehiculo.php" class="btn btn-success mb-3">Agregar Vehículo</a>
         <div class="table-responsive">

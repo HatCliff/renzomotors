@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2024 a las 18:34:31
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 20-10-2024 a las 03:23:50
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -89,7 +89,8 @@ CREATE TABLE `anio` (
 
 INSERT INTO `anio` (`id_anio`, `anio`) VALUES
 (2, 2018),
-(3, 2020);
+(3, 2020),
+(4, 2023);
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,8 @@ INSERT INTO `color` (`id_color`, `codigo_color`, `nombre_color`) VALUES
 (3, '#000000', 'Negro'),
 (4, '#a8a8a8', 'Plateado'),
 (5, '#ffa200', 'Naranja'),
-(6, '#ff0000', 'Rojo');
+(6, '#ff0000', 'Rojo'),
+(7, '#000080', 'Azul marino');
 
 -- --------------------------------------------------------
 
@@ -153,7 +155,9 @@ INSERT INTO `color_vehiculo` (`id_color`, `id_vehiculo`) VALUES
 (3, 14),
 (4, 14),
 (5, 14),
-(6, 14);
+(6, 14),
+(6, 18),
+(7, 18);
 
 -- --------------------------------------------------------
 
@@ -215,7 +219,9 @@ CREATE TABLE `fotos_vehiculo` (
 --
 
 INSERT INTO `fotos_vehiculo` (`id_foto_vehiculo`, `ruta_foto`, `id_vehiculo`) VALUES
-(3, 'fotos_vehiculos/a02b6046424285d7b752ae786929286c.jpg', 14);
+(3, 'fotos_vehiculos/a02b6046424285d7b752ae786929286c.jpg', 14),
+(5, 'fotos_vehiculos/Dodge_challenger_gris.png', 18),
+(6, 'fotos_vehiculos/Dodge_challeger_rojo.png', 18);
 
 -- --------------------------------------------------------
 
@@ -236,9 +242,10 @@ CREATE TABLE `marca` (
 
 INSERT INTO `marca` (`id_marca`, `nombre_marca`, `logo_marca`, `descripcion_marca`) VALUES
 (2, 'Chevrolet', 'Chevrolet-Logo-2010.png', 'Chevrolet, también conocida como Chevy, es una icónica marca estadounidense reconocida por su amplia gama de vehículos, desde autos compactos hasta camionetas y SUV'),
-(3, 'Kya', 'Kya-Logo.jpg', 'Kia es una marca surcoreana que se ha ganado una reputación por fabricar vehículos confiables, con diseño moderno y tecnologías avanzadas.'),
+(3, 'Kia', 'Kya-Logo.jpg', 'Kia es una marca surcoreana que se ha ganado una reputación por fabricar vehículos confiables, con diseño moderno y tecnologías avanzadas.'),
 (4, 'Lamborghini', 'Lamborghini_logo.jpg', 'Lamborghini es una marca italiana de autos deportivos de lujo, conocida por su diseño vanguardista y alto rendimiento en superdeportivos.'),
-(5, 'Volkswagen', 'Volkswagen-logo.jpg', 'Volkswagen, de origen alemán, es una de las marcas más reconocidas a nivel mundial, famosa por su calidad de ingeniería y diseño.');
+(5, 'Volkswagen', 'Volkswagen-logo.jpg', 'Volkswagen, de origen alemán, es una de las marcas más reconocidas a nivel mundial, famosa por su calidad de ingeniería y diseño.'),
+(9, 'Dodge', 'dodge-logo_1919x428.jpg', 'Dodge es una marca automotriz estadounidense, famosa por sus vehículos potentes y de alto rendimiento, especialmente muscle cars como el Charger y el Challenger. Fundada en 1900, Dodge se ha destacado por su enfoque en la fuerza, velocidad y durabilidad, creando una sólida reputación en el mundo del automovilismo deportivo y utilitario.');
 
 -- --------------------------------------------------------
 
@@ -275,7 +282,8 @@ CREATE TABLE `pais` (
 INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 (1, 'Chile'),
 (3, 'Italia'),
-(4, 'Corea del Sur');
+(4, 'Corea del Sur'),
+(5, 'Estados Unidos');
 
 -- --------------------------------------------------------
 
@@ -599,7 +607,8 @@ INSERT INTO `tipo_combustible` (`id_tipo_combustible`, `nombre_tipo_combustible`
 (2, 'Gasolina 95'),
 (3, 'Gasolina 97'),
 (4, 'Diésel'),
-(5, 'Gas Licuado de Petróleo');
+(5, 'Gas Licuado de Petróleo'),
+(7, 'Gasolina Premium (de alto octanaje)');
 
 -- --------------------------------------------------------
 
@@ -636,7 +645,8 @@ CREATE TABLE `tipo_rueda` (
 
 INSERT INTO `tipo_rueda` (`id_tipo_rueda`, `nombre_tipo_rueda`) VALUES
 (1, 'Ruedas convencionales (All-Season)'),
-(2, 'Ruedas todoterreno (All-Terrain Tires)');
+(2, 'Ruedas todoterreno (All-Terrain Tires)'),
+(4, 'Ruedas de alto rendimiento (Performance Tires)');
 
 -- --------------------------------------------------------
 
@@ -656,7 +666,8 @@ CREATE TABLE `tipo_vehiculo` (
 INSERT INTO `tipo_vehiculo` (`id_tipo_vehiculo`, `nombre_tipo_vehiculo`) VALUES
 (1, 'Monovolumen (Minivan)'),
 (2, 'Convertible'),
-(3, 'Sedán');
+(3, 'Sedán'),
+(5, 'Muscle Car');
 
 -- --------------------------------------------------------
 
@@ -675,7 +686,8 @@ CREATE TABLE `transmision` (
 
 INSERT INTO `transmision` (`id_transmision`, `nombre_transmision`) VALUES
 (1, 'Manual (Mecánica)'),
-(2, 'Automática');
+(2, 'Automática de 6 velocidades'),
+(4, 'Automática de 8 velocidades');
 
 -- --------------------------------------------------------
 
@@ -764,7 +776,54 @@ CREATE TABLE `vehiculo` (
 --
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`) VALUES
-(14, 'Chevrolet Tracker', 12000000, 'usado', 'El Chevrolet Tracker 2015 es un SUV compacto que combina un diseño moderno y versatilidad. Ofrece un rendimiento eficiente con motores de cuatro cilindros y un interior cómodo, ideal para la ciudad y aventuras. Su equipamiento incluye tecnología básica y opciones de conectividad, haciendo de este modelo una opción práctica para familias y jóvenes.', 80, '2', 120, 2, 3, 4, 4, 2, 3, 1);
+(14, 'Chevrolet Tracker', 12000000, 'usado', 'El Chevrolet Tracker 2015 es un SUV compacto que combina un diseño moderno y versatilidad. Ofrece un rendimiento eficiente con motores de cuatro cilindros y un interior cómodo, ideal para la ciudad y aventuras. Su equipamiento incluye tecnología básica y opciones de conectividad, haciendo de este modelo una opción práctica para familias y jóvenes.', 80, '4', 120, 2, 3, 4, 4, 2, 3, 1),
+(18, 'Dodge Challenger', 27200000, 'nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 40, '2', 303, 9, 4, 7, 5, 4, 5, 4);
+
+--
+-- Disparadores `vehiculo`
+--
+DELIMITER $$
+CREATE TRIGGER `Actualizar_estado_vehiculo` AFTER UPDATE ON `vehiculo` FOR EACH ROW BEGIN
+    IF OLD.estado_vehiculo <> NEW.estado_vehiculo THEN
+        IF NEW.estado_vehiculo = 'usado' THEN
+
+            DELETE FROM vehiculo_nuevo WHERE id_vehiculo_nuevo = OLD.id_vehiculo;
+
+            INSERT INTO vehiculo_usado (id_vehiculo_usado, kilometraje)
+            VALUES (NEW.id_vehiculo, 0);
+        ELSEIF NEW.estado_vehiculo = 'nuevo' THEN
+
+            DELETE FROM vehiculo_usado WHERE id_vehiculo_usado = OLD.id_vehiculo;
+
+            INSERT INTO vehiculo_nuevo (id_vehiculo_nuevo)
+            VALUES (NEW.id_vehiculo);
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Agregar_vehiculo` AFTER INSERT ON `vehiculo` FOR EACH ROW BEGIN
+    IF NEW.estado_vehiculo = 'usado' THEN
+        INSERT INTO vehiculo_usado (id_vehiculo_usado, kilometraje)
+        VALUES (NEW.id_vehiculo, 0);
+    ELSEIF NEW.estado_vehiculo = 'nuevo' THEN
+        INSERT INTO vehiculo_nuevo (id_vehiculo_nuevo)
+        VALUES (NEW.id_vehiculo);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Eliminar_vehiculo` BEFORE DELETE ON `vehiculo` FOR EACH ROW BEGIN
+    -- Eliminar de vehiculo_usado si existe
+    DELETE FROM vehiculo_usado WHERE id_vehiculo_usado = OLD.id_vehiculo;
+
+    -- Eliminar de vehiculo_nuevo si existe
+    DELETE FROM vehiculo_nuevo WHERE id_vehiculo_nuevo = OLD.id_vehiculo;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -775,6 +834,13 @@ INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado
 CREATE TABLE `vehiculo_nuevo` (
   `id_vehiculo_nuevo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_nuevo`
+--
+
+INSERT INTO `vehiculo_nuevo` (`id_vehiculo_nuevo`) VALUES
+(18);
 
 -- --------------------------------------------------------
 
@@ -824,6 +890,13 @@ CREATE TABLE `vehiculo_usado` (
   `id_vehiculo_usado` int(11) NOT NULL,
   `kilometraje` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_usado`
+--
+
+INSERT INTO `vehiculo_usado` (`id_vehiculo_usado`, `kilometraje`) VALUES
+(14, 0);
 
 --
 -- Índices para tablas volcadas
@@ -1123,7 +1196,7 @@ ALTER TABLE `vehiculo_usado`
 -- AUTO_INCREMENT de la tabla `anio`
 --
 ALTER TABLE `anio`
-  MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `cobertura`
@@ -1135,7 +1208,7 @@ ALTER TABLE `cobertura`
 -- AUTO_INCREMENT de la tabla `color`
 --
 ALTER TABLE `color`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `financiamiento`
@@ -1153,19 +1226,19 @@ ALTER TABLE `fotos_accesorio`
 -- AUTO_INCREMENT de la tabla `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
-  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -1225,7 +1298,7 @@ ALTER TABLE `tipo_accesorio`
 -- AUTO_INCREMENT de la tabla `tipo_combustible`
 --
 ALTER TABLE `tipo_combustible`
-  MODIFY `id_tipo_combustible` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tipo_combustible` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_pago`
@@ -1237,25 +1310,25 @@ ALTER TABLE `tipo_pago`
 -- AUTO_INCREMENT de la tabla `tipo_rueda`
 --
 ALTER TABLE `tipo_rueda`
-  MODIFY `id_tipo_rueda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_rueda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_vehiculo`
 --
 ALTER TABLE `tipo_vehiculo`
-  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `transmision`
 --
 ALTER TABLE `transmision`
-  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculo`
 --
 ALTER TABLE `vehiculo`
-  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
