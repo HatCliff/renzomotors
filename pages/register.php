@@ -11,37 +11,48 @@
 
 <body>
     <?php
-        /*
+
         require('../config/conexion.php');
-        // If form submitted, insert values into the database.
-            if (isset($_REQUEST['submit'])) {
+        // Si se envía el formulario, inserte valores en la base de datos.
+            if (isset($_POST['submit'])) {
             
-                $nombre = stripslashes($_REQUEST['nombre']); // removes backslashes
+                $nombre = stripslashes($_POST['nombre']); // removes backslashes
                 $nombre = mysqli_real_escape_string($conexion, $nombre); //escapes special characters in a string
 
-                $apellido = stripslashes($_REQUEST['apellido']);
+                $apellido = stripslashes($_POST['apellido']);
                 $apellido = mysqli_real_escape_string($conexion, $apellido);
 
-                $rut = stripslashes($_REQUEST['rut']);
+                $rut = stripslashes($_POST['rut']);
                 $rut = mysqli_real_escape_string($conexion, $rut);
 
-                $contrasenia = stripslashes($_REQUEST['contrasenia']);
+                $contrasenia = stripslashes($_POST['contrasenia']);
                 $contrasenia = mysqli_real_escape_string($conexion, $contrasenia);
 
-                $correo = stripslashes($_REQUEST['correo']);
+                $correo = stripslashes($_POST['correo']);
                 $correo = mysqli_real_escape_string($conexion, $correo);
 
                 //$tipo_persona = mysqli_real_escape_string($conexion, $tipo_persona);
+                $contrasenia =  password_hash($contrasenia, PASSWORD_DEFAULT);
 
-                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '".md5($contrasenia)."','$correo')";
+                $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '$contrasenia','$correo')";
                 $result = mysqli_query($conexion, $query);
 
+                
+
                 if($result){
-                    echo "Se registro correctamente";
+                    $_SESSION['success'] = "Registro exitoso. Por favor, inicia sesión.";
+                    header('Location: login.php'); // Redirigir al login
+                    exit();
+                } else {
+                    $_SESSION['error'] = "Error al registrar el usuario.";
+                    $_SESSION['error_code'] = "Registro";
+                    header('Location: register.php');
+                    exit();
                 }
             }else{
-            */  
+                
         ?>
+
             <div class="container px-5 ">
 
                 <div class="row justify-content-sm-center">
@@ -49,7 +60,7 @@
                     <div class="col-lg-6 col-sm-12 px-5 mt-2">
                         <div class="card px-5 mt-4">
                             <div class="card-body">
-                                <form action="./../auth/register.php" name="" method="post">
+                                <form action=""  name="register"  method="post">
                                     <div class="container d-flex my-3">
                                         <div class="d-flex justify-content-center align-items-center w-100">
                                             <h5 class="mb-3">Registro</h5>
@@ -78,22 +89,24 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <label for="rut" class="form-label">RUN</label>
-                                            <input type="text" name="rut" maxlength="12" size="12" pattern="^\d{1,2}\.?\d{3}\.?\d{3}-?[\dkK]$" placeholder="12.345.125-5" class="form-control"  required>
+                                            <input type="text" name="rut" maxlength="12" size="12" pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" placeholder="12.345.125-5" class="form-control"  required/>
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <label for="inputEmail4" class="form-label">Correo</label>
-                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$"  required>
+                                            <input type="email" name="correo" class="form-control" id="inputEmail4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|cl)$" title="El correo debe contener un arroba (@) y terminar con .com o .cl"  required>
                                         </div>
                                         
                                     </div>
 
                                     <div class="col-12">
+                                        <div class="form-group mb-3">
                                         <label for="inputPassword4" class="form-label">Contraseña</label>
-                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4" pattern="(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[.-@]).{6,}" required>
+                                        <input type="password" name="contrasenia" class="form-control" id="inputPassword4" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}" title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." required>
                                     </div>
+
                                     <div class="col-12 d-flex justify-content-center mb-2 mt-4">
                                         <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>
                                     </div>
@@ -108,7 +121,7 @@
                 </div>
             </div>
         <?php 
-        
+    }
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

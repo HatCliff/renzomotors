@@ -1,5 +1,5 @@
 <?php
-    $ENV = parse_ini_file(__DIR__ . "/../.env");
+    $ENV = parse_ini_file(__DIR__ . "/../.env");//leer archivo
     session_start();
     if(!isset($_SESSION['usuario'])){
         header('Location: /'.$ENV['PREFIX'].'pages/login');

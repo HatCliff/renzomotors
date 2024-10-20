@@ -3,20 +3,20 @@ $ENV = parse_ini_file(__DIR__ . "/../.env");
 require "./../config/conexion.php";
 session_start();
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-if($email == '' || $password == ''){
+$correo = $_POST['correo'];
+$contrasenia = $_POST['contrasenia'];
+if($correo == '' || $contrasenia == ''){
     $_SESSION['error'] = 'Usuario o contraseña vacios';
     $_SESSION['error_code'] = 401;
     header('Location: /xampp/renzomotors/pages/login.php');
     exit();
 }
-$query = "SELECT * FROM usuario_registrado WHERE correo = '$email'";
+$query = "SELECT * FROM usuario_registrado WHERE correo = '$correo'";
 
 $result = mysqli_query($conexion, $query);
 if(mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_assoc($result);
-    if(!password_verify($password, $row['contrasenia'])){
+    if(!password_verify($contrasenia, $row['contrasenia'])){
         $_SESSION['error'] = 'Usuario o contraseña incorrectos';
         $_SESSION['error_code'] = 401;
         header('Location: /xampp/renzomotors/pages/login.php');
