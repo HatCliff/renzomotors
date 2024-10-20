@@ -1,5 +1,9 @@
 <?php 
+<<<<<<< HEAD
 include '../conexion.php';
+=======
+include '../../../config/conexion.php';
+>>>>>>> fmunozi
 
 $id_tipo_rueda = $_GET['id'];
 //eliminar elemento del mantenedor

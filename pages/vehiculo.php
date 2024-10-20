@@ -1,6 +1,10 @@
 <?php
 include('../config/conexion.php'); 
+<<<<<<< HEAD
 include('../components/navbar.php'); 
+=======
+include('../components/navbaruser.php'); 
+>>>>>>> fmunozi
 
 $id_fina = $_GET['id'];
 ?>
@@ -56,5 +60,9 @@ $id_fina = $_GET['id'];
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<<<<<<< HEAD
 </html>
 
+=======
+</html>
+>>>>>>> fmunozi

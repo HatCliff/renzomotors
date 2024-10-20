@@ -1,6 +1,7 @@
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
+
 
 $id_color = $_GET['id_color'];
 

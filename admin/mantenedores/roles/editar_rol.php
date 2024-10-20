@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 $id_rol = $_GET['id_rol'];
 

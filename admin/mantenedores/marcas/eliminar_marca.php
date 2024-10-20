@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 include '../conexion.php';
+=======
+include '../../../config/conexion.php';
+>>>>>>> fmunozi
 
 $id = $_GET['id_marca'];
 $logo_anterior_tabla = "SELECT logo_marca FROM marca WHERE id_marca = $id";

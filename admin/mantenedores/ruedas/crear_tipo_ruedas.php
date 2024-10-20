@@ -1,6 +1,11 @@
 <?php
+<<<<<<< HEAD
 include '../conexion.php';
 include '../navbar.php';
+=======
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
+>>>>>>> fmunozi
 ?>
 <!DOCTYPE html>
 <html lang="es">

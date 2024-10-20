@@ -1,6 +1,11 @@
 <?php 
+<<<<<<< HEAD
 include '../conexion.php';
 include '../navbar.php';
+=======
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
+>>>>>>> fmunozi
 
 //obtener los datos previos del elemento
 if ($_GET['id']) {

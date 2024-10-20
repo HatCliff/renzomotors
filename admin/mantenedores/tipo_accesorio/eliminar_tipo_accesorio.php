@@ -1,7 +1,7 @@
 
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_tipo_accesorio = $_GET['id_tipo_accesorio'];
 

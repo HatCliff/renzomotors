@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 
 // Obtener todos los tipos de accesorios

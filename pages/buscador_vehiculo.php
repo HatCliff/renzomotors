@@ -1,33 +1,76 @@
 <?php
 include('../config/conexion.php'); 
-include('../components/navbar.php'); 
+include('../components/navbaruser.php'); 
 
-$query = "SELECT v.*, m.nombre_marca, a.anio
-            FROM vehiculos v
-            JOIN marcas m ON v.id_marca = m.id_marca
-            JOIN anios a ON v.id_anio = a.id_anio
+$query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
+            FROM vehiculo v
+            JOIN marca m ON v.id_marca = m.id_marca
+            JOIN anio a ON v.id_anio = a.id_anio
+            JOIN pais p ON v.id_pais = p.id_pais
             WHERE 1=1";
 
 $resultado = mysqli_query($conexion, $query);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nombre_modelo = $_POST['modelo'] ?? '';
-    $estado = $_POST['estado'] ?? [];
-    $orden = $_POST['orden'] ?? [];
-    $id_marcas = $_POST['id_marcas'] ?? [];
-    $id_anios = $_POST['id_anios'] ?? [];
-    $id_combustible = $_POST['id_combustible'] ?? [];
-    $id_transmision = $_POST['id_transmision'] ?? [];
 
-    if (!empty($id_marcas)) {
-        $marcas_list = implode(',', array_map('intval', $id_marcas)); // Sanitizar
-        $query .= " AND v.id_marca IN ($marcas_list)";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['Limpiar'])) {
+        $query = "SELECT v.*, m.nombre AS marca FROM vehiculos v JOIN marcas m ON v.id_marca = m.id_marca";
+       
+    } else {
+        $nombre_modelo =  $_POST['modelo'] ?? '';
+        $estado = $_POST['estado'] ?? [];
+        $orden = $_POST['orden']?? '';
+        $id_marcas = $_POST['id_marcas'] ?? [];
+        $id_anios = $_POST['id_anios'] ?? [];
+        $id_combustible = $_POST['id_combustible'] ?? [];
+        $id_transmision = $_POST['id_transmision'] ?? [];
+        
+        if (!empty($id_marcas)) {
+            $marcas_list = implode(',', array_map('intval', $id_marcas)); // Sanitizar
+            $query .= " AND v.id_marca IN ($marcas_list)";
+        }
+
+        if (!empty($estado)) {
+            $estado_list = implode(',', array_map('intval', $estado)); // Sanitizar
+            $query .= " AND v.estado IN ($estado_list)";
+        }
+
+        if (!empty($id_anios)) {
+            $anios_list = implode(',', array_map('intval', $id_anios)); // Sanitizar
+            $query .= " AND v.id_anio IN ($anios_list)";
+        }
+
+        if (!empty($id_combustibles)) {
+            $combustibles_list = implode(',', array_map('intval', $id_combustibles)); // Sanitizar
+            $query .= " AND v.id_tipo_combustible IN ($combustibles_list)";
+        }
+
+        if (!empty($id_transmision)) {
+            $transmision_list = implode(',', array_map('intval', $id_transmision)); // Sanitizar
+            $query .= " AND v.id_transmision IN ($transmision_list)";
+        }
+
+        if ($orden == 'mayor_a_menor') {
+            $query .= " ORDER BY precio DESC";
+        } elseif ($orden == 'menor_a_mayor') {
+            $query .= " ORDER BY precio ASC";
+        }
+
+        if(!empty($nombre_modelo)){
+            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelo%'";
+        }
+        
+        $resultado = mysqli_query($conexion, $query);
+        // Comprobar si no hay resultados
+        if (mysqli_num_rows($resultado) == 0) {
+            echo "<script>alert('No se encontraron resultados.');</script>";
+        }
+   
     }
-    
-$resultado = mysqli_query($conexion, $query);
-    
-    
+
 }
+    
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,7 +91,11 @@ $resultado = mysqli_query($conexion, $query);
             <!-- buscador y filtros -->
             <div class="row mb-4">
                 <h1 class="mb-4">Vehiculos</h1>
+<<<<<<< HEAD
                 <form method="POST" enctype="multipart/form-data">
+=======
+                <form method="POST" enctype="multipart/form-data" >
+>>>>>>> fmunozi
                     <div class="d-flex align-items-center">
                         <div class="col-5 me-5 ">
                             <input class="form-control" type="text" name="modelo" placeholder="Modelo del vehículo" aria-label="Modelo del vehículo">
@@ -79,12 +126,20 @@ $resultado = mysqli_query($conexion, $query);
                                 <ul class="dropdown-menu" aria-labelledby="ordenDropdown">
                                     <li class="dropdown-item">
                                         <label>
+<<<<<<< HEAD
                                             <input type="checkbox" name="orden[]" value="mayor_a_menor"> Precio de mayor a menor
+=======
+                                            <input type="radio" name="orden" value="mayor_a_menor"> Precio de mayor a menor
+>>>>>>> fmunozi
                                         </label>
                                     </li>
                                     <li class="dropdown-item">
                                         <label>
+<<<<<<< HEAD
                                             <input type="checkbox" name="orden[]" value="menor_a_mayor"> Precio de menor a mayor
+=======
+                                            <input type="radio" name="orden" value="menor_a_mayor"> Precio de menor a mayor
+>>>>>>> fmunozi
                                         </label>
                                     </li>
                                 </ul>
@@ -96,7 +151,11 @@ $resultado = mysqli_query($conexion, $query);
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
+<<<<<<< HEAD
                                         $consulta = mysqli_query($conexion, "SELECT * FROM marcas");
+=======
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM marca");
+>>>>>>> fmunozi
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
@@ -115,11 +174,19 @@ $resultado = mysqli_query($conexion, $query);
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
+<<<<<<< HEAD
                                         $consulta = mysqli_query($conexion, "SELECT * FROM anios");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['anio']}' >";
+=======
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM anio");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' >";
+>>>>>>> fmunozi
                                             echo "{$row['anio']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -138,7 +205,11 @@ $resultado = mysqli_query($conexion, $query);
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
+<<<<<<< HEAD
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['nombre_tipo_combustible']}' >";
+=======
+                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_tipo_combustible']}' >";
+>>>>>>> fmunozi
                                             echo "{$row['nombre_tipo_combustible']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -153,11 +224,19 @@ $resultado = mysqli_query($conexion, $query);
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         // Consulta a la base de datos los tipos de financiamiento y sus datos
+<<<<<<< HEAD
                                         $consulta = mysqli_query($conexion, "SELECT * FROM transmisiones");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['nombre_transmision']}' >";
+=======
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_transmision']}' >";
+>>>>>>> fmunozi
                                             echo "{$row['nombre_transmision']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -167,7 +246,14 @@ $resultado = mysqli_query($conexion, $query);
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <button type="submit" class="btn btn-success mt-4">Aplicar Filtros</button>                   
+=======
+                    <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
+                    
+                    <button type="submit" name="Limpiar" id="Limpiar"class="btn btn-success mt-4" onclick="location.reload();" >Limpiar Filtros</button>
+                                
+>>>>>>> fmunozi
                 </form>
             </div>
         
@@ -182,7 +268,11 @@ $resultado = mysqli_query($conexion, $query);
                                 echo"<div class='card' style='width: 400px; background: #fffcf4; border-radius: 20px;'> ";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
+<<<<<<< HEAD
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculos WHERE id_vehiculo = $id_vehiculo");
+=======
+                                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
+>>>>>>> fmunozi
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
                                         $ruta_imagen = '../admin/mantenedores/vehiculo/fotos_vehiculos/' . basename($foto['ruta_foto']);
@@ -190,6 +280,7 @@ $resultado = mysqli_query($conexion, $query);
 
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
+<<<<<<< HEAD
                                                 <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado']}</h6>
                                             </div>";
 
@@ -203,6 +294,31 @@ $resultado = mysqli_query($conexion, $query);
                                     $precio_formateado = number_format($fila['precio'], 0, ',', '.'); 
                                     echo "<h5 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h5>
                                             <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
+=======
+                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
+                                            </div>";
+                                        $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
+                                            FROM color_vehiculo vc
+                                            JOIN color c ON vc.id_color = c.id_color
+                                            WHERE vc.id_vehiculo = $id_vehiculo");
+                                        while ($color = mysqli_fetch_assoc($colores_resultado)) {
+                                            while ($color = mysqli_fetch_assoc($colores_resultado)) {
+                                                $codigo_color = htmlspecialchars($color['codigo_color']); 
+                                                echo "
+                                                <div class='card-img-overlay d-flex align-self-center justify-content-end mt-5 text-center'>
+                                                    <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'>Color</h6>
+                                                </div>";
+                                            }
+                                        }
+                                        
+                                    }
+
+                                    echo "<div class='card-body m-4' >";
+                                    $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.'); 
+                                    echo "<h4 class='card-title' style='font-weight: bold'>{$fila['nombre_modelo']}</h4>
+                                            <p class='card-text' style='color:426B1F; font-weight: bold; '>\$ " . $precio_formateado . " CLP  -  {$fila['anio']}</p>";
+                                    echo"<p class='card-text' style='color: #6D6D6D; font-weight: bold;'>{$fila['nombre_pais']}</p>";
+>>>>>>> fmunozi
                                     echo"</div>";
                                 echo"</div>";
                             echo "</a>";
@@ -214,5 +330,9 @@ $resultado = mysqli_query($conexion, $query);
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<<<<<<< HEAD
 </html>
 
+=======
+</html>
+>>>>>>> fmunozi

@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 //si se envia,insertar elemento en el mantenedor
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_permiso = $_POST['nombre_permiso'];

@@ -1,5 +1,5 @@
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_foto= $_GET['id_foto'];
 $id_vehiculo= $_GET['id_vehiculo'];

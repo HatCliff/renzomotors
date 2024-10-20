@@ -1,5 +1,6 @@
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
+
 
 $id_foto= $_GET['id_foto'];
 $sku= $_GET['sku_accesorio'];

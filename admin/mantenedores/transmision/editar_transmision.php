@@ -1,6 +1,6 @@
 <?php
-include '../conexion.php';
-include '../navbar.php';
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
 
 //consultar los datos asociados al id desde el mantenedor
 if ($_GET['id_transmision']) {

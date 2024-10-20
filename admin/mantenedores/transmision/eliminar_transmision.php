@@ -1,6 +1,6 @@
 
 <?php 
-include '../conexion.php'; 
+include '../../../config/conexion.php';
 
 $id_transmision = $_GET['id_transmision'];
 
