@@ -16,6 +16,9 @@ if ($result_fotos) {
         }
     }
 }
+//eliminar las opiniones 
+$query_opinion = "DELETE FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo";
+mysqli_query($conexion, $query_opinion);
 
 // eliminar las fotos de la base de datos
 $query_eliminar_fotos = "DELETE FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo";

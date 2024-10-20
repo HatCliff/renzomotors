@@ -1,11 +1,16 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 include '../conexion.php';
 include '../navbar.php';
 =======
 include '../../../config/conexion.php';
 include '../../navbaradmin.php';
 >>>>>>> fmunozi
+=======
+include '../../../config/conexion.php';
+include '../../navbaradmin.php';
+>>>>>>> origin/macarrascoa
 ?>
 <!DOCTYPE html>
 <html lang="es">

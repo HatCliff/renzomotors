@@ -32,6 +32,14 @@ if (!$resultado_vehiculos) {
     <link rel="shortcut icon" href="logo.png" type="image/png">
 </head>
 <body class="pt-5 mt-3">
+<body>
+    <?php
+    include('admin/navbaradmin.php');
+    ?>
+    <div class="container mt-5 pt-5">
+        <h1>Bienvenido a RenzoMotors</h1>
+        <p>Tu automotora de confianza</p>
+    </div>
 
 <style>
         /* Ajustar el tamaño de las imágenes del carrusel */

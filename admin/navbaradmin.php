@@ -1,5 +1,6 @@
 <?php
 $carpetaMain = 'http://localhost/xampp/renzomotors/';
+$carpetaMantenedores = $carpetaMain . 'admin/mantenedores/'; 
 ?>
 
 <!-- NAV -->
@@ -47,26 +48,86 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <ul class="list-unstyled">
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/vehiculo/mantenedor_vehiculos.php'>Mantenedor de Vehículos</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/marcas/mantenedor_marcas.php'>Mantenedor de Marcas</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/paises/mantenedor_paises.php'>Mantenedor de Paises</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/anios/mantenedor_anios.php'>Mantenedor de Años</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/transmision/mantenedor_transmisiones.php'>Mantenedor de Transmisiones</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/tipo_vehiculo/mantenedor_tipo_vehiculos.php'>Mantenedor de Tipo de Vehiculos</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/tipo_combustible/mantenedor_tipo_combustibles.php'>Mantenedor de Tipo de Combustibles</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/colores/mantenedor_colores.php'>Mantenedor de Colores Vehiculos</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/sucursales/mantenedor_sucursales.php'>Mantenedor de Sucursales</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/servicios/mantenedor_servicios.php'>Mantenedor de Servicios</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/accesorios/mantenedor_accesorios.php'>Mantenedor de Accesorios</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/tipo_accesorio/mantenedor_tipo_accesorios.php'>Mantenedor de Tipo de Accesorios</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/seguros/mantenedor_seguros.php'>Mantenedor de Seguros</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/proveedores/mantenedor_proveedores.php'>Mantenedor de Proveedores de Seguros</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/tipos_cobertura/mantenedor_tipo_coberturas.php'>Mantenedor de Tipos de Coberturas</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/tipo_pagos/mantenedor_tipo_pagos.php'>Mantenedor de Tipos de Pago</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/financiamiento/mantenedor_financiamientos.php'>Mantenedor de Financiamientos</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/roles/mantenedor_roles.php'>Mantenedor de Roles</a></li>
-            <li><a class="list-group-item text-bg-dark border-0" href='<?php echo $carpetaMain; ?>admin/mantenedores/permisos/mantenedor_permisos.php'>Mantenedor de Permisos</a></li>
-        </ul>
+    <ul class="list-unstyled">
+    <div class="accordion" id="AcordeonVehiculos">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Vehículos
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#AcordeonVehiculos">
+            <div class="accordion-body">
+                <ul class="list-group">
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>anios/mantenedor_anios.php'>Años</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>marcas/mantenedor_marcas.php'>Marcas</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>colores/mantenedor_colores.php'>Colores Vehículos</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_paises.php'>Países</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>ruedas/mantenedor_ruedas.php'>Ruedas</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipo_combustible/mantenedor_tipo_combustibles.php'>Tipos de Combustibles</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>transmision/mantenedor_transmisiones.php'>Transmisiones</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipo_vehiculo/mantenedor_tipo_vehiculos.php'>Tipo de Vehículos</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>vehiculo/mantenedor_vehiculos.php'>Vehículos</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Accesorios
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#AcordeonVehiculos">
+            <div class="accordion-body">
+                <ul class="list-group">
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>accesorios/mantenedor_accesorios.php'>Accesorios</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipo_accesorio/mantenedor_tipo_accesorios.php'>Tipo de Accesorios</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Seguros y Financiamientos
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#AcordeonVehiculos">
+            <div class="accordion-body">
+                <ul class="list-group">                        
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>financiamiento/mantenedor_financiamientos.php'>Financiamientos</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>proveedores/mantenedor_proveedores.php'>Proveedores de Seguros</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>seguros/mantenedor_seguros.php'>Seguros</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipos_cobertura/mantenedor_tipo_coberturas.php'>Tipos de Coberturas</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipo_pagos/mantenedor_tipo_pagos.php'>Tipos de Pago</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Sucursales y Personal
+            </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#AcordeonVehiculos">
+            <div class="accordion-body">
+                <ul class="list-group">
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_permisos.php'>Permisos</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>roles/mantenedor_roles.php'>Roles</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>servicios/mantenedor_servicios.php'>Servicios</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>sucursales/mantenedor_sucursales.php'>Sucursales</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </ul>
+    </div>
+
 </div>

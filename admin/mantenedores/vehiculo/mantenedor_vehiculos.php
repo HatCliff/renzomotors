@@ -11,6 +11,7 @@ include '../../navbaradmin.php';
 
 <body class="pt-5">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div class="container-fluid px-5 mt-5">
         <h1 class="mb-4">Vehículos</h1>
         <a href="crear_vehiculo.php" class="btn btn-success mb-3">Agregar Vehículo</a>
@@ -76,6 +77,9 @@ include '../../navbaradmin.php';
                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
 =======
     <div class="container mt-5">
+=======
+    <div class="container-fluid px-5 mt-5">
+>>>>>>> origin/macarrascoa
         <h1 class="mb-4 text-center">Vehículos</h1>
         <a href="crear_vehiculo.php" class="btn btn-success mb-3">Agregar Vehículo</a>
         <div class="table-responsive">
@@ -136,7 +140,10 @@ include '../../navbaradmin.php';
                                 <td>
                                     <div id='carousel-{$fila['id_vehiculo']}' class='carousel slide' data-bs-ride='carousel' style='width: 200px; height: 150px;'>
                                         <div class='carousel-inner'>";
+<<<<<<< HEAD
 >>>>>>> fmunozi
+=======
+>>>>>>> origin/macarrascoa
 
                         $id_vehiculo = $fila['id_vehiculo'];
                         $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
@@ -161,6 +168,7 @@ include '../../navbaradmin.php';
                             </td>";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     // Obtener todos los colores asociados al mantenedor
                     echo "<td>";
                     $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
@@ -168,6 +176,8 @@ include '../../navbaradmin.php';
                                                                   JOIN color c ON cv.id_color = c.id_color
                                                                   WHERE cv.id_vehiculo = $id_vehiculo");
 =======
+=======
+>>>>>>> origin/macarrascoa
                         echo "<td>";
                         $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
                                                                           FROM color_vehiculo cv
@@ -178,7 +188,10 @@ include '../../navbaradmin.php';
                                   title='{$color['nombre_color']}'></span>";
                         }
                         echo "</td>";
+<<<<<<< HEAD
 >>>>>>> fmunozi
+=======
+>>>>>>> origin/macarrascoa
 
                         echo "<td>
                                   <a href='editar_vehiculo.php?id={$fila['id_vehiculo']}' class='btn btn-primary'>Editar</a>
