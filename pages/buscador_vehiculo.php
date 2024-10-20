@@ -16,8 +16,7 @@ $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
             JOIN pais p ON v.id_pais = p.id_pais
             WHERE 1=1";
 
-
-
+$resultado = mysqli_query($conexion, $query);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_POST['Limpiar'])) {    
@@ -100,12 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row mb-4  ">
             <!-- buscador y filtros -->
             <div class="row mb-4">
-                <h1 class="mb-4">Vehiculos</h1>
-                <form method="POST" enctype="multipart/form-data">
-                <form method="POST" enctype="multipart/form-data" >
-                    <div class="d-flex align-items-center">
-                        <div class="col-5 me-5 ">
-                            <input class="form-control" type="text" name="modelo" placeholder="Modelo del vehículo" aria-label="Modelo del vehículo">
                 <h1 class="mb-4">Vehículos</h1>
                 <form method="POST" enctype="multipart/form-data" >
                     <div class="d-flex flex-column flex-md-row align-items-center">
@@ -138,17 +131,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="ordenDropdown">
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="checkbox" name="orden[]" value="mayor_a_menor"> Precio de mayor a menor
-                                            <input type="radio" name="orden" value="mayor_a_menor"> Precio de mayor a menor
                                             <input type="radio" name="orden" value="mayor_a_menor" <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>> Precio de mayor a menor
-
                                         </label>
                                     </li>
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="checkbox" name="orden[]" value="menor_a_mayor"> Precio de menor a mayor
-                                            <input type="radio" name="orden" value="menor_a_mayor"> Precio de menor a mayor
-
                                             <input type="radio" name="orden" value="menor_a_mayor" <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>> Precio de menor a mayor
                                         </label>
                                     </li>
@@ -161,9 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
                                         
-                                        // Consulta a la base de datos los tipos de financiamiento y sus datos
                                         $consulta = mysqli_query($conexion, "SELECT * FROM marca");
-                                        
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             $isChecked = in_array($row['id_marca'], $id_marcas) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
@@ -182,13 +167,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
-                                        // Consulta a la base de datos los tipos de financiamiento y sus datos
                                         $consulta = mysqli_query($conexion, "SELECT * FROM anio");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             $isChecked = in_array($row['id_anio'], $id_anios) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' >";
                                             echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' $isChecked>";
                                             echo "{$row['anio']}";
                                             echo "</label>";
@@ -203,13 +186,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="combusDropdown">
                                     <?php
-                                        // Consulta a la base de datos los tipos de financiamiento y sus datos
                                         $consulta = mysqli_query($conexion, "SELECT * FROM tipo_combustible");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             $isChecked = in_array($row['id_tipo_combustible'], $id_combustible) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_tipo_combustible']}' >";
                                             echo "<input type='checkbox' name='id_combustible[]' value='{$row['id_tipo_combustible']}' $isChecked>";
                                             echo "{$row['nombre_tipo_combustible']}";
                                             echo "</label>";
@@ -224,13 +205,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
                                     <?php
-                                        // Consulta a la base de datos los tipos de financiamiento y sus datos
                                         $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
                                         while ($row = mysqli_fetch_assoc($consulta)) {
                                             $isChecked = in_array($row['id_transmision'], $id_transmision) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_transmision']}' >";
                                             echo "<input type='checkbox' name='id_transmision[]' value='{$row['id_transmision']}' $isChecked>";
                                             echo "{$row['nombre_transmision']}";
                                             echo "</label>";
@@ -241,16 +220,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
-                    
-                    <button type="submit" name="Limpiar" id="Limpiar"class="btn btn-success mt-4" onclick="location.reload();" >Limpiar Filtros</button>
                     <div class="d-flex gap-2 mt-2">
                         <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
                         <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4"  >Limpiar Filtros</button>
                     </div>                
                 </form>
                 <div class='alert alert-danger alert-container' id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
-            </div>        
+            </div>
+        
             <!-- Muestra todos los vehiculos -->
             <div class="row">
                 <?php
@@ -272,8 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
                                                 <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
-                                         //       <h6 class='card-title border p-2 text-capitalize' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
-                                         //   </div>";
+
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
                                             FROM color_vehiculo vc
                                             JOIN color c ON vc.id_color = c.id_color
