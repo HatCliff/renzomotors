@@ -1,13 +1,7 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
-include '../conexion.php';
-=======
+
 include '../../../config/conexion.php';
->>>>>>> fmunozi
-=======
-include '../../../config/conexion.php';
->>>>>>> origin/macarrascoa
+
 
 $id = $_GET['id_marca'];
 $logo_anterior_tabla = "SELECT logo_marca FROM marca WHERE id_marca = $id";
