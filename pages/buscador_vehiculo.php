@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
-                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
+                                                <h6 class='card-title border p-2 text-capitalize' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
 
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
