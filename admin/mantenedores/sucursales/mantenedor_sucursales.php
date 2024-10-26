@@ -20,6 +20,7 @@ include '../../navbaradmin.php';
                     <th>Nombre Sucursal</th>
                     <th>Encargado</th>
                     <th>Dirección</th>
+                    <th>Zona</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@ include '../../navbaradmin.php';
                             <td>{$fila['nombre_sucursal']}</td>
                             <td>{$fila['encargado_sucursal']}</td>
                             <td>{$fila['direccion_sucursal']}</td>
+                            <td class='text-capitalize'>{$fila['zona_sucursal']}</td>
                             <td>
                                 <a href='editar_sucursal.php?id={$fila['id_sucursal']}' class='btn btn-primary'>Editar</a>
                                 <a href='eliminar_sucursal.php?id={$fila['id_sucursal']}' class='btn btn-danger' onclick='return confirm(\"¿Estás seguro de eliminar esta sucursal?\");'>Eliminar</a>

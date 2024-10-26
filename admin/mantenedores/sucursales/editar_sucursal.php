@@ -18,9 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_sucursal = $_POST['nombre_sucursal'];
     $encargado_sucursal = $_POST['encargado_sucursal'];
     $direccion_sucursal = $_POST['direccion_sucursal'];
+    $zona_sucursal = $_POST['zona'];
 
     $query = "UPDATE sucursal 
-              SET nombre_sucursal='$nombre_sucursal', encargado_sucursal='$encargado_sucursal', direccion_sucursal='$direccion_sucursal'
+              SET nombre_sucursal='$nombre_sucursal', encargado_sucursal='$encargado_sucursal', direccion_sucursal='$direccion_sucursal', zona_sucursal = '$zona_sucursal'
               WHERE id_sucursal=$id_sucursal";
     $resultado = mysqli_query($conexion, $query);
 
@@ -54,6 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-3">
                 <label for="direccion_sucursal" class="form-label">Dirección Sucursal</label>
                 <input type="text" class="form-control" name="direccion_sucursal" value="<?php echo $sucursal['direccion_sucursal']; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="zona" class="form-label">Zona Geográfica</label>
+                <select class="form-select" name="zona" required>
+                    <option value="norte"    <?php echo ($sucursal['zona_sucursal'] == 'norte') ? 'selected' : ''; ?>>Norte</option>
+                    <option value="centro"   <?php echo ($sucursal['zona_sucursal'] == 'centro') ? 'selected' : ''; ?>>Centro</option>
+                    <option value="sur"      <?php echo ($sucursal['zona_sucursal'] == 'sur') ? 'selected' : ''; ?>>Sur</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Sucursal</button>
         </form>

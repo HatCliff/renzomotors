@@ -159,8 +159,25 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             }
                             ?>
                             <div class="d-grid">
-                                <a href="reservar_vehiculo.php?id=<?php echo $id_vehiculo; ?>" class="btn btn-primary">Reservar</a>
+                                <a href="reservar_vehiculo.php?id=<?php echo $id_vehiculo; ?>"
+                                    class="btn btn-primary">Reservar</a>
                             </div>
+                            <div class="text-center pt-3 d-flex justify-content-center">
+                            <?php
+                            $modelo_query = "SELECT precio_modelo FROM vehiculo WHERE id_vehiculo = '$id_vehiculo'";
+                            $modelos = mysqli_query($conexion, $modelo_query);
+                            while ($modelo = mysqli_fetch_assoc($modelos)) {
+                                $precio = $modelo['precio_modelo'] * 0.01;
+                                echo "
+                                <p class='fs-6 fw-light fst-italic'> *Cuota de reserva:
+                                <p class='text-primary fs-6 fw-light fst-italic'> 
+                                    " . number_format($precio, 0, ',', '.') . " CLP
+                                </p>
+                                </p>
+                            ";
+                            }
+                            ?>
+                        </div>
                         </div>
                     </div>
                 </div>
