@@ -63,6 +63,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>marcas/mantenedor_marcas.php'>Marcas</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>colores/mantenedor_colores.php'>Colores Vehículos</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_paises.php'>Países</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>promociones/mantenedor_promociones.php'>Promociones</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>ruedas/mantenedor_ruedas.php'>Ruedas</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>tipo_combustible/mantenedor_tipo_combustibles.php'>Tipos de Combustibles</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>transmision/mantenedor_transmisiones.php'>Transmisiones</a></li>
