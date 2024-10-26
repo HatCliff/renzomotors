@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2024 a las 08:03:43
+-- Tiempo de generación: 26-10-2024 a las 22:58:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -135,7 +135,8 @@ INSERT INTO `color` (`id_color`, `nombre_color`, `codigo_color`) VALUES
 (4, 'Plateado', '#a8a8a8'),
 (5, 'Naranja', '#ffa200'),
 (6, 'Rojo', '#eb0000'),
-(7, 'Azul Marino', '#000080');
+(7, 'Azul Marino', '#000080'),
+(8, 'Dorado', '#bfc200');
 
 -- --------------------------------------------------------
 
@@ -153,10 +154,14 @@ CREATE TABLE `color_vehiculo` (
 --
 
 INSERT INTO `color_vehiculo` (`id_color`, `id_vehiculo`) VALUES
+(3, 9),
 (4, 9),
+(5, 9),
 (6, 9),
 (6, 10),
-(7, 10);
+(7, 9),
+(7, 10),
+(8, 34);
 
 -- --------------------------------------------------------
 
@@ -221,7 +226,8 @@ INSERT INTO `fotos_vehiculo` (`id_foto_vehiculo`, `ruta_foto`, `id_vehiculo`) VA
 (1, 'fotos_vehiculos/Ct_ROJO.jpg', 9),
 (2, 'fotos_vehiculos/Ct_GRIS.jpg', 9),
 (3, 'fotos_vehiculos/Dodge_challeger_rojo.png', 10),
-(4, 'fotos_vehiculos/Dodge_challenger_gris.png', 10);
+(4, 'fotos_vehiculos/Dodge_challenger_gris.png', 10),
+(5, 'fotos_vehiculos/Kia_seltos.jpg', 34);
 
 -- --------------------------------------------------------
 
@@ -242,7 +248,7 @@ CREATE TABLE `marca` (
 
 INSERT INTO `marca` (`id_marca`, `nombre_marca`, `logo_marca`, `descripcion_marca`) VALUES
 (2, 'Chevrolet', 'Chevrolet-Logo-2010.png', 'Chevrolet, también conocida como Chevy, es una icónica marca estadounidense reconocida por su amplia gama de vehículos, desde autos compactos hasta camionetas y SUV'),
-(3, 'Kya', 'Kya-Logo.jpg', 'Kia es una marca surcoreana que se ha ganado una reputación por fabricar vehículos confiables, con diseño moderno y tecnologías avanzadas.'),
+(3, 'Kia', 'Kya-Logo.jpg', 'Kia es una marca surcoreana que se ha ganado una reputación por fabricar vehículos confiables, con diseño moderno y tecnologías avanzadas.'),
 (4, 'Lamborghini', 'Lamborghini_logo.jpg', 'Lamborghini es una marca italiana de autos deportivos de lujo, conocida por su diseño vanguardista y alto rendimiento en superdeportivos.'),
 (5, 'Volkswagen', 'Volkswagen-logo.jpg', 'Volkswagen, de origen alemán, es una de las marcas más reconocidas a nivel mundial, famosa por su calidad de ingeniería y diseño.'),
 (9, 'Dodge', 'dodge-logo_1919x428.jpg', 'Dodge es una marca automotriz estadounidense, famosa por sus vehículos potentes y de alto rendimiento, especialmente muscle cars como el Charger y el Challenger. Fundada en 1900, Dodge se ha destacado por su enfoque en la fuerza, velocidad y durabilidad, creando una sólida reputación en el mundo del automovilismo deportivo y utilitario.');
@@ -284,7 +290,8 @@ INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 (3, 'Italia'),
 (4, 'Corea del Sur'),
 (5, 'Brasil'),
-(6, 'Estados Unidos');
+(6, 'Estados Unidos'),
+(7, 'Mexico');
 
 -- --------------------------------------------------------
 
@@ -345,7 +352,8 @@ CREATE TABLE `promocion_especial` (
 --
 
 INSERT INTO `promocion_especial` (`id_promocion`, `nombre_promocion`, `descripcion_promocion`, `icono_promocion`) VALUES
-(4, 'Dueño Único', 'Para aquellos vehículos con 1 solo dueño', 'Usuario_unico.png');
+(4, 'Dueño Único', 'Para aquellos vehículos con 1 solo dueño', 'Usuario_unico.png'),
+(5, 'Calificación S', 'Aquellos vehículos usados en perfecto estado', 'Splus_promo.png');
 
 -- --------------------------------------------------------
 
@@ -357,6 +365,15 @@ CREATE TABLE `promocion_vehiculo` (
   `id_vehiculo` int(11) NOT NULL,
   `id_promocion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `promocion_vehiculo`
+--
+
+INSERT INTO `promocion_vehiculo` (`id_vehiculo`, `id_promocion`) VALUES
+(9, 4),
+(9, 5),
+(10, 4);
 
 -- --------------------------------------------------------
 
@@ -422,16 +439,17 @@ CREATE TABLE `registro_reserva` (
   `precio_reserva` int(11) DEFAULT NULL,
   `color_reserva` varchar(100) DEFAULT NULL,
   `compra_concretada` tinyint(1) DEFAULT NULL,
-  `id_reserva_vehiculo` int(11) DEFAULT NULL
+  `num_reserva_vehiculo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro_reserva`
 --
 
-INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cliente`, `sucursal_reserva`, `correo_cliente`, `telefono_cliente`, `metodo_pago`, `precio_reserva`, `color_reserva`, `compra_concretada`, `id_reserva_vehiculo`) VALUES
+INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cliente`, `sucursal_reserva`, `correo_cliente`, `telefono_cliente`, `metodo_pago`, `precio_reserva`, `color_reserva`, `compra_concretada`, `num_reserva_vehiculo`) VALUES
 (2, '123456789', 'aaa', '3', 'a@a', '123456789', 'Credito', 250000, '7', NULL, 3),
-(4, '1234', 'Comodidad', '1', 'Comodidad@aaa.com', '123', 'Credito', 250000, '4', NULL, 5);
+(4, '1234', 'Comodidad', '1', 'Comodidad@aaa.com', '123', 'Credito', 250000, '4', NULL, 5),
+(11, '1233213', 'asd', '3', 'acd@ads', '233332', 'Credito', 300000, '6', NULL, 12);
 
 -- --------------------------------------------------------
 
@@ -440,7 +458,7 @@ INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cl
 --
 
 CREATE TABLE `reserva_vehiculo` (
-  `id_reserva_vehiculo` int(11) NOT NULL,
+  `num_reserva_vehiculo` int(11) NOT NULL,
   `id_vehiculo` int(11) DEFAULT NULL,
   `rut` varchar(100) DEFAULT NULL,
   `fecha_reserva` date DEFAULT NULL,
@@ -451,9 +469,16 @@ CREATE TABLE `reserva_vehiculo` (
 -- Volcado de datos para la tabla `reserva_vehiculo`
 --
 
-INSERT INTO `reserva_vehiculo` (`id_reserva_vehiculo`, `id_vehiculo`, `rut`, `fecha_reserva`, `hora_reserva`) VALUES
+INSERT INTO `reserva_vehiculo` (`num_reserva_vehiculo`, `id_vehiculo`, `rut`, `fecha_reserva`, `hora_reserva`) VALUES
 (3, 10, '216379020', '2024-10-26', '02:30:31'),
-(5, 9, '216379020', '2024-10-26', '02:33:35');
+(5, 9, '216379020', '2024-10-26', '02:33:35'),
+(6, 10, '216379020', '2024-10-26', '13:41:53'),
+(7, 10, '216379020', '2024-10-26', '13:43:49'),
+(8, 10, '216379020', '2024-10-26', '13:48:16'),
+(9, 10, '216379020', '2024-10-26', '13:49:39'),
+(10, 10, '216379020', '2024-10-26', '13:49:49'),
+(11, 10, '216379020', '2024-10-26', '13:52:15'),
+(12, 10, '216379020', '2024-10-26', '13:54:04');
 
 -- --------------------------------------------------------
 
@@ -578,19 +603,20 @@ CREATE TABLE `sucursal` (
   `id_sucursal` int(11) NOT NULL,
   `nombre_sucursal` varchar(100) NOT NULL,
   `encargado_sucursal` varchar(100) NOT NULL,
-  `direccion_sucursal` varchar(100) NOT NULL
+  `direccion_sucursal` varchar(100) NOT NULL,
+  `zona_sucursal` enum('norte','centro','sur') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `sucursal`
 --
 
-INSERT INTO `sucursal` (`id_sucursal`, `nombre_sucursal`, `encargado_sucursal`, `direccion_sucursal`) VALUES
-(1, 'Gran Central Renzo Motors', 'Mr. Renzo Motors', 'Caletera General San Martin 6700, Colina, Santiago, Región Metropolitana'),
-(2, 'Santiago centro', 'Joaquín Rojas Paredes', 'Portugal 306, Santiago, Región Metropolitana'),
-(3, 'Santiago Sur', 'Francisca Sepúlveda Contreras', 'Av. Gabriela 3041-3235, 8830503 La Pintana, Región Metropolitana'),
-(4, 'Concepción Centro', 'Camila Gutiérrez Zambrano', 'Angol 920, 4030483 Concepción, Bío Bío'),
-(5, 'Coquimbo Centro', 'Claudio Méndez Araya', 'Avenida Varela 1524, 1781107 Coquimbo');
+INSERT INTO `sucursal` (`id_sucursal`, `nombre_sucursal`, `encargado_sucursal`, `direccion_sucursal`, `zona_sucursal`) VALUES
+(1, 'Gran Central Renzo Motors', 'Mr. Renzo Motors', 'Caletera General San Martin 6700, Colina, Santiago, Región Metropolitana', 'centro'),
+(2, 'Santiago centro', 'Joaquín Rojas Paredes', 'Portugal 306, Santiago, Región Metropolitana', 'centro'),
+(3, 'Santiago Sur', 'Francisca Sepúlveda Contreras', 'Av. Gabriela 3041-3235, 8830503 La Pintana, Región Metropolitana', 'centro'),
+(4, 'Concepción Centro', 'Camila Gutiérrez Zambrano', 'Angol 920, 4030483 Concepción, Bío Bío', 'sur'),
+(5, 'Coquimbo Centro', 'Claudio Méndez Araya', 'Avenida Varela 1524, 1781107 Coquimbo', 'norte');
 
 -- --------------------------------------------------------
 
@@ -656,8 +682,8 @@ INSERT INTO `tipo_combustible` (`id_tipo_combustible`, `nombre_tipo_combustible`
 (2, 'Gasolina 95'),
 (3, 'Gasolina 97'),
 (4, 'Diésel'),
-(5, 'Gas Licuado de Petróleo'),
-(7, 'Premium (de alto octanaje)');
+(5, 'Gas Licuado'),
+(7, 'Premium');
 
 -- --------------------------------------------------------
 
@@ -693,10 +719,11 @@ CREATE TABLE `tipo_rueda` (
 --
 
 INSERT INTO `tipo_rueda` (`id_tipo_rueda`, `nombre_tipo_rueda`) VALUES
-(1, 'Ruedas convencionales (All-Season)'),
-(2, 'Ruedas todoterreno (All-Terrain Tires)'),
-(4, 'Neumático Radial'),
-(5, 'Ruedas de alto rendimiento (Performance Tires)');
+(1, 'Convencionales'),
+(2, 'Todoterreno'),
+(4, 'Radiales'),
+(5, 'Alto rendimiento'),
+(6, 'Aleación');
 
 -- --------------------------------------------------------
 
@@ -737,8 +764,9 @@ CREATE TABLE `transmision` (
 
 INSERT INTO `transmision` (`id_transmision`, `nombre_transmision`) VALUES
 (1, 'Manual (Mecánica)'),
-(2, 'Automática de 6 velocidades'),
-(4, 'Automática de 8 velocidades');
+(2, 'Automática 6V'),
+(4, 'Automática 8V'),
+(5, 'Variable Continua CVT');
 
 -- --------------------------------------------------------
 
@@ -890,7 +918,8 @@ CREATE TABLE `vehiculo` (
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`) VALUES
 (9, 'Chevrolet Tracker', 19000000, 'usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, NULL, 0, 2, 4, 1, 5, 1, 6, 1),
-(10, 'Dodge Challenger', 30000000, 'nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 305, NULL, 0, 9, 5, 7, 6, 4, 5, 5);
+(10, 'Dodge Challenger', 30000000, 'nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 305, NULL, 0, 9, 5, 7, 6, 4, 5, 5),
+(34, 'Kia Seltos', 18000000, 'nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, NULL, 0, 3, 3, 4, 7, 5, 6, 6);
 
 -- --------------------------------------------------------
 
@@ -936,7 +965,12 @@ CREATE TABLE `vehiculo_sucursal` (
 INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`) VALUES
 (1, 9),
 (1, 10),
-(3, 10);
+(1, 34),
+(2, 34),
+(3, 10),
+(3, 34),
+(4, 34),
+(5, 34);
 
 --
 -- Índices para tablas volcadas
@@ -1077,13 +1111,13 @@ ALTER TABLE `registro_compra_accesorio`
 --
 ALTER TABLE `registro_reserva`
   ADD PRIMARY KEY (`id_registro_reserva`),
-  ADD KEY `id_reserva_vehiculo` (`id_reserva_vehiculo`);
+  ADD KEY `id_reserva_vehiculo` (`num_reserva_vehiculo`);
 
 --
 -- Indices de la tabla `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
-  ADD PRIMARY KEY (`id_reserva_vehiculo`),
+  ADD PRIMARY KEY (`num_reserva_vehiculo`) USING BTREE,
   ADD KEY `id_vehiculo` (`id_vehiculo`),
   ADD KEY `rut` (`rut`);
 
@@ -1251,7 +1285,7 @@ ALTER TABLE `cobertura`
 -- AUTO_INCREMENT de la tabla `color`
 --
 ALTER TABLE `color`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `financiamiento`
@@ -1269,7 +1303,7 @@ ALTER TABLE `fotos_accesorio`
 -- AUTO_INCREMENT de la tabla `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
-  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
@@ -1281,7 +1315,7 @@ ALTER TABLE `marca`
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -1293,7 +1327,7 @@ ALTER TABLE `permiso`
 -- AUTO_INCREMENT de la tabla `promocion_especial`
 --
 ALTER TABLE `promocion_especial`
-  MODIFY `id_promocion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_promocion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -1311,13 +1345,13 @@ ALTER TABLE `registro_accesorio`
 -- AUTO_INCREMENT de la tabla `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
-  MODIFY `id_registro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_registro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
-  MODIFY `id_reserva_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `num_reserva_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -1341,7 +1375,7 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
-  MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_accesorio`
@@ -1365,7 +1399,7 @@ ALTER TABLE `tipo_pago`
 -- AUTO_INCREMENT de la tabla `tipo_rueda`
 --
 ALTER TABLE `tipo_rueda`
-  MODIFY `id_tipo_rueda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo_rueda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_vehiculo`
@@ -1377,13 +1411,13 @@ ALTER TABLE `tipo_vehiculo`
 -- AUTO_INCREMENT de la tabla `transmision`
 --
 ALTER TABLE `transmision`
-  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculo`
 --
 ALTER TABLE `vehiculo`
-  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Restricciones para tablas volcadas
@@ -1455,7 +1489,7 @@ ALTER TABLE `registro_compra_accesorio`
 -- Filtros para la tabla `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
-  ADD CONSTRAINT `registro_reserva_ibfk_1` FOREIGN KEY (`id_reserva_vehiculo`) REFERENCES `reserva_vehiculo` (`id_reserva_vehiculo`);
+  ADD CONSTRAINT `registro_reserva_ibfk_1` FOREIGN KEY (`num_reserva_vehiculo`) REFERENCES `reserva_vehiculo` (`num_reserva_vehiculo`);
 
 --
 -- Filtros para la tabla `reserva_vehiculo`
