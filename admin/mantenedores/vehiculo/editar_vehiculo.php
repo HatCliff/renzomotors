@@ -4,17 +4,7 @@ include '../../navbaradmin.php';
 
 //consultar los datos asociados al id desde el mantenedor
 if (isset($_GET['id'])) {
-    
-    $id_vehiculo = $_GET['id'];
-    $query = "SELECT * FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
-    $resultado = mysqli_query($conexion, $query);
-    $vehiculo = mysqli_fetch_assoc($resultado);
-}
 
-
-//consultar los datos asociados al id desde el mantenedor
-if (isset($_GET['id'])) {
-    
     $id_vehiculo = $_GET['id'];
     $query = "SELECT * FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
     $resultado = mysqli_query($conexion, $query);
@@ -96,15 +86,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-      
+
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Editar Vehículo</title>
 </head>
+
 <body class="pt-5">
     <div class="container mt-5">
         <h1 class="mb-4">Editar Vehículo</h1>
@@ -112,11 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="id_vehiculo" value="<?php echo $vehiculo['id_vehiculo']; ?>">
             <div class="mb-3">
                 <label for="nombre_modelo" class="form-label">Nombre del Modelo</label>
-                <input type="text" class="form-control" name="nombre_modelo" value="<?php echo $vehiculo['nombre_modelo']; ?>" required>
+                <input type="text" class="form-control" name="nombre_modelo"
+                    value="<?php echo $vehiculo['nombre_modelo']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion" required><?php echo $vehiculo['descripcion_vehiculo']; ?></textarea>
+                <textarea class="form-control" name="descripcion"
+                    required><?php echo $vehiculo['descripcion_vehiculo']; ?></textarea>
             </div>
             <div class="mb-3">
                 <label for="id_marca" class="form-label">Marca</label>
@@ -132,13 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="horsepower" class="form-label">Caballos de Fuerza</label>
-                <input type="number" class="form-control" name="horsepower" value="<?php echo $vehiculo['caballos_fuerza']; ?>" required>
+                <input type="number" class="form-control" name="horsepower"
+                    value="<?php echo $vehiculo['caballos_fuerza']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="puertas" class="form-label">Número de Puertas</label>
-                <select class="form-select" name="puertas"  value="<?php echo $vehiculo['cantidad_puertas']; ?>" required>
-                    <option value="2">2 Puertas</option>
-                    <option value="4">4 Puertas</option>
+                <select class="form-select" name="puertas" required>
+                    <option value="2" <?php echo ($vehiculo['cantidad_puertas'] == 2) ? 'selected' : ''; ?>>2 Puertas
+                    </option>
+                    <option value="4" <?php echo ($vehiculo['cantidad_puertas'] == 4) ? 'selected' : ''; ?>>4 Puertas
+                    </option>
                 </select>
             </div>
             <div class="mb-3">
@@ -191,9 +188,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="estado_vehiculo" class="form-label">Estado Vehiculo</label>
-                <select class="form-select" name="estado_vehiculo" value="<?php echo $vehiculo['estado_vehiculo']; ?>" required>
-                    <option value="usado">Usado</option>
-                    <option value="nuevo">Nuevo</option>
+                <select class="form-select" name="estado_vehiculo"
+                    required>
+                    <option value="usado" <?php echo ($vehiculo['estado_vehiculo'] == 'usado') ? 'selected' : ''; ?>>Usado</option>
+                    <option value="nuevo" <?php echo ($vehiculo['estado_vehiculo'] == 'nuevo') ? 'selected' : ''; ?>>Nuevo</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -221,19 +219,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="precio" class="form-label">Precio</label>
-                <input type="number" class="form-control" name="precio" value="<?php echo $vehiculo['precio_modelo']; ?>" required>
+                <input type="number" class="form-control" name="precio"
+                    value="<?php echo $vehiculo['precio_modelo']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="number" class="form-control" name="cantidad" value="<?php echo $vehiculo['cantidad_vehiculo']; ?>" required>
+                <input type="number" class="form-control" name="cantidad"
+                    value="<?php echo $vehiculo['cantidad_vehiculo']; ?>" required>
             </div>
-            
+
             <!-- subir fotos -->
             <div class="mb-3">
                 <label for="fotos" class="form-label">Agregar Fotos</label>
                 <input type="file" class="form-control" name="fotos[]" multiple>
             </div>
-            
+
             <!-- Mostrar las fotos actuales -->
             <div class="mb-3">
                 <label class="form-label">Fotos Actuales</label>
@@ -249,33 +249,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ?>
                 </div>
             </div>
-            
-            
+
+
             <div class="mb-3">
                 <label for="colores" class="form-label">Colores del Vehículo</label>
-                    <div class="form-check">
-                        <div class="row">
-                            <?php
-                                // obtener los colores asociados al vehículo
-                            $colores_vehiculo = [];
-                            $resultado_colores = mysqli_query($conexion, "SELECT id_color FROM color_vehiculo WHERE id_vehiculo = $id_vehiculo");
-                            while ($color_vehiculo = mysqli_fetch_assoc($resultado_colores)) {
-                                $colores_vehiculo[] = $color_vehiculo['id_color'];
-                            }
+                <div class="form-check">
+                    <div class="row">
+                        <?php
+                        // obtener los colores asociados al vehículo
+                        $colores_vehiculo = [];
+                        $resultado_colores = mysqli_query($conexion, "SELECT id_color FROM color_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                        while ($color_vehiculo = mysqli_fetch_assoc($resultado_colores)) {
+                            $colores_vehiculo[] = $color_vehiculo['id_color'];
+                        }
 
-                            // mostrar todos los colores
-                            $colores = mysqli_query($conexion, "SELECT * FROM color");
-                            while ($color = mysqli_fetch_assoc($colores)) {
-                                $checked = in_array($color['id_color'], $colores_vehiculo) ? 'checked' : '';
-                                $color_hex = $color['codigo_color']; // Asumimos que este campo contiene el código hexadecimal del color.
-                                echo "<div '>
+                        // mostrar todos los colores
+                        $colores = mysqli_query($conexion, "SELECT * FROM color");
+                        while ($color = mysqli_fetch_assoc($colores)) {
+                            $checked = in_array($color['id_color'], $colores_vehiculo) ? 'checked' : '';
+                            $color_hex = $color['codigo_color']; // Asumimos que este campo contiene el código hexadecimal del color.
+                            echo "<div '>
                                 <input class='form-check-input' type='checkbox' name='colores[]' value='{$color['id_color']}' $checked id='color_{$color['id_color']}'>
                                 <label class='form-check-label' for='color_{$color['id_color']}' style='display: inline-block; width: 40px; height: 40px; background-color: {$color_hex}; border: 1px solid #000;'></label>
                                 </div>";
-                            }
-                            ?>
-                        </div>
+                        }
+                        ?>
                     </div>
+                </div>
             </div>
 
 
@@ -283,8 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit" class="btn btn-primary">Actualizar Vehículo</button>
         </form>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
-
-

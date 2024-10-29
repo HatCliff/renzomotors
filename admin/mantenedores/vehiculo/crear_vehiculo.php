@@ -4,10 +4,12 @@ include '../../navbaradmin.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Agregar Vehículo</title>
 </head>
+
 <body class="pt-5">
     <div class="container mt-5">
         <!-- mostrar campos para rellenar y crear vehiculo -->
@@ -35,6 +37,10 @@ include '../../navbaradmin.php';
             <div class="mb-3">
                 <label for="horsepower" class="form-label">Caballos de Fuerza</label>
                 <input type="number" class="form-control" name="horsepower" required>
+            </div>
+            <div class="mb-3">
+                <label for="kilometro" class="form-label">Kilometraje</label>
+                <input type="number" class="form-control" name="kilometro" value='0' required>
             </div>
             <div class="mb-3">
                 <label for="puertas" class="form-label">Número de Puertas</label>
@@ -124,7 +130,7 @@ include '../../navbaradmin.php';
                 <label for="cantidad" class="form-label">Cantidad</label>
                 <input type="number" class="form-control" name="cantidad" required>
             </div>
-            
+
             <div class="mb-3">
                 <label for="colores" class="form-label">Colores del Vehículo</label>
                 <div class="form-check d-flex flex-row">
@@ -141,16 +147,40 @@ include '../../navbaradmin.php';
                     ?>
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="sucursales" class="form-label">Disponible en: </label>
+                <div class="form-check d-flex flex-row">
+                    <?php
+                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
+                    while ($sucursal = mysqli_fetch_assoc($sucursales)) {
+                        echo "
+                    <div class='form-check'>
+                        <input class='form-check-input' type='checkbox' name='sucursales[]' value='{$sucursal['id_sucursal']}' id='sucursal_{$sucursal['id_sucursal']}'>
+                        <label class='form-check-label' for='sucursal_{$sucursal['id_sucursal']}' style='padding: 20px;'>
+                            {$sucursal['nombre_sucursal']}
+                        </label>
+                    </div>
+                    ";
+                    }
+                    ?>
+                </div>
+            </div>
+
             <!-- subir varias fotos -->
             <div class="mb-3">
                 <label for="fotos" class="form-label">Subir Fotos del Vehículo</label>
                 <input type="file" class="form-control" name="fotos[]" multiple required>
             </div>
+            <div class="mb-3">
+                <label for="docu" class="form-label">Subir Documento técnico del Vehículo:</label>
+                <input type="file" class="form-control" name="docu" required>
+            </div>
             <button type="submit" class="btn btn-success">Guardar Vehículo</button>
         </form>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -164,21 +194,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $estado_vehiculo = $_POST['estado_vehiculo'];
     $id_pais = $_POST['id_pais'];
     $colores = $_POST['colores'];
+    $sucursales = $_POST['sucursales'];
     $puertas = $_POST['puertas'];
     $id_tipo_ruedas = $_POST['id_ruedas'];
     $horsepower = $_POST['horsepower'];
+    $documento_tecnico = $_POST['docu'];
+    $kilometraje = $_POST['kilometro'];
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
 
     // insertar el vehículo
     $query = "INSERT INTO vehiculo (nombre_modelo, precio_modelo, estado_vehiculo, descripcion_vehiculo, cantidad_vehiculo,
-                                     cantidad_puertas, caballos_fuerza, id_marca, id_anio, id_tipo_combustible, id_pais, id_transmision,
+                                     cantidad_puertas, caballos_fuerza, documento_tecnico, kilometraje, id_marca, id_anio, id_tipo_combustible, id_pais, id_transmision,
                                      id_tipo_vehiculo, id_tipo_rueda) 
-              VALUES ('$nombre_modelo', '$precio','$estado_vehiculo', '$descripcion', '$cantidad', '$puertas', '$horsepower', '$id_marca',
+              VALUES ('$nombre_modelo', '$precio','$estado_vehiculo', '$descripcion', '$cantidad', '$puertas', '$horsepower', '$documento_tecnico', '$kilometraje', '$id_marca',
                       '$id_anio', '$id_tipo_combustible', '$id_pais', '$id_transmision', '$id_tipo_vehiculo', '$id_tipo_ruedas')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
+        //Guardar el documento agregado
+        $documento_tecnico = $_FILES['docu']['name']; // Nombre del archivo subido
+        $ruta_temporal = $_FILES['docu']['tmp_name']; // Ruta temporal del archivo
+        $directorio_destino = "doc_tecnicos/" . $documento_tecnico;
+
+        if (move_uploaded_file($ruta_temporal, $directorio_destino)) {
+
+        } else {
+            echo "Error al subir el archivo.";
+        }
+
         // obtener el ID del vehículo 
         $id_vehiculo = mysqli_insert_id($conexion);
 
@@ -189,6 +233,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 mysqli_query($conexion, $query_color);
             }
         }
+
+        if (!empty($sucursales)) {
+            foreach ($sucursales as $id_sucursal) {
+                $id_sucursal = mysqli_real_escape_string($conexion, $id_sucursal);
+
+                $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo) VALUES ('$id_sucursal', '$id_vehiculo')";
+                mysqli_query($conexion, $query_sucursal);
+
+            }
+        }
+
+
 
         // subir las fotos
         foreach ($_FILES['fotos']['tmp_name'] as $key => $tmp_name) {
