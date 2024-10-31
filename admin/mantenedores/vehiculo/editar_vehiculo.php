@@ -28,6 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $horsepower = $_POST['horsepower'];
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
+    $kilometraje = $_POST['kilometro'];
+    $sucursales = $_POST['sucursales'];
+    $promociones = $_POST['promociones'];
+    $doc_anterior = $_POST['doc_anterior'];
+
+    if (isset($_FILES['docu']) && $_FILES['docu']['name']) {
+        $documento_tecnico = $_FILES['docu']['name'];
+        $ruta_temporal_doc = $_FILES['docu']['tmp_name'];
+        $directorio_destino = "doc_tecnicos/" . basename($documento_tecnico);
+        move_uploaded_file($ruta_temporal_doc, $directorio_destino) ;
+
+        if ($doc_anterior) {
+            unlink("doc_tecnicos/$doc_anterior");
+        }
+    } else {
+        $documento_tecnico = $doc_anterior;
+    }
+
 
     // actualizar información del vehículo
     $query = "UPDATE vehiculo 
@@ -38,6 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     cantidad_vehiculo = '$cantidad',
                     cantidad_puertas = '$puertas',
                     caballos_fuerza = '$horsepower',
+                    documento_tecnico = '$documento_tecnico',
+                    kilometraje = '$kilometraje',
                     id_marca = '$id_marca',
                     id_anio = '$id_anio',
                     id_tipo_combustible = '$id_tipo_combustible',
@@ -58,6 +78,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($colores as $id_color) {
             $query_color = "INSERT INTO color_vehiculo (id_vehiculo, id_color) VALUES ('$id_vehiculo', '$id_color')";
             mysqli_query($conexion, $query_color);
+        }
+    }
+
+    $query_eliminar_sucursales = "DELETE FROM vehiculo_sucursal WHERE id_vehiculo = $id_vehiculo";
+    mysqli_query($conexion, $query_eliminar_sucursales);
+    if(!empty($sucursales)){
+        foreach ($sucursales as $id_sucursal) {
+            $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo) VALUES ('$id_sucursal', '$id_vehiculo')";
+            mysqli_query($conexion, $query_sucursal);
+        }
+    }
+
+    $query_eliminar_promociones = "DELETE FROM promocion_vehiculo WHERE id_vehiculo = $id_vehiculo";
+    mysqli_query($conexion, $query_eliminar_promociones);
+    if(!empty($promociones)){
+        foreach ($promociones as $id_promo) {
+            $query_promo = "INSERT INTO promocion_vehiculo (id_vehiculo, id_promocion) VALUES ('$id_vehiculo','$id_promo')";
+            mysqli_query($conexion, $query_promo);
         }
     }
 
@@ -102,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1 class="mb-4">Editar Vehículo</h1>
         <form method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id_vehiculo" value="<?php echo $vehiculo['id_vehiculo']; ?>">
+            <input type="hidden" name="doc_anterior" value="<?php echo ($vehiculo['documento_tecnico']); ?>">
             <div class="mb-3">
                 <label for="nombre_modelo" class="form-label">Nombre del Modelo</label>
                 <input type="text" class="form-control" name="nombre_modelo"
@@ -128,6 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="horsepower" class="form-label">Caballos de Fuerza</label>
                 <input type="number" class="form-control" name="horsepower"
                     value="<?php echo $vehiculo['caballos_fuerza']; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="kilometro" class="form-label">Kilometraje</label>
+                <input type="number" class="form-control" name="kilometro" value="<?php echo $vehiculo['kilometraje']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="puertas" class="form-label">Número de Puertas</label>
@@ -228,32 +271,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     value="<?php echo $vehiculo['cantidad_vehiculo']; ?>" required>
             </div>
 
-            <!-- subir fotos -->
-            <div class="mb-3">
-                <label for="fotos" class="form-label">Agregar Fotos</label>
-                <input type="file" class="form-control" name="fotos[]" multiple>
-            </div>
-
-            <!-- Mostrar las fotos actuales -->
-            <div class="mb-3">
-                <label class="form-label">Fotos Actuales</label>
-                <div class="row">
-                    <?php
-                    $fotos = mysqli_query($conexion, "SELECT * FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
-                    while ($foto = mysqli_fetch_assoc($fotos)) {
-                        echo "<div class='col-md-3'>
-                                <img src='{$foto['ruta_foto']}' class='img-fluid mb-2' alt='Foto del vehículo'>
-                                <a href='eliminar_foto.php?id_foto={$foto['id_foto_vehiculo']}&id_vehiculo={$id_vehiculo}&ruta_foto={$foto['ruta_foto']}' class='btn btn-danger btn-sm'>Eliminar</a>
-                              </div>";
-                    }
-                    ?>
-                </div>
-            </div>
-
-
             <div class="mb-3">
                 <label for="colores" class="form-label">Colores del Vehículo</label>
-                <div class="form-check">
+                <div class="form-check d-flex flex-row">
                     <div class="row">
                         <?php
                         // obtener los colores asociados al vehículo
@@ -268,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         while ($color = mysqli_fetch_assoc($colores)) {
                             $checked = in_array($color['id_color'], $colores_vehiculo) ? 'checked' : '';
                             $color_hex = $color['codigo_color']; // Asumimos que este campo contiene el código hexadecimal del color.
-                            echo "<div '>
+                            echo "<div class=''>
                                 <input class='form-check-input' type='checkbox' name='colores[]' value='{$color['id_color']}' $checked id='color_{$color['id_color']}'>
                                 <label class='form-check-label' for='color_{$color['id_color']}' style='display: inline-block; width: 40px; height: 40px; background-color: {$color_hex}; border: 1px solid #000;'></label>
                                 </div>";
@@ -278,7 +298,86 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
+            <div class="mb-3">
+                <label for="promociones" class="form-label">Promociones incluidas:</label>
+                <div class="form-check d-flex flex-row">
+                    <?php
+                    $promociones_vehiculo = [];
+                    $resultado_promociones = mysqli_query($conexion, "SELECT id_promocion FROM promocion_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                        while ($promo_vehiculo = mysqli_fetch_assoc($resultado_promociones)) {
+                            $promociones_vehiculo[] = $promo_vehiculo['id_promocion'];
+                        }
 
+                    $promociones = mysqli_query($conexion, "SELECT * FROM promocion_especial");
+                    while ($promo = mysqli_fetch_assoc($promociones)) {
+                        $checked = in_array($promo['id_promocion'], $promociones_vehiculo) ? 'checked' : '';
+                        echo "
+                        <div class='form-check d-flex justify-content-center align-items-center'>
+                                <input class='form-check-input' type='checkbox' name='promociones[]' value='{$promo['id_promocion']}' $checked id='promocion_{$promo['nombre_promocion']}''>
+                                <label class='form-check-label' for='promocion_{$promo['nombre_promocion']}' style='padding: 20px;'>
+                                {$promo['nombre_promocion']}
+                            </label>
+                        </div>
+                        ";
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="sucursales" class="form-label">Disponible en: </label>
+                <div class="form-check d-flex flex-row">
+                    <?php
+
+                    $sucursales_vehiculos = [];
+                    $resultado_sucursales = mysqli_query($conexion, "SELECT id_sucursal FROM vehiculo_sucursal WHERE id_vehiculo = $id_vehiculo");
+                    while ($sucursal_vehiculo = mysqli_fetch_assoc($resultado_sucursales)) {
+                        $sucursales_vehiculos[] = $sucursal_vehiculo['id_sucursal'];
+                    }
+
+                    $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
+                    while ($sucursal = mysqli_fetch_assoc($sucursales)) {
+                        $checked = in_array($sucursal['id_sucursal'], $sucursales_vehiculos) ? 'checked' : '';
+                        echo "
+                    <div class='form-check d-flex justify-content-center align-items-center'>
+                        <input class='form-check-input' type='checkbox' name='sucursales[]' value='{$sucursal['id_sucursal']}' $checked id='sucursal_{$sucursal['id_sucursal']}'>
+                        <label class='form-check-label' for='sucursal_{$sucursal['id_sucursal']}' style='padding: 20px;'>
+                            {$sucursal['nombre_sucursal']}
+                        </label>
+                    </div>
+                    ";
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <!-- subir fotos -->
+            <div class="mb-3">
+                <label for="fotos" class="form-label">Agregar Fotos</label>
+                <input type="file" class="form-control" name="fotos[]" multiple>
+            </div>
+            
+            <!-- Mostrar las fotos actuales -->
+            <div class="mb-3">
+                <label class="form-label">Fotos Actuales</label>
+                <div class="row">
+                    <?php
+                    $fotos = mysqli_query($conexion, "SELECT * FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                    while ($foto = mysqli_fetch_assoc($fotos)) {
+                        echo "<div class='col-md-3'>
+                        <img src='{$foto['ruta_foto']}' class='img-fluid mb-2' alt='Foto del vehículo'>
+                        <a href='eliminar_foto.php?id_foto={$foto['id_foto_vehiculo']}&id_vehiculo={$id_vehiculo}&ruta_foto={$foto['ruta_foto']}' class='btn btn-danger btn-sm'>Eliminar</a>
+                        </div>";
+                    }
+                    ?>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="docu" class="form-label">Cambiar Documento técnico del Vehículo:</label>
+                <input type="file" class="form-control" name="docu">
+                <a href='doc_tecnicos/<?php echo $vehiculo['documento_tecnico']; ?>' download>Ver documento actual</a>
+            </div>
 
             <button type="submit" class="btn btn-primary">Actualizar Vehículo</button>
         </form>
