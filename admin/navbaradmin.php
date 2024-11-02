@@ -3,12 +3,13 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
 $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/'; 
 ?>
 
+
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+<nav class="navbar navbar-expand-lg  fixed-top">
     <div class="container-fluid">
         
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
-            <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
+            <img src="<?php echo $carpetaMain; ?>logo_tr.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,9 +43,9 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 </nav>
 
 <!--  Mantenedores -->
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasMantenedores" aria-labelledby="offcanvasMantenedoresLabel" style="top: 56px;">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasMantenedoresLabel">Mantenedores</h5>
+<div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasMantenedores" aria-labelledby="offcanvasMantenedoresLabel" style="top: 56px;">
+    <div class="offcanvas-header" >
+        <h5 class="offcanvas-title text-center" id="offcanvasMantenedoresLabel" style="color:white;">Mantenedores</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -52,7 +53,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
     <div class="accordion" id="AcordeonVehiculos">
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                 Vehículos
             </button>
         </h2>
@@ -76,7 +77,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <button class="accordion-button  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 Accesorios
             </button>
         </h2>
@@ -92,7 +93,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingThree">
-            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <button class="accordion-button  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                 Seguros y Financiamientos
             </button>
         </h2>
@@ -111,7 +112,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingFour">
-            <button class="accordion-button text-bg-success collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            <button class="accordion-button  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                 Sucursales y Personal
             </button>
         </h2>

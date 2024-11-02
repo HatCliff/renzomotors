@@ -92,6 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         body{
             background: #E6E6E6;
         }
+        .navbar{
+            background-color: #2d441d;
+            
+        }
+
+        .navbar-brand, .nav-link, .nav-item{
+            color: white;
+        }
     </style>
 </head>
 <body class="pt-5">
@@ -200,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false"  style="background-color: #747871;">
                                     transmisión
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
@@ -221,8 +229,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="d-flex gap-2 mt-2">
-                        <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
-                        <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4"  >Limpiar Filtros</button>
+                        <button type="submit" class="btn btn-success mt-4" style="background-color: #426B1F;">Aplicar Filtros</button>
+                        <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4" style="background-color: #426B1F;" >Limpiar Filtros</button>
                     </div>                
                 </form>
                 <div class='alert alert-danger alert-container' id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
@@ -237,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Coloca cada vehiculo en tarjetas
                         echo"<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch '>";
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
-                                echo"<div class='card h-100 d-flex flex-column'  style=' background: #fffcf4; border-radius: 20px;overflow: hidden;'>";
+                                echo"<div class='card h-100 d-flex flex-column'  style=' background: #F8FFE5; border-radius: 20px;overflow: hidden;'>";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");

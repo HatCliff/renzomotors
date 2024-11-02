@@ -3,7 +3,7 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
 ?>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+<nav class="navbar navbar-expand-lg  fixed-top">
     <div class="container-fluid">
         
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
