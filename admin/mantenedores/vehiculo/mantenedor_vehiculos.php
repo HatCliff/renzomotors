@@ -65,9 +65,9 @@ include '../../navbaradmin.php';
                                                                                     FROM vehiculo_sucursal vs
                                                                                     JOIN sucursal s ON s.id_sucursal = vs.id_sucursal
                                                                                     WHERE vs.id_vehiculo = $fila[id_vehiculo]");
-                        $nombres = []; // Inicializa el array de nombres
+                        $nombres = [];
                         while ($sucursal = mysqli_fetch_assoc($sucursales_resultado)) {
-                            $nombres[] = $sucursal['nombre_sucursal']; // Agrega cada nombre al array
+                            $nombres[] = $sucursal['nombre_sucursal'];
                         }
                         echo implode(", ", $nombres);
                         
@@ -109,10 +109,18 @@ include '../../navbaradmin.php';
                                                 <span class='carousel-control-next-icon'></span>
                                                 <span class='visually-hidden'>Siguiente</span>
                                             </button>
-                                    </div>
-                                    <div class='text-center'>";
+                                    </div>";
                         $docs_resultado = mysqli_query($conexion, "SELECT documento_tecnico FROM vehiculo WHERE id_vehiculo = $id_vehiculo");
-                        echo "</div> </td>";
+                        while ($docs = mysqli_fetch_assoc($docs_resultado)) {
+                            $nombre_archivo = basename($docs['documento_tecnico']);
+                            if(!is_null($nombre_archivo) && $nombre_archivo !== '') {
+                            echo "
+                                <div class='text-center'>
+                                    <a href='doc_tecnicos/{$nombre_archivo}' download='{$nombre_archivo}' class=''>Descargar Documento</a>
+                                </div>
+                            ";
+                            }
+                        }                      
 
                         echo "<td>";
                         $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
