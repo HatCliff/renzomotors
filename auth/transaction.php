@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     session_start();
      // Obtencion de las zona horarias para guardar fecha y hora
     date_default_timezone_set('America/Santiago');
+    
+    $buyOrder = rand(100000, 999999);
     $_SESSION['compra'] = [
         'id_vehiculo' => $_POST['id_vehiculo'],
         'rut' => '216379020',
@@ -22,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'precio' => $_POST['precio'],
         'compra' => 'NULL',
         'pago' => 'Credito',
+        'orden_compra' => $buyOrder,
         'fecha_actual' => date('Y-m-d'),
         'hora_actua' => date('H:i:s')
     ];
 
-    $amount = $_SESSION['compra']['precio'];
+    //$amount = $_SESSION['compra']['precio'];
         // Transbank
         $transaction = new Transaction();
         $amount = $_SESSION['compra']['precio'];
 
-        $buyOrder = rand(100000, 999999);
         $sessionId = uniqid();
 
         $returnUrl = 'http:localhost/xampp/renzomotors/pages/reserva_completada.php';

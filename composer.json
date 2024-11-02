@@ -15,6 +15,7 @@
     ],
     "require": {
         "transbank/transbank-sdk": "^2.0",
-        "fpdf/fpdf": "^1.86"
+        "fpdf/fpdf": "^1.86",
+        "endroid/qr-code": "^5.1"
     }
 }

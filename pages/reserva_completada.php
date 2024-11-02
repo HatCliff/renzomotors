@@ -33,7 +33,11 @@ if ($response->isApproved()) {
     } else {
     success(false, "Error en la reserva" . mysqli_error($conexion));
     }
-    success(true, "Transacción aprobada");
+    
+    require './../utils/generarboleta.php';
+    $path = 'C:\xampp\htdocs\xampp\renzomotors\utils\data\boleta\vehiculo\boleta_'.$array['orden_compra'].'.pdf';
+    //
+    success(true, botonBoleta($path));
 } else {
  // Transacción rechazada
     success(false, "Transacción rechazada");
