@@ -16,6 +16,21 @@ if ($result_fotos) {
         }
     }
 }
+
+//  obtener el documento del vehículo para eliminarlo
+$query_docs = "SELECT documento_tecnico FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
+$result_docs = mysqli_query($conexion, $query_docs);
+
+if ($result_docs) {
+    while ($doc = mysqli_fetch_assoc($result_docs)) {
+        $ruta_doc = "doc_tecnicos/" . $doc['documento_tecnico'];
+        // Eliminar la foto del servidor
+        if (file_exists($ruta_doc)) {
+            unlink($ruta_doc); // Elimina el archivo
+        }
+    }
+}
+
 //eliminar las opiniones 
 $query_opinion = "DELETE FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo";
 mysqli_query($conexion, $query_opinion);
@@ -27,6 +42,14 @@ mysqli_query($conexion, $query_eliminar_fotos);
 // eliminar los colores asociados al vehículo
 $query_eliminar_colores = "DELETE FROM color_vehiculo WHERE id_vehiculo = $id_vehiculo";
 mysqli_query($conexion, $query_eliminar_colores);
+
+// eliminar las sucursales asociadas al vehículo
+$query_eliminar_sucursales = "DELETE FROM vehiculo_sucursal WHERE id_vehiculo = $id_vehiculo";
+mysqli_query($conexion, $query_eliminar_sucursales);
+
+// eliminar las promociones asociadas al vehículo
+$query_eliminar_promociones = "DELETE FROM promocion_vehiculo WHERE id_vehiculo = $id_vehiculo";
+mysqli_query($conexion, $query_eliminar_promociones);
 
 // eliminar el vehículo
 $query_eliminar_vehiculo = "DELETE FROM vehiculo WHERE id_vehiculo = $id_vehiculo";

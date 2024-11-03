@@ -138,7 +138,7 @@ include '../../navbaradmin.php';
                     $colores = mysqli_query($conexion, "SELECT * FROM color");
                     while ($color = mysqli_fetch_assoc($colores)) {
                         echo "
-                        <div class='form-check'>
+                        <div class='form-check d-flex justify-content-center align-items-center mx-1'>
                                 <input class='form-check-input' type='checkbox' name='colores[]' value='{$color['id_color']}' id='color_{$color['id_color']}'>
                                 <label class='form-check-label' for='color_{$color['id_color']}' style='background-color: {$color['codigo_color']}; padding: 20px; color: #fff;'></label>
                             </div>
@@ -147,6 +147,26 @@ include '../../navbaradmin.php';
                     ?>
                 </div>
             </div>
+
+            <div class="mb-3">
+                <label for="promociones" class="form-label">Promociones incluidas:</label>
+                <div class="form-check d-flex flex-row">
+                    <?php
+                    $promociones = mysqli_query($conexion, "SELECT * FROM promocion_especial");
+                    while ($promo = mysqli_fetch_assoc($promociones)) {
+                        echo "
+                        <div class='form-check d-flex justify-content-center align-items-center'>
+                                <input class='form-check-input' type='checkbox' name='promociones[]' value='{$promo['id_promocion']}' id='promocion_{$promo['nombre_promocion']}''>
+                                <label class='form-check-label' for='promocion_{$promo['nombre_promocion']}' style='padding: 20px;'>
+                                {$promo['nombre_promocion']}
+                            </label>
+                        </div>
+                        ";
+                    }
+                    ?>
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label for="sucursales" class="form-label">Disponible en: </label>
                 <div class="form-check d-flex flex-row">
@@ -154,7 +174,7 @@ include '../../navbaradmin.php';
                     $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
                     while ($sucursal = mysqli_fetch_assoc($sucursales)) {
                         echo "
-                    <div class='form-check'>
+                    <div class='form-check d-flex justify-content-center align-items-center'>
                         <input class='form-check-input' type='checkbox' name='sucursales[]' value='{$sucursal['id_sucursal']}' id='sucursal_{$sucursal['id_sucursal']}'>
                         <label class='form-check-label' for='sucursal_{$sucursal['id_sucursal']}' style='padding: 20px;'>
                             {$sucursal['nombre_sucursal']}
@@ -195,6 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_pais = $_POST['id_pais'];
     $colores = $_POST['colores'];
     $sucursales = $_POST['sucursales'];
+    $promociones = $_POST['promociones'];
     $puertas = $_POST['puertas'];
     $id_tipo_ruedas = $_POST['id_ruedas'];
     $horsepower = $_POST['horsepower'];
@@ -202,6 +223,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kilometraje = $_POST['kilometro'];
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
+
+
+    $documento_tecnico = $_FILES['docu']['name'];
+    $ruta_temporal_doc = $_FILES['docu']['tmp_name'];
+    $directorio_destino = "doc_tecnicos/" . $documento_tecnico;
+
 
     // insertar el vehículo
     $query = "INSERT INTO vehiculo (nombre_modelo, precio_modelo, estado_vehiculo, descripcion_vehiculo, cantidad_vehiculo,
@@ -213,10 +240,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($resultado) {
         //Guardar el documento agregado
-        $documento_tecnico = $_FILES['docu']['name']; // Nombre del archivo subido
-        $ruta_temporal = $_FILES['docu']['tmp_name']; // Ruta temporal del archivo
-        $directorio_destino = "doc_tecnicos/" . $documento_tecnico;
-
         if (move_uploaded_file($ruta_temporal, $directorio_destino)) {
 
         } else {
@@ -231,6 +254,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach ($colores as $id_color) {
                 $query_color = "INSERT INTO color_vehiculo (id_color, id_vehiculo) VALUES ('$id_color','$id_vehiculo')";
                 mysqli_query($conexion, $query_color);
+            }
+        }
+        
+        if (!empty($promociones)) {
+            foreach ($promociones as $id_promo) {
+                $query_promo = "INSERT INTO promocion_vehiculo (id_vehiculo, id_promocion) VALUES ('$id_vehiculo','$id_promo')";
+                mysqli_query($conexion, $query_promo);
             }
         }
 

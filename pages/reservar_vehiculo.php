@@ -2,6 +2,7 @@
 include('../config/conexion.php');
 include('../components/navbaruser.php');
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $id = $_GET['id'];
     $precio = 0;
@@ -12,8 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $ruta = '../admin/mantenedores/vehiculo/' . $foto['ruta_foto'];
     }
 }
-
 ?>
+<?php
+                        $modelo_query = "SELECT nombre_modelo, precio_modelo FROM vehiculo WHERE id_vehiculo = '$id'";
+                        $modelos = mysqli_query($conexion, $modelo_query);
+                        $render = '';
+                        while ($modelo = mysqli_fetch_assoc($modelos)) {
+                            $precio = $modelo['precio_modelo'] * 0.01;
+                            $render = "
+                                <h4>
+                                    " . $modelo['nombre_modelo'] . "
+                                </h4>
+                                <p class='fs-6 fw-light fst-italic'> *Cuota de reserva:
+                                    " . number_format($precio, 0, ',', '.') . "
+                                </p>
+                                <input type='hidden' name='precio' value='" . $precio . "'>
+                            ";
+                        }
+                        $colores = mysqli_query($conexion, "SELECT * FROM color c
+                                                                              JOIN color_vehiculo cv ON c.id_color = cv.id_color
+                                                                              WHERE cv.id_vehiculo = '$id'");
+                            while ($color = mysqli_fetch_assoc($colores)) {
+                            $render_color = "
+                            <div class='form-check form-check-inline mx-auto px-0'>
+                                    <input required class='form-check-input' type='radio' name='color' value='{$color['id_color']}' id='color_{$color['id_color']} required>
+                                    <label class='form-check-label' for='color_{$color['id_color']}' style='background-color: {$color['codigo_color']}; padding: 20px; color: #fff;'></label>
+                            </div>
+                            ";
+                            }
+                        ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -27,24 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     <div class="container mt-5">
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-lg-7 col-sm-11 bg-white px-5 py-2 rounded">
-                <form method="POST" enctype="multipart/form-data">
+                <form action='./../auth/transaction.php' method="POST" enctype="multipart/form-data">
                     <div class="text-center">
-                        <?php
-                        $modelo_query = "SELECT nombre_modelo, precio_modelo FROM vehiculo WHERE id_vehiculo = '$id'";
-                        $modelos = mysqli_query($conexion, $modelo_query);
-                        while ($modelo = mysqli_fetch_assoc($modelos)) {
-                            $precio = $modelo['precio_modelo'] * 0.01;
-                            echo "
-                                <h4>
-                                    " . $modelo['nombre_modelo'] . "
-                                </h4>
-                                <p class='fs-6 fw-light fst-italic'> *Cuota de reserva:
-                                    " . number_format($precio, 0, ',', '.') . "
-                                </p>
-                                <input type='hidden' name='precio' value='" . $precio . "'>
-                            ";
-                        }
-                        ?>
+                        <?php echo $render; ?>
                     </div>
 
                     <input type="hidden" name="id_vehiculo" value="<?php echo $id; ?>">
@@ -73,17 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         <label for="color" class="form-label">Personaliza tu vehículo: </label>
                         <div class="form-check d-flex justify-content-center px-0">
                             <?php
-                            $colores = mysqli_query($conexion, "SELECT * FROM color c
-                                                                              JOIN color_vehiculo cv ON c.id_color = cv.id_color
-                                                                              WHERE cv.id_vehiculo = '$id'");
-                            while ($color = mysqli_fetch_assoc($colores)) {
-                                echo "
-                            <div class='form-check form-check-inline mx-auto px-0'>
-                                    <input class='form-check-input' type='radio' name='color' value='{$color['id_color']}' id='color_{$color['id_color']} required>
-                                    <label class='form-check-label' for='color_{$color['id_color']}' style='background-color: {$color['codigo_color']}; padding: 20px; color: #fff;'></label>
-                            </div>
-                            ";
-                            }
+                                echo $render_color;
                             ?>
                         </div>
                     </div>
@@ -116,41 +119,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 </body>
 
 </html>
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_vehiculo = $_POST['id_vehiculo'];
-    $rut = '216379020';
-    $rut_compra = $_POST['rut'];
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
-    $telefono = $_POST['telefono'];
-    $color = $_POST['color'];
-    $sucursal = $_POST['id_sucursal'];
-    $precio = $_POST['precio'];
-    $compra = 'NULL';
-    $pago = 'Credito';
-
-    // Obtencion de las zona horarias para guardar fecha y hora
-    date_default_timezone_set('America/Santiago');
-    $fecha_actual = date('Y-m-d');
-    $hora_actual = date('H:i:s');
-
-    // Guardar el registro
-    $query = "INSERT INTO reserva_vehiculo (id_vehiculo, rut, fecha_reserva, hora_reserva) 
-              VALUES ('$id_vehiculo','$rut','$fecha_actual','$hora_actual')";
-    $resultado = mysqli_query($conexion, $query);
-
-    if ($resultado) {
-        $num_reserva_vehiculo = mysqli_insert_id($conexion);
-
-        $query = "INSERT INTO registro_reserva (rut_cliente, nombre_cliente, sucursal_reserva, correo_cliente, telefono_cliente,
-                              metodo_pago, precio_reserva, color_reserva, compra_concretada, num_reserva_vehiculo) 
-        VALUES ('$rut_compra', '$nombre', '$sucursal', '$correo', '$telefono', '$pago', '$precio', '$color', NULL, '$num_reserva_vehiculo')";
-        $resultado = mysqli_query($conexion, $query);
-
-        echo "<script>window.location='reserva_completada.php';</script>";
-    } else {
-        echo "Error en la reserva" . mysqli_error($conexion);
-    }
-}
-?>
