@@ -34,7 +34,7 @@ if (!$resultado_vehiculos) {
 <style>
     .offcanvas {
         /* background-color:#E6E6E6!important; Cambia este valor al color deseado */
-        background: linear-gradient(to bottom right,#2D441D,85%,#528526);
+        background: linear-gradient(to bottom,#000000,55%,#2D441D);
     }
     .accordion-item {
         background-color:#F8FFE5; /* Color de fondo del acordeón */
@@ -57,7 +57,7 @@ if (!$resultado_vehiculos) {
         padding-left: 0; /* Opcional: elimina el margen izquierdo */
     }
     .navbar {
-        background-color: #2D441D;
+        background: linear-gradient(to left, #2D441D, #000000);
         color: white;
         
         /* !important;*/ /* Color de fondo del navbar */
@@ -105,7 +105,7 @@ if (!$resultado_vehiculos) {
                 <img src="./src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
                     <H4>Conoce tu Proximo vehículo</H4>
-                    <a href="../pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
+                    <a href="pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>
             <!-- Segundo slide -->
