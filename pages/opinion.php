@@ -5,6 +5,7 @@ $idRecibida = $_GET['id'];
 $rut='';
 $error_message = '';
 
+
 // Verificar si ya existe una reseña para este rut y vehículo
 $query_check = "SELECT * FROM opinion_vehiculo WHERE rut = '$rut' AND id_vehiculo = '$idRecibida'";
 $resultado_check = mysqli_query($conexion, $query_check);
@@ -43,7 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 VALUES ('$idRecibida', '$rut', '$titulo', '$resenia', '$fecha', '$anonimo', '$rating')";
 
     $resultado = mysqli_query($conexion, $query);
-    echo "<script> window.location='vehiculo.php?id=$idRecibida';</script>";
+    if (!$resultado) {
+        die("Error al insertar reseña: " . mysqli_error($conexion));
+    } else {
+        echo "<script> window.location='vehiculo.php?id=$idRecibida';</script>";
+    }
 }
 ?>      
     <form name="reseña" method="POST" onsubmit="return validateRating()">

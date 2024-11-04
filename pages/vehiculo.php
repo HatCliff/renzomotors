@@ -4,6 +4,7 @@ include('../components/navbaruser.php');
 
 $id_vehiculo = $_GET['id'];
 $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo");
+$current_rating = null;
 // Consultas para obtener la información del vehículo
 $vehiculo_query = "SELECT v.*, m.nombre_marca, a.anio, c.nombre_tipo_combustible, p.nombre_pais, t.nombre_transmision
                    FROM vehiculo v
@@ -29,9 +30,7 @@ $colores_query = "SELECT c.nombre_color, c.codigo_color
 ";
 $colores_result = mysqli_query($conexion, $colores_query);
 
-// Consulta para obtener las opiniones
-$opiniones_query = "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo";
-$opiniones_result = mysqli_query($conexion, $opiniones_query);
+
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +40,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <title>Detalles del Vehículo</title>
@@ -267,7 +265,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                                     </div>
                                     <div class="modal-body">
                                         <?php
-                                        include("opinion.php");
+                                            
                                         ?>
                                     </div>
 
@@ -284,12 +282,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
 
                         echo "<div class='card me-2 mb-2' style='width: 18rem;'>";
                         echo " <div class='card-body'>";
-                        echo " <div class='rating d-flex start-content-center mb-3' style='font-size: 1.5rem;'>";
-                        for ($i = 0; $i < 5; $i++) {
-                            if ($i < $row['calificacion']) {
-                                echo '<i class="bi bi-star-fill text-warning"></i>';
+                        echo "<div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $row['calificacion']) {
+                                echo '<i class="bi bi-star-fill text-warning"></i>'; // Estrella llena
                             } else {
-                                echo '<i class="bi bi-star"></i>';
+                                echo '<i class="bi bi-star"></i>'; // Estrella vacía
                             }
                         }
                         echo "</div>";
