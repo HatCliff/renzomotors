@@ -14,7 +14,7 @@ $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
             JOIN marca m ON v.id_marca = m.id_marca
             JOIN anio a ON v.id_anio = a.id_anio
             JOIN pais p ON v.id_pais = p.id_pais
-            WHERE 1=1";
+            WHERE 1=1 AND v.cantidad_vehiculo != 0";
 
 $resultado = mysqli_query($conexion, $query);
 
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
-                                                <h6 class='card-title border p-2' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
+                                                <h6 class='card-title border p-2 text-capitalize' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
 
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 

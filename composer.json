@@ -1,0 +1,21 @@
+{
+    "name": "hatcliff/renzomotors",
+    "description": "Proyecto para la materia Taller de Ingenieria de Software de la carrera Ing. Civil Informática para la Universidad Católica de la Santísima Concepción",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Hatcliff\\Renzomotors\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "HatCliff",
+            "email": "luayalac@outlook.cl"
+        }
+    ],
+    "require": {
+        "transbank/transbank-sdk": "^2.0",
+        "fpdf/fpdf": "^1.86",
+        "endroid/qr-code": "^5.1"
+    }
+}

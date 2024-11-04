@@ -25,6 +25,14 @@ include '../../navbaradmin.php';
                 <label for="direccion_sucursal" class="form-label">Dirección Sucursal</label>
                 <input type="text" class="form-control" name="direccion_sucursal" required>
             </div>
+            <div class="mb-3">
+                <label for="zona" class="form-label">Zona Geográfica</label>
+                <select class="form-select" name="zona" required>
+                    <option value="norte">Norte</option>
+                    <option value="centro">Centro</option>
+                    <option value="sur">Sur</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-success">Guardar Sucursal</button>
         </form>
     </div>
@@ -38,9 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_sucursal = $_POST['nombre_sucursal'];
     $encargado_sucursal = $_POST['encargado_sucursal'];
     $direccion_sucursal = $_POST['direccion_sucursal'];
+    $zona_sucursal = $_POST['zona'];
 
-    $query = "INSERT INTO sucursal (nombre_sucursal, encargado_sucursal, direccion_sucursal) 
-              VALUES ('$nombre_sucursal', '$encargado_sucursal', '$direccion_sucursal')";
+    $query = "INSERT INTO sucursal (nombre_sucursal, encargado_sucursal, direccion_sucursal, zona_sucursal) 
+              VALUES ('$nombre_sucursal', '$encargado_sucursal', '$direccion_sucursal', '$zona_sucursal')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
