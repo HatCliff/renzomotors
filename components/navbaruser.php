@@ -3,11 +3,11 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
 ?>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg  fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
     <div class="container-fluid">
         
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
-            <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
+            <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1);  ">
             RenzoMotors
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
