@@ -110,6 +110,11 @@
                                     <div class="col-12 d-flex justify-content-center mb-2 mt-4">
                                         <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>
                                     </div>
+
+                                    <p class="mt-3 d-flex justify-content-center text-center">¿Tienes una cuenta?
+                                        <a class="ml-1" href="login.php"> Inicia sesión</a>
+                                    </p>
+
                                 </form>
                             </div>
                         </div>

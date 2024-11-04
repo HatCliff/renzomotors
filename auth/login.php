@@ -25,7 +25,12 @@ if(mysqli_num_rows($result) > 0){
     //CAMIAR POR NOMBRE USUARIO;
     $_SESSION['usuario'] = $row;
     //$_SESSION['usuario'] = "".$row['email']."";
-    header('Location: /xampp/renzomotors/pages/dashboard.php');
+    if($row['tipo_persona'] == 'usuario'){
+        header('Location: /xampp/renzomotors/index.php');
+    }
+    else{
+        header('Location: /xampp/renzomotors/admin/indexadmin.php');
+    }
     exit();
 }
 else{

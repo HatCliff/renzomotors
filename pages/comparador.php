@@ -1,11 +1,14 @@
 <?php 
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_POST['reiniciar'])) {
-    session_unset(); // Borra todos los datos de la sesión
-    session_destroy(); // Destruye la sesión
-    session_start(); // Inicia una nueva sesión
+    
+    //session_unset(); // Borra todos los datos de la sesión
+    //session_destroy(); // Destruye la sesión
+    //session_start(); // Inicia una nueva sesión
 }
 
 include '../config/conexion.php';
