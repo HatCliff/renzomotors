@@ -12,8 +12,15 @@ if($correo == '' || $contrasenia == ''){
     exit();
 }
 $query = "SELECT * FROM usuario_registrado WHERE correo = '$correo'";
-
-$result = mysqli_query($conexion, $query);
+try {
+    $result = mysqli_query($conexion, $query);
+} catch (Exception $e) {
+    //mostrar error 
+    $_SESSION['error'] = $e ;
+    $_SESSION['error_code'] = 500;
+    header('Location: /xampp/renzomotors/pages/login.php');
+    exit();
+}
 if(mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_assoc($result);
     if(!password_verify($contrasenia, $row['contrasenia'])){
@@ -29,7 +36,7 @@ if(mysqli_num_rows($result) > 0){
         header('Location: /xampp/renzomotors/index.php');
     }
     else{
-        header('Location: /xampp/renzomotors/admin/indexadmin.php');
+        header('Location: /xampp/renzomotors/');
     }
     exit();
 }

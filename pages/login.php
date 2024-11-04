@@ -2,7 +2,7 @@
 require './../components/validationUI.php';
 session_start();
     if(isset($_SESSION['usuario'])){
-    //    header('Location: /pages/dashboard');
+         header('Location: /xampp/renzomotors/');
     }
 
     if(isset($_SESSION['error'])){
