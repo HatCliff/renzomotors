@@ -38,10 +38,10 @@ $error_message = ""; // Variable para almacenar el mensaje de error
                 exit();
             }
         } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() == 1062) {
-                $error_message = "El RUT ya está registrado."; // Establecer mensaje específico para duplicados
-            } else {
-                $error_message = "Error al registrar el usuario. Por favor, intenta de nuevo.";
+                if (str_contains($e, 'Correo_unico')) {
+                    $error_message = "Correo ya registrado";
+                } else {
+                $error_message = "Error al registrar el usuario. Por favor, verifica los datos.";
             }
         }
     }
@@ -125,6 +125,8 @@ $error_message = ""; // Variable para almacenar el mensaje de error
                         <div class="col-12 d-flex justify-content-center mb-2 mt-4">
                             <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>
                         </div>
+                        <small id="helpId" class="form-text text-muted">¿Ya tienes cuenta? <a href="./login.php" class="">Iniciar Sesión</a></small>
+              
                     </form>
                 </div>
             </div>

@@ -17,7 +17,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>index.php' class="nav-link active" aria-current="page">Inicio</a>
+                    <a href='<?php echo $carpetaMain; ?>admin/indexadmin.php' class="nav-link active" aria-current="page">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMantenedores" role="button" aria-controls="offcanvasMantenedores">

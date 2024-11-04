@@ -33,9 +33,6 @@ if (!$resultado_vehiculos) {
 </head>
 <body class="pt-5 mt-3">
 <body>
-    <?php
-    include('admin/navbaradmin.php');
-    ?>
     <div class="container mt-5 pt-5 hidden" style='display:none;'>
         <h1>Bienvenido a RenzoMotors</h1>
         <p>Tu automotora de confianza</p>
@@ -60,7 +57,7 @@ if (!$resultado_vehiculos) {
                 <img src="./src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
                     <H4>Conoce tu Proximo vehículo</H4>
-                    <a href="../pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
+                    <a href="pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>
             <!-- Segundo slide -->
