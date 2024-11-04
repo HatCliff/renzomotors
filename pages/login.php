@@ -1,13 +1,11 @@
 <?php 
-require './../components/validationUI.php';
 session_start();
     if(isset($_SESSION['usuario'])){
     //    header('Location: /pages/dashboard');
     }
 
     if(isset($_SESSION['error'])){
-        error($_SESSION['error_code'], $_SESSION['error']);
-        //echo "<div class='mx-auto fcol-3 fixed-top alert alert-danger' role='alert'>Error ". $_SESSION['error_code'] . ": ". $_SESSION['error'] . "</div>";
+        echo "<div class='mx-auto fcol-3 fixed-top alert alert-danger' role='alert'>Error ". $_SESSION['error_code'] . ": ". $_SESSION['error'] . "</div>";
     }
 ?>
 <!DOCTYPE html>
