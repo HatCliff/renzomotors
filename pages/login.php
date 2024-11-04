@@ -54,7 +54,7 @@ session_start();
                             aria-describedby="helpId"
                             placeholder="Contraseña"
                             required
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.\-@]).{6,}"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
                             title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
 
                         />
