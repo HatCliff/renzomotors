@@ -30,17 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             <input type='hidden' name='precio' value='" . $precio . "'>
         ";
     }
-    $colores = mysqli_query($conexion, "SELECT * FROM color c
-                                                          JOIN color_vehiculo cv ON c.id_color = cv.id_color
-                                                          WHERE cv.id_vehiculo = '$id'");
-        while ($color = mysqli_fetch_assoc($colores)) {
-        $render_color = "
-        <div class='form-check form-check-inline mx-auto px-0'>
-                <input required class='form-check-input' type='radio' name='color' value='{$color['id_color']}' id='color_{$color['id_color']} required>
-                <label class='form-check-label' for='color_{$color['id_color']}' style='background-color: {$color['codigo_color']}; padding: 20px; color: #fff;'></label>
-        </div>
-        ";
-        }
+
     ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -86,7 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         <label for="color" class="form-label">Personaliza tu vehículo: </label>
                         <div class="form-check d-flex justify-content-center px-0">
                             <?php
-                                echo $render_color;
+                                    $colores = mysqli_query($conexion, "SELECT * FROM color c
+                                    JOIN color_vehiculo cv ON c.id_color = cv.id_color
+                                    WHERE cv.id_vehiculo = '$id'");
+                                        while ($color = mysqli_fetch_assoc($colores)) {
+                                        echo "
+                                        <div class='form-check form-check-inline mx-auto px-0'>
+                                        <input required class='form-check-input' type='radio' name='color' value='{$color['id_color']}' id='color_{$color['id_color']} required>
+                                        <label class='form-check-label' for='color_{$color['id_color']}' style='background-color: {$color['codigo_color']}; padding: 20px; color: #fff;'></label>
+                                        </div>
+                                        ";
+                                        }
                             ?>
                         </div>
                     </div>
