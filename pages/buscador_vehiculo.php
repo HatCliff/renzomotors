@@ -48,16 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $query .= " AND v.id_transmision IN ($transmision_list)";
         }
 
+        if(!empty($nombre_modelo)){
+            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
+            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
+        }
+
         if ($orden == 'mayor_a_menor') {
             $query .= " ORDER BY precio_modelo DESC";
         } elseif ($orden == 'menor_a_mayor') {
             $query .= " ORDER BY precio_modelo ASC";
         }
 
-        if(!empty($nombre_modelo)){
-            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
-            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
-        }
+        
     }else{
         $estado =  [];
         $orden =  '';
@@ -77,6 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }else{
         echo "<script>var showAlert = false;</script>";
     }
+
+    
 
 }
     
@@ -101,49 +105,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- buscador y filtros -->
             <div class="row mb-4">
                 <h1 class="mb-4">Vehículos</h1>
-                <form method="POST" enctype="multipart/form-data" >
+                <form id="filtroForm" method="POST" enctype="multipart/form-data" >
                     <div class="d-flex flex-column flex-md-row align-items-center">
                         <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
-                            <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo" aria-label="Modelo del vehículo">
+                            <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo" 
+                            aria-label="Modelo del vehículo" value="<?php echo htmlspecialchars($nombre_modelo); ?>"  
+                            onchange="document.getElementById('filtroForm').submit()">
+                            <button type="submit" style="display: none;"></button>
                         </div>
                             
                         <div class="col-12 col-md-7 d-flex flex-wrap align-items-center">
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="estadoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="estadoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Estado
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="estadoDropdown">
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="checkbox" name="estado[]" value="nuevo"<?php if (in_array('nuevo', $estado)) echo 'checked'; ?>> Nuevo
+                                            <input type="checkbox" name="estado[]" value="nuevo"
+                                            <?php if (in_array('nuevo', $estado)) echo 'checked'; ?> 
+                                            onchange="document.getElementById('filtroForm').submit()"> Nuevo
                                         </label>
                                     </li>
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="checkbox" name="estado[]" value="usado"<?php if (in_array('usado', $estado)) echo 'checked'; ?>> Usado
+                                            <input type="checkbox" name="estado[]" value="usado"
+                                            <?php if (in_array('usado', $estado)) echo 'checked'; ?> 
+                                            onchange="document.getElementById('filtroForm').submit()"> Usado
                                         </label>
                                     </li>
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="ordenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Ordenar por
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="ordenDropdown">
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="radio" name="orden" value="mayor_a_menor" <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>> Precio de mayor a menor
+                                            <input type="radio" name="orden" value="mayor_a_menor"
+                                             <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?> 
+                                             onchange="document.getElementById('filtroForm').submit()"> Precio de mayor a menor
                                         </label>
                                     </li>
                                     <li class="dropdown-item">
                                         <label>
-                                            <input type="radio" name="orden" value="menor_a_mayor" <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>> Precio de menor a mayor
+                                            <input type="radio" name="orden" value="menor_a_mayor" 
+                                            <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?> 
+                                            onchange="document.getElementById('filtroForm').submit()"> Precio de menor a mayor
                                         </label>
                                     </li>
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="marcaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="marcaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Marca
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
@@ -154,7 +172,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             $isChecked = in_array($row['id_marca'], $id_marcas) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_marcas[]' value='{$row['id_marca']}'  $isChecked>";
+                                            echo "<input type='checkbox' name='id_marcas[]' value='{$row['id_marca']}'  
+                                                $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
                                             echo "{$row['nombre_marca']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -163,7 +182,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Año
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
@@ -173,7 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             $isChecked = in_array($row['id_anio'], $id_anios) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' $isChecked>";
+                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' 
+                                                $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
                                             echo "{$row['anio']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -182,7 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Combustible
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="combusDropdown">
@@ -192,7 +214,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             $isChecked = in_array($row['id_tipo_combustible'], $id_combustible) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_combustible[]' value='{$row['id_tipo_combustible']}' $isChecked>";
+                                            echo "<input type='checkbox' name='id_combustible[]' 
+                                                value='{$row['id_tipo_combustible']}' $isChecked 
+                                                onchange='document.getElementById(\"filtroForm\").submit()'>";
                                             echo "{$row['nombre_tipo_combustible']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -201,7 +225,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Transmisión
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
@@ -211,7 +236,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             $isChecked = in_array($row['id_transmision'], $id_transmision) ? 'checked' : '';
                                             echo "<li class='dropdown-item'>";
                                             echo "<label>";
-                                            echo "<input type='checkbox' name='id_transmision[]' value='{$row['id_transmision']}' $isChecked>";
+                                            echo "<input type='checkbox' name='id_transmision[]' 
+                                                value='{$row['id_transmision']}' $isChecked 
+                                                onchange='document.getElementById(\"filtroForm\").submit()'>";
                                             echo "{$row['nombre_transmision']}";
                                             echo "</label>";
                                             echo "</li>";
@@ -222,11 +249,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="d-flex gap-2 mt-2">
-                        <button type="submit" class="btn btn-success mt-4" style="background-color: #426B1F;">Aplicar Filtros</button>
-                        <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-success mt-4" style="background-color: #426B1F;" >Limpiar Filtros</button>
+                        <button type="submit" name="Limpiar" id="Limpiar" 
+                        class="btn btn-success mt-4" style="background-color: #426B1F;" >Limpiar Filtros</button>
                     </div>                
                 </form>
-                <div class='alert alert-danger alert-container' id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
+                <div class='alert alert-danger alert-container' 
+                id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
             </div>
         
             <!-- Muestra todos los vehiculos -->
@@ -238,17 +266,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Coloca cada vehiculo en tarjetas
                         echo"<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch '>";
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
-                                echo"<div class='card h-100 d-flex flex-column'  style=' background: #F8FFE5; border-radius: 20px;overflow: hidden;'>";
+                                echo"<div class='card h-100 d-flex flex-column'  
+                                style=' background: #F8FFE5; border-radius: 20px;overflow: hidden;'>";
                                     // saca una foto asociada al vehiculo
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
 
                                     if ($foto = mysqli_fetch_assoc($fotos_resultado)){
                                         $ruta_imagen = '../admin/mantenedores/vehiculo/'.$foto['ruta_foto'];
-                                        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
+                                        echo "<div style='background-image: url($ruta_imagen); 
+                                        background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
                                         echo"
                                             <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
-                                                <h6 class='card-title border p-2 text-capitalize' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
+                                                <h6 class='card-title border p-2 text-capitalize' 
+                                                style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; 
+                                                background: white;'>{$fila['estado_vehiculo']}</h6>
                                             </div>";
 
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
@@ -259,8 +291,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         $codigo_color = htmlspecialchars($color['codigo_color']); 
 
                                         echo"
-                                            <div class='card-img-overlay d-flex align-items-end flex-column justify-content-center text-center mt-4 mb-5'>
-                                                <h6 class='card-title border p-2 d-flex align-items-end flex-column ' style='width: 80px; height: 30px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: $codigo_color;'></h6>
+                                            <div class='card-img-overlay d-flex align-items-end flex-column 
+                                            justify-content-center text-center mt-4 mb-5'>
+                                                <h6 class='card-title border p-2 d-flex align-items-end flex-column' 
+                                                style='width: 80px; height: 30px; border-radius: 80px; border: 3px solid black; 
+                                                font-size:1rem; background: $codigo_color;'></h6>
                                             </div>";      
                                     }
 
