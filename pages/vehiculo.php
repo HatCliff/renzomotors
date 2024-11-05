@@ -250,7 +250,7 @@ $colores_result = mysqli_query($conexion, $colores_query);
                             ?>
                     </div>
                     <div class="col-4">
-                        <div class="modal fade" id="exampleModal" aria-hidden="true"
+                        <div class="modal fade" id="dynamicModal" aria-hidden="true"
                             aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
@@ -264,16 +264,12 @@ $colores_result = mysqli_query($conexion, $colores_query);
                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <?php
-                                            
-                                        ?>
+                                        
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Escribe la
-                            tuya -></button>
+                        <button class="btn btn-primary" data-bs-target="#dynamicModal" data-bs-toggle="modal" data-id="<?php echo $id_vehiculo; ?>">Escribe la tuya -></button>
                     </div>
                 </div>
                 <div class="row overflow-auto" style="max-height: 400px;">
@@ -315,6 +311,25 @@ $colores_result = mysqli_query($conexion, $colores_query);
 
             <!-- Scripts de Bootstrap -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+            <script>
+    $(document).ready(function () {
+        // Cargar contenido del modal cuando se muestra
+        $('#dynamicModal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget); // Botón que activó el modal
+            const idVehiculo = button.data('id'); // Obtener el id del vehículo desde el atributo data-id
+            
+            if (idVehiculo) {
+                // Cargar el contenido del modal con el id del vehículo usando AJAX
+                $('#dynamicModal .modal-body').load('opinion.php?id=' + idVehiculo);
+            } else {
+                // Mostrar mensaje de error si no hay un id de vehículo
+                $('#dynamicModal .modal-body').html('<p>Error: ID del vehículo no proporcionado.</p>');
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
