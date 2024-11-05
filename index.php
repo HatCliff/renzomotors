@@ -56,12 +56,6 @@ if (!$resultado_vehiculos) {
         list-style-type: none; /* Elimina las viñetas */
         padding-left: 0; /* Opcional: elimina el margen izquierdo */
     }
-    .navbar {
-        background: linear-gradient(to left, #2D441D, #000000);
-        color: white;
-        
-        /* !important;*/ /* Color de fondo del navbar */
-    }
     .nav-link, .nav-item, .navbar-brand {
         color: white !important; /* Color de los enlaces y la marca */
     }

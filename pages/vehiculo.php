@@ -290,10 +290,29 @@ $colores_result = mysqli_query($conexion, $colores_query);
                             class='d-flex align-items-end'>Descargar Documento</a>";
                             ?>
                         </div>
+                        <div class="mt-4">
+                        <!-- Sección de calculadora -->
+                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                <div class="modal-header d-flex justify-content-between align-items-center" style="border-bottom: none;">
+                                    <h1 class="modal-title fs-5 text-center flex-grow-1" id="exampleModalToggleLabel" style="font-weight: bold; font-size: 24px;">CALCULADORA DE FINANCIAMIENTO</h1>
+                                    <button type="button" class="btn-close" style="width: 20px; height: 20px; border-radius: 50%; border: 3px solid black;" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                    <div class="modal-body">
+                                        <?php include("financiamiento.php"); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Botón para abrir el modal -->
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Financiamiento</button>                        
+                        </div>
+
                     </div>
                 </div>
             </div>
-
+            
             <!-- Sección de opiniones de los usuarios -->
             <div class="row mt-5 ms-5">
                 <div class="row">
@@ -329,7 +348,7 @@ $colores_result = mysqli_query($conexion, $colores_query);
                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        
+
                                     </div>
                                 </div>
                             </div>

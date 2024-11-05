@@ -243,32 +243,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     $id_vehiculo = $fila['id_vehiculo'];
                                     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
 
-                                    if (mysqli_num_rows($fotos_resultado) > 0){
-                                     
-                                        echo '<div id="carousel' . $id_vehiculo . '" class="carousel slide h-100" data-bs-ride="carousel">'; // Carrusel
-                                        echo '<div class="carousel-inner h-100">'; // Contenedor de imágenes
-
-                                        $active_class = 'active'; // La primera imagen será la activa
-                                        while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
-                                            $ruta_foto = '../admin/mantenedores/vehiculo/' . $foto['ruta_foto']; // Ajusta la ruta según sea necesario
-                                            echo '<div class="carousel-item ' . $active_class . ' h-100">';
-                                            echo "<img src='{$ruta_foto}' class='d-block w-100 h-100 object-fit-cover' alt='Foto del vehículo'>";
-                                            echo '</div>';
-                                            $active_class = ''; 
-                                        }
-                                        echo '</div>';
-
-                                        // Controles del carrusel
-                                        echo '<button class="carousel-control-prev" type="button" data-bs-target="#carousel' . $id_vehiculo . '" data-bs-slide="prev">';
-                                        echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-                                        echo '<span class="visually-hidden">Anterior</span>';
-                                        echo '</button>';
-                                        echo '<button class="carousel-control-next" type="button" data-bs-target="#carousel' . $id_vehiculo . '" data-bs-slide="next">';
-                                        echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-                                        echo '<span class="visually-hidden">Siguiente</span>';
-                                        echo '</button>';
-
-                                        echo '</div>'; // Cierra el carrusel
+                                    if ($foto = mysqli_fetch_assoc($fotos_resultado)){
+                                        $ruta_imagen = '../admin/mantenedores/vehiculo/'.$foto['ruta_foto'];
+                                        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 250px; border-radius: 20px 20px 0 0;'></div>";
+                                        echo"
+                                            <div class='card-img-overlay d-flex justify-content-start align-items-start p-3 text-center'>
+                                                <h6 class='card-title border p-2 text-capitalize' style='width: 90px; border-radius: 80px; border: 3px solid black; font-size:1rem; background: white;'>{$fila['estado_vehiculo']}</h6>
+                                            </div>";
 
                                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
                                             FROM color_vehiculo vc

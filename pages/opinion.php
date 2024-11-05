@@ -1,23 +1,20 @@
 <?php
 include('../config/conexion.php');
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
 if (isset($_GET['id'])) {
     $idRecibida = intval($_GET['id']);
-    echo "<p>Contenido del modal para el vehículo con ID: $idRecibida</p>";
 } else {
     echo "<p>Error: ID del vehículo no proporcionado.</p>";
 }
 
-$rut = isset($_SESSION['rut']) ? $_SESSION['rut'] : '';
 $error_message = '';
 
-if ($rut == '') {
+if (!isset($_SESSION['usuario'])) {
     $error_message = "Debe iniciar sesión para escribir una opinión.";
     echo "<script> enviar.style.display = 'none';</script>";
-} else {
+}else {
+    $rut = $_SESSION['usuario']['rut'];
     $query_check = "SELECT * FROM opinion_vehiculo WHERE rut = '$rut' AND id_vehiculo = '$idRecibida'";
     $resultado_check = mysqli_query($conexion, $query_check);
 
@@ -25,7 +22,7 @@ if ($rut == '') {
         $error_message = "Ya has registrado una reseña para este vehículo.";
         echo "<script> enviar.style.display = 'none';</script>";
     } else {
-        $query_compra_check = "SELECT * FROM registro_reserva WHERE rut = '$rut' AND id_vehiculo = '$idRecibida'";
+        $query_compra_check = "SELECT * FROM reserva_vehiculo join registro_reserva  WHERE rut_cliente = '$rut' AND id_vehiculo = '$idRecibida'";
         $resultado_compra_check = mysqli_query($conexion, $query_compra_check);
 
         if (mysqli_num_rows($resultado_compra_check) == 0) {
