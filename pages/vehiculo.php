@@ -2,6 +2,10 @@
 include('../config/conexion.php');
 include('../components/navbaruser.php');
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $id_vehiculo = $_GET['id'];
 $consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo");
 $current_rating = null;
@@ -28,6 +32,19 @@ $colores_query = "SELECT c.nombre_color, c.codigo_color
     JOIN color c ON cv.id_color = c.id_color 
     WHERE cv.id_vehiculo = $id_vehiculo
 ";
+
+//Consulta para obtener los tipos de carroceria
+$carroceria_query = "SELECT nombre_tipo_vehiculo FROM tipo_vehiculo WHERE id_tipo_vehiculo=(SELECT id_tipo_vehiculo FROM vehiculo WHERE id_vehiculo=$id_vehiculo)";
+$carroceria_result = mysqli_query($conexion, $carroceria_query);
+
+//Consulta para obtener los tipos de ruedas
+$ruedas_query = "SELECT nombre_tipo_rueda FROM tipo_rueda WHERE id_tipo_rueda=(SELECT id_tipo_rueda FROM vehiculo WHERE id_vehiculo=$id_vehiculo)";
+$ruedas_result = mysqli_query($conexion, $ruedas_query);
+
+//Consulta para obtener el documento tecnico
+$doc_query = "SELECT documento_tecnico FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
+$doc_result = mysqli_query($conexion, $doc_query);
+
 $colores_result = mysqli_query($conexion, $colores_query);
 
 
@@ -156,26 +173,36 @@ $colores_result = mysqli_query($conexion, $colores_query);
                                 echo "<p class='fst-italic'>Este vehículo no está disponible en ninguna sucursal</p>";
                             }
                             ?>
-                            <div class="d-grid">
-                                <a href="reservar_vehiculo.php?id=<?php echo $id_vehiculo; ?>"
-                                    class="btn btn-primary">Reservar</a>
-                            </div>
-                            <div class="text-center pt-3 d-flex justify-content-center">
                             <?php
-                            $modelo_query = "SELECT precio_modelo FROM vehiculo WHERE id_vehiculo = '$id_vehiculo'";
-                            $modelos = mysqli_query($conexion, $modelo_query);
-                            while ($modelo = mysqli_fetch_assoc($modelos)) {
-                                $precio = $modelo['precio_modelo'] * 0.01;
-                                echo "
+                            if (isset($_SESSION['usuario'])) {
+                                // Si hay una sesión activa, muestra el botón habilitado
+                                echo '<div class="d-grid">
+                                        <a href="reservar_vehiculo.php?id=' . $id_vehiculo . '" class="btn btn-primary">Reservar</a>
+                                      </div>';
+                            } else {
+                                // Si no hay sesión, muestra el botón deshabilitado
+                                echo '<div class="d-grid">
+                                          <a href="#" class="btn btn-primary disabled" aria-disabled="true">Reservar</a>
+                                      </div>';
+                            }
+                            ?>
+
+                            <div class="text-center pt-3 d-flex justify-content-center">
+                                <?php
+                                $modelo_query = "SELECT precio_modelo FROM vehiculo WHERE id_vehiculo = '$id_vehiculo'";
+                                $modelos = mysqli_query($conexion, $modelo_query);
+                                while ($modelo = mysqli_fetch_assoc($modelos)) {
+                                    $precio = $modelo['precio_modelo'] * 0.01;
+                                    echo "
                                 <p class='fs-6 fw-light fst-italic'> *Cuota de reserva:
                                 <p class='text-primary fs-6 fw-light fst-italic'> 
                                     " . number_format($precio, 0, ',', '.') . " CLP
                                 </p>
                                 </p>
                             ";
-                            }
-                            ?>
-                        </div>
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -185,6 +212,14 @@ $colores_result = mysqli_query($conexion, $colores_query);
             <div class="row mt-4">
                 <div class="col-lg-12 d-flex flex-column flex-lg-row">
                     <table class="table me-5">
+                        <tr>
+                            <td>Marca</td>
+                            <td><?php echo $vehiculo['nombre_marca']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Kilometraje</td>
+                            <td><?php echo $vehiculo['kilometraje']; ?></td>
+                        </tr>
                         <tr>
                             <td>Año</td>
                             <td><?php echo $vehiculo['anio']; ?></td>
@@ -208,12 +243,31 @@ $colores_result = mysqli_query($conexion, $colores_query);
                             <td><?php echo $vehiculo['estado_vehiculo']; ?></td>
                         </tr>
                         <tr>
-                            <td>Gasolina</td>
+                            <td>Ruedas</td>
+                            <td>
+                                <?php
+                                while ($ruedas = mysqli_fetch_assoc($ruedas_result)) {
+                                    echo $ruedas['nombre_tipo_rueda'];
+                                } ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Combustible</td>
                             <td><?php echo $vehiculo['nombre_tipo_combustible']; ?></td>
                         </tr>
                         <tr>
-                            <td>Marca</td>
-                            <td><?php echo $vehiculo['nombre_marca']; ?></td>
+                            <td>Carroceria</td>
+                            <td>
+                                <?php
+                                while ($carroceria = mysqli_fetch_assoc($carroceria_result)) {
+                                    echo $carroceria['nombre_tipo_vehiculo'];
+                                } ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Caballos de Fuerza</td>
+                            <td><?php echo $vehiculo['caballos_fuerza']; ?></td>
                         </tr>
                         <tr>
                             <td>Transmisión</td>
@@ -222,9 +276,20 @@ $colores_result = mysqli_query($conexion, $colores_query);
                     </table>
 
                     <!-- Descripción del vehículo -->
-                    <div class="descripcion">
-                        <h5>Descripción:</h5>
-                        <p><?php echo $vehiculo['descripcion_vehiculo']; ?></p>
+                    <div>
+                        <div class="descripcion">
+                            <h5>Descripción:</h5>
+                            <p><?php echo $vehiculo['descripcion_vehiculo']; ?></p>
+                        </div>
+                        <div class="descripcion">
+                            <h5>Obtener Documento tecnico:</h5>
+                            <?php
+                            $doc_tecnico = mysqli_fetch_assoc($doc_result);
+                            echo "<a href='../admin/mantenedores/vehiculo/doc_tecnicos/{$doc_tecnico['documento_tecnico']}' 
+                            download='{$doc_tecnico['documento_tecnico']}' 
+                            class='d-flex align-items-end'>Descargar Documento</a>";
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

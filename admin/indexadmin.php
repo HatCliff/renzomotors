@@ -33,14 +33,6 @@ if (!$resultado_vehiculos) {
 </head>
 <body class="pt-5 mt-3">
 <body>
-    <?php
-    include('admin/navbaradmin.php');
-    ?>
-    <div class="container mt-5 pt-5">
-        <h1>Bienvenido a RenzoMotors</h1>
-        <p>Tu automotora de confianza</p>
-    </div>
-
 <style>
         /* Ajustar el tamaño de las imágenes del carrusel */
         .carousel-item img {
@@ -49,8 +41,6 @@ if (!$resultado_vehiculos) {
             object-fit: cover; /* Ajusta la imagen para que cubra completamente el contenedor */
         }
     </style>
-
-
 
     <!-- Carrusel de fotos -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">

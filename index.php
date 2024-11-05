@@ -78,9 +78,6 @@ if (!$resultado_vehiculos) {
 <body class="pt-5 mt-4">
 <body class="pt-5 mt-3">
 <body>
-    <?php
-    include('admin/navbaradmin.php');
-    ?>
     <div class="container mt-5 pt-5 hidden" style='display:none;'>
         <h1>Bienvenido a RenzoMotors</h1>
         <p>Tu automotora de confianza</p>

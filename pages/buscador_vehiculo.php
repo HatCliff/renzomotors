@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    año
+                                    Año
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
                                     <?php
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="dropdown me-1 mb-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    combustible
+                                    Combustible
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="combusDropdown">
                                     <?php
@@ -201,8 +201,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </ul>
                             </div>
                             <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false"  style="background-color: #747871;">
-                                    transmisión
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Transmisión
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
                                     <?php

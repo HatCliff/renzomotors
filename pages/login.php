@@ -2,7 +2,7 @@
 require './../components/validationUI.php';
 session_start();
     if(isset($_SESSION['usuario'])){
-    //    header('Location: /pages/dashboard');
+         header('Location: /xampp/renzomotors/');
     }
 
     if(isset($_SESSION['error'])){
@@ -14,7 +14,7 @@ session_start();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  1
     <title>RenzoMotors</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="logo.png" type="image/png">
@@ -54,7 +54,7 @@ session_start();
                             aria-describedby="helpId"
                             placeholder="Contraseña"
                             required
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.\-@]).{6,}"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
                             title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
 
                         />

@@ -3,10 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2024 a las 22:58:11
+-- Tiempo de generación: 04-11-2024 a las 02:36:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
---
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -54,6 +54,13 @@ CREATE TABLE `administrador` (
   `id_rol` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `administrador`
+--
+
+INSERT INTO `administrador` (`rut_administrador`, `id_rol`) VALUES
+('11.111.111-1', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -91,7 +98,8 @@ INSERT INTO `anio` (`id_anio`, `anio`) VALUES
 (2, 2018),
 (3, 2020),
 (4, 2024),
-(5, 2023);
+(5, 2023),
+(6, 1984);
 
 -- --------------------------------------------------------
 
@@ -136,7 +144,8 @@ INSERT INTO `color` (`id_color`, `nombre_color`, `codigo_color`) VALUES
 (5, 'Naranja', '#ffa200'),
 (6, 'Rojo', '#eb0000'),
 (7, 'Azul Marino', '#000080'),
-(8, 'Dorado', '#bfc200');
+(8, 'Dorado', '#bfc200'),
+(9, 'Blanco', '#f7f7f7');
 
 -- --------------------------------------------------------
 
@@ -161,7 +170,8 @@ INSERT INTO `color_vehiculo` (`id_color`, `id_vehiculo`) VALUES
 (6, 10),
 (7, 9),
 (7, 10),
-(8, 34);
+(8, 34),
+(9, 37);
 
 -- --------------------------------------------------------
 
@@ -227,7 +237,8 @@ INSERT INTO `fotos_vehiculo` (`id_foto_vehiculo`, `ruta_foto`, `id_vehiculo`) VA
 (2, 'fotos_vehiculos/Ct_GRIS.jpg', 9),
 (3, 'fotos_vehiculos/Dodge_challeger_rojo.png', 10),
 (4, 'fotos_vehiculos/Dodge_challenger_gris.png', 10),
-(5, 'fotos_vehiculos/Kia_seltos.jpg', 34);
+(5, 'fotos_vehiculos/Kia_seltos.jpg', 34),
+(8, 'fotos_vehiculos/meteoro_1.jpg', 37);
 
 -- --------------------------------------------------------
 
@@ -291,7 +302,8 @@ INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 (4, 'Corea del Sur'),
 (5, 'Brasil'),
 (6, 'Estados Unidos'),
-(7, 'Mexico');
+(7, 'Mexico'),
+(8, 'Japón');
 
 -- --------------------------------------------------------
 
@@ -372,8 +384,7 @@ CREATE TABLE `promocion_vehiculo` (
 
 INSERT INTO `promocion_vehiculo` (`id_vehiculo`, `id_promocion`) VALUES
 (9, 4),
-(9, 5),
-(10, 4);
+(9, 5);
 
 -- --------------------------------------------------------
 
@@ -449,7 +460,18 @@ CREATE TABLE `registro_reserva` (
 INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cliente`, `sucursal_reserva`, `correo_cliente`, `telefono_cliente`, `metodo_pago`, `precio_reserva`, `color_reserva`, `compra_concretada`, `num_reserva_vehiculo`) VALUES
 (2, '123456789', 'aaa', '3', 'a@a', '123456789', 'Credito', 250000, '7', NULL, 3),
 (4, '1234', 'Comodidad', '1', 'Comodidad@aaa.com', '123', 'Credito', 250000, '4', NULL, 5),
-(11, '1233213', 'asd', '3', 'acd@ads', '233332', 'Credito', 300000, '6', NULL, 12);
+(11, '1233213', 'asd', '3', 'acd@ads', '233332', 'Credito', 300000, '6', NULL, 12),
+(12, '317692641', 'AAA', '3', 'aaa@aaa.cl', '12345678', 'Credito', 300000, '7', NULL, 13),
+(13, '317692641', 'AAA', '3', 'aaa@aaa.cl', '12345678', 'Credito', 300000, '7', NULL, 14),
+(14, '317692641', 'AAA', '3', 'aaa@aaa.cl', '12345678', 'Credito', 300000, '7', NULL, 16),
+(15, '317692641', 'AAA', '3', 'aaa@aaa.cl', '12345678', 'Credito', 300000, '7', NULL, 17),
+(16, '317692641', 'AAA', '3', 'aaa@aaa.cl', '12345678', 'Credito', 300000, '7', NULL, 18),
+(17, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 19),
+(18, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 20),
+(19, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 21),
+(20, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 22),
+(21, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 23),
+(22, '62338030-0', 'Matías aaaaaaaaaaaaa', '5', 'maaaaaaaaaaaa@ing.ucsc.cl', '123456789', 'NULL', 180000, '8', NULL, 24);
 
 -- --------------------------------------------------------
 
@@ -478,7 +500,18 @@ INSERT INTO `reserva_vehiculo` (`num_reserva_vehiculo`, `id_vehiculo`, `rut`, `f
 (9, 10, '216379020', '2024-10-26', '13:49:39'),
 (10, 10, '216379020', '2024-10-26', '13:49:49'),
 (11, 10, '216379020', '2024-10-26', '13:52:15'),
-(12, 10, '216379020', '2024-10-26', '13:54:04');
+(12, 10, '216379020', '2024-10-26', '13:54:04'),
+(13, 10, '216379020', '2024-11-03', '20:19:52'),
+(14, 10, '216379020', '2024-11-03', '20:19:52'),
+(16, 10, '216379020', '2024-11-03', '20:26:08'),
+(17, 10, '216379020', '2024-11-03', '20:26:08'),
+(18, 10, '216379020', '2024-11-03', '20:26:08'),
+(19, 34, '20.050.994-3', '2024-11-03', '20:41:17'),
+(20, 34, '20.050.994-3', '2024-11-03', '20:41:17'),
+(21, 34, '20.050.994-3', '2024-11-03', '20:41:17'),
+(22, 34, '20.050.994-3', '2024-11-03', '20:41:17'),
+(23, 34, '20.050.994-3', '2024-11-03', '20:41:17'),
+(24, 34, '20.050.994-3', '2024-11-03', '20:41:17');
 
 -- --------------------------------------------------------
 
@@ -745,7 +778,8 @@ INSERT INTO `tipo_vehiculo` (`id_tipo_vehiculo`, `nombre_tipo_vehiculo`) VALUES
 (2, 'Convertible'),
 (3, 'Sedán'),
 (5, 'Muscle Car'),
-(6, 'SUV');
+(6, 'SUV'),
+(7, 'Deportivo');
 
 -- --------------------------------------------------------
 
@@ -763,10 +797,11 @@ CREATE TABLE `transmision` (
 --
 
 INSERT INTO `transmision` (`id_transmision`, `nombre_transmision`) VALUES
-(1, 'Manual (Mecánica)'),
+(1, 'Manual'),
 (2, 'Automática 6V'),
 (4, 'Automática 8V'),
-(5, 'Variable Continua CVT');
+(5, 'Variable Continua CVT'),
+(6, 'Doble Embrague');
 
 -- --------------------------------------------------------
 
@@ -783,6 +818,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`rut_usuario`) VALUES
+('20.050.994-3'),
 ('216379020');
 
 -- --------------------------------------------------------
@@ -827,6 +863,8 @@ CREATE TABLE `usuario_registrado` (
 --
 
 INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contrasenia`, `tipo_persona`) VALUES
+('11.111.111-1', 'Matías', 'Admin', 'mcarrascob@ing.ucsc.cl', '$2y$10$w9HvwZiN6IttWdniLCEwXuOp5zi6LBBVs.r.bmHhuqxcTftsfjpQC', 'administrador'),
+('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
 ('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario');
 
 --
@@ -896,7 +934,7 @@ CREATE TABLE `vehiculo` (
   `id_vehiculo` int(11) NOT NULL,
   `nombre_modelo` varchar(100) NOT NULL,
   `precio_modelo` int(11) NOT NULL,
-  `estado_vehiculo` enum('usado','nuevo') NOT NULL,
+  `estado_vehiculo` enum('Usado','Nuevo') NOT NULL,
   `descripcion_vehiculo` text NOT NULL,
   `cantidad_vehiculo` int(11) NOT NULL,
   `cantidad_puertas` enum('2','4') NOT NULL,
@@ -917,9 +955,10 @@ CREATE TABLE `vehiculo` (
 --
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`) VALUES
-(9, 'Chevrolet Tracker', 19000000, 'usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, NULL, 0, 2, 4, 1, 5, 1, 6, 1),
-(10, 'Dodge Challenger', 30000000, 'nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 305, NULL, 0, 9, 5, 7, 6, 4, 5, 5),
-(34, 'Kia Seltos', 18000000, 'nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, NULL, 0, 3, 3, 4, 7, 5, 6, 6);
+(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1),
+(10, 'Dodge Challenger', 30000000, 'Nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6),
+(34, 'Kia Seltos', 18000000, 'Nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1),
+(37, 'Mach 5', 999999999, 'Nuevo', 'El Mach 5 es un auto deportivo de alta tecnología diseñado por el padre de Meteoro, Pops Racer. Tiene un diseño aerodinámico y futurista, caracterizado por su carrocería blanca con distintivas líneas rojas y verdes. El vehículo está equipado con una variedad de gadgets que le permiten superar desafíos en la pista, incluyendo:\r\n\r\n- Cortadoras de Cinta: Para cortar obstáculos en el camino.\r\n- Capacidad de Salto: Permite al auto saltar sobre otros vehículos o obstáculos.\r\n- Tracción en diferentes terrenos: Se adapta a superficies como tierra, nieve y agua.\r\n- Sistema de navegación avanzado: Ayuda a Meteoro a encontrar la mejor ruta durante las carreras.\r\n- Protección contra ataques: Tiene mecanismos para defenderse de los competidores deshonestos.', 10, '2', 600, 'ficha_mach5.pdf', 0, 2, 6, 7, 8, 1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -966,11 +1005,20 @@ INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`) VALUES
 (1, 9),
 (1, 10),
 (1, 34),
+(1, 37),
+(2, 9),
+(2, 10),
 (2, 34),
+(3, 9),
 (3, 10),
 (3, 34),
+(3, 37),
+(4, 9),
 (4, 34),
-(5, 34);
+(4, 37),
+(5, 9),
+(5, 34),
+(5, 37);
 
 --
 -- Índices para tablas volcadas
@@ -1273,7 +1321,7 @@ ALTER TABLE `vehiculo_sucursal`
 -- AUTO_INCREMENT de la tabla `anio`
 --
 ALTER TABLE `anio`
-  MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `cobertura`
@@ -1285,7 +1333,7 @@ ALTER TABLE `cobertura`
 -- AUTO_INCREMENT de la tabla `color`
 --
 ALTER TABLE `color`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `financiamiento`
@@ -1303,7 +1351,7 @@ ALTER TABLE `fotos_accesorio`
 -- AUTO_INCREMENT de la tabla `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
-  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
@@ -1315,7 +1363,7 @@ ALTER TABLE `marca`
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -1345,13 +1393,13 @@ ALTER TABLE `registro_accesorio`
 -- AUTO_INCREMENT de la tabla `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
-  MODIFY `id_registro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_registro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
-  MODIFY `num_reserva_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `num_reserva_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -1405,19 +1453,19 @@ ALTER TABLE `tipo_rueda`
 -- AUTO_INCREMENT de la tabla `tipo_vehiculo`
 --
 ALTER TABLE `tipo_vehiculo`
-  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `transmision`
 --
 ALTER TABLE `transmision`
-  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculo`
 --
 ALTER TABLE `vehiculo`
-  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Restricciones para tablas volcadas

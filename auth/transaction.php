@@ -7,14 +7,17 @@ include('../vendor/autoload.php');
 use Transbank\Webpay\WebpayPlus\Transaction;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    $user = $_SESSION['usuario'];
      // Obtencion de las zona horarias para guardar fecha y hora
     date_default_timezone_set('America/Santiago');
     
     $buyOrder = rand(100000, 999999);
     $_SESSION['compra'] = [
         'id_vehiculo' => $_POST['id_vehiculo'],
-        'rut' => '216379020',
+        'rut' => $user['rut'],
         'rut_compra' => $_POST['rut'],
         'nombre' => $_POST['nombre'],
         'correo' => $_POST['correo'],
@@ -23,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'sucursal' => $_POST['id_sucursal'],
         'precio' => $_POST['precio'],
         'compra' => 'NULL',
-        'pago' => 'Credito',
+        'pago' => 'NULL',
         'orden_compra' => $buyOrder,
         'fecha_actual' => date('Y-m-d'),
         'hora_actua' => date('H:i:s')
