@@ -1,10 +1,4 @@
 <?php
-// Incluye el navbar correspondiente según el tipo de usuario
-if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
-    include '../admin/navbaradmin.php';
-} else {
-    include '../components/navbaruser.php';
-}
 include('../config/conexion.php');
 
 $idRecibida = $_GET['id'];

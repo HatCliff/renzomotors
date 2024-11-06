@@ -71,19 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($orden == 'menor_a_mayor') {
             $query .= " ORDER BY precio_modelo ASC";
         }
-
-        if(!empty($nombre_modelo)){
-            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
-            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
-        }
-    }else{
-        $estado =  [];
-        $orden =  '';
-        $id_marcas =  [];
-        $id_anios =  [];
-        $id_combustible =  [];
-        $id_transmision =  [];
-        $nombre_modelo =  ''; 
     }
 
     $resultado = mysqli_query($conexion, $query);

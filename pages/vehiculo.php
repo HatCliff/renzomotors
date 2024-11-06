@@ -7,7 +7,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $id_vehiculo = $_GET['id'];
-$consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo");
 $current_rating = null;
 // Consultas para obtener la información del vehículo
 $vehiculo_query = "SELECT v.*, m.nombre_marca, a.anio, c.nombre_tipo_combustible, p.nombre_pais, t.nombre_transmision
@@ -47,6 +46,10 @@ $doc_result = mysqli_query($conexion, $doc_query);
 
 $colores_result = mysqli_query($conexion, $colores_query);
 
+// Consulta para obtener las opiniones
+$opiniones_query = "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo";
+$opiniones_result = mysqli_query($conexion, $opiniones_query);
+
 
 ?>
 
@@ -60,6 +63,7 @@ $colores_result = mysqli_query($conexion, $colores_query);
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Detalles del Vehículo</title>
 </head>
 <style>
@@ -334,31 +338,17 @@ $colores_result = mysqli_query($conexion, $colores_query);
                             ?>
                     </div>
                     <div class="col-4">
-                        <div class="modal fade" id="dynamicModal" aria-hidden="true"
-                            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header d-flex justify-content-between align-items-center"
-                                        style="border-bottom: none;">
-                                        <h1 class="modal-title fs-5 text-center flex-grow-1"
-                                            id="exampleModalToggleLabel" style="font-weight: bold; font-size: 24px;">
-                                        </h1>
-                                        <button type="button" class="btn-close "
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 3px solid black;"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" data-bs-target="#dynamicModal" data-bs-toggle="modal" data-id="<?php echo $id_vehiculo; ?>">Escribe la tuya -></button>
+                        <!-- Botón para abrir el modal de opinion -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#opinion_modal">
+                            Ingresar opinion
+                        </button>
+                        <!-- Incluir archivo de modal -->
+                        <?php include 'opinion.php'; ?>
                     </div>
                 </div>
                 <div class="row overflow-auto" style="max-height: 400px;">
                     <?php
-                    while ($row = mysqli_fetch_assoc($consulta)) {
+                    while ($row = mysqli_fetch_assoc($opiniones_result)) {
 
                         echo "<div class='card me-2 mb-2' style='width: 18rem;'>";
                         echo " <div class='card-body'>";
@@ -393,28 +383,8 @@ $colores_result = mysqli_query($conexion, $colores_query);
 
             </div>
 
-            <!-- Scripts de Bootstrap -->
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-            <script>
-                $(document).ready(function () {
-                    // Cargar contenido del modal cuando se muestra
-                    $('#dynamicModal').on('show.bs.modal', function (event) {
-                        const button = $(event.relatedTarget); // Botón que activó el modal
-                        const idVehiculo = button.data('id'); // Obtener el id del vehículo desde el atributo data-id
-                        
-                        if (idVehiculo) {
-                            // Cargar el contenido del modal con el id del vehículo usando AJAX
-                            $('#dynamicModal .modal-body').load('opinion.php?id=' + idVehiculo);
-                        } else {
-                            // Mostrar mensaje de error si no hay un id de vehículo
-                            $('#dynamicModal .modal-body').html('<p>Error: ID del vehículo no proporcionado.</p>');
-                        }
-                    });
-                });
-
-            </script>
 </body>
 
 </html>

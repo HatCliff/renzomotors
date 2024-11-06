@@ -55,15 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $transmision_list = implode(',', array_map('intval', $id_transmision));
             $query .= " AND v.id_transmision IN ($transmision_list)";
         }
+        if (!empty($nombre_modelo)) {
+            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
+            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
+        }
         if ($orden == 'mayor_a_menor') {
             $query .= " ORDER BY precio_modelo DESC";
         } elseif ($orden == 'menor_a_mayor') {
             $query .= " ORDER BY precio_modelo ASC";
         }
-        if (!empty($nombre_modelo)) {
-            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
-            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
-        }
+        
     }
 
     $resultado = mysqli_query($conexion, $query);
