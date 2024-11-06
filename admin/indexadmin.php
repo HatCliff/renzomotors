@@ -33,7 +33,7 @@ if (!$resultado_vehiculos) {
 </head>
 <body class="pt-5 mt-3">
 <body>
-<style>
+    <style>
         /* Ajustar el tamaño de las imágenes del carrusel */
         .carousel-item img {
             width: 100%;

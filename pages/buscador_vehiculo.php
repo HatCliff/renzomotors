@@ -99,6 +99,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
     </style>
 </head>
+<script>
+    // Función para convertir los parámetros del formulario a una cadena de consulta (query string)
+    function getQueryString() {
+        const form = document.getElementById('filtroForm');
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData);
+        return params.toString();  // Devuelve la cadena de parámetros 
+    }
+
+    // Llamada a history.replaceState solo si el formulario ha sido enviado
+    window.addEventListener('load', function() {
+        // Reemplazar la URL con los parámetros del filtro, pero sin recargar la página
+        const queryString = getQueryString();
+        if (queryString) {
+            // Actualizar la URL sin recargar la página
+            history.replaceState(null, '', '?' + queryString);
+        }
+    });
+</script>
 <body class="pt-5">
     <div class="container mt-5">
         <div class="row mb-4  ">

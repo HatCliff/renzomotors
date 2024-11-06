@@ -398,22 +398,23 @@ $colores_result = mysqli_query($conexion, $colores_query);
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
             <script>
-    $(document).ready(function () {
-        // Cargar contenido del modal cuando se muestra
-        $('#dynamicModal').on('show.bs.modal', function (event) {
-            const button = $(event.relatedTarget); // Botón que activó el modal
-            const idVehiculo = button.data('id'); // Obtener el id del vehículo desde el atributo data-id
-            
-            if (idVehiculo) {
-                // Cargar el contenido del modal con el id del vehículo usando AJAX
-                $('#dynamicModal .modal-body').load('opinion.php?id=' + idVehiculo);
-            } else {
-                // Mostrar mensaje de error si no hay un id de vehículo
-                $('#dynamicModal .modal-body').html('<p>Error: ID del vehículo no proporcionado.</p>');
-            }
-        });
-    });
-</script>
+                $(document).ready(function () {
+                    // Cargar contenido del modal cuando se muestra
+                    $('#dynamicModal').on('show.bs.modal', function (event) {
+                        const button = $(event.relatedTarget); // Botón que activó el modal
+                        const idVehiculo = button.data('id'); // Obtener el id del vehículo desde el atributo data-id
+                        
+                        if (idVehiculo) {
+                            // Cargar el contenido del modal con el id del vehículo usando AJAX
+                            $('#dynamicModal .modal-body').load('opinion.php?id=' + idVehiculo);
+                        } else {
+                            // Mostrar mensaje de error si no hay un id de vehículo
+                            $('#dynamicModal .modal-body').html('<p>Error: ID del vehículo no proporcionado.</p>');
+                        }
+                    });
+                });
+
+            </script>
 </body>
 
 </html>

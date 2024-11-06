@@ -5,7 +5,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg  fixed-top">
+<nav class="navbar navbar-expand-lg  navbar-dark bg-black fixed-top">
     <div class="container-fluid">
         
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
