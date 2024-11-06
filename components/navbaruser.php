@@ -8,7 +8,6 @@ if (session_status() == PHP_SESSION_NONE) {
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
     <div class="container-fluid">
-
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
             <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo"
                 style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
@@ -21,8 +20,7 @@ if (session_status() == PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>index.php' class="nav-link active"
-                        aria-current="page">Inicio</a>
+                    <a href='<?php echo $carpetaMain; ?>index.php' class="nav-link active" aria-current="page">Inicio</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -31,26 +29,34 @@ if (session_status() == PHP_SESSION_NONE) {
                         aria-expanded="false">
                         Buscador
                     </a>
-    
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item"
-                                href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
+                        <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehículo</a></li>
                         <li><a class="dropdown-item" href="#">Accesorios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active"
-                        aria-current="page">Comparador</a>
+                    <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
+                
                 <?php
                 if (isset($_SESSION['usuario'])) {
+                    // Si el usuario ha iniciado sesión, muestra el icono de perfil y la opción de cerrar sesión
+                    echo '<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> Perfil
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
+                            </ul>
+                          </li>';
                 } else {
-                    // Si no hay una sesión activa, muestra el botón habilitado
+                    // Si no hay una sesión activa, muestra el botón de unirse
                     echo '<li class="nav-item d-flex justify-content-center">
                              <a href="' . $carpetaMain . 'pages/register.php" class="btn btn-light">
                                  <i class="fas fa-sign-in-alt"></i> Únetenos
-                             </a>';
-
+                             </a>
+                          </li>';
                 }
                 ?>
             </ul>
