@@ -6,22 +6,76 @@ include './config/conexion.php';
 $query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal";
 $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
 
-// Verificamos si se encontraron registros
-if (!$resultado_sucursales) {
-    die("Error en la consulta de sucursales: " . mysqli_error($conexion));
+$estado = $_POST['estado'] ?? [];
+$orden = $_POST['orden'] ?? '';
+$id_marcas = $_POST['id_marcas'] ?? [];
+$id_anios = $_POST['id_anios'] ?? [];
+$id_combustible = $_POST['id_combustible'] ?? [];
+$id_transmision = $_POST['id_transmision'] ?? [];
+$nombre_modelo = $_POST['modelo_i'] ?? '';
+
+$query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
+          FROM vehiculo v
+          JOIN marca m ON v.id_marca = m.id_marca
+          JOIN anio a ON v.id_anio = a.id_anio
+          JOIN pais p ON v.id_pais = p.id_pais
+          WHERE 1=1 AND v.cantidad_vehiculo != 0";
+
+$resultado = mysqli_query($conexion, $query);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['Limpiar'])) {
+        // Resetea los valores de los filtros a sus valores iniciales
+        $estado = $orden = $nombre_modelo = '';
+        $id_marcas = $id_anios = $id_combustible = $id_transmision = [];
+        // Redirige al mismo formulario para limpiar todos los datos enviados por POST
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        // Procesa los filtros solo si "Limpiar" no fue presionado
+        if (!empty($id_marcas)) {
+            $marcas_list = implode(',', array_map('intval', $id_marcas));
+            $query .= " AND v.id_marca IN ($marcas_list)";
+        }
+        if (!empty($estado)) {
+            $estado_list = "'" . implode("','", array_map(function($e) use ($conexion) {
+                return mysqli_real_escape_string($conexion, $e);
+            }, $estado)) . "'";
+            $query .= " AND v.estado_vehiculo IN ($estado_list)";
+        }
+        if (!empty($id_anios)) {
+            $anios_list = implode(',', array_map('intval', $id_anios));
+            $query .= " AND v.id_anio IN ($anios_list)";
+        }
+        if (!empty($id_combustible)) {
+            $combustibles_list = implode(',', array_map('intval', $id_combustible));
+            $query .= " AND v.id_tipo_combustible IN ($combustibles_list)";
+        }
+        if (!empty($id_transmision)) {
+            $transmision_list = implode(',', array_map('intval', $id_transmision));
+            $query .= " AND v.id_transmision IN ($transmision_list)";
+        }
+        if ($orden == 'mayor_a_menor') {
+            $query .= " ORDER BY precio_modelo DESC";
+        } elseif ($orden == 'menor_a_mayor') {
+            $query .= " ORDER BY precio_modelo ASC";
+        }
+        if (!empty($nombre_modelo)) {
+            $nombre_modelos = mysqli_real_escape_string($conexion, $nombre_modelo);
+            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelos%'";
+        }
+    }
+
+    $resultado = mysqli_query($conexion, $query);
+    if (mysqli_num_rows($resultado) == 0) {
+        echo "<script>var showAlert = true;</script>";
+    } else {
+        echo "<script>var showAlert = false;</script>";
+    }
 }
 
-// Consulta de vehículos
-$query_vehiculos = "SELECT v.id_vehiculo, v.nombre_modelo, v.precio_modelo, p.nombre_pais 
-                    FROM vehiculo v
-                    JOIN pais p ON v.id_pais = p.id_pais";
-$resultado_vehiculos = mysqli_query($conexion, $query_vehiculos);
+?>
 
-// Verificamos si se encontraron registros
-if (!$resultado_vehiculos) {
-    die("Error en la consulta de vehículos: " . mysqli_error($conexion));
-}
-?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,24 +84,21 @@ if (!$resultado_vehiculos) {
     <title>RenzoMotors</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="logo.png" type="image/png">
-</head>
-<body class="pt-5 mt-3">
-<body>
-    <div class="container mt-5 pt-5 hidden" style='display:none;'>
-        <h1>Bienvenido a RenzoMotors</h1>
-        <p>Tu automotora de confianza</p>
-    </div>
-
-<style>
-        /* Ajustar el tamaño de las imágenes del carrusel */
-        .carousel-item img {
-            width: 100%;
-            height: 600px; /* Altura fija para todas las imágenes */
-            object-fit: cover; /* Ajusta la imagen para que cubra completamente el contenedor */
+    <style>
+        /* Ajustes generales para una apariencia limpia */
+        .carousel-item img { width: 100%; height: 600px; object-fit: cover; }
+        .dropdown-menu { max-height: 200px; overflow-y: auto; }
+        .card { background: #fffcf4; border-radius: 20px; overflow: hidden; transition: transform 0.3s ease; }
+        .card:hover { transform: scale(1.05); }
+        .btn-secondary, .btn-success, .btn-danger { width: 100%; }
+        /* Estilos adicionales para hacer la página más adaptable */
+        @media (min-width: 768px) {
+            .form-control, .btn { max-width: 300px; }
+            .dropdown-toggle { white-space: nowrap; }
         }
     </style>
-
-
+</head>
+<body class="pt-5 mt-3">
 
     <!-- Carrusel de fotos -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -110,65 +161,206 @@ if (!$resultado_vehiculos) {
 
         <!-- Sección Novedades de Vehículos -->
         <div class="col-md-9">
-            <h5>Novedades en Renzo Motors</h5>
+        <div class="row mb-4">
+            <!-- buscador y filtros -->
+            <div class="row mb-4">
+                <h1 class="mb-4">Vehículos</h1>
+                <form method="POST" enctype="multipart/form-data" >
+                    <div class="d-flex flex-column flex-md-row align-items-center">
+                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
+                            <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo" aria-label="Modelo del vehículo">
+                        </div>
+                            
+                        <div class="col-12 col-md-7 d-flex flex-wrap align-items-center">
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="estadoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Estado
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="estadoDropdown">
+                                    <li class="dropdown-item">
+                                        <label>
+                                            <input type="checkbox" name="estado[]" value="nuevo"<?php if (in_array('nuevo', $estado)) echo 'checked'; ?>> Nuevo
+                                        </label>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <label>
+                                            <input type="checkbox" name="estado[]" value="usado"<?php if (in_array('usado', $estado)) echo 'checked'; ?>> Usado
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ordenar por
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="ordenDropdown">
+                                    <li class="dropdown-item">
+                                        <label>
+                                            <input type="radio" name="orden" value="mayor_a_menor" <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>> Precio de mayor a menor
+                                        </label>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <label>
+                                            <input type="radio" name="orden" value="menor_a_mayor" <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>> Precio de menor a mayor
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="marcaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Marca
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
+                                    <?php
+                                        
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM marca");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            $isChecked = in_array($row['id_marca'], $id_marcas) ? 'checked' : '';
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_marcas[]' value='{$row['id_marca']}'  $isChecked>";
+                                            echo "{$row['nombre_marca']}";
+                                            echo "</label>";
+                                            echo "</li>";
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Año
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
+                                    <?php
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM anio");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            $isChecked = in_array($row['id_anio'], $id_anios) ? 'checked' : '';
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' $isChecked>";
+                                            echo "{$row['anio']}";
+                                            echo "</label>";
+                                            echo "</li>";
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Combustible
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="combusDropdown">
+                                    <?php
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM tipo_combustible");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            $isChecked = in_array($row['id_tipo_combustible'], $id_combustible) ? 'checked' : '';
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_combustible[]' value='{$row['id_tipo_combustible']}' $isChecked>";
+                                            echo "{$row['nombre_tipo_combustible']}";
+                                            echo "</label>";
+                                            echo "</li>";
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-1 mb-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Transmisión
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
+                                    <?php
+                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
+                                        while ($row = mysqli_fetch_assoc($consulta)) {
+                                            $isChecked = in_array($row['id_transmision'], $id_transmision) ? 'checked' : '';
+                                            echo "<li class='dropdown-item'>";
+                                            echo "<label>";
+                                            echo "<input type='checkbox' name='id_transmision[]' value='{$row['id_transmision']}' $isChecked>";
+                                            echo "{$row['nombre_transmision']}";
+                                            echo "</label>";
+                                            echo "</li>";
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mt-2">
+                        <button type="submit" class="btn btn-success mt-4" >Aplicar Filtros</button>
+                        <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-danger mt-4"  >Limpiar Filtros</button>
+                    </div>                
+                </form>
+                <div class='alert alert-danger alert-container' id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
+            </div>
+        
+            <!-- Muestra todos los vehiculos -->
             <div class="row">
-                <?php
-                if ($resultado_vehiculos->num_rows > 0) {
-                    while($vehiculo = $resultado_vehiculos->fetch_assoc()) {
-                        $id_vehiculo = $vehiculo['id_vehiculo'];
-
-                        // Consulta de fotos para el vehículo actual
-                        $query_fotos = "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo";
-                        $resultado_fotos = mysqli_query($conexion, $query_fotos);
-
-                        echo '<div class="col-md-4 mb-4">';
-                        echo '<div class="card h-100">'; // Añadido h-100 para altura completa de la tarjeta
-
-                        // Carrusel de fotos
-                        if (mysqli_num_rows($resultado_fotos) > 0) {
-                            echo '<div id="carousel' . $id_vehiculo . '" class="carousel slide h-100" data-bs-ride="carousel">'; // h-100 para que ocupe toda la altura
-                            echo '<div class="carousel-inner h-100">'; // h-100 para mantener la altura consistente
-
-                            $active_class = 'active'; // La primera imagen será la activa
-                            while ($foto = mysqli_fetch_assoc($resultado_fotos)) {
-                                $ruta_foto = './admin/mantenedores/vehiculo/' . $foto['ruta_foto']; // Agregar 'vehiculos/' a la ruta
-                                echo '<div class="carousel-item ' . $active_class . ' h-100">'; // h-100 para que la imagen ocupe toda la altura
-                                echo "<img src='{$ruta_foto}' class='d-block w-100 h-100 object-fit-cover' alt='Foto del vehículo'>"; // h-100 para altura completa
-                                echo '</div>';
-                                $active_class = ''; // Las siguientes no deben ser "active"
-                            }
-
-                            echo '</div>'; // Cierra el carousel-inner
-
-                            // Controles del carrusel
-                            echo '<button class="carousel-control-prev" type="button" data-bs-target="#carousel' . $id_vehiculo . '" data-bs-slide="prev">';
-                            echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-                            echo '<span class="visually-hidden">Anterior</span>';
-                            echo '</button>';
-                            echo '<button class="carousel-control-next" type="button" data-bs-target="#carousel' . $id_vehiculo . '" data-bs-slide="next">';
-                            echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-                            echo '<span class="visually-hidden">Siguiente</span>';
-                            echo '</button>';
-
-                            echo '</div>'; // Cierra el carrusel
-                        } else {
-                            // Si no hay fotos, mostramos un placeholder
-                            echo '<img src="car_placeholder.png" class="card-img-top" alt="Vehículo">';
-                        }
-
-                        // Información del vehículo
-                        echo '<div class="card-body">';
-                        echo '<h5 class="card-title">' . $vehiculo['nombre_modelo'] . '</h5>';
-                        echo '<p class="card-text">$' . number_format($vehiculo['precio_modelo']) . '</p>';
-                        echo '<p class="card-text">' . $vehiculo['nombre_pais'] . '</p>';
-                        echo '</div>';
-                        echo '</div></div>';
+            <?php
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch'>";
+                    echo "<a href='pages/vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
+                    echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
+                    // Carrusel de fotos del vehículo
+                    $id_vehiculo = $fila['id_vehiculo'];
+                    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                    
+                    echo "<div id='carousel{$id_vehiculo}' class='carousel slide' data-bs-ride='carousel'>";
+                    echo "<div class='carousel-inner'>";
+                    $active = "active";
+                    while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
+                        $ruta_imagen = 'admin/mantenedores/vehiculo/' . $foto['ruta_foto'];
+                        echo "<div class='carousel-item $active'>";
+                        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 180px; border-radius: 15px 15px 0 0;'></div>";
+                        echo "</div>";
+                        $active = ""; // Solo la primera imagen es "active"
                     }
-                } else {
-                    echo "No se encontraron vehículos.";
+                    echo "</div>";
+                    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='prev'>
+                            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Previous</span>
+                        </button>";
+                    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='next'>
+                            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Next</span>
+                        </button>";
+                    echo "</div>";
+
+                    // Estado del vehículo (Nuevo o Usado)
+                    echo "
+                        <div class='position-absolute p-2' style='top: 10px; left: 10px;'>
+                            <span class='badge bg-light text-dark border' style='border-radius: 20px; padding: 5px 10px;'>{$fila['estado_vehiculo']}</span>
+                        </div>
+                    ";
+
+                    // Información del vehículo
+                    echo "<div class='card-body mt-1 text-center py-2'>";
+                    $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
+                    echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
+                    echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
+                    echo "<p class='text-muted mb-2'>{$fila['nombre_pais']}</p>";
+                    echo "</div>"; // card-body
+
+                    // Colores del vehículo en la parte inferior
+                    $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
+                                                                FROM color_vehiculo vc
+                                                                JOIN color c ON vc.id_color = c.id_color
+                                                                WHERE vc.id_vehiculo = $id_vehiculo");
+                    echo "<div class='d-flex justify-content-center align-items-center mb-2'>";
+                    while ($color = mysqli_fetch_assoc($colores_resultado)) {
+                        $codigo_color = htmlspecialchars($color['codigo_color']);
+                        echo "<span style='background-color: $codigo_color; width: 20px; height: 20px; border-radius: 50%; display: inline-block; margin: 0 5px;'></span>";
+                    }
+                    echo "</div>";
+
+                    echo "</div>"; // card
+                    echo "</a>";
+                    echo "</div>";
                 }
                 ?>
-            </div>
+            </div>    
+        </div>
+    </div>
+    
         </div>
     </div>
 </div>

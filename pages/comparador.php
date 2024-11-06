@@ -1,20 +1,7 @@
-<?php 
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (isset($_POST['reiniciar'])) {
-    
-    //session_unset(); // Borra todos los datos de la sesión
-    //session_destroy(); // Destruye la sesión
-    //session_start(); // Inicia una nueva sesión
-}
-
-include '../config/conexion.php';
-include '../components/navbaruser.php';
-
-// Variables para almacenar los datos seleccionados 
+<?php
+session_start();
+include('../config/conexion.php'); 
+// Variables para almacenar los datos seleccionados
 $vehiculo1 = isset($_SESSION['vehiculo1']) ? $_SESSION['vehiculo1'] : null;
 $vehiculo2 = isset($_SESSION['vehiculo2']) ? $_SESSION['vehiculo2'] : null;
 $vehiculo3 = isset($_SESSION['vehiculo3']) ? $_SESSION['vehiculo3'] : null;
@@ -41,6 +28,7 @@ if (isset($_POST['submitVehiculo3'])) {
 if (isset($_POST['eliminarVehiculo1'])) {
     unset($_SESSION['vehiculo1']); 
     header("Location: " . $_SERVER['PHP_SELF']); 
+    exit();
 }
 
 if (isset($_POST['eliminarVehiculo2'])) {
@@ -54,8 +42,6 @@ if (isset($_POST['eliminarVehiculo3'])) {
     header("Location: " . $_SERVER['PHP_SELF']); 
     exit();
 }
-
-
 
 // Función para obtener la información del vehículo desde la base de datos
 function getVehiculoInfo($conexion, $idVehiculo) {
@@ -86,10 +72,13 @@ function obtenerOpcionesVehiculos($conexion) {
 }
 
 $opcionesVehiculos = obtenerOpcionesVehiculos($conexion);
-
+// Incluye el navbar correspondiente según el tipo de usuario
+if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
+    include '../admin/navbaradmin.php';
+} else {
+    include '../components/navbaruser.php';
+}
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -101,17 +90,10 @@ $opcionesVehiculos = obtenerOpcionesVehiculos($conexion);
 </head>
 <body class="mt-5 pt-5">
 <div class="text-center pt-4">
-    <h1>Comparador de Vehiculos de RenzoMotors</h1>
+    <h1>Comparador de Vehiculos RenzoMotors</h1>
 </div>
 <div class="container">
     <div class="row text-center mt-5">
-        <div class="d-flex justify-content-center">
-            <form method="POST" action="">
-                <button type="submit" name="reiniciar" class="btn btn-dark">Reiniciar Comparación</button>
-            </form>
-        </div>
-        
-
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">

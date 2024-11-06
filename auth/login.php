@@ -29,14 +29,22 @@ if(mysqli_num_rows($result) > 0){
         header('Location: /xampp/renzomotors/pages/login.php');
         exit();
     }
+    $_SESSION['tipo_persona'] = $row['tipo_persona'];
+    // Suponiendo que ya has obtenido estos datos del usuario desde la base de datos o formulario de inicio de sesión
+    $_SESSION['rut'] = $row['rut'];
+    $_SESSION['correo'] = $row['correo'];
+    $_SESSION['nombre'] = $row['nombre'];
+    $_SESSION['apellido'] = $row['apellido'];
+// Y cualquier otro dato que necesites almacenar
+
     //CAMIAR POR NOMBRE USUARIO;
     $_SESSION['usuario'] = $row;
     //$_SESSION['usuario'] = "".$row['email']."";
     if($row['tipo_persona'] == 'usuario'){
         header('Location: /xampp/renzomotors/index.php');
     }
-    else{
-        header('Location: /xampp/renzomotors/');
+    else if($row['tipo_persona'] == 'administrador'){
+        header('Location: /xampp/renzomotors/admin/indexadmin.php');
     }
     exit();
 }
