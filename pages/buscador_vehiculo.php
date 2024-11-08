@@ -1,14 +1,5 @@
 <?php
 session_start();
-
-// Incluye el navbar correspondiente según el tipo de usuario
-if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
-    // Usuario es administrador, incluye el navbar de administrador
-    include '../admin/navbaradmin.php';
-} else {
-    // Usuario es normal, incluye el navbar de usuario
-    include '../components/navbaruser.php';
-}
 include('../config/conexion.php'); 
 
 $estado = $_POST['estado'] ?? [];
@@ -79,6 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "<script>var showAlert = false;</script>";
     }
+}
+
+
+// Incluye el navbar correspondiente según el tipo de usuario
+if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
+    // Usuario es administrador, incluye el navbar de administrador
+    include '../admin/navbaradmin.php';
+} else {
+    // Usuario es normal, incluye el navbar de usuario
+    include '../components/navbaruser.php';
 }
 
 ?>
@@ -267,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="d-flex gap-2 mt-2">
                         <button type="submit" name="Limpiar" id="Limpiar" 
-                        class="btn btn-success mt-4" style="background-color: #426B1F;" >Limpiar Filtros</button>
+                        class="btn btn-danger mt-4" >Limpiar Filtros</button>
                     </div>                
                 </form>
                 <div class='alert alert-danger alert-container' 
