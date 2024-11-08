@@ -59,7 +59,7 @@ $error_message = ""; // Variable para almacenar el mensaje de error
 </head>
 
 <body>
-<div class="container px-5 ">
+<div class="container mt-4 ">
     <div class="row justify-content-sm-center">
 
         <div class="col-lg-6 col-sm-12 px-5 mt-2">
@@ -125,7 +125,11 @@ $error_message = ""; // Variable para almacenar el mensaje de error
                         <div class="col-12 d-flex justify-content-center mb-2 mt-4">
                             <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>
                         </div>
-                        <small id="helpId" class="form-text text-muted">¿Ya tienes cuenta? <a href="./login.php" class="">Iniciar Sesión</a></small>
+
+                        <div class="d-flex justify-content-center">
+                            <small id="helpId" class="form-text text-muted">¿Ya tienes cuenta? <a href="./login.php" class="">Iniciar Sesión</a></small>
+                        </div>
+                        
               
                     </form>
                 </div>
