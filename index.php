@@ -65,7 +65,7 @@ if (!$resultado_vehiculos) {
                 <img src="./src/images/banner2.jpg" class="d-block w-100" alt="Cotizar Seguro">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>Cotiza tu Seguro</h4>
-                    <a href="#" class="btn btn-warning">Cotizar Ahora</a>
+                    <a href="pages/contratacion_seguro.php" class="btn btn-warning">Cotizar Ahora</a>
                 </div>
             </div>
             <!-- Tercer slide -->
