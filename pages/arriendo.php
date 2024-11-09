@@ -61,7 +61,7 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                         // Consulta de vehículos disponibles en la sucursal seleccionada
                         $query_vehiculos = "SELECT v.id_vehiculo, v.nombre_modelo, m.nombre_marca, a.anio, p.nombre_pais AS pais, 
                                             t.nombre_transmision AS transmision, v.kilometraje, c.nombre_tipo_combustible AS tipo_combustible,
-                                            v.estado_vehiculo, v.precio_modelo
+                                            v.estado_vehiculo, v.precio_modelo, ra.arriendo_concretada
                                             FROM vehiculo v
                                             JOIN marca m ON v.id_marca = m.id_marca
                                             JOIN anio a ON v.id_anio = a.id_anio
@@ -69,16 +69,21 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                                             JOIN transmision t ON v.id_transmision = t.id_transmision
                                             JOIN tipo_combustible c ON v.id_tipo_combustible = c.id_tipo_combustible
                                             JOIN vehiculo_sucursal vs ON v.id_vehiculo = vs.id_vehiculo
-                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo = 1";
+                                            left JOIN registro_arriendo ra ON v.id_vehiculo = ra.id_vehiculo
+                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo = 1 ";
                         
                         $result_vehiculos = mysqli_query($conexion, $query_vehiculos);
 
                         if (mysqli_num_rows($result_vehiculos) > 0) {
                             echo "<h2>Vehículos Disponibles en esta Sucursal</h2>";
                             echo "<div class='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'>";
+
+                            
                             
                             while ($fila = mysqli_fetch_assoc($result_vehiculos)) {
-                                // Verificación si los datos existen
+                                if($fila['arriendo_concretada']!=1)
+                                {
+                                    // Verificación si los datos existen
                                 $estado_vehiculo = isset($fila['estado_vehiculo']) ? $fila['estado_vehiculo'] : 'Desconocido';
                                 $precio_modelo = isset($fila['precio_modelo']) && $fila['precio_modelo'] !== null ? number_format($fila['precio_modelo'], 0, ',', '.') : 'No disponible';
                                 $pais = isset($fila['pais']) ? $fila['pais'] : 'Desconocido';
@@ -145,8 +150,11 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                                 echo "</div>"; // card
                                 echo "</a>";
                                 echo "</div>";
-                            }
 
+                                }else{
+                                    echo "<p class='fst-italic'>No hay vehículos disponibles en esta sucursal.</p>";
+                                }   
+                            }
                             echo "</div>";
                         } else {
                             echo "<p class='fst-italic'>No hay vehículos disponibles en esta sucursal.</p>";
