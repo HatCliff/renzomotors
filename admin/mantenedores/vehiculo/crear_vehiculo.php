@@ -168,6 +168,14 @@ include '../../navbaradmin.php';
             </div>
 
             <div class="mb-3">
+                <label for="arriendo" class="form-label">¿Es para arriendo?</label>
+                <select class="form-select" name="arriendo" aria-label="Default select example" require>
+                    <option value="1">Si</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label for="sucursales" class="form-label">Disponible en: </label>
                 <div class="form-check d-flex flex-row">
                     <?php
@@ -223,6 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kilometraje = $_POST['kilometro'];
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
+    $arriendo = $_POST['arriendo'];
 
 
     $documento_tecnico = $_FILES['docu']['name'];
@@ -233,9 +242,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // insertar el vehículo
     $query = "INSERT INTO vehiculo (nombre_modelo, precio_modelo, estado_vehiculo, descripcion_vehiculo, cantidad_vehiculo,
                                      cantidad_puertas, caballos_fuerza, documento_tecnico, kilometraje, id_marca, id_anio, id_tipo_combustible, id_pais, id_transmision,
-                                     id_tipo_vehiculo, id_tipo_rueda) 
+                                     id_tipo_vehiculo, id_tipo_rueda, arriendo) 
               VALUES ('$nombre_modelo', '$precio','$estado_vehiculo', '$descripcion', '$cantidad', '$puertas', '$horsepower', '$documento_tecnico', '$kilometraje', '$id_marca',
-                      '$id_anio', '$id_tipo_combustible', '$id_pais', '$id_transmision', '$id_tipo_vehiculo', '$id_tipo_ruedas')";
+                      '$id_anio', '$id_tipo_combustible', '$id_pais', '$id_transmision', '$id_tipo_vehiculo', '$id_tipo_ruedas', '$arriendo')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
