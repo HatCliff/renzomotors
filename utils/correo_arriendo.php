@@ -4,7 +4,7 @@ require('../config/conexion.php');
 require('../vendor/autoload.php');
 
 $carpetaMain = 'http://localhost/xampp/renzomotors/';
-
+use Fpdf\Fpdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -15,6 +15,64 @@ if (!isset($_SESSION['correo']) || !isset($_SESSION['nombre'])) {
 
 $correo = $_SESSION['correo'];
 $nombre = $_SESSION['nombre'];
+$query = "SELECT * FROM registro_arriendo ORDER BY id_registro_arriendo DESC LIMIT 1";
+$datos = mysqli_query($conexion, $query);
+
+if ($datos && mysqli_num_rows($datos) > 0) {
+    $datos_reserva = mysqli_fetch_assoc($datos);
+    $fecha_inicio = $datos_reserva['fecha_inicio'];
+    $fecha_termino = $datos_reserva['fecha_termino'];
+    $valor = $datos_reserva['valor'];
+    $garantia = $datos_reserva['garantia'];
+    $auto = $datos_reserva['id_vehiculo'];
+
+    // Convertir las fechas a objetos DateTime
+    $fechaInicio = new DateTime($fecha_inicio);
+    $fechaTermino = new DateTime($fecha_termino);
+
+    // Calcular la diferencia entre las fechas
+    $diferencia = $fechaInicio->diff($fechaTermino);
+
+    // Obtener la cantidad de días de la diferencia
+    $dias = $diferencia->days;
+
+    $total = $valor * $dias;
+
+    // Realiza la segunda consulta para obtener el nombre del modelo
+    $query_consulta = "SELECT nombre_modelo FROM vehiculo WHERE id_vehiculo = $auto";
+    $datos_auto = mysqli_query($conexion, $query_consulta);
+
+    if ($datos_auto && mysqli_num_rows($datos_auto) > 0) {
+        $auto_reserva = mysqli_fetch_assoc($datos_auto);
+        $nombre_modelo = $auto_reserva['nombre_modelo'];
+    } else {
+        $nombre_modelo = "Modelo no encontrado";
+    }
+
+    // Crear el PDF
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 12);
+
+    // Añadir el contenido al PDF
+    $pdf->Cell(0, 10, "Hola $nombre, tu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors.", 0, 1);
+    $pdf->Ln(10);
+    $pdf->Cell(0, 10, "Aquí están los detalles:", 0, 1);
+    $pdf->Ln(5);
+    $pdf->Cell(0, 10, "Fecha inicio: $fecha_inicio", 0, 1);
+    $pdf->Cell(0, 10, "Fecha término: $fecha_termino", 0, 1);
+    $pdf->Cell(0, 10, "Precio a pagar es de: $total (se paga en sucursal)", 0, 1);
+    $pdf->Cell(0, 10, "Garantía: $garantia (debe ser pagada con tarjeta de crédito)", 0, 1);
+    $pdf->Cell(0, 10, "Auto arrendado: $nombre_modelo", 0, 1);
+
+    // Guardar el PDF en un archivo temporal
+    $pdfOutput = 'reserva_' . time() . '.pdf';
+    $pdf->Output('F', $pdfOutput);
+
+} else {
+    echo "Error: No se encontraron registros de reserva.";
+    exit();
+}
 
 $mail = new PHPMailer(true);
 
@@ -30,12 +88,20 @@ try {
     $mail->setFrom('renzomotors08@gmail.com', 'RenzoMotors');
     $mail->addAddress($correo);
 
+    // Definir el asunto y el cuerpo del mensaje
     $mail->Subject = 'Confirmación de Reserva';
-    $mail->Body = "Hola $nombre, tu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors.";
+    $mail->Body    = "Hola $nombre,\n\nTu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors. Adjunto encontrarás el PDF con los detalles de tu reserva.\n\nSaludos,\nRenzoMotors";
 
+    // Adjuntar el archivo PDF
+    $mail->addAttachment($pdfOutput);
+
+    // Enviar el correo
     $mail->send();
 
-    // Muestra la estructura completa de la página con Bootstrap
+    // Eliminar el archivo PDF temporal después de enviarlo
+    unlink($pdfOutput);
+
+    // Mostrar mensaje de éxito en la página
     echo "<!DOCTYPE html>
     <html lang='es'>
     <head>
@@ -54,6 +120,7 @@ try {
         </div>
     </body>
     </html>";
+
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }

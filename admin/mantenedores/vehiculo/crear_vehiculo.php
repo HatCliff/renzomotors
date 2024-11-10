@@ -283,6 +283,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
+        if($arriendo==1){
+            $query_sucursal = "INSERT INTO arriendo_vehiculo (id_vehiculo, disponible) VALUES ('$id_vehiculo', '1')";
+            mysqli_query($conexion, $query_sucursal);
+        }
+
 
 
         // subir las fotos

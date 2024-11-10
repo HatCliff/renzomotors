@@ -37,10 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set('America/Santiago'); // Ajusta la zona horaria según tu ubicación
 
     $fecha_envio = date('Y-m-d'); // Obtener fecha desde POST
-    $hora_envio = date("H:i");;  // Obtener hora desde POST
+    $hora_envio = date('H:i:s');  // Obtener hora desde POST
 
-    $query = "INSERT INTO arriendo_vehiculo (id_vehiculo, rut, fecha_arriendo, hora_arriendo) 
-    VALUES ('$id_vehiculo','$rut','$fecha_envio','$hora_envio')";
+    $query = "UPDATE arriendo_vehiculo SET fecha_arriendo ='$fecha_envio', hora_arriendo='$hora_envio', disponible='0' WHERE id_vehiculo =  $id_vehiculo";
 
     $resultado = mysqli_query($conexion, $query);
 

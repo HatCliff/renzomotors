@@ -119,6 +119,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+    if($arriendo==0){
+        $query_eliminar_arriendo = "DELETE FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
+        mysqli_query($conexion, $query_eliminar_arriendo);
+    }else{
+
+        $query_consulta_existencia = "SELECT * FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
+        $consulta = mysqli_query($conexion, $query_consulta_existencia);
+
+        if(mysqli_num_rows($consulta ) == 0){
+            $query_agregar_arriendo = "INSERT INTO arriendo_vehiculo(id_vehiculo, disponible) VALUES ('$id_vehiculo', '1') ";
+            mysqli_query($conexion, $query_agregar_arriendo);
+        }
+    }
+
     if ($resultado) {
         echo "<script>alert('Vehículo actualizado con éxito'); window.location='mantenedor_vehiculos.php';</script>";
     } else {
