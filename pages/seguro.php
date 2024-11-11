@@ -15,7 +15,7 @@ $resultado = mysqli_query($conexion, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contratación seguro</title>
+    <title>Seguro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body{
@@ -39,7 +39,7 @@ $resultado = mysqli_query($conexion, $query);
                 </div>
                 <div class="seguro-precio">
                     <span><?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?> CLP</span>
-                    <button class="btn-contratar">Contratar</button>
+                    <button href="./"  class="btn-contratar">Contratar</button>
                 </div>
             </div>
         <?php } ?>
