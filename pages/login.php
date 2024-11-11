@@ -12,121 +12,62 @@ session_start();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  1
-    <title>RenzoMotors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renzo Motors - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="logo.png" type="image/png">
 </head>
-<body style='height:100vh;' class="d-flex align-items-center justify-content-center">
-    <div class="mx-auto" style="width: auto;">
-        <div class="py-5 px-5">
-        <div class="mb-3 border py-5 px-5" style="background-color:#f8f8f8; padding: 5vh 5vw !important;">
-            <form action="./../auth/login.php" method="post">
-                        
-                <h2 class="text-center">Renzo Motors</h2>
-                <h5>Correo Electrónico</h5>
+<body class="d-flex align-items-center justify-content-center" style="height: 100vh; background-color: #f0f0f0;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4" style="color: #333;">Renzo Motors</h2>
+        <form action="./../auth/login.php" method="post">
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico</label>
                 <div class="input-group">
-                    <span style='background-color:#D9D9D9;' class="input-group-text py-3 px-3"><label for="" class="form-label">
-                        <img src="./../src/icons/user.svg" alt="Usuario" width="10px">
-                    </label></span>
-                    <input
-                        type="email"
-                        class="form-control"
-                        name="correo"
-                        id=""
-                        aria-describedby="helpId"
-                        placeholder="Escribe aquí tu correo"
-                        required 
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                        title="El formato del correo debe ser nombre@email.com"
-                    />
-                </div>
-                <h5>Contraseña</h5>
-                <div class="input-group">    
-                    <span style='background-color:#D9D9D9;' class="input-group-text py-3 px-3"><label for="" class="form-label"><img src="./../src/icons/lock.svg" alt="Contraseña" width="10px"></label></span>
-                        <input
-                            type="password"
-                            class="form-control"
-                            name="contrasenia"
-                            id=""
-                            aria-describedby="helpId"
-                            placeholder="Contraseña"
-                            required
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
-                            title="La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
-
-                        />
-                </div>
-                <small id="helpId" class="form-text text-muted">¿Olvidaste la contraseña? <a data-bs-toggle="modal" data-bs-target="#modalId" class="">Restablecela</a></small><br>
-                <small id="helpId" class="form-text text-muted">¿No tienes cuenta? <a href="./register.php" class="">Registrarse</a></small>
-                <div class="d-grid gap-2 mt-3">
-                    <input type="submit" value="Iniciar Sesión" class="btn btn-primary" style='background-color:#D9D9D9; color:black; border:2px;'>
-                </div>    
-                </form>
-                <div class="d-flex align-items-center">
-                    
-                    <div
-                        class="modal fade"
-                        id="modalId"
-                        tabindex="-1"
-                        data-bs-backdrop="static"
-                        data-bs-keyboard="false"
-                        
-                        role="dialog"
-                        aria-labelledby="modalTitleId"
-                        aria-hidden="true"
-                    >
-                        <div
-                            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-                            role="document"
-                        >
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalTitleId">
-                                        Restablecer contraseña.
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                    ></button>
-                                </div>
-                                <form action="/recovery.php" method="post">
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="" class="form-label">Correo electrónico</label>
-                                            <input
-                                                type="email"
-                                                class="form-control"
-                                                name="recoveryMail"
-                                                id=""
-                                                aria-describedby="helpId"
-                                                placeholder=""
-                                                required
-                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                            />
-                                    </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary">Cerrar</button>
-                                        <input type="submit" value="Restablecer contraseña" class="btn btn-primary">
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <script>
-                        const myModal = new bootstrap.Modal(
-                            document.getElementById("modalId"),
-                            options,
-                        );
-                    </script>
+                    <span class="input-group-text" style="background-color: #D9D9D9;"><img src="./../src/icons/user.svg" alt="Usuario" width="15px"></span>
+                    <input type="email" name="correo" class="form-control" placeholder="Escribe aquí tu correo" required>
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="contrasenia" class="form-label">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text" style="background-color: #D9D9D9;"><img src="./../src/icons/lock.svg" alt="Contraseña" width="15px"></span>
+                    <input type="password" name="contrasenia" class="form-control" placeholder="Contraseña" required>
+                </div>
+            </div>
+            <small class="d-block text-center mb-3">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalId">¿Olvidaste tu contraseña?</a>
+            </small>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-dark">Iniciar Sesión</button>
+            </div>
+            <small class="d-block text-center mt-3">
+                ¿No tienes cuenta? <a href="./register.php">Registrarse</a>
+            </small>
         </form>
+    </div>
+    <!-- Modal de Recuperación -->
+    <div class="modal fade" id="modalId" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Restablecer Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/recovery.php" method="post">
+                    <div class="modal-body">
+                        <label for="recoveryMail" class="form-label">Correo Electrónico</label>
+                        <input type="email" name="recoveryMail" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Restablecer</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

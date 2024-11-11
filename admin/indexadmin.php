@@ -1,7 +1,13 @@
 <?php
+session_start();
+// Verifica si el usuario ha iniciado sesión y si es administrador
+if (!isset($_SESSION['tipo_persona']) || $_SESSION['tipo_persona'] !== 'administrador') {
+    // Si no es administrador, redirige a la página de inicio o de acceso denegado
+    header("Location: ../pages/login.php");
+    exit();
+}
 include 'navbaradmin.php';
 include '../config/conexion.php';
-
 // Consulta de sucursales
 $query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal";
 $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
@@ -33,7 +39,7 @@ if (!$resultado_vehiculos) {
 </head>
 <body class="pt-5 mt-3">
 <body>
-<style>
+    <style>
         /* Ajustar el tamaño de las imágenes del carrusel */
         .carousel-item img {
             width: 100%;

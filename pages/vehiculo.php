@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $id_vehiculo = $_GET['id'];
-$consulta = mysqli_query($conexion, "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo");
+$current_rating = null;
 // Consultas para obtener la información del vehículo
 $vehiculo_query = "SELECT v.*, m.nombre_marca, a.anio, c.nombre_tipo_combustible, p.nombre_pais, t.nombre_transmision
                    FROM vehiculo v
@@ -49,6 +49,8 @@ $colores_result = mysqli_query($conexion, $colores_query);
 // Consulta para obtener las opiniones
 $opiniones_query = "SELECT * FROM opinion_vehiculo WHERE id_vehiculo = $id_vehiculo";
 $opiniones_result = mysqli_query($conexion, $opiniones_query);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -58,10 +60,10 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Detalles del Vehículo</title>
 </head>
 <style>
@@ -292,10 +294,29 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             class='d-flex align-items-end'>Descargar Documento</a>";
                             ?>
                         </div>
+                        <div class="mt-4">
+                        <!-- Sección de calculadora -->
+                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                <div class="modal-header d-flex justify-content-between align-items-center" style="border-bottom: none;">
+                                    <h1 class="modal-title fs-5 text-center flex-grow-1" id="exampleModalToggleLabel" style="font-weight: bold; font-size: 24px;">CALCULADORA DE FINANCIAMIENTO</h1>
+                                    <button type="button" class="btn-close" style="width: 20px; height: 20px; border-radius: 50%; border: 3px solid black;" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                    <div class="modal-body">
+                                        <?php include("financiamiento.php"); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Botón para abrir el modal -->
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Financiamiento</button>                        
+                        </div>
+
                     </div>
                 </div>
             </div>
-
+            
             <!-- Sección de opiniones de los usuarios -->
             <div class="row mt-5 ms-5">
                 <div class="row">
@@ -317,44 +338,26 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             ?>
                     </div>
                     <div class="col-4">
-                        <div class="modal fade" id="exampleModal" aria-hidden="true"
-                            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header d-flex justify-content-between align-items-center"
-                                        style="border-bottom: none;">
-                                        <h1 class="modal-title fs-5 text-center flex-grow-1"
-                                            id="exampleModalToggleLabel" style="font-weight: bold; font-size: 24px;">
-                                        </h1>
-                                        <button type="button" class="btn-close "
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 3px solid black;"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <?php
-                                        include("opinion.php");
-                                        ?>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Escribe la
-                            tuya -></button>
+                        <!-- Botón para abrir el modal de opinion -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#opinion_modal">
+                            Ingresar opinion
+                        </button>
+                        <!-- Incluir archivo de modal -->
+                        <?php include 'opinion.php'; ?>
                     </div>
                 </div>
                 <div class="row overflow-auto" style="max-height: 400px;">
                     <?php
-                    while ($row = mysqli_fetch_assoc($consulta)) {
+                    while ($row = mysqli_fetch_assoc($opiniones_result)) {
 
                         echo "<div class='card me-2 mb-2' style='width: 18rem;'>";
                         echo " <div class='card-body'>";
-                        echo " <div class='rating d-flex start-content-center mb-3' style='font-size: 1.5rem;'>";
-                        for ($i = 0; $i < 5; $i++) {
-                            if ($i < $row['calificacion']) {
-                                echo '<i class="bi bi-star-fill text-warning"></i>';
+                        echo "<div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $row['calificacion']) {
+                                echo '<i class="bi bi-star-fill text-warning"></i>'; // Estrella llena
                             } else {
-                                echo '<i class="bi bi-star"></i>';
+                                echo '<i class="bi bi-star"></i>'; // Estrella vacía
                             }
                         }
                         echo "</div>";
@@ -380,7 +383,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
 
             </div>
 
-            <!-- Scripts de Bootstrap -->
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
