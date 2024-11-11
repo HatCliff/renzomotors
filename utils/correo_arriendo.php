@@ -22,7 +22,7 @@ if ($datos && mysqli_num_rows($datos) > 0) {
     $datos_reserva = mysqli_fetch_assoc($datos);
     $fecha_inicio = $datos_reserva['fecha_inicio'];
     $fecha_termino = $datos_reserva['fecha_termino'];
-    $valor = $datos_reserva['valor'];
+    $valor = (float) $datos_reserva['valor'];
     $garantia = $datos_reserva['garantia'];
     $auto = $datos_reserva['id_vehiculo'];
 
@@ -54,16 +54,42 @@ if ($datos && mysqli_num_rows($datos) > 0) {
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 12);
 
-    // Añadir el contenido al PDF
-    $pdf->Cell(0, 10, "Hola $nombre, tu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors.", 0, 1);
+    // Añadir el contenido al PDF con utf8_decode
+    $pdf->Cell(0, 10, utf8_decode("Hola $nombre, tu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors."), 0, 1);
     $pdf->Ln(10);
-    $pdf->Cell(0, 10, "Aquí están los detalles:", 0, 1);
+    $pdf->Cell(0, 10, utf8_decode("Aquí están los detalles:"), 0, 1);
     $pdf->Ln(5);
-    $pdf->Cell(0, 10, "Fecha inicio: $fecha_inicio", 0, 1);
-    $pdf->Cell(0, 10, "Fecha término: $fecha_termino", 0, 1);
-    $pdf->Cell(0, 10, "Precio a pagar es de: $total (se paga en sucursal)", 0, 1);
-    $pdf->Cell(0, 10, "Garantía: $garantia (debe ser pagada con tarjeta de crédito)", 0, 1);
-    $pdf->Cell(0, 10, "Auto arrendado: $nombre_modelo", 0, 1);
+
+    // Encabezados de la tabla
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(50, 10, utf8_decode('Detalle'), 1, 0, 'C');
+    $pdf->Cell(100, 10, utf8_decode('Información'), 1, 1, 'C');
+
+    // Volver a la fuente normal para el contenido de la tabla
+    $pdf->SetFont('Arial', '', 12);
+
+    // Fila 1
+    $pdf->Cell(50, 10, utf8_decode('Fecha inicio:'), 1);
+    $pdf->Cell(100, 10, utf8_decode($fecha_inicio), 1, 1);
+
+    // Fila 2
+    $pdf->Cell(50, 10, utf8_decode('Fecha término:'), 1);
+    $pdf->Cell(100, 10, utf8_decode($fecha_termino), 1, 1);
+
+    // Fila 3
+    $pdf->Cell(50, 10, utf8_decode('Precio a pagar:'), 1);
+    $pdf->Cell(100, 10, utf8_decode("$total (se paga en sucursal)"), 1, 1);
+
+    // Fila 4
+    $pdf->Cell(50, 10, utf8_decode('Garantía:'), 1);
+    $pdf->Cell(100, 10, utf8_decode("$garantia (debe ser pagada con tarjeta de crédito)"), 1, 1);
+
+    // Fila 5
+    $pdf->Cell(50, 10, utf8_decode('Auto arrendado:'), 1);
+    $pdf->Cell(100, 10, utf8_decode($nombre_modelo), 1, 1);
+
+    $pdf->Ln(10); // Espacio adicional después de la tabla
+
 
     // Guardar el PDF en un archivo temporal
     $pdfOutput = 'reserva_' . time() . '.pdf';
@@ -89,7 +115,7 @@ try {
     $mail->addAddress($correo);
 
     // Definir el asunto y el cuerpo del mensaje
-    $mail->Subject = 'Confirmación de Reserva';
+    $mail->Subject = 'Confirmacion de Reserva';
     $mail->Body    = "Hola $nombre,\n\nTu reserva ha sido completada exitosamente. Gracias por confiar en RenzoMotors. Adjunto encontrarás el PDF con los detalles de tu reserva.\n\nSaludos,\nRenzoMotors";
 
     // Adjuntar el archivo PDF
