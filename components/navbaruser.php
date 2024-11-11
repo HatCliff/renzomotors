@@ -35,6 +35,9 @@ if (session_status() == PHP_SESSION_NONE) {
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehiculo</a>
+                </li>
+                <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
                 

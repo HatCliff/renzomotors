@@ -51,6 +51,10 @@ mysqli_query($conexion, $query_eliminar_sucursales);
 $query_eliminar_promociones = "DELETE FROM promocion_vehiculo WHERE id_vehiculo = $id_vehiculo";
 mysqli_query($conexion, $query_eliminar_promociones);
 
+// eliminar las arriendo asociadas al vehículo
+$query_eliminar_arriendo = "DELETE FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
+mysqli_query($conexion, $query_eliminar_arriendo);
+
 // eliminar el vehículo
 $query_eliminar_vehiculo = "DELETE FROM vehiculo WHERE id_vehiculo = $id_vehiculo";
 $resultado = mysqli_query($conexion, $query_eliminar_vehiculo);
