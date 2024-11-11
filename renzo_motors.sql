@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2024 a las 02:36:37
+-- Tiempo de generación: 11-11-2024 a las 00:21:26
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.1.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors`
+-- Base de datos: `renzo_motors_prueba`
 --
 
 -- --------------------------------------------------------
@@ -100,6 +100,26 @@ INSERT INTO `anio` (`id_anio`, `anio`) VALUES
 (4, 2024),
 (5, 2023),
 (6, 1984);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `arriendo_vehiculo`
+--
+
+CREATE TABLE `arriendo_vehiculo` (
+  `id_vehiculo` int(11) NOT NULL,
+  `fecha_arriendo` date NOT NULL,
+  `hora_arriendo` time NOT NULL,
+  `disponible` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `arriendo_vehiculo`
+--
+
+INSERT INTO `arriendo_vehiculo` (`id_vehiculo`, `fecha_arriendo`, `hora_arriendo`, `disponible`) VALUES
+(37, '2024-11-10', '21:17:37', 1);
 
 -- --------------------------------------------------------
 
@@ -418,6 +438,35 @@ CREATE TABLE `registro_accesorio` (
   `sucursal_compra` varchar(100) NOT NULL,
   `correo_compra` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_arriendo`
+--
+
+CREATE TABLE `registro_arriendo` (
+  `id_registro_arriendo` int(11) NOT NULL,
+  `nombre_arrendedor` varchar(200) NOT NULL,
+  `correo_arrendedor` varchar(200) NOT NULL,
+  `telefono_arrendedor` int(11) NOT NULL,
+  `sucursal_arriendo` int(11) NOT NULL,
+  `rut` varchar(200) NOT NULL,
+  `metodo_pago` varchar(200) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `id_vehiculo` int(11) NOT NULL,
+  `arriendo_concretada` tinyint(1) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_termino` date NOT NULL,
+  `garantia` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `registro_arriendo`
+--
+
+INSERT INTO `registro_arriendo` (`id_registro_arriendo`, `nombre_arrendedor`, `correo_arrendedor`, `telefono_arrendedor`, `sucursal_arriendo`, `rut`, `metodo_pago`, `valor`, `id_vehiculo`, `arriendo_concretada`, `fecha_inicio`, `fecha_termino`, `garantia`) VALUES
+(40, 'Benjamin', 'benja.cifuentes.r@gmail.com', 2147483647, 5, '12.456.789-9', 'credito', 45000, 37, 0, '2024-11-10', '2024-11-17', 1200000);
 
 -- --------------------------------------------------------
 
@@ -818,6 +867,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`rut_usuario`) VALUES
+('12.456.789-9'),
 ('20.050.994-3'),
 ('216379020');
 
@@ -864,6 +914,7 @@ CREATE TABLE `usuario_registrado` (
 
 INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contrasenia`, `tipo_persona`) VALUES
 ('11.111.111-1', 'Matías', 'Admin', 'mcarrascob@ing.ucsc.cl', '$2y$10$w9HvwZiN6IttWdniLCEwXuOp5zi6LBBVs.r.bmHhuqxcTftsfjpQC', 'administrador'),
+('12.456.789-9', 'Benjamin', 'Cifuentes', 'benja.cifuentes.r@gmail.com', '$2y$10$iK3F4bOoLfM.oToM.ju2YurgnnBjfOBAOhOufO5WtJ6aVBUnoUy1S', 'usuario'),
 ('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
 ('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario');
 
@@ -947,18 +998,19 @@ CREATE TABLE `vehiculo` (
   `id_pais` int(11) NOT NULL,
   `id_transmision` int(11) NOT NULL,
   `id_tipo_vehiculo` int(11) NOT NULL,
-  `id_tipo_rueda` int(11) NOT NULL
+  `id_tipo_rueda` int(11) NOT NULL,
+  `arriendo` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculo`
 --
 
-INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`) VALUES
-(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1),
-(10, 'Dodge Challenger', 30000000, 'Nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6),
-(34, 'Kia Seltos', 18000000, 'Nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1),
-(37, 'Mach 5', 999999999, 'Nuevo', 'El Mach 5 es un auto deportivo de alta tecnología diseñado por el padre de Meteoro, Pops Racer. Tiene un diseño aerodinámico y futurista, caracterizado por su carrocería blanca con distintivas líneas rojas y verdes. El vehículo está equipado con una variedad de gadgets que le permiten superar desafíos en la pista, incluyendo:\r\n\r\n- Cortadoras de Cinta: Para cortar obstáculos en el camino.\r\n- Capacidad de Salto: Permite al auto saltar sobre otros vehículos o obstáculos.\r\n- Tracción en diferentes terrenos: Se adapta a superficies como tierra, nieve y agua.\r\n- Sistema de navegación avanzado: Ayuda a Meteoro a encontrar la mejor ruta durante las carreras.\r\n- Protección contra ataques: Tiene mecanismos para defenderse de los competidores deshonestos.', 10, '2', 600, 'ficha_mach5.pdf', 0, 2, 6, 7, 8, 1, 7, 1);
+INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`, `arriendo`) VALUES
+(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1, 0),
+(10, 'Dodge Challenger', 30000000, 'Nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6, 0),
+(34, 'Kia Seltos', 18000000, 'Nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1, 0),
+(37, 'Mach 5', 999999999, 'Usado', 'El Mach 5 es un auto deportivo de alta tecnología diseñado por el padre de Meteoro, Pops Racer. Tiene un diseño aerodinámico y futurista, caracterizado por su carrocería blanca con distintivas líneas rojas y verdes. El vehículo está equipado con una variedad de gadgets que le permiten superar desafíos en la pista, incluyendo:\r\n\r\n- Cortadoras de Cinta: Para cortar obstáculos en el camino.\r\n- Capacidad de Salto: Permite al auto saltar sobre otros vehículos o obstáculos.\r\n- Tracción en diferentes terrenos: Se adapta a superficies como tierra, nieve y agua.\r\n- Sistema de navegación avanzado: Ayuda a Meteoro a encontrar la mejor ruta durante las carreras.\r\n- Protección contra ataques: Tiene mecanismos para defenderse de los competidores deshonestos.', 10, '2', 600, 'ficha_mach5.pdf', 0, 2, 6, 7, 8, 1, 7, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -1049,6 +1101,12 @@ ALTER TABLE `agenda_prueba`
 --
 ALTER TABLE `anio`
   ADD PRIMARY KEY (`id_anio`);
+
+--
+-- Indices de la tabla `arriendo_vehiculo`
+--
+ALTER TABLE `arriendo_vehiculo`
+  ADD KEY `id_vehiculo` (`id_vehiculo`);
 
 --
 -- Indices de la tabla `cobertura`
@@ -1145,6 +1203,14 @@ ALTER TABLE `proveedor`
 --
 ALTER TABLE `registro_accesorio`
   ADD PRIMARY KEY (`codigo_verificador`);
+
+--
+-- Indices de la tabla `registro_arriendo`
+--
+ALTER TABLE `registro_arriendo`
+  ADD PRIMARY KEY (`id_registro_arriendo`),
+  ADD KEY `id_vehiculo` (`id_vehiculo`),
+  ADD KEY `rut` (`rut`);
 
 --
 -- Indices de la tabla `registro_compra_accesorio`
@@ -1390,6 +1456,12 @@ ALTER TABLE `registro_accesorio`
   MODIFY `codigo_verificador` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `registro_arriendo`
+--
+ALTER TABLE `registro_arriendo`
+  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
 -- AUTO_INCREMENT de la tabla `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
@@ -1486,6 +1558,12 @@ ALTER TABLE `agenda_prueba`
   ADD CONSTRAINT `agenda_prueba_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
 
 --
+-- Filtros para la tabla `arriendo_vehiculo`
+--
+ALTER TABLE `arriendo_vehiculo`
+  ADD CONSTRAINT `arriendo_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`);
+
+--
 -- Filtros para la tabla `color_vehiculo`
 --
 ALTER TABLE `color_vehiculo`
@@ -1524,6 +1602,13 @@ ALTER TABLE `pertenece_tipo`
 ALTER TABLE `promocion_vehiculo`
   ADD CONSTRAINT `promocion_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
   ADD CONSTRAINT `promocion_vehiculo_ibfk_2` FOREIGN KEY (`id_promocion`) REFERENCES `promocion_especial` (`id_promocion`);
+
+--
+-- Filtros para la tabla `registro_arriendo`
+--
+ALTER TABLE `registro_arriendo`
+  ADD CONSTRAINT `registro_arriendo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
+  ADD CONSTRAINT `registro_arriendo_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
 -- Filtros para la tabla `registro_compra_accesorio`

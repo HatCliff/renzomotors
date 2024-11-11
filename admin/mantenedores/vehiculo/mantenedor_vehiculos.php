@@ -58,6 +58,9 @@ include '../../navbaradmin.php';
                                     <div class = 'mt-2'>
                                         Valor: $" . number_format($fila['precio_modelo'], 0, ',', '.') . " CLP  ({$fila['cantidad_vehiculo']} Un.)
                                     </div>
+                                    <div>
+                                        ".($fila['arriendo'] ? 'Si es para arriendo' : 'No es para Arriendo')."
+                                    </div>
                                 </td>";
 
                         echo "<td>";

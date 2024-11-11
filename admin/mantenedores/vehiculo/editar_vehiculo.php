@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sucursales = $_POST['sucursales'];
     $promociones = $_POST['promociones'];
     $doc_anterior = $_POST['doc_anterior'];
+    $arriendo = $_POST['arriendo'];
 
     if (isset($_FILES['docu']) && $_FILES['docu']['name']) {
         $documento_tecnico = $_FILES['docu']['name'];
@@ -64,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     id_pais = '$id_pais',
                     id_transmision = '$id_transmision',
                     id_tipo_vehiculo = '$id_tipo_vehiculo',
-                    id_tipo_rueda = '$id_tipo_ruedas'
+                    id_tipo_rueda = '$id_tipo_ruedas',
+                    arriendo = $arriendo
                 WHERE id_vehiculo = '$id_vehiculo';";
     $resultado = mysqli_query($conexion, $query);
 
@@ -114,6 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $query_foto = "INSERT INTO fotos_vehiculo (id_vehiculo, ruta_foto) VALUES ('$id_vehiculo', '$ruta_destino')";
                 mysqli_query($conexion, $query_foto);
             }
+        }
+    }
+
+    if($arriendo==0){
+        $query_eliminar_arriendo = "DELETE FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
+        mysqli_query($conexion, $query_eliminar_arriendo);
+    }else{
+
+        $query_consulta_existencia = "SELECT * FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
+        $consulta = mysqli_query($conexion, $query_consulta_existencia);
+
+        if(mysqli_num_rows($consulta ) == 0){
+            $query_agregar_arriendo = "INSERT INTO arriendo_vehiculo(id_vehiculo, disponible) VALUES ('$id_vehiculo', '1') ";
+            mysqli_query($conexion, $query_agregar_arriendo);
         }
     }
 
@@ -322,6 +338,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                     ?>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="arriendo" class="form-label">¿Es para arriendo?</label>
+                <select class="form-select" name="arriendo" aria-label="Default select example" require>
+                    <option value="1" <?php echo ($vehiculo['arriendo'] == '1') ? 'selected' : ''; ?>>Si</option>
+                    <option value="0" <?php echo ($vehiculo['arriendo'] == '0') ? 'selected' : ''; ?>>No</option>
+                </select>
             </div>
 
             <div class="mb-3">

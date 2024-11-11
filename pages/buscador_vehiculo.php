@@ -15,7 +15,8 @@ $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
           JOIN marca m ON v.id_marca = m.id_marca
           JOIN anio a ON v.id_anio = a.id_anio
           JOIN pais p ON v.id_pais = p.id_pais
-          WHERE 1=1 AND v.cantidad_vehiculo != 0";
+          WHERE 1=1 AND v.cantidad_vehiculo != 0
+          AND v.arriendo=0";
 
 $resultado = mysqli_query($conexion, $query);
 
@@ -71,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>var showAlert = false;</script>";
     }
 }
-
 
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
