@@ -2,13 +2,9 @@
 session_start();
 include('../config/conexion.php'); 
 
-$estado = $_POST['estado'] ?? [];
 $orden = $_POST['orden'] ?? '';
-$id_marcas = $_POST['id_marcas'] ?? [];
-$id_anios = $_POST['id_anios'] ?? [];
-$id_combustible = $_POST['id_combustible'] ?? [];
 $id_tipo_accesorio = $_POST['id_tipo_accesorio'] ?? [];
-$nombre_modelo = $_POST['modelo_i'] ?? ''; 
+$nombre_accesorio = $_POST['modelo_i'] ?? ''; 
 
 $query = "SELECT DISTINCT a.*, nombre_tipo_accesorio
           FROM accesorio a
@@ -21,14 +17,29 @@ $resultado = mysqli_query($conexion, $query);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['Limpiar'])) {
         // Resetea los valores de los filtros a sus valores iniciales
-        $orden = $nombre_modelo = '';
+        $orden = $nombre_accesorio = '';
         $id_tipo_accesorio = [];
         // Redirige al mismo formulario para limpiar todos los datos enviados por POST
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } else {
         // Procesa los filtros solo si "Limpiar" no fue presionado
+        if (!empty($id_tipo_accesorio)) {
+            $accesorio_list = implode(',', array_map('intval', $id_tipo_accesorio));
+            $query .= " AND pt.id_tipo_accesorio IN ($accesorio_list)";
+        }
         
+        if(!empty($nombre_accesorio)){
+            $nombre_accesorio = mysqli_real_escape_string($conexion, $nombre_accesorio);
+            $query .= " AND a.nombre_accesorio LIKE '%$nombre_accesorio%'";
+        }
+
+        if ($orden == 'mayor_a_menor') {
+            $query .= " ORDER BY precio_accesorio DESC";
+        } elseif ($orden == 'menor_a_mayor') {
+            $query .= " ORDER BY precio_accesorio ASC";
+        }
+
     }
 
     $resultado = mysqli_query($conexion, $query);
@@ -38,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>var showAlert = false;</script>";
     }
 }
-
 
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
@@ -86,6 +96,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             history.replaceState(null, '', '?' + queryString);
         }
     });
+
+    //Función para acceder al modal con ajax:
+    
 </script>
 <body class="pt-5">
     <div class="container mt-5">
@@ -98,7 +111,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     <div class="d-flex flex-column flex-md-row align-items-start">
                         <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
                             <input class="form-control" type="text" name="accesorio_i" placeholder="Nombre del accesorio" 
-                            aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_modelo); ?>"  
+                            aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_accesorio); ?>"  
                             onchange="document.getElementById('filtroForm').submit()">
                             <button type="submit" style="display: none;"></button>
                         </div>
@@ -170,43 +183,83 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             <!-- Muestra todos los vehiculos -->
             <div class="row">
             <?php
-while ($fila = mysqli_fetch_assoc($resultado)) {
-    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch'>";
-    echo "<a href='accesorio.php?id={$fila['sku_accesorio']}' class='text-decoration-none w-100'>";
-    echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch' style='width: 25%'>";
+                    echo "<a href='javascript:void(0);' class='text-decoration-none' id='openModal' data-id='{$fila['sku_accesorio']}'>";
+                    echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
+        
+                    // Carrusel de fotos del vehículo
+                    $sku_accesorio = $fila['sku_accesorio'];
+                    $fotos_resultado = mysqli_query($conexion, "SELECT foto_accesorio FROM fotos_accesorio WHERE sku_accesorio = '$sku_accesorio'");
 
-    // Carrusel de fotos del vehículo
-    $sku_accesorio = $fila['sku_accesorio'];
-    $fotos_resultado = mysqli_query($conexion, "SELECT foto_accesorio FROM fotos_accesorio WHERE sku_accesorio = '$sku_accesorio'");
-    
-    echo "<div id='carousel{$sku_accesorio}' class='carousel slide' data-bs-ride='carousel'>";
-    echo "<div class='carousel-inner'>";
-    $active = "active";
-    while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
-        $ruta_imagen = '../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
-        echo "<div class='carousel-item $active'>";
-        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 180px; border-radius: 15px 15px 0 0;'></div>";
-        echo "</div>";
-        $active = ""; // Solo la primera imagen es "active"
-    }
-    echo "</div>";
-    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='prev'>...</button>";
-    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='next'>...</button>";
-    echo "</div>";
+                    echo "<div id='carousel{$sku_accesorio}' class='carousel slide' data-bs-ride='carousel'>";
+                    echo "<div class='carousel-inner'>";
+                    $active = "active";
+                    while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
+                        $ruta_imagen = '../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
+                        echo "<div class='carousel-item $active'>";
+                        echo "<div class='d-block img-fluid' style='background-image: url($ruta_imagen); background-repeat: no-repeat; max-width: 100%; max-height: 200px;
+                                 width: auto; object-fit: contain; background-position: center; height: 400px; border-radius: 15px 15px 0 0;'></div>";
+                        echo "</div>";
+                        $active = ""; // Solo la primera imagen es "active"
+                    }
+                    echo "</div>";
+                    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='prev'>...</button>";
+                    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='next'>...</button>";
+                    echo "</div>";
+                
+                    // Información del vehículo
+                    echo "<div class='card-body mt-1 text-center py-2'>";
+                    $precio_formateado = number_format($fila['precio_accesorio'], 0, ',', '.');
+                    echo "<h5 class='card-title fs-6 text-dark fw-bold mb-2'>{$fila['nombre_accesorio']}</h5>";
+                    echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP</p>";
+                    echo "</div>"; // card-body
+                
+                    echo "</div>"; // card
+                    echo "</a>";
 
-    // Información del vehículo
-    echo "<div class='card-body mt-1 text-center py-2'>";
-    $precio_formateado = number_format($fila['precio_accesorio'], 0, ',', '.');
-    echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_accesorio']}</h5>";
-    echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP</p>";
-    echo "</div>"; // card-body
+                    echo "
+                    <!-- Modal -->
+                    <div class='modal fade' id='accesorioModal' tabindex='-1' aria-labelledby='accesorioModalLabel' aria-hidden='true'>
+                      <div class='modal-dialog modal-dialog-centered modal-lg'>
+                        <div class='modal-content'>
+                          <div class='modal-header'>
+                            <h5 class='modal-title' id='accesorioModalLabel'>{$fila['nombre_accesorio']}</h5>
+                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                          </div>
+                          <div class='modal-body' id='modalContent'>
+                            
+                          </div>
+                          <div class='modal-footer'>
+                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>";
+                
+                    echo "</div>";
+                }
+            ?>
 
-    echo "</div>"; // card
-    echo "</a>";
-    echo "</div>";
-}
-?>
+            <script>
+              // Capturamos el evento del clic en el enlace
+              document.getElementById('openModal').addEventListener('click', function() {
+                var id = this.getAttribute('data-id'); // Obtenemos el ID del accesorio
 
+                // Hacemos la petición AJAX a accesorio.php
+                fetch('accesorio.php?id=' + id)
+                  .then(response => response.text())
+                  .then(data => {
+                    // Cargamos el contenido recibido dentro del modal
+                    document.getElementById('modalContent').innerHTML = data;
+                
+                    // Mostramos el modal usando Bootstrap
+                    var myModal = new bootstrap.Modal(document.getElementById('accesorioModal'));
+                    myModal.show();
+                  })
+                  .catch(error => console.error('Error:', error));
+              });
+            </script>
 
             </div>    
         </div>
