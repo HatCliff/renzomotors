@@ -21,7 +21,7 @@ include '../../navbaradmin.php';
                 <thead class="table-dark">
                     <tr>
                         <th style="width: 300px;">Modelo</th>
-                        <th>Disponibilidad</th>
+                        <th style="width: 220px;">Disponibilidad</th>
                         <th style="width: 300px;">Datos varios</th>
                         <th>Media</th>
                         <th>Colores</th>
@@ -61,16 +61,16 @@ include '../../navbaradmin.php';
                                 </td>";
 
                         echo "<td>";
-                        $sucursales_resultado = mysqli_query($conexion, "SELECT s.nombre_sucursal
-                                                                                    FROM vehiculo_sucursal vs
-                                                                                    JOIN sucursal s ON s.id_sucursal = vs.id_sucursal
-                                                                                    WHERE vs.id_vehiculo = $fila[id_vehiculo]");
-                        $nombres = [];
-                        while ($sucursal = mysqli_fetch_assoc($sucursales_resultado)) {
-                            $nombres[] = $sucursal['nombre_sucursal'];
-                        }
-                        echo implode(", ", $nombres);
-                        
+
+                            $query = "SELECT s.nombre_sucursal
+                                FROM vehiculo_sucursal vs
+                                INNER JOIN sucursal s ON s.id_sucursal = vs.id_sucursal
+                                WHERE vs.id_vehiculo = $fila[id_vehiculo]";
+                            $sucursales_resultado = mysqli_query($conexion, $query);
+                                while ($sucursal = mysqli_fetch_assoc($sucursales_resultado)) {
+                                    echo "- ";
+                                    echo $sucursal['nombre_sucursal'] . '<br>';
+                                }
 
                         echo "</td>
                                 </td>
@@ -113,14 +113,14 @@ include '../../navbaradmin.php';
                         $docs_resultado = mysqli_query($conexion, "SELECT documento_tecnico FROM vehiculo WHERE id_vehiculo = $id_vehiculo");
                         while ($docs = mysqli_fetch_assoc($docs_resultado)) {
                             $nombre_archivo = basename($docs['documento_tecnico']);
-                            if(!is_null($nombre_archivo) && $nombre_archivo !== '') {
-                            echo "
+                            if (!is_null($nombre_archivo) && $nombre_archivo !== '') {
+                                echo "
                                 <div class='text-center'>
                                     <a href='doc_tecnicos/{$nombre_archivo}' download='{$nombre_archivo}' class=''>Descargar Documento</a>
                                 </div>
                             ";
                             }
-                        }                      
+                        }
 
                         echo "<td>";
                         $colores_resultado = mysqli_query($conexion, "SELECT c.nombre_color, c.codigo_color 
