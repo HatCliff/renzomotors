@@ -44,7 +44,7 @@ if(mysqli_num_rows($result) > 0){
         header('Location: /xampp/renzomotors/index.php');
     }
     else if($row['tipo_persona'] == 'administrador'){
-        header('Location: /xampp/renzomotors/admin/indexadmin.php');
+        header('Location: /xampp/renzomotors/index.php');
     }
     exit();
 }

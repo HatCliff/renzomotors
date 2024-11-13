@@ -12,14 +12,32 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
             <img src="<?php echo $carpetaMain; ?>logo_tr.png" alt="Logo" style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>
+        <?php
+        if($_SERVER['REQUEST_URI'] !== '/xampp/renzomotors/pages/dashboard.php'){
+           echo '<ul class="navbar-nav ms-auto">  
+                <a href="/xampp/renzomotors/pages/dashboard.php" class="btn btn-success">Dashboard</a>
+                <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i> Perfil
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
+                                </ul>
+                </li>
+            </ul>';
+        }else{
+        ?>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
+               <!----
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>admin/indexadmin.php' class="nav-link active" aria-current="page">Inicio</a>
                 </li>
+                --->          
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMantenedores" role="button" aria-controls="offcanvasMantenedores">
                     ⌵ Mantenedores
@@ -35,10 +53,23 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
             </ul>
             </li>
             <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehiculo</a>
+            </li>
+            <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
-                </li>
+            </li>
+            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> Perfil
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
+                            </ul>
+            </li>
             </ul>
         </div>
+        <?php } ?>
     </div>
 </nav>
 

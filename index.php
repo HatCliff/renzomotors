@@ -1,5 +1,11 @@
 <?php
-include './components/navbaruser.php';
+session_start();
+if ($_SESSION['tipo_persona'] == 'administrador') {
+    include './admin/navbaradmin.php';
+}else{
+    include './components/navbaruser.php';
+}
+
 include './config/conexion.php';
 
 // Consulta de sucursales
@@ -19,7 +25,7 @@ $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
           JOIN marca m ON v.id_marca = m.id_marca
           JOIN anio a ON v.id_anio = a.id_anio
           JOIN pais p ON v.id_pais = p.id_pais
-          WHERE 1=1 AND v.cantidad_vehiculo != 0";
+          WHERE 1=1 AND v.cantidad_vehiculo != 0 AND v.arriendo=0";
 
 $resultado = mysqli_query($conexion, $query);
 
@@ -100,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body class="pt-5 mt-3">
-
     <!-- Carrusel de fotos -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -108,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="carousel-item active">
                 <img src="./src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
-                    <H4>Conoce tu Proximo vehículo</H4>
+                    <h4>Conoce tu Proximo vehículo</h4>
                     <a href="pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>
@@ -358,14 +363,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "</div>";
                 }
                 ?>
-            </div>    
-        </div>
-    </div>
+                    </div>    
+                </div>
+            </div>
     
+            </div>
         </div>
     </div>
-</div>
-
+    <div class="container-fluid">        
+        <div class="row align-items-center my-8">
+            <div class="col text-end">
+                <img class="rounded float-end" height="auto" width="700px" src="./src/images/mechanic.jpg" alt="Servicio técnico">
+            </div>
+            <div class="col text-center">
+                <h1>¿Problemas con tu auto?</h1>
+                <button class="btn mt-3" style="background: linear-gradient(90deg, #0B8347 0%, #008040 52%, #000000 100%); color: #fff;">
+                    Haz tu mantenimiento con nosotros
+                </button>
+            </div>
+        </div>
+    </div>
+    <?php
+            include './components/footer.php';
+    ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
