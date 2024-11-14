@@ -9,10 +9,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>RenzoMotors</title>
 </head>
-<body>
-    <?php include __DIR__ . "/../components/navbar.php"; ?>
+<body class="pt-5 mt-3">
+    <?php include __DIR__ . "/../admin/navbaradmin.php"; ?>
     <div class="container">
-        <div class="col-5"> 
+        <div class="col"> 
         <!-- Nav tabs -->
         <ul
             class="nav nav-tabs"
@@ -51,7 +51,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="tab1Id" role="tabpanel">
                     <?php
-                        $query_sucursal = "SELECT * FROM sucursales";
+                        $query_sucursal = "SELECT * FROM sucursal";
                         
                         $result_sucursal = mysqli_query($conexion, $query_sucursal);
 
@@ -61,7 +61,7 @@
                             echo "<div class='card-body'>";
                             echo "<h5 class='card-title'>".$sucursal['nombre_sucursal']."</h5>";
                             echo "<p class='card-text'>".$sucursal['direccion_sucursal']."</p>";
-                            echo "<a href='/".$ENV['PREFIX']."/pages/sucursal.php?id=".$sucursal['id_sucursal']."' class='btn btn-primary'>Ver más</a>";
+                            echo "<a href='/xampp/renzomotors/pages/sucursal.php?id=".$sucursal['id_sucursal']."' class='btn btn-primary'>Ver más</a>";
                             echo "</div>";
                             echo "</div>";
                         }
