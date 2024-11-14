@@ -88,14 +88,36 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <title>Vehiculos</title>
-    <!-- Dar color al fondo de la pagina -->
     <style>
-        body{
-            background: #E6E6E6;
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 22px;
+            color: #d3d3d3;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 999;
         }
-        
+        .favorite-checked {
+            color: gold;
+        }
+        .favorite-unchecked {
+            color: #d3d3d3;
+        }
+        .alert-session {
+            display: none; /* Oculta la alerta inicialmente */
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050; /* Por encima del contenido */
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <script>
     // Función para convertir los parámetros del formulario a una cadena de consulta (query string)
@@ -117,6 +139,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     });
 </script>
 <body class="pt-5">
+    <!-- Alerta de sesión -->
+    <div id="alertSession" class="alert alert-warning alert-session" role="alert">
+        Debe iniciar sesión para guardar favoritos.
+    </div>
     <div class="container mt-5">
     <div class="col-md-12">
         <div class="row mb-4">
@@ -276,17 +302,31 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             </div>
         
             <!-- Muestra todos los vehiculos -->
-            <div class="row">
+            <div id="vehiculos-container" class="row">
             <?php
 while ($fila = mysqli_fetch_assoc($resultado)) {
-    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch'>";
+    $id_vehiculo = $fila['id_vehiculo'];
+    $isFavorito = false;
+    if (isset($_SESSION['rut'])) {
+        $id_usuario = $_SESSION['rut'];
+        $favorito_query = "SELECT * FROM favoritos WHERE id_usuario = '$id_usuario' AND id_vehiculo = $id_vehiculo";
+        $favorito_result = mysqli_query($conexion, $favorito_query);
+        $isFavorito = mysqli_num_rows($favorito_result) > 0;
+    }
+    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch position-relative'>";
+
+    // Icono de favorito en la esquina superior derecha
+    echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo'>";
+    echo "<i class='fas fa-star " . ($isFavorito ? 'favorite-checked' : 'favorite-unchecked') . "' onclick='toggleFavorito(event, $id_vehiculo); actualizar_fav($id_vehiculo);' style='font-size: 24px; color: " . ($isFavorito ? '#FFD700' : '#CCCCCC') . "; cursor: pointer;'></i>";
+    echo "</div>";
+
+
+    // Contenido de la tarjeta
     echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
     echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
 
     // Carrusel de fotos del vehículo
-    $id_vehiculo = $fila['id_vehiculo'];
     $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
-    
     echo "<div id='carousel{$id_vehiculo}' class='carousel slide' data-bs-ride='carousel'>";
     echo "<div class='carousel-inner'>";
     $active = "active";
@@ -295,7 +335,7 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
         echo "<div class='carousel-item $active'>";
         echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 180px; border-radius: 15px 15px 0 0;'></div>";
         echo "</div>";
-        $active = ""; // Solo la primera imagen es "active"
+        $active = "";
     }
     echo "</div>";
     echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='prev'>
@@ -309,19 +349,17 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
     echo "</div>";
 
     // Estado del vehículo (Nuevo o Usado)
-    echo "
-        <div class='position-absolute p-2' style='top: 10px; left: 10px;'>
+    echo "<div class='position-absolute p-2' style='top: 10px; left: 10px;'>
             <span class='badge bg-light text-dark border' style='border-radius: 20px; padding: 5px 10px;'>{$fila['estado_vehiculo']}</span>
-        </div>
-    ";
+          </div>";
 
     // Información del vehículo
     echo "<div class='card-body mt-1 text-center py-2'>";
     $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
     echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
     echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
-    echo "<p class='text-muted mb-2'>{$fila['nombre_pais']}</p>";
-    echo "</div>"; // card-body
+    echo "<p class='text-muted mb-2'>{$fila['nombre_pais']} </p>";
+    echo "</div>";
 
     // Colores del vehículo en la parte inferior
     $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
@@ -335,18 +373,19 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
     }
     echo "</div>";
 
-    echo "</div>"; // card
-    echo "</a>";
-    echo "</div>";
+    echo "</div>"; // Cierre de div.card
+    echo "</a>";   // Cierre de enlace
+    echo "</div>"; // Cierre de columna
 }
 ?>
+
 
 
             </div>    
         </div>
     </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
@@ -357,4 +396,44 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
         } else {
             document.getElementById('alerta_datos').style.display = 'none';
         }
+</script>
+<script>
+    function actualizar_fav(id_vehiculo, icono) {
+        // Llama a verificar_favorito.php y actualiza el ícono directamente en el elemento pasado
+        $.get('verificar_favorito.php', { id_vehiculo: id_vehiculo }, function (mensaje, estado) {
+            // Verifica si el mensaje contiene "favorite-checked" para decidir el color y clase
+            const isFavorito = mensaje.includes('favorite-checked');
+            icono.classList.toggle('favorite-checked', isFavorito);
+            icono.classList.toggle('favorite-unchecked', !isFavorito);
+            icono.style.color = isFavorito ? '#FFD700' : '#CCCCCC';
+        });
+    }
+
+    function toggleFavorito(event, id_vehiculo) {
+        event.stopPropagation();
+
+        <?php if (!isset($_SESSION['rut'])) : ?>
+            let alert = document.getElementById('alertSession');
+            alert.style.display = 'block';
+            setTimeout(function () {
+                alert.style.display = 'none';
+            }, 3000);
+            return;
+        <?php endif; ?>
+
+        var icono = event.target;
+        var isFavorito = icono.classList.contains('favorite-checked');
+
+        // AJAX para alternar el favorito
+        $.post('toggle_favorito.php', { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' }, function (response) {
+            console.log(response);
+            if (response.success) {
+                actualizar_fav(id_vehiculo, icono);
+            } else {
+                alert('Hubo un error al actualizar el favorito: ' + (response.error || ''));
+            }
+        }, 'json').fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Error en la solicitud AJAX: " + textStatus + " - " + errorThrown);
+        });
+    }
 </script>
