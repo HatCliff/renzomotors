@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2024 a las 00:21:26
+-- Tiempo de generación: 14-11-2024 a las 04:02:08
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors_prueba`
+-- Base de datos: `renzo_motors`
 --
 
 -- --------------------------------------------------------
@@ -108,18 +108,44 @@ INSERT INTO `anio` (`id_anio`, `anio`) VALUES
 --
 
 CREATE TABLE `arriendo_vehiculo` (
+  `cod_arriendo` int(11) NOT NULL,
   `id_vehiculo` int(11) NOT NULL,
+  `rut` varchar(100) NOT NULL,
   `fecha_arriendo` date NOT NULL,
   `hora_arriendo` time NOT NULL,
-  `disponible` tinyint(1) NOT NULL
+  `recibido` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `arriendo_vehiculo`
 --
 
-INSERT INTO `arriendo_vehiculo` (`id_vehiculo`, `fecha_arriendo`, `hora_arriendo`, `disponible`) VALUES
-(37, '2024-11-10', '21:17:37', 1);
+INSERT INTO `arriendo_vehiculo` (`cod_arriendo`, `id_vehiculo`, `rut`, `fecha_arriendo`, `hora_arriendo`, `recibido`) VALUES
+(2, 37, '12.456.789-9', '2024-11-04', '13:39:22', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito_accesorio`
+--
+
+CREATE TABLE `carrito_accesorio` (
+  `id_carrito` int(11) NOT NULL,
+  `sku_accesorio` varchar(8) NOT NULL,
+  `cantidad_accesorio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito_usuario`
+--
+
+CREATE TABLE `carrito_usuario` (
+  `id_carrito` int(11) NOT NULL,
+  `rut_usuario` varchar(100) NOT NULL,
+  `valor_carrito` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -414,18 +440,19 @@ INSERT INTO `promocion_vehiculo` (`id_vehiculo`, `id_promocion`) VALUES
 
 CREATE TABLE `proveedor` (
   `id_proveedor` int(11) NOT NULL,
-  `nombre_proveedor` varchar(100) NOT NULL
+  `nombre_proveedor` varchar(100) NOT NULL,
+  `imagen_proveedor` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `proveedor`
 --
 
-INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`) VALUES
-(1, 'Banco de Chile'),
-(2, 'Banco Falabella'),
-(3, 'Banco Santander'),
-(4, 'Banco Renzo Motors');
+INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `imagen_proveedor`) VALUES
+(1, 'Banco de Chile', NULL),
+(2, 'Banco Falabella', NULL),
+(3, 'Banco Santander', NULL),
+(4, 'Banco Renzo Motors', NULL);
 
 -- --------------------------------------------------------
 
@@ -436,7 +463,11 @@ INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`) VALUES
 CREATE TABLE `registro_accesorio` (
   `codigo_verificador` bigint(20) NOT NULL,
   `sucursal_compra` varchar(100) NOT NULL,
-  `correo_compra` varchar(100) NOT NULL
+  `correo_compra` varchar(100) NOT NULL,
+  `fecha_compra_a` date NOT NULL,
+  `listado_compra` text NOT NULL,
+  `valor_compra` int(11) NOT NULL,
+  `id_carrito` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -447,39 +478,15 @@ CREATE TABLE `registro_accesorio` (
 
 CREATE TABLE `registro_arriendo` (
   `id_registro_arriendo` int(11) NOT NULL,
-  `nombre_arrendedor` varchar(200) NOT NULL,
-  `correo_arrendedor` varchar(200) NOT NULL,
-  `telefono_arrendedor` int(11) NOT NULL,
-  `sucursal_arriendo` int(11) NOT NULL,
-  `rut` varchar(200) NOT NULL,
-  `metodo_pago` varchar(200) NOT NULL,
-  `valor` int(11) NOT NULL,
-  `id_vehiculo` int(11) NOT NULL,
-  `arriendo_concretada` tinyint(1) NOT NULL,
+  `cod_arriendo` int(11) NOT NULL,
+  `nombre_arrendedor` varchar(255) NOT NULL,
+  `correo_arrendedor` varchar(255) NOT NULL,
+  `telefono_arrendedor` varchar(20) NOT NULL,
+  `sucursal_arriendo` varchar(255) NOT NULL,
+  `metodo_pago` varchar(50) NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_termino` date NOT NULL,
-  `garantia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `registro_arriendo`
---
-
-INSERT INTO `registro_arriendo` (`id_registro_arriendo`, `nombre_arrendedor`, `correo_arrendedor`, `telefono_arrendedor`, `sucursal_arriendo`, `rut`, `metodo_pago`, `valor`, `id_vehiculo`, `arriendo_concretada`, `fecha_inicio`, `fecha_termino`, `garantia`) VALUES
-(40, 'Benjamin', 'benja.cifuentes.r@gmail.com', 2147483647, 5, '12.456.789-9', 'credito', 45000, 37, 0, '2024-11-10', '2024-11-17', 1200000);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `registro_compra_accesorio`
---
-
-CREATE TABLE `registro_compra_accesorio` (
-  `sku_accesorio` varchar(8) NOT NULL,
-  `rut_usuario` varchar(100) NOT NULL,
-  `cantidad_accesorio` int(11) NOT NULL,
-  `fecha_compra_a` date NOT NULL,
-  `codigo_verificador` bigint(20) NOT NULL
+  `valor_arriendo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -971,8 +978,13 @@ DELIMITER ;
 --
 
 CREATE TABLE `usuario_seguro` (
+  `id_contratacion_seguro` int(11) NOT NULL,
   `id_seguro` int(11) NOT NULL,
-  `rut_usuario` varchar(100) NOT NULL
+  `rut_usuario` varchar(100) NOT NULL,
+  `telefono` int(11) NOT NULL,
+  `patente` varchar(30) NOT NULL,
+  `titulo_propiedad` varchar(255) NOT NULL,
+  `dia_contratacion` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -999,18 +1011,30 @@ CREATE TABLE `vehiculo` (
   `id_transmision` int(11) NOT NULL,
   `id_tipo_vehiculo` int(11) NOT NULL,
   `id_tipo_rueda` int(11) NOT NULL,
-  `arriendo` double NOT NULL
+  `arriendo` tinyint(1) NOT NULL DEFAULT 0,
+  `valor_garantia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculo`
 --
 
-INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`, `arriendo`) VALUES
-(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1, 0),
-(10, 'Dodge Challenger', 30000000, 'Nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6, 0),
-(34, 'Kia Seltos', 18000000, 'Nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1, 0),
-(37, 'Mach 5', 999999999, 'Usado', 'El Mach 5 es un auto deportivo de alta tecnología diseñado por el padre de Meteoro, Pops Racer. Tiene un diseño aerodinámico y futurista, caracterizado por su carrocería blanca con distintivas líneas rojas y verdes. El vehículo está equipado con una variedad de gadgets que le permiten superar desafíos en la pista, incluyendo:\r\n\r\n- Cortadoras de Cinta: Para cortar obstáculos en el camino.\r\n- Capacidad de Salto: Permite al auto saltar sobre otros vehículos o obstáculos.\r\n- Tracción en diferentes terrenos: Se adapta a superficies como tierra, nieve y agua.\r\n- Sistema de navegación avanzado: Ayuda a Meteoro a encontrar la mejor ruta durante las carreras.\r\n- Protección contra ataques: Tiene mecanismos para defenderse de los competidores deshonestos.', 10, '2', 600, 'ficha_mach5.pdf', 0, 2, 6, 7, 8, 1, 7, 6, 1);
+INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`, `arriendo`, `valor_garantia`) VALUES
+(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1, 0, 400000),
+(10, 'Dodge Challenger', 30000000, 'Nuevo', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 10, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6, 0, 700000),
+(34, 'Kia Seltos', 18000000, 'Nuevo', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 12, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1, 0, 500000),
+(37, 'Mach 5', 999999999, 'Usado', 'El Mach 5 es un auto deportivo de alta tecnología diseñado por el padre de Meteoro, Pops Racer. Tiene un diseño aerodinámico y futurista, caracterizado por su carrocería blanca con distintivas líneas rojas y verdes. El vehículo está equipado con una variedad de gadgets que le permiten superar desafíos en la pista, incluyendo:\r\n\r\n- Cortadoras de Cinta: Para cortar obstáculos en el camino.\r\n- Capacidad de Salto: Permite al auto saltar sobre otros vehículos o obstáculos.\r\n- Tracción en diferentes terrenos: Se adapta a superficies como tierra, nieve y agua.\r\n- Sistema de navegación avanzado: Ayuda a Meteoro a encontrar la mejor ruta durante las carreras.\r\n- Protección contra ataques: Tiene mecanismos para defenderse de los competidores deshonestos.', 10, '2', 600, 'ficha_mach5.pdf', 0, 2, 6, 7, 8, 1, 7, 6, 1, 1200000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehiculo_favorito`
+--
+
+CREATE TABLE `vehiculo_favorito` (
+  `id_vehiculo` int(11) NOT NULL,
+  `rut` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1046,31 +1070,32 @@ CREATE TABLE `vehiculo_ofertado` (
 
 CREATE TABLE `vehiculo_sucursal` (
   `id_sucursal` int(11) NOT NULL,
-  `id_vehiculo` int(11) NOT NULL
+  `id_vehiculo` int(11) NOT NULL,
+  `unidades_arriendo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculo_sucursal`
 --
 
-INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`) VALUES
-(1, 9),
-(1, 10),
-(1, 34),
-(1, 37),
-(2, 9),
-(2, 10),
-(2, 34),
-(3, 9),
-(3, 10),
-(3, 34),
-(3, 37),
-(4, 9),
-(4, 34),
-(4, 37),
-(5, 9),
-(5, 34),
-(5, 37);
+INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`, `unidades_arriendo`) VALUES
+(1, 9, NULL),
+(1, 10, NULL),
+(1, 34, NULL),
+(1, 37, 7),
+(2, 9, NULL),
+(2, 10, NULL),
+(2, 34, NULL),
+(3, 9, NULL),
+(3, 10, NULL),
+(3, 34, NULL),
+(3, 37, 0),
+(4, 9, NULL),
+(4, 34, NULL),
+(4, 37, 3),
+(5, 9, NULL),
+(5, 34, NULL),
+(5, 37, 1);
 
 --
 -- Índices para tablas volcadas
@@ -1106,7 +1131,23 @@ ALTER TABLE `anio`
 -- Indices de la tabla `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
-  ADD KEY `id_vehiculo` (`id_vehiculo`);
+  ADD PRIMARY KEY (`cod_arriendo`),
+  ADD KEY `arriendo PK` (`id_vehiculo`,`rut`) USING BTREE,
+  ADD KEY `fk_rut_usuario_registrado` (`rut`);
+
+--
+-- Indices de la tabla `carrito_accesorio`
+--
+ALTER TABLE `carrito_accesorio`
+  ADD PRIMARY KEY (`id_carrito`,`sku_accesorio`),
+  ADD KEY `sku_accesorio` (`sku_accesorio`);
+
+--
+-- Indices de la tabla `carrito_usuario`
+--
+ALTER TABLE `carrito_usuario`
+  ADD PRIMARY KEY (`id_carrito`),
+  ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
 -- Indices de la tabla `cobertura`
@@ -1202,23 +1243,15 @@ ALTER TABLE `proveedor`
 -- Indices de la tabla `registro_accesorio`
 --
 ALTER TABLE `registro_accesorio`
-  ADD PRIMARY KEY (`codigo_verificador`);
+  ADD PRIMARY KEY (`codigo_verificador`),
+  ADD KEY `fk_id_carrito` (`id_carrito`);
 
 --
 -- Indices de la tabla `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
   ADD PRIMARY KEY (`id_registro_arriendo`),
-  ADD KEY `id_vehiculo` (`id_vehiculo`),
-  ADD KEY `rut` (`rut`);
-
---
--- Indices de la tabla `registro_compra_accesorio`
---
-ALTER TABLE `registro_compra_accesorio`
-  ADD PRIMARY KEY (`sku_accesorio`,`rut_usuario`),
-  ADD KEY `rut_usuario` (`rut_usuario`),
-  ADD KEY `codigo_verificador` (`codigo_verificador`);
+  ADD KEY `cod_arriendo` (`cod_arriendo`);
 
 --
 -- Indices de la tabla `registro_reserva`
@@ -1348,8 +1381,9 @@ ALTER TABLE `usuario_registrado`
 -- Indices de la tabla `usuario_seguro`
 --
 ALTER TABLE `usuario_seguro`
-  ADD PRIMARY KEY (`id_seguro`,`rut_usuario`),
-  ADD KEY `FK` (`rut_usuario`,`id_seguro`) USING BTREE;
+  ADD PRIMARY KEY (`id_contratacion_seguro`),
+  ADD KEY `id_seguro` (`id_seguro`),
+  ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
 -- Indices de la tabla `vehiculo`
@@ -1363,6 +1397,13 @@ ALTER TABLE `vehiculo`
   ADD KEY `id_transmision` (`id_transmision`),
   ADD KEY `id_tipo_vehiculo` (`id_tipo_vehiculo`),
   ADD KEY `fk_tipo_rueda` (`id_tipo_rueda`);
+
+--
+-- Indices de la tabla `vehiculo_favorito`
+--
+ALTER TABLE `vehiculo_favorito`
+  ADD PRIMARY KEY (`id_vehiculo`,`rut`),
+  ADD KEY `rut` (`rut`);
 
 --
 -- Indices de la tabla `vehiculo_ofertado`
@@ -1388,6 +1429,18 @@ ALTER TABLE `vehiculo_sucursal`
 --
 ALTER TABLE `anio`
   MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `arriendo_vehiculo`
+--
+ALTER TABLE `arriendo_vehiculo`
+  MODIFY `cod_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `carrito_usuario`
+--
+ALTER TABLE `carrito_usuario`
+  MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cobertura`
@@ -1459,7 +1512,7 @@ ALTER TABLE `registro_accesorio`
 -- AUTO_INCREMENT de la tabla `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
-  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_reserva`
@@ -1534,6 +1587,12 @@ ALTER TABLE `transmision`
   MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `usuario_seguro`
+--
+ALTER TABLE `usuario_seguro`
+  MODIFY `id_contratacion_seguro` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `vehiculo`
 --
 ALTER TABLE `vehiculo`
@@ -1561,7 +1620,21 @@ ALTER TABLE `agenda_prueba`
 -- Filtros para la tabla `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
-  ADD CONSTRAINT `arriendo_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`);
+  ADD CONSTRAINT `arriendo_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
+  ADD CONSTRAINT `fk_rut_usuario_registrado` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
+
+--
+-- Filtros para la tabla `carrito_accesorio`
+--
+ALTER TABLE `carrito_accesorio`
+  ADD CONSTRAINT `carrito_accesorio_ibfk_1` FOREIGN KEY (`id_carrito`) REFERENCES `carrito_usuario` (`id_carrito`),
+  ADD CONSTRAINT `carrito_accesorio_ibfk_2` FOREIGN KEY (`sku_accesorio`) REFERENCES `accesorio` (`sku_accesorio`);
+
+--
+-- Filtros para la tabla `carrito_usuario`
+--
+ALTER TABLE `carrito_usuario`
+  ADD CONSTRAINT `carrito_usuario_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
 
 --
 -- Filtros para la tabla `color_vehiculo`
@@ -1604,19 +1677,16 @@ ALTER TABLE `promocion_vehiculo`
   ADD CONSTRAINT `promocion_vehiculo_ibfk_2` FOREIGN KEY (`id_promocion`) REFERENCES `promocion_especial` (`id_promocion`);
 
 --
+-- Filtros para la tabla `registro_accesorio`
+--
+ALTER TABLE `registro_accesorio`
+  ADD CONSTRAINT `fk_id_carrito` FOREIGN KEY (`id_carrito`) REFERENCES `carrito_usuario` (`id_carrito`);
+
+--
 -- Filtros para la tabla `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
-  ADD CONSTRAINT `registro_arriendo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
-  ADD CONSTRAINT `registro_arriendo_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
-
---
--- Filtros para la tabla `registro_compra_accesorio`
---
-ALTER TABLE `registro_compra_accesorio`
-  ADD CONSTRAINT `registro_compra_accesorio_ibfk_1` FOREIGN KEY (`sku_accesorio`) REFERENCES `accesorio` (`sku_accesorio`),
-  ADD CONSTRAINT `registro_compra_accesorio_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`),
-  ADD CONSTRAINT `registro_compra_accesorio_ibfk_3` FOREIGN KEY (`codigo_verificador`) REFERENCES `registro_accesorio` (`codigo_verificador`);
+  ADD CONSTRAINT `registro_arriendo_ibfk_1` FOREIGN KEY (`cod_arriendo`) REFERENCES `arriendo_vehiculo` (`cod_arriendo`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `registro_reserva`
@@ -1696,6 +1766,13 @@ ALTER TABLE `vehiculo`
   ADD CONSTRAINT `vehiculo_ibfk_4` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`),
   ADD CONSTRAINT `vehiculo_ibfk_5` FOREIGN KEY (`id_transmision`) REFERENCES `transmision` (`id_transmision`),
   ADD CONSTRAINT `vehiculo_ibfk_6` FOREIGN KEY (`id_tipo_vehiculo`) REFERENCES `tipo_vehiculo` (`id_tipo_vehiculo`);
+
+--
+-- Filtros para la tabla `vehiculo_favorito`
+--
+ALTER TABLE `vehiculo_favorito`
+  ADD CONSTRAINT `vehiculo_favorito_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`) ON DELETE CASCADE,
+  ADD CONSTRAINT `vehiculo_favorito_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `vehiculo_ofertado`

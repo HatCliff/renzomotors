@@ -1,12 +1,18 @@
 <?php
+include './config/conexion.php';
+
+
 session_start();
-if ($_SESSION['tipo_persona'] == 'administrador') {
-    include './admin/navbaradmin.php';
-}else{
+if (isset($_SESSION['tipo_persona'])) {
+    if ($_SESSION['tipo_persona'] == 'administrador') {
+        include './admin/navbaradmin.php';
+    } else {
+        include './components/navbaruser.php';
+    }
+}
+else{
     include './components/navbaruser.php';
 }
-
-include './config/conexion.php';
 
 // Consulta de sucursales
 $query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal";
