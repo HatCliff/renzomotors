@@ -8,62 +8,17 @@ if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['
     exit();
 }
 
-$render = '45000';
-$garantia = '1200000';
 
-// Obtenemos los datos del vehículo
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $id = $_GET['id'];
-    $modelo_query = "SELECT nombre_modelo, precio_modelo FROM vehiculo WHERE id_vehiculo = '$id'";
-    $modelos = mysqli_query($conexion, $modelo_query);
-    $row = mysqli_fetch_assoc($modelos);
-    $nombre_modelo = $row['nombre_modelo'];
-}
+$codigo_arriendo = $_GET['arriendo'];
+$id = $_GET['id'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_vehiculo = $_GET['id']; // Obtener id_vehiculo desde POST
-    $id_sucursal =$_GET['sucursal'];  // Obtener id_sucursal desde POST
-    $rut= $_POST['rut'];
-    $nombre=$_POST['nombre'];
-    $correo=$_POST['correo'];
-    $telefono=$_POST['telefono'];
-    $fecha_inicio=$_POST['fecha_i'];
-    $fecha_termino=$_POST['fecha_t'];
+$modelo_query = "SELECT nombre_modelo, precio_modelo, valor_garantia FROM vehiculo WHERE id_vehiculo = '$id'";
+$modelos = mysqli_query($conexion, $modelo_query);
+$row = mysqli_fetch_assoc($modelos);
+$nombre_modelo = $row['nombre_modelo'];
+$garantia = $row['valor_garantia'];
+$render = $garantia*0.1;
 
-    // Convertir las fechas a 'Y-m-d' (YYYY-MM-DD)
-    $fechaInicioConvertida = DateTime::createFromFormat('d-m-Y', $fecha_inicio)->format('Y-m-d');
-    $fechaTerminoConvertida = DateTime::createFromFormat('d-m-Y', $fecha_termino)->format('Y-m-d');
-
-    date_default_timezone_set('America/Santiago'); // Ajusta la zona horaria según tu ubicación
-
-    $fecha_envio = date('Y-m-d'); // Obtener fecha desde POST
-    $hora_envio = date('H:i:s');  // Obtener hora desde POST
-
-    $query = "UPDATE arriendo_vehiculo SET fecha_arriendo ='$fecha_envio', hora_arriendo='$hora_envio', disponible='0' WHERE id_vehiculo =  $id_vehiculo";
-
-    $resultado = mysqli_query($conexion, $query);
-
-    if ($resultado) {
-        $num_arriendo_vehiculo = mysqli_insert_id($conexion);
-    
-        $query = "INSERT INTO registro_arriendo(id_registro_arriendo, nombre_arrendedor, correo_arrendedor, telefono_arrendedor, sucursal_arriendo, rut,
-                    metodo_pago, valor, id_vehiculo, arriendo_concretada, fecha_inicio, fecha_termino, garantia) 
-        VALUES ('$num_arriendo_vehiculo','$nombre', '$correo','$telefono','$id_sucursal', '$rut', 'credito', '$render','$id_vehiculo', 
-        0,'$fechaInicioConvertida','$fechaTerminoConvertida','$garantia')";
-        $resultado = mysqli_query($conexion, $query);
-
-        if ($resultado) {
-            echo "<script>
-                    window.location.href = 'http://localhost/xampp/renzomotors/utils/correo_arriendo.php';
-                  </script>";
-            exit();
-        } else {
-            echo "<script>alert('Error en la reserva: " . mysqli_error($conexion) . "');</script>";
-        }
-    } else {
-        success(false, "Error en la reserva" . mysqli_error($conexion));
-    }
-}
 
 if ($_SESSION['tipo_persona'] === 'administrador') {
     include '../admin/navbaradmin.php';
@@ -114,9 +69,9 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
                 dateFormat: "dd-mm-yy", // Formato de fecha
                 minDate: today, // Establece hoy como fecha mínima
                 onSelect: function(dateText) {
-                    const startDate = new Date(dateText);
-                    startDate.setDate(startDate.getDate() + 1); // Establece el día siguiente como fecha mínima para la fecha de término
-                    $("#datepicker_dos").datepicker("option", "minDate", startDate);
+                    const startDate = $.datepicker.parseDate("dd-mm-yy", dateText); // Parsear la fecha seleccionada
+                    startDate.setDate(startDate.getDate()); // Día siguiente como fecha mínima para fecha de término
+                    $("#datepicker_dos").datepicker("option", "minDate", startDate); // Actualizar minDate
                 }
             });
 
@@ -125,8 +80,8 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
                 dateFormat: "dd-mm-yy", // Formato de fecha
                 minDate: today, // Establece hoy como fecha mínima
                 onSelect: function(dateText) {
-                    const endDate = new Date(dateText);
-                    const startDate = new Date($("#datepicker_uno").val()); // Obtener la fecha de inicio
+                    const endDate = $.datepicker.parseDate("dd-mm-yy", dateText); // Parsear la fecha seleccionada
+                    const startDate = $.datepicker.parseDate("dd-mm-yy", $("#datepicker_uno").val()); // Obtener la fecha de inicio
                     if (endDate < startDate) {
                         alert("La fecha de término no puede ser anterior a la fecha de inicio.");
                         $(this).val(''); // Limpia la fecha de término si es incorrecta
@@ -134,6 +89,7 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
                 }
             });
         });
+
     </script>
     <title>Reserva Vehículo</title>
     <style>
@@ -226,3 +182,55 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
 </body>
 
 </html>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id_vehiculo = $_GET['id']; // Obtener id_vehiculo desde POST
+    $id_sucursal =$_GET['sucursal'];  // Obtener id_sucursal desde POST
+    $rut= $_POST['rut'];
+    $nombre=$_POST['nombre'];
+    $correo=$_POST['correo'];
+    $telefono=$_POST['telefono'];
+    $fecha_inicio=$_POST['fecha_i'];
+    $fecha_termino=$_POST['fecha_t'];
+
+    // Convertir las fechas a 'Y-m-d' (YYYY-MM-DD)
+    $fechaInicioConvertida = DateTime::createFromFormat('d-m-Y', $fecha_inicio)->format('Y-m-d');
+    $fechaTerminoConvertida = DateTime::createFromFormat('d-m-Y', $fecha_termino)->format('Y-m-d');
+
+    date_default_timezone_set('America/Santiago'); // Ajusta la zona horaria según tu ubicación
+
+    $fecha_envio = date('Y-m-d'); // Obtener fecha desde POST
+    $hora_envio = date('H:i:s');  // Obtener hora desde POST
+
+    $query = "UPDATE arriendo_vehiculo SET fecha_arriendo ='$fecha_envio', hora_arriendo='$hora_envio', recibido='0' WHERE cod_arriendo =  $codigo_arriendo";
+
+    $resultado = mysqli_query($conexion, $query);
+    if (!$resultado) {
+        die("Error en la consulta: " . mysqli_error($conexion));
+    }
+
+    if ($resultado) {
+        $query = "INSERT INTO registro_arriendo(cod_arriendo, nombre_arrendedor, correo_arrendedor, telefono_arrendedor, 
+        sucursal_arriendo, metodo_pago, fecha_inicio, fecha_termino, valor_arriendo)
+         VALUES ('$codigo_arriendo','$nombre', '$correo','$telefono','$id_sucursal', 'credito','$fechaInicioConvertida','$fechaTerminoConvertida','$render')";
+
+        $resultado_tres = mysqli_query($conexion, $query);
+
+        if ( $resultado_tres) {
+            $query_sucursal = "UPDATE vehiculo_sucursal SET unidades_arriendo = unidades_arriendo-1 WHERE id_sucursal = $id_sucursal AND id_vehiculo = $id_vehiculo";
+            $eliminar = mysqli_query($conexion, $query_sucursal);
+            if ($eliminar) {
+                echo "<script>
+                    window.location.href = 'http://localhost/xampp/renzomotors/utils/correo_arriendo.php';
+                </script>";
+                exit();
+            }
+        } else {
+            echo "<script>alert('Error en la reserva: " . mysqli_error($conexion) . "');</script>";
+        }
+    } else {
+        success(false, "Error en la reserva" . mysqli_error($conexion));
+    }
+}
+?>
