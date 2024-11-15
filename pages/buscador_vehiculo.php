@@ -309,7 +309,7 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
     $isFavorito = false;
     if (isset($_SESSION['rut'])) {
         $id_usuario = $_SESSION['rut'];
-        $favorito_query = "SELECT * FROM favoritos WHERE id_usuario = '$id_usuario' AND id_vehiculo = $id_vehiculo";
+        $favorito_query = "SELECT * FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
         $favorito_result = mysqli_query($conexion, $favorito_query);
         $isFavorito = mysqli_num_rows($favorito_result) > 0;
     }
@@ -400,7 +400,7 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
 <script>
     function actualizar_fav(id_vehiculo, icono) {
         // Llama a verificar_favorito.php y actualiza el ícono directamente en el elemento pasado
-        $.get('verificar_favorito.php', { id_vehiculo: id_vehiculo }, function (mensaje, estado) {
+        $.get('favoritos/verificar_favorito.php', { id_vehiculo: id_vehiculo }, function (mensaje, estado) {
             // Verifica si el mensaje contiene "favorite-checked" para decidir el color y clase
             const isFavorito = mensaje.includes('favorite-checked');
             icono.classList.toggle('favorite-checked', isFavorito);
@@ -425,7 +425,7 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
         var isFavorito = icono.classList.contains('favorite-checked');
 
         // AJAX para alternar el favorito
-        $.post('toggle_favorito.php', { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' }, function (response) {
+        $.post('favoritos/toggle_favorito.php', { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' }, function (response) {
             console.log(response);
             if (response.success) {
                 actualizar_fav(id_vehiculo, icono);

@@ -37,7 +37,9 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
-                
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/prueba_manejo/test_manejo.php' class="nav-link active" aria-current="page">Prueba de Manejo</a>
+                </li>
                 <?php
                 if (isset($_SESSION['usuario'])) {
                     // Si el usuario ha iniciado sesión, muestra el icono de perfil y la opción de cerrar sesión

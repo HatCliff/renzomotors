@@ -14,10 +14,10 @@ $action = $_POST['action'];
 
 // Según la acción, añade o elimina el favorito
 if ($action === 'add') {
-    $query = "INSERT INTO favoritos (id_usuario, id_vehiculo) VALUES ('$id_usuario', '$id_vehiculo')";
+    $query = "INSERT INTO vehiculo_favorito (rut, id_vehiculo) VALUES ('$id_usuario', $id_vehiculo)";
     
 } elseif ($action === 'remove') {
-    $query = "DELETE FROM favoritos WHERE id_usuario = '$id_usuario' AND id_vehiculo = '$id_vehiculo'";
+    $query = "DELETE FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
 } else {
     echo json_encode(['success' => false, 'error' => 'Acción no válida']);
     exit;

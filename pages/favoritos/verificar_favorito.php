@@ -6,7 +6,7 @@ $id_vehiculo = $_GET['id_vehiculo'];
 $isFavorito = false;
 if (isset($_SESSION['rut'])) {
     $id_usuario = $_SESSION['rut'];
-    $favorito_query = "SELECT * FROM favoritos WHERE id_usuario = '$id_usuario' AND id_vehiculo = $id_vehiculo";
+    $favorito_query = "SELECT * FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
     $favorito_result = mysqli_query($conexion, $favorito_query);
     $isFavorito = mysqli_num_rows($favorito_result) > 0;
 }
