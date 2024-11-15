@@ -61,7 +61,7 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                         // Consulta de vehículos disponibles en la sucursal seleccionada
                         $query_vehiculos = "SELECT v.id_vehiculo, v.nombre_modelo, m.nombre_marca, a.anio, p.nombre_pais AS pais, 
                                             t.nombre_transmision AS transmision, v.kilometraje, c.nombre_tipo_combustible AS tipo_combustible,
-                                            v.estado_vehiculo, v.precio_modelo, av.cod_arriendo
+                                            v.estado_vehiculo, v.precio_modelo
                                             FROM vehiculo v
                                             JOIN marca m ON v.id_marca = m.id_marca
                                             JOIN anio a ON v.id_anio = a.id_anio
@@ -69,9 +69,7 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                                             JOIN transmision t ON v.id_transmision = t.id_transmision
                                             JOIN tipo_combustible c ON v.id_tipo_combustible = c.id_tipo_combustible
                                             JOIN vehiculo_sucursal vs ON v.id_vehiculo = vs.id_vehiculo
-                                            JOIN arriendo_vehiculo av ON v.id_vehiculo = av.id_vehiculo
-                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo= 1  AND av.recibido=1
-                                                AND vs.unidades_arriendo > 0";
+                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo= 1 AND vs.unidades_arriendo > 0";
                         
                         $result_vehiculos = mysqli_query($conexion, $query_vehiculos);
 
@@ -90,7 +88,7 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
 
                                 
                                 echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch'>";
-                                echo "<a href='arriendo_completado.php?id={$fila['id_vehiculo']}&sucursal={$id_sucursal}&&arriendo={$fila['cod_arriendo']}' class='text-decoration-none w-100'>";
+                                echo "<a href='arriendo_completado.php?id={$fila['id_vehiculo']}&sucursal={$id_sucursal}' class='text-decoration-none w-100'>";
                                 echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
 
                                 // Carrusel de fotos del vehículo

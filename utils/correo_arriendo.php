@@ -13,6 +13,11 @@ if (!isset($_SESSION['correo']) || !isset($_SESSION['nombre'])) {
     exit();
 }
 
+if(!isset($_GET['verificado'])){
+    header("Location: ../pages/arriendo.php");
+    exit();
+}
+
 $correo = $_SESSION['correo'];
 $nombre = $_SESSION['nombre'];
 $query = "SELECT * FROM registro_arriendo ra
@@ -28,8 +33,8 @@ if ($datos && mysqli_num_rows($datos) > 0) {
     $datos_reserva = mysqli_fetch_assoc($datos);
     $fecha_inicio = $datos_reserva['fecha_inicio'];
     $fecha_termino = $datos_reserva['fecha_termino'];
-    $valor = (float) $datos_reserva['valor'];
-    $garantia = $datos_reserva['garantia'];
+    $valor = (float) $datos_reserva['valor_arriendo'];
+    $garantia = $datos_reserva['valor_garantia'];
     $auto = $datos_reserva['id_vehiculo'];
     $nombre_modelo = $datos_reserva['nombre_modelo'];
     $nombre_surcusal = $datos_reserva['nombre_sucursal'];
@@ -39,6 +44,10 @@ if ($datos && mysqli_num_rows($datos) > 0) {
     $fechaInicio = new DateTime($fecha_inicio);
     $fechaTermino = new DateTime($fecha_termino);
 
+    // Cambiar el formato de las fechas
+    $fecha_inicio_formateada = $fechaInicio->format('d/m/Y'); // Día/Mes/Año
+    $fecha_termino_formateada = $fechaTermino->format('d/m/Y'); // Día/Mes/Año
+
     // Calcular la diferencia entre las fechas
     $diferencia = $fechaInicio->diff($fechaTermino);
 
@@ -47,7 +56,7 @@ if ($datos && mysqli_num_rows($datos) > 0) {
 
     $total = $valor * $dias;
 
-    // Crear el PDF
+   // Crear el PDF
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 12);
@@ -68,11 +77,11 @@ if ($datos && mysqli_num_rows($datos) > 0) {
 
     // Fila 1
     $pdf->Cell(50, 10, utf8_decode('Fecha inicio:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($fecha_inicio), 1, 1);
+    $pdf->Cell(100, 10, utf8_decode($fecha_inicio_formateada), 1, 1);
 
     // Fila 2
     $pdf->Cell(50, 10, utf8_decode('Fecha término:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($fecha_termino), 1, 1);
+    $pdf->Cell(100, 10, utf8_decode($fecha_termino_formateada), 1, 1);
 
     // Fila 3
     $pdf->Cell(50, 10, utf8_decode('Precio a pagar:'), 1);
@@ -92,16 +101,16 @@ if ($datos && mysqli_num_rows($datos) > 0) {
     $pdf->Cell(50, 10, utf8_decode('Sucursal:'), 1);
     $pdf->Cell(100, 10, utf8_decode($nombre_surcusal), 1, 1);
 
-    // Fila 7: Dirección de la sucursal
+    // Fila 7: Dirección de la sucursal (usando MultiCell para manejar texto largo)
     $pdf->Cell(50, 10, utf8_decode('Dirección:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($direcccion_sucursal), 1, 1);
+    $pdf->MultiCell(100, 10, utf8_decode($direcccion_sucursal), 1, 'L');  // Usamos MultiCell para que el texto largo se ajuste
 
     $pdf->Ln(10); // Espacio adicional después de la tabla
 
     // Añadir el mensaje de retiro
     $pdf->SetFont('Arial', '', 12);
     $pdf->MultiCell(0, 10, utf8_decode(
-        "Por favor, recuerda retirar el vehículo en la sucursal '$nombre_surcusal' ubicada en '$direcccion_sucursal' el día '$fecha_inicio'. ¡Gracias por elegir RenzoMotors!"
+        "Por favor, recuerda retirar el vehículo en la sucursal $nombre_surcusal ubicada en $direcccion_sucursal el día $fecha_inicio_formateada. ¡Gracias por elegir RenzoMotors!"
     ));
 
     // Guardar el PDF en un archivo temporal
@@ -136,9 +145,6 @@ try {
 
     // Enviar el correo
     $mail->send();
-
-    // Eliminar el archivo PDF temporal después de enviarlo
-    unlink($pdfOutput);
 
     // Mostrar mensaje de éxito en la página
     echo "<!DOCTYPE html>

@@ -6,10 +6,10 @@ include('../config/conexion.php');
 if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
     header("Location: ../pages/login.php");
     exit();
+}else if(!isset($_GET['arriendo']) && !isset($_GET['id'])){
+    header("Location: ../pages/arriendo.php");
+    exit();
 }
-
-
-$codigo_arriendo = $_GET['arriendo'];
 $id = $_GET['id'];
 
 $modelo_query = "SELECT nombre_modelo, precio_modelo, valor_garantia FROM vehiculo WHERE id_vehiculo = '$id'";
@@ -90,6 +90,16 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
             });
         });
 
+        // Función para bloquear el div (ocultarlo)
+        function bloquearDiv() {
+            document.getElementById('alertaConflicto').style.display = 'none';
+        }
+
+        // Función para desbloquear el div (mostrarlo)
+        function desbloquearDiv() {
+            document.getElementById('alertaConflicto').style.display = 'block';
+        }
+
     </script>
     <title>Reserva Vehículo</title>
     <style>
@@ -141,6 +151,13 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
                     *La garantía debe ser paga con tarjeta de crédito en la sucursal
                 </div>
 
+                <div class='text-center'>
+                    <div id="alertaConflicto" class='alert alert-danger' role='alert' style="display: none;">
+                        <h4 class='alert-heading'>¡Conflicto de Fechas!</h4>
+                        <p>Las fechas seleccionadas se superponen con un arriendo existente con sus datos. Por favor, selecciona otras fechas.</p>
+                    </div>
+                </div>
+
                 <!-- Campos de información personal -->
                 <div id="personal_info">
                     <div class="form-group mb-3">
@@ -174,11 +191,14 @@ if ($_SESSION['tipo_persona'] === 'administrador') {
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-custom form-control">Confirmar Arriendo</button>
+                    <button type="submit" class="btn btn-custom form-control" >
+                        Confirmar Arriendo
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
 </body>
 
 </html>
@@ -200,37 +220,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     date_default_timezone_set('America/Santiago'); // Ajusta la zona horaria según tu ubicación
 
-    $fecha_envio = date('Y-m-d'); // Obtener fecha desde POST
-    $hora_envio = date('H:i:s');  // Obtener hora desde POST
+    // Verificar conflictos de fechas
+    $query_conflictos = "SELECT COUNT(*) AS conflictos FROM registro_arriendo ra 
+                            JOIN arriendo_vehiculo av ON ra.cod_arriendo = av.cod_arriendo 
+                            WHERE id_vehiculo = $id_vehiculo AND sucursal_arriendo = $id_sucursal
+                            AND ((fecha_inicio <= '$fechaInicioConvertida' AND fecha_termino >= '$fechaInicioConvertida') OR
+                                (fecha_inicio <= '$fechaTerminoConvertida' AND fecha_termino >= '$fechaTerminoConvertida') OR
+                                ('$fechaInicioConvertida' <= fecha_inicio AND '$fechaTerminoConvertida' >= fecha_termino))";
 
-    $query = "UPDATE arriendo_vehiculo SET fecha_arriendo ='$fecha_envio', hora_arriendo='$hora_envio', recibido='0' WHERE cod_arriendo =  $codigo_arriendo";
+    $result_conflictos = mysqli_query($conexion, $query_conflictos);
+    $row_conflictos = mysqli_fetch_assoc($result_conflictos);
 
-    $resultado = mysqli_query($conexion, $query);
-    if (!$resultado) {
-        die("Error en la consulta: " . mysqli_error($conexion));
-    }
+    if ($row_conflictos['conflictos'] > 0) {
+        echo "<script>desbloquearDiv();</script>";
 
-    if ($resultado) {
-        $query = "INSERT INTO registro_arriendo(cod_arriendo, nombre_arrendedor, correo_arrendedor, telefono_arrendedor, 
-        sucursal_arriendo, metodo_pago, fecha_inicio, fecha_termino, valor_arriendo)
-         VALUES ('$codigo_arriendo','$nombre', '$correo','$telefono','$id_sucursal', 'credito','$fechaInicioConvertida','$fechaTerminoConvertida','$render')";
+    }else{
+        echo "<script>bloquearDiv();</script>";
 
-        $resultado_tres = mysqli_query($conexion, $query);
+        $fecha_envio = date('Y-m-d'); // Obtener fecha desde POST
+        $hora_envio = date('H:i:s');  // Obtener hora desde POST
 
-        if ( $resultado_tres) {
-            $query_sucursal = "UPDATE vehiculo_sucursal SET unidades_arriendo = unidades_arriendo-1 WHERE id_sucursal = $id_sucursal AND id_vehiculo = $id_vehiculo";
-            $eliminar = mysqli_query($conexion, $query_sucursal);
-            if ($eliminar) {
-                echo "<script>
-                    window.location.href = 'http://localhost/xampp/renzomotors/utils/correo_arriendo.php';
-                </script>";
-                exit();
+        $query = "INSERT INTO arriendo_vehiculo(id_vehiculo,rut,fecha_arriendo, hora_arriendo,recibido) VALUES('$id_vehiculo','$rut','$fecha_envio','$hora_envio','0')";
+        $resultado = mysqli_query($conexion, $query);
+
+        if ($resultado) {
+            $query_codigo = "SELECT cod_arriendo FROM arriendo_vehiculo ORDER BY cod_arriendo DESC LIMIT 1";
+            $resultado_codigo = mysqli_query($conexion, $query_codigo);
+            $codigo_arriendo = mysqli_fetch_assoc($resultado_codigo)['cod_arriendo'];
+            if($resultado_codigo){
+                $query = "INSERT INTO registro_arriendo(cod_arriendo, nombre_arrendedor, correo_arrendedor, telefono_arrendedor, 
+                sucursal_arriendo, metodo_pago, fecha_inicio, fecha_termino, valor_arriendo)
+                VALUES ('$codigo_arriendo','$nombre', '$correo','$telefono','$id_sucursal', 'credito','$fechaInicioConvertida','$fechaTerminoConvertida','$render')";
+
+                $resultado_tres = mysqli_query($conexion, $query);
+
+                if ( $resultado_tres) {
+                    $query_sucursal = "UPDATE vehiculo_sucursal SET unidades_arriendo = unidades_arriendo-1 WHERE id_sucursal = $id_sucursal AND id_vehiculo = $id_vehiculo";
+                    $eliminar = mysqli_query($conexion, $query_sucursal);
+                    if ($eliminar) {
+                        echo "<script>
+                            window.location.href = 'http://localhost/xampp/renzomotors/utils/correo_arriendo.php?verificado=1';
+                        </script>";
+                        exit();
+                    }
+                } else {
+                    echo "<script>alert('Error en la reserva: " . mysqli_error($conexion) . "');</script>";
+                }
             }
         } else {
-            echo "<script>alert('Error en la reserva: " . mysqli_error($conexion) . "');</script>";
+            success(false, "Error en la reserva" . mysqli_error($conexion));
         }
-    } else {
-        success(false, "Error en la reserva" . mysqli_error($conexion));
     }
 }
 ?>

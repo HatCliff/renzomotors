@@ -34,6 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $doc_anterior = $_POST['doc_anterior'];
     $arriendo = $_POST['arriendo'];
 
+    if($arriendo==1){
+        $garantia = $_POST['garantia'] ? $_POST['garantia']:NULL;
+    }else{
+        $garantia = 0;
+    }
+    
+
     if (isset($_FILES['docu']) && $_FILES['docu']['name']) {
         $documento_tecnico = $_FILES['docu']['name'];
         $ruta_temporal_doc = $_FILES['docu']['tmp_name'];
@@ -66,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     id_transmision = '$id_transmision',
                     id_tipo_vehiculo = '$id_tipo_vehiculo',
                     id_tipo_rueda = '$id_tipo_ruedas',
-                    arriendo = $arriendo
+                    arriendo = '$arriendo',
+                    valor_garantia = '$garantia'
                 WHERE id_vehiculo = '$id_vehiculo';";
     $resultado = mysqli_query($conexion, $query);
 
@@ -87,8 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     mysqli_query($conexion, $query_eliminar_sucursales);
     if(!empty($sucursales)){
         foreach ($sucursales as $id_sucursal) {
-            $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo) VALUES ('$id_sucursal', '$id_vehiculo')";
-            mysqli_query($conexion, $query_sucursal);
+            if($arriendo==1){
+                $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo, unidades_arriendo) VALUES ('$id_sucursal', '$id_vehiculo', '$cantidad')";
+                mysqli_query($conexion, $query_sucursal);
+            }else{
+                $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo,unidades_arriendo) VALUES ('$id_sucursal', '$id_vehiculo', NULL)";
+                mysqli_query($conexion, $query_sucursal);
+            }
+            
         }
     }
 
@@ -119,19 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if($arriendo==0){
-        $query_eliminar_arriendo = "DELETE FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
-        mysqli_query($conexion, $query_eliminar_arriendo);
-    }else{
-
-        $query_consulta_existencia = "SELECT * FROM arriendo_vehiculo WHERE id_vehiculo = $id_vehiculo";
-        $consulta = mysqli_query($conexion, $query_consulta_existencia);
-
-        if(mysqli_num_rows($consulta ) == 0){
-            $query_agregar_arriendo = "INSERT INTO arriendo_vehiculo(id_vehiculo, disponible) VALUES ('$id_vehiculo', '1') ";
-            mysqli_query($conexion, $query_agregar_arriendo);
-        }
-    }
 
     if ($resultado) {
         echo "<script>alert('Vehículo actualizado con éxito'); window.location='mantenedor_vehiculos.php';</script>";
@@ -342,10 +343,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="mb-3">
                 <label for="arriendo" class="form-label">¿Es para arriendo?</label>
-                <select class="form-select" name="arriendo" aria-label="Default select example" require>
+                <select id="arriendo" class="form-select" name="arriendo" aria-label="Default select example" require>
                     <option value="1" <?php echo ($vehiculo['arriendo'] == '1') ? 'selected' : ''; ?>>Si</option>
                     <option value="0" <?php echo ($vehiculo['arriendo'] == '0') ? 'selected' : ''; ?>>No</option>
                 </select>
+            </div>
+
+            <div class="mb-3" id="divArriendo" style="display: none;">
+                <label for="detalleArriendo" class="form-label">Ingrese el valor de la Garantía</label>
+                <input type="number" class="form-control" name="garantia" value="<?php echo $vehiculo['valor_garantia']; ?>">
             </div>
 
             <div class="mb-3">
@@ -407,6 +413,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para mostrar u ocultar el div de garantía
+        document.getElementById('arriendo').addEventListener('change', function() {
+            var divArriendo = document.getElementById('divArriendo');
+            if (this.value == '1') {
+                divArriendo.style.display = 'block'; // Mostrar el div
+            } else {
+                divArriendo.style.display = 'none'; // Ocultar el div
+            }
+        });
+    </script>
 </body>
 
 </html>
