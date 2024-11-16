@@ -14,6 +14,7 @@ $resultado = mysqli_query($conexion, $query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mantenedor de Proveedores</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
 </head>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,6 +29,7 @@ $resultado = mysqli_query($conexion, $query);
                 <tr>
                     <th>ID</th>
                     <th>Nombre Proveedor</th>
+                    <th>Imagen  Proveedor</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -37,6 +39,19 @@ $resultado = mysqli_query($conexion, $query);
                     <tr>
                         <td><?php echo $proveedor['id_proveedor']; ?></td>
                         <td><?php echo $proveedor['nombre_proveedor']; ?></td>
+                        <!-- Mostrar la imagen -->
+                        <td>
+                            <?php
+                            // Verificar si la imagen existe y se muestra correctamente
+                            $imagen_proveedor = $proveedor['imagen_proveedor'];
+                            if (file_exists($imagen_proveedor)) {
+                                echo "<img src='$imagen_proveedor' alt='Logo' width='50'>";
+                            } else {
+                                echo "<img src='fotos_proveedor/default.png' alt='Logo' width='50'>"; // Ruta por defecto si la imagen no existe
+                            }
+                            ?>
+                        </td>
+
                         <td>
                             <a href="editar_proveedor.php?id=<?php echo $proveedor['id_proveedor']; ?>" class="btn btn-primary">Editar</a>
                             <a href="eliminar_proveedor.php?id=<?php echo $proveedor['id_proveedor']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?');">Eliminar</a>

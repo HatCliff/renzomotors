@@ -3,15 +3,17 @@ session_start();
 include('../config/conexion.php');
 
 
-$query = "SELECT nombre_seguro, descripcion_seguro, precio_seguro FROM seguro";
+$query = "SELECT s.nombre_seguro, s.descripcion_seguro, s.precio_seguro, proveedor.imagen_proveedor 
+          FROM seguro s
+          JOIN proveedor ON s.id_proveedor = proveedor.id_proveedor";
 $resultado = mysqli_query($conexion, $query);
 
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
-    // Usuario es administrador, incluye el navbar de administrador
+    // Usuario es administrador
     include '../admin/navbaradmin.php';
 } else {
-    // Usuario es normal, incluye el navbar de usuario
+    // Usuario es normal
     include '../components/navbaruser.php';
 }
 
@@ -33,17 +35,11 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             background-color: #E6E6E6;
         }
 
-        .card{
+        .card {
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .btn-custom{
-            background-color: #747871;
-
-        }
-        
     </style>
 </head>
 
@@ -52,10 +48,15 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <div class="container mt-5">
         <div class="row justify-content-center">
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
-                <div class="col-md-4 mb-4" >
+                <div class="col-md-4 mb-4">
                     <div class="card text-center">
-                        <img src="https://plazamaule.cl/wp-content/uploads/2023/06/banco-chile.png"
-                            class="card-img-top mx-auto mt-3" alt="Logo Banco" style="width: 50%; height: auto;">
+                        
+
+                        <!-- Mostrar el logo del proveedor -->
+                        <img src="../admin/mantenedores/proveedores/fotos_proveedor/<?php echo $row['imagen_proveedor']; ?>" class="card-img-top mx-auto mt-3" alt="Logo Proveedor" style="width: 50%; height: auto;">
+
+
+
                         <div class="card-body">
                             <h5 class="card-title text-dark fw-bold mb-2 "><?php echo $row['nombre_seguro']; ?></h5>
                             <p class="card-text"><?php echo $row['descripcion_seguro']; ?></p>
@@ -63,7 +64,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <span class="text-success"><?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?>
                                 CLP</span>
-                            <a href="../pages/contratacion_seguro.php" class="btn btn-custom">Contratar</a>
+                            <a href="../pages/contratacion_seguro.php" class="btn btn-primary">Contratar</a>
                         </div>
                     </div>
                 </div>
