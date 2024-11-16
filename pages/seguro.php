@@ -16,12 +16,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     // Usuario es normal
     include '../components/navbaruser.php';
 }
-
 ?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -50,12 +45,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
                 <div class="col-md-4 mb-4">
                     <div class="card text-center">
-                        
-
                         <!-- Mostrar el logo del proveedor -->
-                        <img src="../admin/mantenedores/proveedores/fotos_proveedor/<?php echo $row['imagen_proveedor']; ?>" class="card-img-top mx-auto mt-3" alt="Logo Proveedor" style="width: 50%; height: auto;">
-
-
+                        <img src="../admin/mantenedores/proveedores/<?php echo $row['imagen_proveedor']; ?>" alt="Logo de <?php echo $row['nombre_seguro']; ?>" class="card-img-top mt-3" style="max-height: 50px; object-fit: contain;">
 
                         <div class="card-body">
                             <h5 class="card-title text-dark fw-bold mb-2 "><?php echo $row['nombre_seguro']; ?></h5>
