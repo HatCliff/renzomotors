@@ -26,7 +26,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehículo</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/buscador_accesorio.php">Accesorios</a></li>
+                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/accesorios/buscador_accesorio.php">Accesorios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
