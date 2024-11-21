@@ -31,8 +31,8 @@ if (isset($_GET['sku'])) {
         // Reiniciar el puntero para reutilizar el resultado de la consulta
         mysqli_data_seek($fotos_resultado, 0);
         
-        echo "</div>";
-        echo "<div class='carousel-inner'>";
+        echo "</div>
+              <div class='carousel-inner' style='max-height: 50vh'>";
         
         $index = 0;
         // Generar elementos del carrusel dinámicos
@@ -40,23 +40,22 @@ if (isset($_GET['sku'])) {
             $ruta_imagen = '../../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
             $active = $index === 0 ? 'active' : '';
             echo "<div class='carousel-item $active'>";
-            echo "<img src='$ruta_imagen' class='d-block w-100' alt='Foto accesorio'>";
+            echo "<img src='$ruta_imagen' class='d-block w-100' alt='Foto accesorio' style='object-fit: cover; height: 100%; width: 100%'>";
             echo "</div>";
             $index++;
         }
         
-        echo "</div>";
-        echo "<button class='carousel-control-prev' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>";
-        echo "<span class='carousel-control-prev-icon' aria-hidden='true'></span>";
-        echo "<span class='visually-hidden'>Previous</span>";
-        echo "</button>";
-        echo "<button class='carousel-control-next' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>";
-        echo "<span class='carousel-control-next-icon' aria-hidden='true'></span>";
-        echo "<span class='visually-hidden'>Next</span>";
-        echo "</button>";
-        echo "</div>";
-
         echo "</div>
+            <button class='carousel-control-prev' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>
+            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Previous</span>
+            </button>
+            <button class='carousel-control-next' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>
+            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Next</span>
+            </button>
+            </div>
+            </div>
             <div class='col-6'>
                 <h3>" . $fila['nombre_accesorio'] . "</h3>
                 <p class='text-success'><strong>Precio:</strong> $" . number_format($fila['precio_accesorio'], 0, ',', '.') . " CLP</p>

@@ -164,11 +164,28 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             </div>
                             
                             <!-- Carrito -->
-                            <div class="mx-2 d-flex justify-content-center align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                </svg>
-                            </div>
+                            <?php
+                                if (isset($_SESSION['usuario'])){?>
+                                    <a href="carrito_accesorio.php">
+                                        <div class="mx-2 d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    <?php }
+                                else{?>
+                                    <a href="#" title="Inicia Sesíon para acceder al carrito">
+                                        <div class="mx-2 d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+
+                            <?php }
+                            ?>
+                            
                             
                         </div>
                     </div>
@@ -231,9 +248,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     <!-- Modal -->
                     <div class='modal fade' id='accesorioModal' tabindex='-1' aria-labelledby='accesorioModalLabel' aria-hidden='true'>
                       <div class='modal-dialog modal-dialog-centered modal-lg'>
-                        <div class='modal-content'>
+                        <div class='modal-content' style='background: #E6E6E6;'>
                           <div class='modal-header'>
-                            <h5 class='modal-title' id='accesorioModalLabel'>{$fila['nombre_accesorio']}</h5>
                             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                           </div>
                           <div class='modal-body' id='modalContent'>

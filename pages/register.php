@@ -34,6 +34,11 @@ $error_message = ""; // Variable para almacenar el mensaje de error
     
             if ($result) {
                 $_SESSION['success'] = "Registro exitoso. Por favor, inicia sesión.";
+
+                // Se le asigna un carrito al usuario
+                $query_carrito = "INSERT into carrito_usuario (rut_usuario, valor_carrito) VALUES ('$rut', 0)";
+                $result_carrito = mysqli_query($conexion, $query_carrito);
+
                 header('Location: login.php'); // Redirigir al login solo si es exitoso
                 exit();
             }
