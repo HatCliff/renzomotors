@@ -2,7 +2,7 @@
 $host = "localhost";
 $usuario = "root";      
 $contrasena = "hola2";       
-$base_datos = "renzo_motors4";  
+$base_datos = "renzo_motors5";  
 
 $conexion = new mysqli($host, $usuario, $contrasena, $base_datos);
 

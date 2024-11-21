@@ -3,7 +3,7 @@ session_start();
 include('../config/conexion.php');
 
 
-$query = "SELECT s.nombre_seguro, s.descripcion_seguro, s.precio_seguro, proveedor.imagen_proveedor 
+$query = "SELECT s.id_seguro, s.nombre_seguro, s.descripcion_seguro, s.precio_seguro, proveedor.imagen_proveedor 
           FROM seguro s
           JOIN proveedor ON s.id_proveedor = proveedor.id_proveedor";
 $resultado = mysqli_query($conexion, $query);
@@ -55,7 +55,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <span class="text-success"><?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?>
                                 CLP</span>
-                            <a href="../pages/contratacion_seguro.php" class="btn btn-primary">Contratar</a>
+                            <a href="../pages/contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>" class="btn btn-primary">Contratar</a>
                         </div>
                     </div>
                 </div>
