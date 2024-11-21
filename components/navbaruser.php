@@ -26,7 +26,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehículo</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/buscador_accesorio.php">Accesorios</a></li>
+                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/accesorios/buscador_accesorio.php">Accesorios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -35,7 +35,9 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
-                
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/prueba_manejo/test_manejo.php' class="nav-link active" aria-current="page">Prueba de Manejo</a>
+                </li>
                 <?php
                 if (isset($_SESSION['usuario'])) {
                     // Si el usuario ha iniciado sesión, muestra el icono de perfil y la opción de cerrar sesión
@@ -45,6 +47,7 @@ if (session_status() == PHP_SESSION_NONE) {
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
                           </li>';

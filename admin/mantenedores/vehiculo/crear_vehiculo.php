@@ -168,11 +168,16 @@ include '../../navbaradmin.php';
             </div>
 
             <div class="mb-3">
-                <label for="arriendo" class="form-label">¿Es para arriendo?</label>
-                <select class="form-select" name="arriendo" aria-label="Default select example" require>
-                    <option value="1">Si</option>
-                    <option value="0">No</option>
+                <label for="arriendo" class="form-label">¿Arriendo?</label>
+                <select id="arriendo" class="form-control" name="arriendo">
+                    <option value="0" >No</option>
+                    <option value="1" >Sí</option>
                 </select>
+            </div>
+
+            <div class="mb-3" id="divArriendo" style="display: none;">
+                <label for="detalleArriendo" class="form-label">Ingrese el valor de la Garantía</label>
+                <input type="number" class="form-control" name="garantia">
             </div>
 
             <div class="mb-3">
@@ -205,8 +210,18 @@ include '../../navbaradmin.php';
             </div>
             <button type="submit" class="btn btn-success">Guardar Vehículo</button>
         </form>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para mostrar u ocultar el div de garantía
+        document.getElementById('arriendo').addEventListener('change', function() {
+            var divArriendo = document.getElementById('divArriendo');
+            if (this.value == '1') {
+                divArriendo.style.display = 'block'; // Mostrar el div
+            } else {
+                divArriendo.style.display = 'none'; // Ocultar el div
+            }
+        });
+    </script>
 </body>
 
 </html>
@@ -232,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
     $arriendo = $_POST['arriendo'];
-
+    $garantia = isset($_POST['garantia']) ? $_POST['garantia']:NULL;
 
     $documento_tecnico = $_FILES['docu']['name'];
     $ruta_temporal_doc = $_FILES['docu']['tmp_name'];
@@ -242,9 +257,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // insertar el vehículo
     $query = "INSERT INTO vehiculo (nombre_modelo, precio_modelo, estado_vehiculo, descripcion_vehiculo, cantidad_vehiculo,
                                      cantidad_puertas, caballos_fuerza, documento_tecnico, kilometraje, id_marca, id_anio, id_tipo_combustible, id_pais, id_transmision,
-                                     id_tipo_vehiculo, id_tipo_rueda, arriendo) 
+                                     id_tipo_vehiculo, id_tipo_rueda, arriendo, valor_garantia) 
               VALUES ('$nombre_modelo', '$precio','$estado_vehiculo', '$descripcion', '$cantidad', '$puertas', '$horsepower', '$documento_tecnico', '$kilometraje', '$id_marca',
-                      '$id_anio', '$id_tipo_combustible', '$id_pais', '$id_transmision', '$id_tipo_vehiculo', '$id_tipo_ruedas', '$arriendo')";
+                      '$id_anio', '$id_tipo_combustible', '$id_pais', '$id_transmision', '$id_tipo_vehiculo', '$id_tipo_ruedas', '$arriendo', '$garantia')";
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
@@ -277,15 +292,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach ($sucursales as $id_sucursal) {
                 $id_sucursal = mysqli_real_escape_string($conexion, $id_sucursal);
 
-                $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo) VALUES ('$id_sucursal', '$id_vehiculo')";
-                mysqli_query($conexion, $query_sucursal);
-
+                if($arriendo==1)
+                {
+                    $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo,unidades_arriendo) VALUES ('$id_sucursal', '$id_vehiculo', '$cantidad')";
+                    mysqli_query($conexion, $query_sucursal);
+                }else{
+                    $query_sucursal = "INSERT INTO vehiculo_sucursal (id_sucursal, id_vehiculo) VALUES ('$id_sucursal', '$id_vehiculo')";
+                    mysqli_query($conexion, $query_sucursal);
+                }
             }
-        }
-
-        if($arriendo==1){
-            $query_sucursal = "INSERT INTO arriendo_vehiculo (id_vehiculo, disponible) VALUES ('$id_vehiculo', '1')";
-            mysqli_query($conexion, $query_sucursal);
         }
 
 

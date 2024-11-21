@@ -31,7 +31,8 @@ include '../../navbaradmin.php';
                 </thead>
                 <tbody>
                     <?php
-                    $resultado = mysqli_query($conexion, "SELECT v.*, m.nombre_marca, a.anio, t.nombre_tipo_vehiculo, tr.nombre_transmision, c.nombre_tipo_combustible, p.nombre_pais, r.nombre_tipo_rueda
+                    $resultado = mysqli_query($conexion, "SELECT v.*, m.nombre_marca, a.anio, t.nombre_tipo_vehiculo, 
+                                                            tr.nombre_transmision, c.nombre_tipo_combustible, p.nombre_pais, r.nombre_tipo_rueda
                                                           FROM vehiculo v
                                                           JOIN marca m ON v.id_marca = m.id_marca
                                                           JOIN anio a ON v.id_anio = a.id_anio
@@ -59,8 +60,8 @@ include '../../navbaradmin.php';
                                         Valor: $" . number_format($fila['precio_modelo'], 0, ',', '.') . " CLP  ({$fila['cantidad_vehiculo']} Un.)
                                     </div>
                                     <div>";
-                                    if ($fila['unidades_arriendo'] >= 1) {
-                                        echo "<span class='text-success fw-bold'> Si es para arriendo </span>: <span class='text-info fw-bold'> ".$fila['unidades_arriendo']." Un </span>";
+                                    if ($fila['arriendo'] == 1) {
+                                        echo "<span class='text-success fw-bold'> Si es para arriendo </span>";
                                     }
                                     else{
                                         echo "<span class='text-danger fw-bold'> No es para arriendo </span>";

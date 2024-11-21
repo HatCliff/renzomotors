@@ -31,7 +31,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                <!----
                 <li class="nav-item">
@@ -74,7 +74,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 </nav>
 
 <!--  Mantenedores -->
-<div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasMantenedores" aria-labelledby="offcanvasMantenedoresLabel" style="top: 56px;">
+<div class="offcanvas offcanvas-start text-bg-dark " tabindex="-1" id="offcanvasMantenedores" aria-labelledby="offcanvasMantenedoresLabel" style="top: 56px;">
     <div class="offcanvas-header" >
         <h5 class="offcanvas-title text-center" id="offcanvasMantenedoresLabel" style="color:white;">Mantenedores</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>

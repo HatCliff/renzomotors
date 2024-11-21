@@ -69,8 +69,7 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                                             JOIN transmision t ON v.id_transmision = t.id_transmision
                                             JOIN tipo_combustible c ON v.id_tipo_combustible = c.id_tipo_combustible
                                             JOIN vehiculo_sucursal vs ON v.id_vehiculo = vs.id_vehiculo
-                                            JOIN arriendo_vehiculo av ON v.id_vehiculo = av.id_vehiculo
-                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo = 1  AND av.disponible=1";
+                                            WHERE vs.id_sucursal = $id_sucursal AND v.cantidad_vehiculo > 0 AND v.arriendo= 1 AND vs.unidades_arriendo > 0";
                         
                         $result_vehiculos = mysqli_query($conexion, $query_vehiculos);
 
