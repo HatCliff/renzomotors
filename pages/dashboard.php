@@ -1,5 +1,6 @@
 <?php
     require_once(__DIR__ . "/../config/conexion.php");
+    require('./dashboard/queries.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,8 +23,8 @@
                     <div class="card-body">
                         <div class="row g-0 align-items-center">
                             <div class="col me-2">
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Ventas Mensuales (TOTAL)</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span>$40,000</span></div>
+                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Contador de Ventas</span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span><?php ContadorVentaAccesorios(); ?></span></div>
                             </div>
                             <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                         </div>
@@ -35,8 +36,8 @@
                     <div class="card-body">
                         <div class="row g-0 align-items-center">
                             <div class="col me-2">
-                                <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Ventas Annuales (TOTAL)</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span>$215,000</span></div>
+                                <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Ventas Anuales (TOTAL)</span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span>$<?php ContadorVentaTotalAccesorios();?> </span></div>
                             </div>
                             <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                         </div>
