@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <img src="./src/images/banner2.jpg" class="d-block w-100" alt="Cotizar Seguro">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>Cotiza tu Seguro</h4>
-                    <a href="pages/seguro.php" class="btn btn-warning">Cotizar Ahora</a>
+                    <a href="pages/c_seguro/seguro.php" class="btn btn-warning">Cotizar Ahora</a>
                 </div>
             </div>
             <!-- Tercer slide -->

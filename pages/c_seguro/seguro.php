@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../config/conexion.php');
+include('../../config/conexion.php');
 
 
 $query = "SELECT s.id_seguro, s.nombre_seguro, s.descripcion_seguro, s.precio_seguro, proveedor.imagen_proveedor 
@@ -11,10 +11,10 @@ $resultado = mysqli_query($conexion, $query);
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
     // Usuario es administrador
-    include '../admin/navbaradmin.php';
+    include '../../admin/navbaradmin.php';
 } else {
     // Usuario es normal
-    include '../components/navbaruser.php';
+    include '../../components/navbaruser.php';
 }
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguro</title>
+    <title>Cotización seguro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -42,20 +42,24 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
     <div class="container mt-5">
         <div class="row justify-content-center">
+            <h2>Cotización de seguros</h2>
+            <br>
+            <br>
+            <br>
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
                 <div class="col-md-4 mb-4">
                     <div class="card text-center">
                         <!-- Mostrar el logo del proveedor -->
-                        <img src="../admin/mantenedores/proveedores/<?php echo $row['imagen_proveedor']; ?>" alt="Logo de <?php echo $row['nombre_seguro']; ?>" class="card-img-top mt-3" style="max-height: 50px; object-fit: contain;">
+                        <img src="../../admin/mantenedores/proveedores/<?php echo $row['imagen_proveedor']; ?>" alt="Logo de <?php echo $row['nombre_seguro']; ?>" class="card-img-top mt-3" style="max-height: 50px; object-fit: contain;">
 
-                        <div class="card-body">
+                        <div class="card-body ">
                             <h5 class="card-title text-dark fw-bold mb-2 "><?php echo $row['nombre_seguro']; ?></h5>
                             <p class="card-text"><?php echo $row['descripcion_seguro']; ?></p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <span class="text-success"><?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?>
+                            <span class="text-success"> Desde <?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?>
                                 CLP</span>
-                            <a href="../pages/contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>" class="btn btn-primary">Contratar</a>
+                            <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>" class="btn btn-primary">Contratar</a>
                         </div>
                     </div>
                 </div>
