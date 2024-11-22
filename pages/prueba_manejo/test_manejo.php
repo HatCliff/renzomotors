@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("../../config/conexion.php");    
+
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
     // Usuario es administrador, incluye el navbar de administrador
@@ -19,6 +20,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <title>Solicitud Test Drive</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,11 +32,11 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             padding-left: 0px;
         }
         .left-image {
-            background-image: url('../../src/images/test_manejo.jpeg'); 
+            background-image: url('../../src/images/test_manejo.webp'); 
             background-size: cover;
             background-position: center;
             width: 40%;
-            height: 100vh;
+            height: 70vh;
             color: white;
             display: flex;
             justify-content: center;
@@ -109,69 +111,75 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             }
         }
     </style>
+
 </head>
 <body>
 <div class="container-fluid container-form">
     <div class="left-image">
-        <div>
-            Solicita Ahora<br>
-            Tu Test Drive
-        </div>
+
     </div>
     <div class="right-form mt-5 pt-5">
         <div class="step-indicator">
-            <span id="step-1" class="active">01 | Tus datos</span>
-            <span id="step-2">02 | Modelo</span>
-            <span id="step-3">03 | Sucursal</span>
+            <span id="step-1" class="active"> Tus datos</span>
+            <span id="step-2"> Modelo</span>
+            <span id="step-3"> Sucursal</span>
         </div>
 
         <!-- Sección 1: Tus datos -->
-        <div id="section-1" class="section active-section">
-            <h2 class="mb-4">Tus Datos</h2>
-            <form id="form-datos" method="POST">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="apellido">Apellido</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="rut">RUT</label>
-                        <input type="text" class="form-control" id="rut" name="rut" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="correo">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="correo" name="correo" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono" required placeholder="+569">
-                </div>
-
-                <div class="form-group mt-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="aceptar_terminos1" required>
-                        <label class="form-check-label" for="aceptar_terminos1">
-                            Autorizo de manera libre y voluntaria para que mis datos personales sean tratados y usados para ser contactado.
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="aceptar_terminos2" required>
-                        <label class="form-check-label" for="aceptar_terminos2">
-                            Autorizo de manera libre y voluntaria a la Compañía para la recolección y almacenamiento de mis datos personales.
-                        </label>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-dark mt-4" onclick="nextSection(2, 'form-datos')">Confirmar datos</button>
-            </form>
+<div id="section-1" class="section active-section">
+    <h2 class="mb-4">Tus Datos</h2>
+    <form id="form-datos" method="POST">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" required>
+            </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="rut">RUT</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="rut" 
+                       name="rut" 
+                       placeholder="12.345.678-9" 
+                       required 
+                       pattern="^\d{1,2}\.\d{3}\.\d{3}-[0-9kK]$" 
+                       title="Ingrese un RUT válido en el formato 12.345.678-9.">
+            
+            </div>
+            <div class="form-group col-md-6">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="telefono" 
+                   name="telefono" 
+                   placeholder="+569" 
+                   required 
+                   pattern="^\+?[0-9]{9,15}$" 
+                   title="Ingrese un teléfono válido. Puede incluir el símbolo + al inicio, seguido de 9 a 15 dígitos.">
+        </div>
+        <div class="form-group mt-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="aceptar_terminos1" required>
+                <label class="form-check-label" for="aceptar_terminos1">
+                    Autorizo que mis datos personales sean tratados y usados para ser contactado.
+                </label>
+            </div>
+        </div>
+        <button type="button" class="btn btn-dark mt-4" onclick="nextSection(2, 'form-datos')">Confirmar datos</button>
+    </form>
+</div>
+
 
         <!-- Sección 2: Modelo -->
         <div id="section-2" class="section">
@@ -251,9 +259,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 <script>
+    
 // Función para combinar los datos de varios formularios
 function mergeFormData(...forms) {
     const combinedFormData = new FormData();
@@ -276,42 +283,38 @@ document.getElementById("form-sucursal").addEventListener("submit", function(eve
         document.getElementById("form-sucursal")
     );
 
-    // Enviar datos usando fetch API
+    // Enviar datos 
     fetch("guardar_prueba.php", {
         method: "POST",
         body: combinedFormData
     })
     .then(response => response.text())
     .then(data => {
-        console.log("Respuesta del servidor:", data); // Muestra la respuesta del servidor
-        // Redirecciona o cambia de sección si es necesario
-        window.location.href = 'test_manejo.php';
+        console.log("Respuesta del servidor:", data); 
+        
+        window.location.href = 'test_manejo.php?mensaje=confirmacion';
     })
     .catch(error => console.error("Error:", error));
 });
 
 
-</script>
-<script>
-    // Configuración de la fecha mínima para el campo de fecha
+
+// Configuración de la fecha mínima para el campo de fecha
     document.addEventListener('DOMContentLoaded', function () {
         const fechaCampo = document.getElementById('fecha');
         const hoy = new Date();
         // Añadir 7 días a la fecha actual
         hoy.setDate(hoy.getDate() + 7);
-        // Formato YYYY-MM-DD para el campo de fecha mínima
         const fechaMinima = hoy.toISOString().split('T')[0];
         fechaCampo.setAttribute('min', fechaMinima);
     });
-</script>
-<script>
+
     function cargarModelos() {
         // Obtener la marca seleccionada
         var marcaId = document.getElementById("marca").value;
         
         // Verificar que haya una marca seleccionada
         if (marcaId) {
-            // Crear una solicitud AJAX
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "cargar_modelos.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -326,47 +329,67 @@ document.getElementById("form-sucursal").addEventListener("submit", function(eve
             // Enviar el id de la marca seleccionada al servidor
             xhr.send("marca=" + marcaId);
         } else {
-            // Si no hay marca seleccionada, vaciar el select de modelos
+
             document.getElementById("modelo").innerHTML = "<option value=''>Seleccione un modelo</option>";
         }
     }
     function nextSection(section, formId) {
-        // Validar el formulario actual
+
         const form = document.getElementById(formId);
         if (!form.checkValidity()) {
-            form.reportValidity(); // Muestra mensajes de validación si hay campos inválidos
+            form.reportValidity(); 
             return;
         }
 
-        // Ocultar todas las secciones
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active-section'));
-        // Mostrar la siguiente sección
         document.getElementById('section-' + section).classList.add('active-section');
-
-        // Actualizar la barra de pasos
         document.querySelectorAll('.step-indicator span').forEach(span => span.classList.remove('active'));
         document.getElementById('step-' + section).classList.add('active');
     }
-    // Mostrar un mensaje centrado al confirmar la solicitud
-    function mostrarMensajeConfirmacion() {
-        const mensajeDiv = document.createElement("div");
-        mensajeDiv.innerHTML = "Solicitud de prueba de manejo enviada correctamente";
-        mensajeDiv.style.position = "fixed";
-        mensajeDiv.style.top = "50%";
-        mensajeDiv.style.left = "50%";
-        mensajeDiv.style.transform = "translate(-50%, -50%)";
-        mensajeDiv.style.backgroundColor = "#28a745";
-        mensajeDiv.style.color = "white";
-        mensajeDiv.style.padding = "20px";
-        mensajeDiv.style.borderRadius = "8px";
-        mensajeDiv.style.fontSize = "18px";
-        mensajeDiv.style.zIndex = "1000";
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('mensaje') && urlParams.get('mensaje') === 'confirmacion') {
+        mostrarMensajeConfirmacion();
 
-        document.body.appendChild(mensajeDiv);
-
-        setTimeout(() => {
-            mensajeDiv.remove();
-        }, 3000);
+        
+        history.replaceState(null, '', window.location.pathname);
     }
 
+    function mostrarMensajeConfirmacion() {
+    const mensajeDiv = document.createElement("div");
+    
+
+    mensajeDiv.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 24px;">✔️</span>
+            <span>Solicitud de prueba de manejo enviada correctamente</span>
+        </div>
+    `;
+
+
+    mensajeDiv.style.position = "fixed";
+    mensajeDiv.style.top = "50%";
+    mensajeDiv.style.left = "50%";
+    mensajeDiv.style.transform = "translate(-50%, -50%)";
+    mensajeDiv.style.backgroundColor = "#28a745";
+    mensajeDiv.style.color = "white";
+    mensajeDiv.style.padding = "20px 30px";
+    mensajeDiv.style.borderRadius = "50px"; 
+    mensajeDiv.style.fontSize = "18px";
+    mensajeDiv.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+    mensajeDiv.style.zIndex = "1000";
+
+    // Añadir al documento
+    document.body.appendChild(mensajeDiv);
+
+    // Remover el mensaje después de 3 segundos
+    setTimeout(() => {
+        mensajeDiv.remove();
+    }, 3000);
+}
+
+    
+
 </script>
+</body>
+</html>
+
