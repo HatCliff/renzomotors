@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('../../../config/conexion.php');
 
-    $rut = $_SESSION['rut']; // Obtén el rut del usuario desde la sesión
+    $rut = $_SESSION['rut'];
     $sku = $_POST['sku'];
     $cantidad = $_POST['cantidad_accesorio'];
 

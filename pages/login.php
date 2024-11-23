@@ -6,7 +6,7 @@ session_start();
     }
 
     if(isset($_SESSION['error'])){
-        error($_SESSION['error_code'], $_SESSION['error']);
+        error($_SESSION['error_code']);
         //echo "<div class='mx-auto fcol-3 fixed-top alert alert-danger' role='alert'>Error ". $_SESSION['error_code'] . ": ". $_SESSION['error'] . "</div>";
     }
 ?>
