@@ -69,14 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_verificar = mysqli_fetch_assoc($resultado_verificar);
 
     // Si ya ha alcanzado el límite de 2 seguros, se mostrara un mensaje y se detendra el proceso
-    if ($data_verificar['total'] >= 2) {
+    if ($data_verificar['total'] >= 2){
         echo "<script>
             alert('Ya has cotizado el máximo de 2 seguros.');
             window.location.href = 'seguro.php'; // Redirige a la página principal de seguros
         </script>";
         exit();
     }
-
 
     $id_seguro = intval($_GET['id_seguro']); // Sanitización básica
     $id_tipo_vehiculo = intval($_POST['id_tipo_vehiculo']);
