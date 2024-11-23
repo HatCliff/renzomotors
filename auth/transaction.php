@@ -45,29 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $response->getUrl();
         $response->getToken();
-        //PARA DEBUG: print_r($response);
 
         //Enviar a la url con el token sin que el usuario haga click
         $finalUrl = $response->getUrl().'?token_ws='.$response->getToken(); 
 
         echo "<script>window.location='$finalUrl';</script>";
-    // Guardar el registro
-    /*
-    $query = "INSERT INTO reserva_vehiculo (id_vehiculo, rut, fecha_reserva, hora_reserva) 
-            VALUES ('$id_vehiculo','$rut','$fecha_actual','$hora_actual')";
-    $resultado = mysqli_query($conexion, $query);
-
-    if ($resultado) {
-        $num_reserva_vehiculo = mysqli_insert_id($conexion);
-
-        $query = "INSERT INTO registro_reserva (rut_cliente, nombre_cliente, sucursal_reserva, correo_cliente, telefono_cliente,
-                        metodo_pago, precio_reserva, color_reserva, compra_concretada, num_reserva_vehiculo) 
-        VALUES ('$rut_compra', '$nombre', '$sucursal', '$correo', '$telefono', '$pago', '$precio', '$color', NULL, '$num_reserva_vehiculo')";
-        $resultado = mysqli_query($conexion, $query);
-        
-    } else {
-        echo "Error en la reserva" . mysqli_error($conexion);
-    }
-        */
 }
 ?>

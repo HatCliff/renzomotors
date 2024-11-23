@@ -5,17 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
 include '../../../config/conexion.php';
 
 $rut_user = $_SESSION['rut'];
-$sku = $_POST['sku'];
+$sku = $_GET['sku'];
 
-// Eliminar el artículo del carrito
-$query = "DELETE FROM carrito_accesorio 
-          WHERE sku_accesorio='$sku' 
-          AND id_carrito = (SELECT id_carrito FROM carrito_usuario WHERE '$rut_user' = rut_usuario)";
+$query = "INSERT INTO carrito_accesorio VALUES (
+            (SELECT id_carrito FROM carrito_usuario WHERE rut_usuario = '$rut_user'), '$sku', 1
+            )";
 $resultado = mysqli_query($conexion, $query);
 
-header('Content-Type: application/json');
-
-// Código de eliminación del artículo...
 if ($resultado) {
     $precio_query = "SELECT SUM(cantidad_accesorio * precio_accesorio) AS precio 
                      FROM accesorio a 
@@ -30,13 +26,9 @@ if ($resultado) {
 
         // Actualizar en la tabla carrito_usuario
         $conexion->query("UPDATE carrito_usuario SET valor_carrito = $precio_total WHERE rut_usuario = '$rut_user'");
-
-        echo json_encode(['success' => true, 'valor_carrito' => number_format($precio_total, 0, ',', '.')]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Error al calcular el precio']);
+        header('location: ../buscador_accesorio.php');
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error al eliminar el accesorio']);
+    
 }
 
 ?>
