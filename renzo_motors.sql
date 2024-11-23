@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2024 a las 04:02:08
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Nov 22, 2024 at 05:37 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors`
+-- Database: `renzo_motors5`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `accesorio`
+-- Table structure for table `accesorio`
 --
 
 CREATE TABLE `accesorio` (
@@ -36,7 +36,7 @@ CREATE TABLE `accesorio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `accesorio`
+-- Dumping data for table `accesorio`
 --
 
 INSERT INTO `accesorio` (`sku_accesorio`, `stock_accesorio`, `nombre_accesorio`, `descripcion_accesorio`, `precio_accesorio`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `accesorio` (`sku_accesorio`, `stock_accesorio`, `nombre_accesorio`,
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador`
+-- Table structure for table `administrador`
 --
 
 CREATE TABLE `administrador` (
@@ -55,16 +55,17 @@ CREATE TABLE `administrador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador`
+-- Dumping data for table `administrador`
 --
 
 INSERT INTO `administrador` (`rut_administrador`, `id_rol`) VALUES
-('11.111.111-1', NULL);
+('11.111.111-1', NULL),
+('22.222.222-2', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `agenda_prueba`
+-- Table structure for table `agenda_prueba`
 --
 
 CREATE TABLE `agenda_prueba` (
@@ -82,7 +83,7 @@ CREATE TABLE `agenda_prueba` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `anio`
+-- Table structure for table `anio`
 --
 
 CREATE TABLE `anio` (
@@ -91,7 +92,7 @@ CREATE TABLE `anio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `anio`
+-- Dumping data for table `anio`
 --
 
 INSERT INTO `anio` (`id_anio`, `anio`) VALUES
@@ -104,7 +105,7 @@ INSERT INTO `anio` (`id_anio`, `anio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `arriendo_vehiculo`
+-- Table structure for table `arriendo_vehiculo`
 --
 
 CREATE TABLE `arriendo_vehiculo` (
@@ -117,16 +118,17 @@ CREATE TABLE `arriendo_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `arriendo_vehiculo`
+-- Dumping data for table `arriendo_vehiculo`
 --
 
 INSERT INTO `arriendo_vehiculo` (`cod_arriendo`, `id_vehiculo`, `rut`, `fecha_arriendo`, `hora_arriendo`, `recibido`) VALUES
-(2, 37, '12.456.789-9', '2024-11-04', '13:39:22', 0);
+(2, 37, '12.456.789-9', '2024-11-04', '13:39:22', 0),
+(3, 37, '20.003.205-2', '2024-11-22', '00:16:55', 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `carrito_accesorio`
+-- Table structure for table `carrito_accesorio`
 --
 
 CREATE TABLE `carrito_accesorio` (
@@ -138,7 +140,7 @@ CREATE TABLE `carrito_accesorio` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `carrito_usuario`
+-- Table structure for table `carrito_usuario`
 --
 
 CREATE TABLE `carrito_usuario` (
@@ -150,7 +152,7 @@ CREATE TABLE `carrito_usuario` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cobertura`
+-- Table structure for table `cobertura`
 --
 
 CREATE TABLE `cobertura` (
@@ -159,7 +161,7 @@ CREATE TABLE `cobertura` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `cobertura`
+-- Dumping data for table `cobertura`
 --
 
 INSERT INTO `cobertura` (`id_cobertura`, `nombre_tipo_cobertura`) VALUES
@@ -171,7 +173,7 @@ INSERT INTO `cobertura` (`id_cobertura`, `nombre_tipo_cobertura`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `color`
+-- Table structure for table `color`
 --
 
 CREATE TABLE `color` (
@@ -181,7 +183,7 @@ CREATE TABLE `color` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `color`
+-- Dumping data for table `color`
 --
 
 INSERT INTO `color` (`id_color`, `nombre_color`, `codigo_color`) VALUES
@@ -196,7 +198,7 @@ INSERT INTO `color` (`id_color`, `nombre_color`, `codigo_color`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `color_vehiculo`
+-- Table structure for table `color_vehiculo`
 --
 
 CREATE TABLE `color_vehiculo` (
@@ -205,7 +207,7 @@ CREATE TABLE `color_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `color_vehiculo`
+-- Dumping data for table `color_vehiculo`
 --
 
 INSERT INTO `color_vehiculo` (`id_color`, `id_vehiculo`) VALUES
@@ -222,7 +224,7 @@ INSERT INTO `color_vehiculo` (`id_color`, `id_vehiculo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `financiamiento`
+-- Table structure for table `financiamiento`
 --
 
 CREATE TABLE `financiamiento` (
@@ -234,7 +236,7 @@ CREATE TABLE `financiamiento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `financiamiento`
+-- Dumping data for table `financiamiento`
 --
 
 INSERT INTO `financiamiento` (`id_financiamiento`, `nombre_financiamiento`, `plazo_maximo_meses`, `tasa_interes`, `requisitos`) VALUES
@@ -244,7 +246,7 @@ INSERT INTO `financiamiento` (`id_financiamiento`, `nombre_financiamiento`, `pla
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fotos_accesorio`
+-- Table structure for table `fotos_accesorio`
 --
 
 CREATE TABLE `fotos_accesorio` (
@@ -254,7 +256,7 @@ CREATE TABLE `fotos_accesorio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `fotos_accesorio`
+-- Dumping data for table `fotos_accesorio`
 --
 
 INSERT INTO `fotos_accesorio` (`id_foto_accesorio`, `foto_accesorio`, `sku_accesorio`) VALUES
@@ -265,7 +267,7 @@ INSERT INTO `fotos_accesorio` (`id_foto_accesorio`, `foto_accesorio`, `sku_acces
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fotos_vehiculo`
+-- Table structure for table `fotos_vehiculo`
 --
 
 CREATE TABLE `fotos_vehiculo` (
@@ -275,7 +277,7 @@ CREATE TABLE `fotos_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `fotos_vehiculo`
+-- Dumping data for table `fotos_vehiculo`
 --
 
 INSERT INTO `fotos_vehiculo` (`id_foto_vehiculo`, `ruta_foto`, `id_vehiculo`) VALUES
@@ -289,7 +291,7 @@ INSERT INTO `fotos_vehiculo` (`id_foto_vehiculo`, `ruta_foto`, `id_vehiculo`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `marca`
+-- Table structure for table `marca`
 --
 
 CREATE TABLE `marca` (
@@ -300,7 +302,7 @@ CREATE TABLE `marca` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `marca`
+-- Dumping data for table `marca`
 --
 
 INSERT INTO `marca` (`id_marca`, `nombre_marca`, `logo_marca`, `descripcion_marca`) VALUES
@@ -313,7 +315,7 @@ INSERT INTO `marca` (`id_marca`, `nombre_marca`, `logo_marca`, `descripcion_marc
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `opinion_vehiculo`
+-- Table structure for table `opinion_vehiculo`
 --
 
 CREATE TABLE `opinion_vehiculo` (
@@ -330,7 +332,7 @@ CREATE TABLE `opinion_vehiculo` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pais`
+-- Table structure for table `pais`
 --
 
 CREATE TABLE `pais` (
@@ -339,7 +341,7 @@ CREATE TABLE `pais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `pais`
+-- Dumping data for table `pais`
 --
 
 INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
@@ -354,7 +356,7 @@ INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permiso`
+-- Table structure for table `permiso`
 --
 
 CREATE TABLE `permiso` (
@@ -363,7 +365,7 @@ CREATE TABLE `permiso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `permiso`
+-- Dumping data for table `permiso`
 --
 
 INSERT INTO `permiso` (`id_permiso`, `nombre_permiso`) VALUES
@@ -374,7 +376,7 @@ INSERT INTO `permiso` (`id_permiso`, `nombre_permiso`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pertenece_tipo`
+-- Table structure for table `pertenece_tipo`
 --
 
 CREATE TABLE `pertenece_tipo` (
@@ -383,7 +385,7 @@ CREATE TABLE `pertenece_tipo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `pertenece_tipo`
+-- Dumping data for table `pertenece_tipo`
 --
 
 INSERT INTO `pertenece_tipo` (`id_tipo_accesorio`, `sku_accesorio`) VALUES
@@ -395,7 +397,7 @@ INSERT INTO `pertenece_tipo` (`id_tipo_accesorio`, `sku_accesorio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `promocion_especial`
+-- Table structure for table `promocion_especial`
 --
 
 CREATE TABLE `promocion_especial` (
@@ -406,7 +408,7 @@ CREATE TABLE `promocion_especial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `promocion_especial`
+-- Dumping data for table `promocion_especial`
 --
 
 INSERT INTO `promocion_especial` (`id_promocion`, `nombre_promocion`, `descripcion_promocion`, `icono_promocion`) VALUES
@@ -416,7 +418,7 @@ INSERT INTO `promocion_especial` (`id_promocion`, `nombre_promocion`, `descripci
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `promocion_vehiculo`
+-- Table structure for table `promocion_vehiculo`
 --
 
 CREATE TABLE `promocion_vehiculo` (
@@ -425,7 +427,7 @@ CREATE TABLE `promocion_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `promocion_vehiculo`
+-- Dumping data for table `promocion_vehiculo`
 --
 
 INSERT INTO `promocion_vehiculo` (`id_vehiculo`, `id_promocion`) VALUES
@@ -435,7 +437,7 @@ INSERT INTO `promocion_vehiculo` (`id_vehiculo`, `id_promocion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `proveedor`
+-- Table structure for table `proveedor`
 --
 
 CREATE TABLE `proveedor` (
@@ -445,19 +447,19 @@ CREATE TABLE `proveedor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `proveedor`
+-- Dumping data for table `proveedor`
 --
 
 INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `imagen_proveedor`) VALUES
-(1, 'Banco de Chile', NULL),
-(2, 'Banco Falabella', NULL),
-(3, 'Banco Santander', NULL),
-(4, 'Banco Renzo Motors', NULL);
+(1, 'Banco de Chile', 'fotos_proveedor/banco_de_chile.png'),
+(2, 'Banco Falabella', 'fotos_proveedor/banco-falabella-logo-0.png'),
+(3, 'Banco Santander', 'fotos_proveedor/Santander_bank_logo.png'),
+(4, 'Renzo Motors', 'fotos_proveedor/logo_renzo_motor.png');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `registro_accesorio`
+-- Table structure for table `registro_accesorio`
 --
 
 CREATE TABLE `registro_accesorio` (
@@ -473,7 +475,7 @@ CREATE TABLE `registro_accesorio` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `registro_arriendo`
+-- Table structure for table `registro_arriendo`
 --
 
 CREATE TABLE `registro_arriendo` (
@@ -489,10 +491,17 @@ CREATE TABLE `registro_arriendo` (
   `valor_arriendo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `registro_arriendo`
+--
+
+INSERT INTO `registro_arriendo` (`id_registro_arriendo`, `cod_arriendo`, `nombre_arrendedor`, `correo_arrendedor`, `telefono_arrendedor`, `sucursal_arriendo`, `metodo_pago`, `fecha_inicio`, `fecha_termino`, `valor_arriendo`) VALUES
+(1, 3, 'Juan', 'nmarileo@ing.ucsc.cl', '971938850', '4', 'credito', '2024-11-23', '2024-11-25', 120000);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `registro_reserva`
+-- Table structure for table `registro_reserva`
 --
 
 CREATE TABLE `registro_reserva` (
@@ -510,7 +519,7 @@ CREATE TABLE `registro_reserva` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `registro_reserva`
+-- Dumping data for table `registro_reserva`
 --
 
 INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cliente`, `sucursal_reserva`, `correo_cliente`, `telefono_cliente`, `metodo_pago`, `precio_reserva`, `color_reserva`, `compra_concretada`, `num_reserva_vehiculo`) VALUES
@@ -532,7 +541,7 @@ INSERT INTO `registro_reserva` (`id_registro_reserva`, `rut_cliente`, `nombre_cl
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reserva_vehiculo`
+-- Table structure for table `reserva_vehiculo`
 --
 
 CREATE TABLE `reserva_vehiculo` (
@@ -544,7 +553,7 @@ CREATE TABLE `reserva_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `reserva_vehiculo`
+-- Dumping data for table `reserva_vehiculo`
 --
 
 INSERT INTO `reserva_vehiculo` (`num_reserva_vehiculo`, `id_vehiculo`, `rut`, `fecha_reserva`, `hora_reserva`) VALUES
@@ -572,7 +581,7 @@ INSERT INTO `reserva_vehiculo` (`num_reserva_vehiculo`, `id_vehiculo`, `rut`, `f
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Table structure for table `rol`
 --
 
 CREATE TABLE `rol` (
@@ -581,7 +590,7 @@ CREATE TABLE `rol` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `rol`
+-- Dumping data for table `rol`
 --
 
 INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
@@ -593,7 +602,7 @@ INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol_permiso`
+-- Table structure for table `rol_permiso`
 --
 
 CREATE TABLE `rol_permiso` (
@@ -602,7 +611,7 @@ CREATE TABLE `rol_permiso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `rol_permiso`
+-- Dumping data for table `rol_permiso`
 --
 
 INSERT INTO `rol_permiso` (`id_rol`, `id_permiso`) VALUES
@@ -616,7 +625,7 @@ INSERT INTO `rol_permiso` (`id_rol`, `id_permiso`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `seguro`
+-- Table structure for table `seguro`
 --
 
 CREATE TABLE `seguro` (
@@ -628,18 +637,18 @@ CREATE TABLE `seguro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `seguro`
+-- Dumping data for table `seguro`
 --
 
 INSERT INTO `seguro` (`id_seguro`, `id_proveedor`, `nombre_seguro`, `descripcion_seguro`, `precio_seguro`) VALUES
 (1, 1, 'Seguro anti-robo BdC', 'dasdawd', 100000),
 (3, 3, 'Seguro de fallo Ruedas', 'Ruedas malas', 50000),
-(4, 4, 'Seguro contra accidentes Renzo-Motors', 'No chocar', 120000);
+(4, 4, 'Seguro contra accidentes ', 'No chocar', 120000);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `seguro_cobertura`
+-- Table structure for table `seguro_cobertura`
 --
 
 CREATE TABLE `seguro_cobertura` (
@@ -648,7 +657,7 @@ CREATE TABLE `seguro_cobertura` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `seguro_cobertura`
+-- Dumping data for table `seguro_cobertura`
 --
 
 INSERT INTO `seguro_cobertura` (`id_seguro`, `id_cobertura`) VALUES
@@ -663,7 +672,7 @@ INSERT INTO `seguro_cobertura` (`id_seguro`, `id_cobertura`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `servicio`
+-- Table structure for table `servicio`
 --
 
 CREATE TABLE `servicio` (
@@ -675,7 +684,7 @@ CREATE TABLE `servicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `servicio`
+-- Dumping data for table `servicio`
 --
 
 INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`, `telefono_encargado`, `precio_servicio`) VALUES
@@ -685,7 +694,7 @@ INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sucursal`
+-- Table structure for table `sucursal`
 --
 
 CREATE TABLE `sucursal` (
@@ -697,7 +706,7 @@ CREATE TABLE `sucursal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `sucursal`
+-- Dumping data for table `sucursal`
 --
 
 INSERT INTO `sucursal` (`id_sucursal`, `nombre_sucursal`, `encargado_sucursal`, `direccion_sucursal`, `zona_sucursal`) VALUES
@@ -710,7 +719,7 @@ INSERT INTO `sucursal` (`id_sucursal`, `nombre_sucursal`, `encargado_sucursal`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sucursal_servicio`
+-- Table structure for table `sucursal_servicio`
 --
 
 CREATE TABLE `sucursal_servicio` (
@@ -719,7 +728,7 @@ CREATE TABLE `sucursal_servicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `sucursal_servicio`
+-- Dumping data for table `sucursal_servicio`
 --
 
 INSERT INTO `sucursal_servicio` (`id_sucursal`, `id_servicio`) VALUES
@@ -730,7 +739,7 @@ INSERT INTO `sucursal_servicio` (`id_sucursal`, `id_servicio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_accesorio`
+-- Table structure for table `tipo_accesorio`
 --
 
 CREATE TABLE `tipo_accesorio` (
@@ -739,7 +748,7 @@ CREATE TABLE `tipo_accesorio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipo_accesorio`
+-- Dumping data for table `tipo_accesorio`
 --
 
 INSERT INTO `tipo_accesorio` (`id_tipo_accesorio`, `nombre_tipo_accesorio`) VALUES
@@ -754,7 +763,7 @@ INSERT INTO `tipo_accesorio` (`id_tipo_accesorio`, `nombre_tipo_accesorio`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_combustible`
+-- Table structure for table `tipo_combustible`
 --
 
 CREATE TABLE `tipo_combustible` (
@@ -763,7 +772,7 @@ CREATE TABLE `tipo_combustible` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipo_combustible`
+-- Dumping data for table `tipo_combustible`
 --
 
 INSERT INTO `tipo_combustible` (`id_tipo_combustible`, `nombre_tipo_combustible`) VALUES
@@ -777,7 +786,7 @@ INSERT INTO `tipo_combustible` (`id_tipo_combustible`, `nombre_tipo_combustible`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_pago`
+-- Table structure for table `tipo_pago`
 --
 
 CREATE TABLE `tipo_pago` (
@@ -786,7 +795,7 @@ CREATE TABLE `tipo_pago` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipo_pago`
+-- Dumping data for table `tipo_pago`
 --
 
 INSERT INTO `tipo_pago` (`id_tipo_pago`, `nombre_tipo_pago`) VALUES
@@ -795,7 +804,7 @@ INSERT INTO `tipo_pago` (`id_tipo_pago`, `nombre_tipo_pago`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_rueda`
+-- Table structure for table `tipo_rueda`
 --
 
 CREATE TABLE `tipo_rueda` (
@@ -804,7 +813,7 @@ CREATE TABLE `tipo_rueda` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipo_rueda`
+-- Dumping data for table `tipo_rueda`
 --
 
 INSERT INTO `tipo_rueda` (`id_tipo_rueda`, `nombre_tipo_rueda`) VALUES
@@ -817,7 +826,7 @@ INSERT INTO `tipo_rueda` (`id_tipo_rueda`, `nombre_tipo_rueda`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_vehiculo`
+-- Table structure for table `tipo_vehiculo`
 --
 
 CREATE TABLE `tipo_vehiculo` (
@@ -826,7 +835,7 @@ CREATE TABLE `tipo_vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipo_vehiculo`
+-- Dumping data for table `tipo_vehiculo`
 --
 
 INSERT INTO `tipo_vehiculo` (`id_tipo_vehiculo`, `nombre_tipo_vehiculo`) VALUES
@@ -835,12 +844,13 @@ INSERT INTO `tipo_vehiculo` (`id_tipo_vehiculo`, `nombre_tipo_vehiculo`) VALUES
 (3, 'Sedán'),
 (5, 'Muscle Car'),
 (6, 'SUV'),
-(7, 'Deportivo');
+(7, 'Deportivo'),
+(8, 'Camioneta');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transmision`
+-- Table structure for table `transmision`
 --
 
 CREATE TABLE `transmision` (
@@ -849,7 +859,7 @@ CREATE TABLE `transmision` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `transmision`
+-- Dumping data for table `transmision`
 --
 
 INSERT INTO `transmision` (`id_transmision`, `nombre_transmision`) VALUES
@@ -862,7 +872,7 @@ INSERT INTO `transmision` (`id_transmision`, `nombre_transmision`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -870,18 +880,21 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`rut_usuario`) VALUES
 ('12.456.789-9'),
+('20.003.205-0'),
+('20.003.205-2'),
 ('20.050.994-3'),
+('20.123.657-9'),
 ('216379020');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario_financiamiento`
+-- Table structure for table `usuario_financiamiento`
 --
 
 CREATE TABLE `usuario_financiamiento` (
@@ -892,7 +905,7 @@ CREATE TABLE `usuario_financiamiento` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario_pago`
+-- Table structure for table `usuario_pago`
 --
 
 CREATE TABLE `usuario_pago` (
@@ -903,7 +916,7 @@ CREATE TABLE `usuario_pago` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario_registrado`
+-- Table structure for table `usuario_registrado`
 --
 
 CREATE TABLE `usuario_registrado` (
@@ -916,17 +929,21 @@ CREATE TABLE `usuario_registrado` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuario_registrado`
+-- Dumping data for table `usuario_registrado`
 --
 
 INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contrasenia`, `tipo_persona`) VALUES
 ('11.111.111-1', 'Matías', 'Admin', 'mcarrascob@ing.ucsc.cl', '$2y$10$w9HvwZiN6IttWdniLCEwXuOp5zi6LBBVs.r.bmHhuqxcTftsfjpQC', 'administrador'),
 ('12.456.789-9', 'Benjamin', 'Cifuentes', 'benja.cifuentes.r@gmail.com', '$2y$10$iK3F4bOoLfM.oToM.ju2YurgnnBjfOBAOhOufO5WtJ6aVBUnoUy1S', 'usuario'),
+('20.003.205-0', 'Juan', 'Perez', 'usuario9@gmail.com', '$2y$10$UQ64IHKDOlEioLQnKebIROxzwVxquWhlP7YMlI5txl3SDCYCkCRm.', 'usuario'),
+('20.003.205-2', 'Juan', 'Perez', 'nmarileo@ing.ucsc.cl', '$2y$10$2YxAZ.9oAjJkU5a7QgOoNuzNg6tbp7PN05j.bNlzHSeWEr.lUbStO', 'usuario'),
 ('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
-('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario');
+('20.123.657-9', 'PILAR', 'Guzman', 'nataliamarileo98@gmail.com', '$2y$10$0EBVhz8YzhTgDjrpcVARA.DIAxpJnghJ0giVpWjVv7PyIDa.nFiLi', 'usuario'),
+('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario'),
+('22.222.222-2', 'Natalia', 'Marileo', 'nataliamarileo14@gmail.com', '$2y$10$2n0MHmE7FwYBfMBBEc3STO/J5nfh9w9bQmb0E4VaxIvRr6dr4yLKS', 'administrador');
 
 --
--- Disparadores `usuario_registrado`
+-- Triggers `usuario_registrado`
 --
 DELIMITER $$
 CREATE TRIGGER `actualizar_persona` AFTER UPDATE ON `usuario_registrado` FOR EACH ROW BEGIN
@@ -974,23 +991,36 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario_seguro`
+-- Table structure for table `usuario_seguro`
 --
 
 CREATE TABLE `usuario_seguro` (
   `id_contratacion_seguro` int(11) NOT NULL,
   `id_seguro` int(11) NOT NULL,
-  `rut_usuario` varchar(100) NOT NULL,
+  `rut` varchar(100) NOT NULL,
+  `id_tipo_vehiculo` int(11) NOT NULL,
+  `marca_s` varchar(50) NOT NULL,
+  `modelo_s` varchar(50) NOT NULL,
+  `anio_s` int(4) NOT NULL,
   `telefono` int(11) NOT NULL,
   `patente` varchar(30) NOT NULL,
-  `titulo_propiedad` varchar(255) NOT NULL,
-  `dia_contratacion` date NOT NULL
+  `numero_motor` varchar(14) NOT NULL,
+  `numero_chasis` varchar(14) NOT NULL,
+  `fecha_inicio_con` date NOT NULL,
+  `fecha_termino_cont` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuario_seguro`
+--
+
+INSERT INTO `usuario_seguro` (`id_contratacion_seguro`, `id_seguro`, `rut`, `id_tipo_vehiculo`, `marca_s`, `modelo_s`, `anio_s`, `telefono`, `patente`, `numero_motor`, `numero_chasis`, `fecha_inicio_con`, `fecha_termino_cont`) VALUES
+(20, 3, '22.222.222-2', 2, 'susuki', 'susuki 2', 2001, 971938850, 'BBCI24', '12F345678', '12FGTGDFDFDF', '2024-11-26', '2025-11-26');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vehiculo`
+-- Table structure for table `vehiculo`
 --
 
 CREATE TABLE `vehiculo` (
@@ -1016,7 +1046,7 @@ CREATE TABLE `vehiculo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `vehiculo`
+-- Dumping data for table `vehiculo`
 --
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`, `arriendo`, `valor_garantia`) VALUES
@@ -1028,7 +1058,7 @@ INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vehiculo_favorito`
+-- Table structure for table `vehiculo_favorito`
 --
 
 CREATE TABLE `vehiculo_favorito` (
@@ -1039,7 +1069,7 @@ CREATE TABLE `vehiculo_favorito` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vehiculo_ofertado`
+-- Table structure for table `vehiculo_ofertado`
 --
 
 CREATE TABLE `vehiculo_ofertado` (
@@ -1065,7 +1095,7 @@ CREATE TABLE `vehiculo_ofertado` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vehiculo_sucursal`
+-- Table structure for table `vehiculo_sucursal`
 --
 
 CREATE TABLE `vehiculo_sucursal` (
@@ -1075,7 +1105,7 @@ CREATE TABLE `vehiculo_sucursal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `vehiculo_sucursal`
+-- Dumping data for table `vehiculo_sucursal`
 --
 
 INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`, `unidades_arriendo`) VALUES
@@ -1092,43 +1122,43 @@ INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`, `unidades_arriend
 (3, 37, 0),
 (4, 9, NULL),
 (4, 34, NULL),
-(4, 37, 3),
+(4, 37, 2),
 (5, 9, NULL),
 (5, 34, NULL),
 (5, 37, 1);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `accesorio`
+-- Indexes for table `accesorio`
 --
 ALTER TABLE `accesorio`
   ADD PRIMARY KEY (`sku_accesorio`);
 
 --
--- Indices de la tabla `administrador`
+-- Indexes for table `administrador`
 --
 ALTER TABLE `administrador`
   ADD PRIMARY KEY (`rut_administrador`),
   ADD KEY `id_rol` (`id_rol`);
 
 --
--- Indices de la tabla `agenda_prueba`
+-- Indexes for table `agenda_prueba`
 --
 ALTER TABLE `agenda_prueba`
   ADD PRIMARY KEY (`id_sucursal`,`rut_usuario`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indices de la tabla `anio`
+-- Indexes for table `anio`
 --
 ALTER TABLE `anio`
   ADD PRIMARY KEY (`id_anio`);
 
 --
--- Indices de la tabla `arriendo_vehiculo`
+-- Indexes for table `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
   ADD PRIMARY KEY (`cod_arriendo`),
@@ -1136,132 +1166,132 @@ ALTER TABLE `arriendo_vehiculo`
   ADD KEY `fk_rut_usuario_registrado` (`rut`);
 
 --
--- Indices de la tabla `carrito_accesorio`
+-- Indexes for table `carrito_accesorio`
 --
 ALTER TABLE `carrito_accesorio`
   ADD PRIMARY KEY (`id_carrito`,`sku_accesorio`),
   ADD KEY `sku_accesorio` (`sku_accesorio`);
 
 --
--- Indices de la tabla `carrito_usuario`
+-- Indexes for table `carrito_usuario`
 --
 ALTER TABLE `carrito_usuario`
   ADD PRIMARY KEY (`id_carrito`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indices de la tabla `cobertura`
+-- Indexes for table `cobertura`
 --
 ALTER TABLE `cobertura`
   ADD PRIMARY KEY (`id_cobertura`);
 
 --
--- Indices de la tabla `color`
+-- Indexes for table `color`
 --
 ALTER TABLE `color`
   ADD PRIMARY KEY (`id_color`);
 
 --
--- Indices de la tabla `color_vehiculo`
+-- Indexes for table `color_vehiculo`
 --
 ALTER TABLE `color_vehiculo`
   ADD PRIMARY KEY (`id_color`,`id_vehiculo`),
   ADD KEY `id_vehiculo` (`id_vehiculo`);
 
 --
--- Indices de la tabla `financiamiento`
+-- Indexes for table `financiamiento`
 --
 ALTER TABLE `financiamiento`
   ADD PRIMARY KEY (`id_financiamiento`);
 
 --
--- Indices de la tabla `fotos_accesorio`
+-- Indexes for table `fotos_accesorio`
 --
 ALTER TABLE `fotos_accesorio`
   ADD PRIMARY KEY (`id_foto_accesorio`),
   ADD KEY `sku_accesorio` (`sku_accesorio`);
 
 --
--- Indices de la tabla `fotos_vehiculo`
+-- Indexes for table `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
   ADD PRIMARY KEY (`id_foto_vehiculo`),
   ADD KEY `id_vehiculo` (`id_vehiculo`);
 
 --
--- Indices de la tabla `marca`
+-- Indexes for table `marca`
 --
 ALTER TABLE `marca`
   ADD PRIMARY KEY (`id_marca`);
 
 --
--- Indices de la tabla `opinion_vehiculo`
+-- Indexes for table `opinion_vehiculo`
 --
 ALTER TABLE `opinion_vehiculo`
   ADD PRIMARY KEY (`id_vehiculo`,`rut`),
   ADD KEY `rut` (`rut`);
 
 --
--- Indices de la tabla `pais`
+-- Indexes for table `pais`
 --
 ALTER TABLE `pais`
   ADD PRIMARY KEY (`id_pais`);
 
 --
--- Indices de la tabla `permiso`
+-- Indexes for table `permiso`
 --
 ALTER TABLE `permiso`
   ADD PRIMARY KEY (`id_permiso`);
 
 --
--- Indices de la tabla `pertenece_tipo`
+-- Indexes for table `pertenece_tipo`
 --
 ALTER TABLE `pertenece_tipo`
   ADD PRIMARY KEY (`id_tipo_accesorio`,`sku_accesorio`),
   ADD KEY `FK` (`sku_accesorio`,`id_tipo_accesorio`) USING BTREE;
 
 --
--- Indices de la tabla `promocion_especial`
+-- Indexes for table `promocion_especial`
 --
 ALTER TABLE `promocion_especial`
   ADD PRIMARY KEY (`id_promocion`);
 
 --
--- Indices de la tabla `promocion_vehiculo`
+-- Indexes for table `promocion_vehiculo`
 --
 ALTER TABLE `promocion_vehiculo`
   ADD PRIMARY KEY (`id_vehiculo`,`id_promocion`),
   ADD KEY `FK_promo` (`id_promocion`,`id_vehiculo`) USING BTREE;
 
 --
--- Indices de la tabla `proveedor`
+-- Indexes for table `proveedor`
 --
 ALTER TABLE `proveedor`
   ADD PRIMARY KEY (`id_proveedor`);
 
 --
--- Indices de la tabla `registro_accesorio`
+-- Indexes for table `registro_accesorio`
 --
 ALTER TABLE `registro_accesorio`
   ADD PRIMARY KEY (`codigo_verificador`),
   ADD KEY `fk_id_carrito` (`id_carrito`);
 
 --
--- Indices de la tabla `registro_arriendo`
+-- Indexes for table `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
   ADD PRIMARY KEY (`id_registro_arriendo`),
   ADD KEY `cod_arriendo` (`cod_arriendo`);
 
 --
--- Indices de la tabla `registro_reserva`
+-- Indexes for table `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
   ADD PRIMARY KEY (`id_registro_reserva`),
   ADD KEY `id_reserva_vehiculo` (`num_reserva_vehiculo`);
 
 --
--- Indices de la tabla `reserva_vehiculo`
+-- Indexes for table `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
   ADD PRIMARY KEY (`num_reserva_vehiculo`) USING BTREE,
@@ -1269,124 +1299,125 @@ ALTER TABLE `reserva_vehiculo`
   ADD KEY `rut` (`rut`);
 
 --
--- Indices de la tabla `rol`
+-- Indexes for table `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`id_rol`);
 
 --
--- Indices de la tabla `rol_permiso`
+-- Indexes for table `rol_permiso`
 --
 ALTER TABLE `rol_permiso`
   ADD PRIMARY KEY (`id_rol`,`id_permiso`),
   ADD KEY `FK` (`id_permiso`,`id_rol`) USING BTREE;
 
 --
--- Indices de la tabla `seguro`
+-- Indexes for table `seguro`
 --
 ALTER TABLE `seguro`
   ADD PRIMARY KEY (`id_seguro`),
   ADD KEY `id_proveedor` (`id_proveedor`);
 
 --
--- Indices de la tabla `seguro_cobertura`
+-- Indexes for table `seguro_cobertura`
 --
 ALTER TABLE `seguro_cobertura`
   ADD PRIMARY KEY (`id_seguro`,`id_cobertura`),
   ADD KEY `id_cobertura` (`id_cobertura`);
 
 --
--- Indices de la tabla `servicio`
+-- Indexes for table `servicio`
 --
 ALTER TABLE `servicio`
   ADD PRIMARY KEY (`id_servicio`);
 
 --
--- Indices de la tabla `sucursal`
+-- Indexes for table `sucursal`
 --
 ALTER TABLE `sucursal`
   ADD PRIMARY KEY (`id_sucursal`);
 
 --
--- Indices de la tabla `sucursal_servicio`
+-- Indexes for table `sucursal_servicio`
 --
 ALTER TABLE `sucursal_servicio`
   ADD PRIMARY KEY (`id_sucursal`,`id_servicio`),
   ADD KEY `id_servicio` (`id_servicio`);
 
 --
--- Indices de la tabla `tipo_accesorio`
+-- Indexes for table `tipo_accesorio`
 --
 ALTER TABLE `tipo_accesorio`
   ADD PRIMARY KEY (`id_tipo_accesorio`);
 
 --
--- Indices de la tabla `tipo_combustible`
+-- Indexes for table `tipo_combustible`
 --
 ALTER TABLE `tipo_combustible`
   ADD PRIMARY KEY (`id_tipo_combustible`);
 
 --
--- Indices de la tabla `tipo_pago`
+-- Indexes for table `tipo_pago`
 --
 ALTER TABLE `tipo_pago`
   ADD PRIMARY KEY (`id_tipo_pago`);
 
 --
--- Indices de la tabla `tipo_rueda`
+-- Indexes for table `tipo_rueda`
 --
 ALTER TABLE `tipo_rueda`
   ADD PRIMARY KEY (`id_tipo_rueda`);
 
 --
--- Indices de la tabla `tipo_vehiculo`
+-- Indexes for table `tipo_vehiculo`
 --
 ALTER TABLE `tipo_vehiculo`
   ADD PRIMARY KEY (`id_tipo_vehiculo`);
 
 --
--- Indices de la tabla `transmision`
+-- Indexes for table `transmision`
 --
 ALTER TABLE `transmision`
   ADD PRIMARY KEY (`id_transmision`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`rut_usuario`);
 
 --
--- Indices de la tabla `usuario_financiamiento`
+-- Indexes for table `usuario_financiamiento`
 --
 ALTER TABLE `usuario_financiamiento`
   ADD PRIMARY KEY (`rut_usuario`,`id_financiamiento`),
   ADD KEY `id_financiamiento` (`id_financiamiento`);
 
 --
--- Indices de la tabla `usuario_pago`
+-- Indexes for table `usuario_pago`
 --
 ALTER TABLE `usuario_pago`
   ADD PRIMARY KEY (`rut_usuario`,`id_tipo_pago`),
   ADD KEY `id_tipo_pago` (`id_tipo_pago`);
 
 --
--- Indices de la tabla `usuario_registrado`
+-- Indexes for table `usuario_registrado`
 --
 ALTER TABLE `usuario_registrado`
   ADD PRIMARY KEY (`rut`),
   ADD UNIQUE KEY `Correo_unico` (`correo`);
 
 --
--- Indices de la tabla `usuario_seguro`
+-- Indexes for table `usuario_seguro`
 --
 ALTER TABLE `usuario_seguro`
   ADD PRIMARY KEY (`id_contratacion_seguro`),
   ADD KEY `id_seguro` (`id_seguro`),
-  ADD KEY `rut_usuario` (`rut_usuario`);
+  ADD KEY `id_tipo_vehiculo` (`id_tipo_vehiculo`),
+  ADD KEY `rut` (`rut`);
 
 --
--- Indices de la tabla `vehiculo`
+-- Indexes for table `vehiculo`
 --
 ALTER TABLE `vehiculo`
   ADD PRIMARY KEY (`id_vehiculo`),
@@ -1399,14 +1430,14 @@ ALTER TABLE `vehiculo`
   ADD KEY `fk_tipo_rueda` (`id_tipo_rueda`);
 
 --
--- Indices de la tabla `vehiculo_favorito`
+-- Indexes for table `vehiculo_favorito`
 --
 ALTER TABLE `vehiculo_favorito`
   ADD PRIMARY KEY (`id_vehiculo`,`rut`),
   ADD KEY `rut` (`rut`);
 
 --
--- Indices de la tabla `vehiculo_ofertado`
+-- Indexes for table `vehiculo_ofertado`
 --
 ALTER TABLE `vehiculo_ofertado`
   ADD PRIMARY KEY (`patente`),
@@ -1414,349 +1445,350 @@ ALTER TABLE `vehiculo_ofertado`
   ADD KEY `rut_administrador` (`rut_administrador`);
 
 --
--- Indices de la tabla `vehiculo_sucursal`
+-- Indexes for table `vehiculo_sucursal`
 --
 ALTER TABLE `vehiculo_sucursal`
   ADD PRIMARY KEY (`id_sucursal`,`id_vehiculo`),
   ADD KEY `id_vehiculo` (`id_vehiculo`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `anio`
+-- AUTO_INCREMENT for table `anio`
 --
 ALTER TABLE `anio`
   MODIFY `id_anio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `arriendo_vehiculo`
+-- AUTO_INCREMENT for table `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
-  MODIFY `cod_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `carrito_usuario`
+-- AUTO_INCREMENT for table `carrito_usuario`
 --
 ALTER TABLE `carrito_usuario`
   MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `cobertura`
+-- AUTO_INCREMENT for table `cobertura`
 --
 ALTER TABLE `cobertura`
   MODIFY `id_cobertura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `color`
+-- AUTO_INCREMENT for table `color`
 --
 ALTER TABLE `color`
   MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT de la tabla `financiamiento`
+-- AUTO_INCREMENT for table `financiamiento`
 --
 ALTER TABLE `financiamiento`
   MODIFY `id_financiamiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `fotos_accesorio`
+-- AUTO_INCREMENT for table `fotos_accesorio`
 --
 ALTER TABLE `fotos_accesorio`
   MODIFY `id_foto_accesorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `fotos_vehiculo`
+-- AUTO_INCREMENT for table `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
   MODIFY `id_foto_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `marca`
+-- AUTO_INCREMENT for table `marca`
 --
 ALTER TABLE `marca`
   MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT de la tabla `pais`
+-- AUTO_INCREMENT for table `pais`
 --
 ALTER TABLE `pais`
   MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `permiso`
+-- AUTO_INCREMENT for table `permiso`
 --
 ALTER TABLE `permiso`
   MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `promocion_especial`
+-- AUTO_INCREMENT for table `promocion_especial`
 --
 ALTER TABLE `promocion_especial`
   MODIFY `id_promocion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `proveedor`
+-- AUTO_INCREMENT for table `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT de la tabla `registro_accesorio`
+-- AUTO_INCREMENT for table `registro_accesorio`
 --
 ALTER TABLE `registro_accesorio`
   MODIFY `codigo_verificador` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `registro_arriendo`
+-- AUTO_INCREMENT for table `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
-  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `registro_reserva`
+-- AUTO_INCREMENT for table `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
   MODIFY `id_registro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT de la tabla `reserva_vehiculo`
+-- AUTO_INCREMENT for table `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
   MODIFY `num_reserva_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT de la tabla `rol`
+-- AUTO_INCREMENT for table `rol`
 --
 ALTER TABLE `rol`
   MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `seguro`
+-- AUTO_INCREMENT for table `seguro`
 --
 ALTER TABLE `seguro`
   MODIFY `id_seguro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `servicio`
+-- AUTO_INCREMENT for table `servicio`
 --
 ALTER TABLE `servicio`
   MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `sucursal`
+-- AUTO_INCREMENT for table `sucursal`
 --
 ALTER TABLE `sucursal`
   MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_accesorio`
+-- AUTO_INCREMENT for table `tipo_accesorio`
 --
 ALTER TABLE `tipo_accesorio`
   MODIFY `id_tipo_accesorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_combustible`
+-- AUTO_INCREMENT for table `tipo_combustible`
 --
 ALTER TABLE `tipo_combustible`
   MODIFY `id_tipo_combustible` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_pago`
+-- AUTO_INCREMENT for table `tipo_pago`
 --
 ALTER TABLE `tipo_pago`
   MODIFY `id_tipo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_rueda`
+-- AUTO_INCREMENT for table `tipo_rueda`
 --
 ALTER TABLE `tipo_rueda`
   MODIFY `id_tipo_rueda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_vehiculo`
+-- AUTO_INCREMENT for table `tipo_vehiculo`
 --
 ALTER TABLE `tipo_vehiculo`
-  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `transmision`
+-- AUTO_INCREMENT for table `transmision`
 --
 ALTER TABLE `transmision`
   MODIFY `id_transmision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `usuario_seguro`
+-- AUTO_INCREMENT for table `usuario_seguro`
 --
 ALTER TABLE `usuario_seguro`
-  MODIFY `id_contratacion_seguro` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contratacion_seguro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
--- AUTO_INCREMENT de la tabla `vehiculo`
+-- AUTO_INCREMENT for table `vehiculo`
 --
 ALTER TABLE `vehiculo`
   MODIFY `id_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `administrador`
+-- Constraints for table `administrador`
 --
 ALTER TABLE `administrador`
   ADD CONSTRAINT `administrador_ibfk_1` FOREIGN KEY (`rut_administrador`) REFERENCES `usuario_registrado` (`rut`),
   ADD CONSTRAINT `administrador_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`);
 
 --
--- Filtros para la tabla `agenda_prueba`
+-- Constraints for table `agenda_prueba`
 --
 ALTER TABLE `agenda_prueba`
   ADD CONSTRAINT `agenda_prueba_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`),
   ADD CONSTRAINT `agenda_prueba_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
 
 --
--- Filtros para la tabla `arriendo_vehiculo`
+-- Constraints for table `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
   ADD CONSTRAINT `arriendo_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
   ADD CONSTRAINT `fk_rut_usuario_registrado` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
--- Filtros para la tabla `carrito_accesorio`
+-- Constraints for table `carrito_accesorio`
 --
 ALTER TABLE `carrito_accesorio`
   ADD CONSTRAINT `carrito_accesorio_ibfk_1` FOREIGN KEY (`id_carrito`) REFERENCES `carrito_usuario` (`id_carrito`),
   ADD CONSTRAINT `carrito_accesorio_ibfk_2` FOREIGN KEY (`sku_accesorio`) REFERENCES `accesorio` (`sku_accesorio`);
 
 --
--- Filtros para la tabla `carrito_usuario`
+-- Constraints for table `carrito_usuario`
 --
 ALTER TABLE `carrito_usuario`
   ADD CONSTRAINT `carrito_usuario_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
 
 --
--- Filtros para la tabla `color_vehiculo`
+-- Constraints for table `color_vehiculo`
 --
 ALTER TABLE `color_vehiculo`
   ADD CONSTRAINT `color_vehiculo_ibfk_1` FOREIGN KEY (`id_color`) REFERENCES `color` (`id_color`),
   ADD CONSTRAINT `color_vehiculo_ibfk_2` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`);
 
 --
--- Filtros para la tabla `fotos_accesorio`
+-- Constraints for table `fotos_accesorio`
 --
 ALTER TABLE `fotos_accesorio`
   ADD CONSTRAINT `fotos_accesorio_ibfk_1` FOREIGN KEY (`sku_accesorio`) REFERENCES `accesorio` (`sku_accesorio`);
 
 --
--- Filtros para la tabla `fotos_vehiculo`
+-- Constraints for table `fotos_vehiculo`
 --
 ALTER TABLE `fotos_vehiculo`
   ADD CONSTRAINT `fotos_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`);
 
 --
--- Filtros para la tabla `opinion_vehiculo`
+-- Constraints for table `opinion_vehiculo`
 --
 ALTER TABLE `opinion_vehiculo`
   ADD CONSTRAINT `opinion_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
   ADD CONSTRAINT `opinion_vehiculo_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
--- Filtros para la tabla `pertenece_tipo`
+-- Constraints for table `pertenece_tipo`
 --
 ALTER TABLE `pertenece_tipo`
   ADD CONSTRAINT `pertenece_tipo_ibfk_1` FOREIGN KEY (`id_tipo_accesorio`) REFERENCES `tipo_accesorio` (`id_tipo_accesorio`),
   ADD CONSTRAINT `pertenece_tipo_ibfk_2` FOREIGN KEY (`sku_accesorio`) REFERENCES `accesorio` (`sku_accesorio`);
 
 --
--- Filtros para la tabla `promocion_vehiculo`
+-- Constraints for table `promocion_vehiculo`
 --
 ALTER TABLE `promocion_vehiculo`
   ADD CONSTRAINT `promocion_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
   ADD CONSTRAINT `promocion_vehiculo_ibfk_2` FOREIGN KEY (`id_promocion`) REFERENCES `promocion_especial` (`id_promocion`);
 
 --
--- Filtros para la tabla `registro_accesorio`
+-- Constraints for table `registro_accesorio`
 --
 ALTER TABLE `registro_accesorio`
   ADD CONSTRAINT `fk_id_carrito` FOREIGN KEY (`id_carrito`) REFERENCES `carrito_usuario` (`id_carrito`);
 
 --
--- Filtros para la tabla `registro_arriendo`
+-- Constraints for table `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
   ADD CONSTRAINT `registro_arriendo_ibfk_1` FOREIGN KEY (`cod_arriendo`) REFERENCES `arriendo_vehiculo` (`cod_arriendo`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `registro_reserva`
+-- Constraints for table `registro_reserva`
 --
 ALTER TABLE `registro_reserva`
   ADD CONSTRAINT `registro_reserva_ibfk_1` FOREIGN KEY (`num_reserva_vehiculo`) REFERENCES `reserva_vehiculo` (`num_reserva_vehiculo`);
 
 --
--- Filtros para la tabla `reserva_vehiculo`
+-- Constraints for table `reserva_vehiculo`
 --
 ALTER TABLE `reserva_vehiculo`
   ADD CONSTRAINT `reserva_vehiculo_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`),
   ADD CONSTRAINT `reserva_vehiculo_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
--- Filtros para la tabla `rol_permiso`
+-- Constraints for table `rol_permiso`
 --
 ALTER TABLE `rol_permiso`
   ADD CONSTRAINT `rol_permiso_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`),
   ADD CONSTRAINT `rol_permiso_ibfk_2` FOREIGN KEY (`id_permiso`) REFERENCES `permiso` (`id_permiso`);
 
 --
--- Filtros para la tabla `seguro`
+-- Constraints for table `seguro`
 --
 ALTER TABLE `seguro`
   ADD CONSTRAINT `seguro_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`);
 
 --
--- Filtros para la tabla `seguro_cobertura`
+-- Constraints for table `seguro_cobertura`
 --
 ALTER TABLE `seguro_cobertura`
   ADD CONSTRAINT `seguro_cobertura_ibfk_1` FOREIGN KEY (`id_seguro`) REFERENCES `seguro` (`id_seguro`),
   ADD CONSTRAINT `seguro_cobertura_ibfk_2` FOREIGN KEY (`id_cobertura`) REFERENCES `cobertura` (`id_cobertura`);
 
 --
--- Filtros para la tabla `sucursal_servicio`
+-- Constraints for table `sucursal_servicio`
 --
 ALTER TABLE `sucursal_servicio`
   ADD CONSTRAINT `sucursal_servicio_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`),
   ADD CONSTRAINT `sucursal_servicio_ibfk_2` FOREIGN KEY (`id_servicio`) REFERENCES `servicio` (`id_servicio`);
 
 --
--- Filtros para la tabla `usuario`
+-- Constraints for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario_registrado` (`rut`);
 
 --
--- Filtros para la tabla `usuario_financiamiento`
+-- Constraints for table `usuario_financiamiento`
 --
 ALTER TABLE `usuario_financiamiento`
   ADD CONSTRAINT `usuario_financiamiento_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`),
   ADD CONSTRAINT `usuario_financiamiento_ibfk_2` FOREIGN KEY (`id_financiamiento`) REFERENCES `financiamiento` (`id_financiamiento`);
 
 --
--- Filtros para la tabla `usuario_pago`
+-- Constraints for table `usuario_pago`
 --
 ALTER TABLE `usuario_pago`
   ADD CONSTRAINT `usuario_pago_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`),
   ADD CONSTRAINT `usuario_pago_ibfk_2` FOREIGN KEY (`id_tipo_pago`) REFERENCES `tipo_pago` (`id_tipo_pago`);
 
 --
--- Filtros para la tabla `usuario_seguro`
+-- Constraints for table `usuario_seguro`
 --
 ALTER TABLE `usuario_seguro`
   ADD CONSTRAINT `usuario_seguro_ibfk_1` FOREIGN KEY (`id_seguro`) REFERENCES `seguro` (`id_seguro`),
-  ADD CONSTRAINT `usuario_seguro_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
+  ADD CONSTRAINT `usuario_seguro_ibfk_3` FOREIGN KEY (`id_tipo_vehiculo`) REFERENCES `tipo_vehiculo` (`id_tipo_vehiculo`),
+  ADD CONSTRAINT `usuario_seguro_ibfk_4` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
--- Filtros para la tabla `vehiculo`
+-- Constraints for table `vehiculo`
 --
 ALTER TABLE `vehiculo`
   ADD CONSTRAINT `fk_tipo_rueda` FOREIGN KEY (`id_tipo_rueda`) REFERENCES `tipo_rueda` (`id_tipo_rueda`),
@@ -1768,21 +1800,21 @@ ALTER TABLE `vehiculo`
   ADD CONSTRAINT `vehiculo_ibfk_6` FOREIGN KEY (`id_tipo_vehiculo`) REFERENCES `tipo_vehiculo` (`id_tipo_vehiculo`);
 
 --
--- Filtros para la tabla `vehiculo_favorito`
+-- Constraints for table `vehiculo_favorito`
 --
 ALTER TABLE `vehiculo_favorito`
   ADD CONSTRAINT `vehiculo_favorito_ibfk_1` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id_vehiculo`) ON DELETE CASCADE,
   ADD CONSTRAINT `vehiculo_favorito_ibfk_2` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `vehiculo_ofertado`
+-- Constraints for table `vehiculo_ofertado`
 --
 ALTER TABLE `vehiculo_ofertado`
   ADD CONSTRAINT `vehiculo_ofertado_ibfk_1` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`),
   ADD CONSTRAINT `vehiculo_ofertado_ibfk_2` FOREIGN KEY (`rut_administrador`) REFERENCES `administrador` (`rut_administrador`);
 
 --
--- Filtros para la tabla `vehiculo_sucursal`
+-- Constraints for table `vehiculo_sucursal`
 --
 ALTER TABLE `vehiculo_sucursal`
   ADD CONSTRAINT `vehiculo_sucursal_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`),
