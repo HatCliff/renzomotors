@@ -285,7 +285,7 @@ $carrito = "SELECT ca.*, a.nombre_accesorio, a.precio_accesorio, a.stock_accesor
                             }
                             echo "</optgroup></select>";
                             ?>
-                            <a href="../../sucursales.php" class="text-light px-1 d-flex align-items-center"
+                            <a href="../sucursales.php" class="text-light px-1 d-flex align-items-center"
                                 style="text-decoration: none" title="Nuestras Sucursales">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-question-circle" viewBox="0 0 16 16">
