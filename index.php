@@ -15,7 +15,7 @@ else{
 }
 
 // Consulta de sucursales
-$query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal";
+$query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal ORDER BY zona_sucursal";
 $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
 
 $estado = $_POST['estado'] ?? [];
@@ -154,14 +154,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Sección Sucursales -->
     <div class="row">
         <div class="col-md-3">
-            <h5>Sucursales</h5>
+            <h5>Nuestras Sucursales</h5>
             <div class="list-group">
                 <?php
                 if ($resultado_sucursales->num_rows > 0) {
                     while($row = $resultado_sucursales->fetch_assoc()) {
                         echo '<label class="list-group-item">';
-                        echo '<input class="form-check-input me-1" type="checkbox" value="">';
-                        echo $row['nombre_sucursal'];
+                        echo "
+                        <a href='pages/sucursales/sucursales.php?suc={$row['id_sucursal']}' style='text-decoration: none'>{$row['nombre_sucursal']}</a>
+                        ";
                         echo '</label>';
                     }
                 } else {

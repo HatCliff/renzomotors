@@ -110,11 +110,18 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                 <h1 class="mb-4">Accesorios</h1>
                 <form id="filtroForm" method="POST" enctype="multipart/form-data" >
                     <div class="d-flex flex-column flex-md-row align-items-start">
-                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
+                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 d-flex justify-content-center align-items-start">
                             <input class="form-control" type="text" name="accesorio_i" placeholder="Nombre del accesorio" 
                             aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_accesorio); ?>"  
                             onchange="document.getElementById('filtroForm').submit()">
                             <button type="submit" style="display: none;"></button>
+
+                            <button type="submit" name="Limpiar" id="Limpiar" 
+                            class="btn btn-danger ml-2" title="Limpiar Filtros">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                            </svg></button>
                         </div>
                             
                         <div class="col-12 col-md-7 d-flex flex-wrap align-items-start justify-content-end">
@@ -188,11 +195,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             
                             
                         </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" name="Limpiar" id="Limpiar" 
-                        class="btn btn-danger mt-4" >Limpiar Filtros</button>
-                    </div>                
+                    </div>              
                 </form>
                 <div class='alert alert-danger alert-container' 
                 id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
@@ -253,23 +256,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                           </div>
                           <div class='modal-body' id='modalContent'>
-                            
                           </div>
-                          <div class='modal-footer'>
-                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>";
-                            if (isset($_SESSION['usuario'])) {
-                                echo "
-                                <div class='d-grid'>
-                                    <button type='button' class='btn btn-outline-primary' data-bs-dismiss='modal'>Añadir a mi carrito</button>
-                                </div>";
-                            } else {
-                                echo "
-                                <div class='d-grid'>
-                                    <button type='button' class='btn btn-outline-primary disabled' data-bs-dismiss='modal'>Inicia Sesíon para usar el carrito</button>
-                                </div>";
-                            }
-                            
-                    echo "</div>
                         </div>
                       </div>
                     </div>";
