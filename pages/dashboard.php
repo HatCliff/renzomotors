@@ -1,5 +1,5 @@
 <?php
-    require_once(__DIR__ . "/../config/conexion.php");
+   // require_once("./../config/conexion.php");
     require('./dashboard/queries.php');
 ?>
 <!DOCTYPE html>
@@ -12,6 +12,20 @@
     <title>RenzoMotors</title>
 </head>
 <body class="pt-5 mt-3">
+<style>
+        .progress-container {
+            position: relative;
+            width: 100%;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+        }
+    </style>
 <?php include __DIR__ . "/../admin/navbaradmin.php"; ?>
     <div class="container-fluid p-5">
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
@@ -24,7 +38,7 @@
                         <div class="row g-0 align-items-center">
                             <div class="col me-2">
                                 <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Contador de Ventas</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span><?php ContadorVentaAccesorios(); ?></span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span><?php echo ContadorVentaAccesorios(); ?></span></div>
                             </div>
                             <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                         </div>
@@ -37,7 +51,7 @@
                         <div class="row g-0 align-items-center">
                             <div class="col me-2">
                                 <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Ventas Anuales (TOTAL)</span></div>
-                                <div class="text-dark fw-bold h5 mb-0"><span>$<?php ContadorVentaTotalAccesorios();?> </span></div>
+                                <div class="text-dark fw-bold h5 mb-0"><span>$<?php echo ContadorVentaTotalAccesorios();?> </span></div>
                             </div>
                             <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                         </div>
@@ -50,16 +64,24 @@
                         <div class="row g-0 align-items-center">
                             <div class="col me-2">
                                 <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Reservas concretadas</span></div>
+                                <?php ContadorReservasConcretadas(); ?>
+                                <div class="progress-container mb-4">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 63%;" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100">63%</div>
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 37%;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100">37%</div>
+                                    </div>
+                                </div>
+                                <!---
                                 <div class="row g-0 align-items-center">
                                     <div class="col-auto">
-                                        <div class="text-dark fw-bold h5 mb-0 me-3"><span>50%</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0 me-3"><span><?php echo ContadorReservasConcretadas(); ?></span></div>
                                     </div>
                                     <div class="col">
                                         <div class="progress progress-sm">
                                             <div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="visually-hidden">50%</span></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
                         </div>
