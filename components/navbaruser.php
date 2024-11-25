@@ -11,8 +11,9 @@ if (session_status() == PHP_SESSION_NONE) {
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
             <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo"
                 style="width: 40px; height: 40px;  filter: invert(1); ">
-            RenzoMotors
+            RenzoMotors     
         </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -54,6 +55,8 @@ if (session_status() == PHP_SESSION_NONE) {
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/centro_ayuda.php">Ayuda</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
                           </li>';

@@ -22,6 +22,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitud_ayuda.php"> Ver Ayuda usuario</a></li>
                                     <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                                 </ul>
                 </li>
@@ -64,6 +65,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitud_ayuda.php"> Ver Ayuda usuario</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
             </li>
