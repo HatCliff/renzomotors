@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2024 a las 23:29:04
+-- Tiempo de generación: 26-11-2024 a las 02:49:54
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors`
+-- Base de datos: `renzo_motors6`
 --
 
 -- --------------------------------------------------------
@@ -352,6 +352,17 @@ INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 (6, 'Estados Unidos'),
 (7, 'Mexico'),
 (8, 'Japón');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `palabra_prohibida`
+--
+
+CREATE TABLE `palabra_prohibida` (
+  `id_palabra_prohibida` int(11) NOT NULL,
+  `palabra` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -697,6 +708,34 @@ INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `solicitud_ayuda`
+--
+
+CREATE TABLE `solicitud_ayuda` (
+  `id_ayuda` int(11) NOT NULL,
+  `rut` varchar(100) NOT NULL,
+  `asunto_solicitud` varchar(40) NOT NULL,
+  `descripcion_solicitud` varchar(200) NOT NULL,
+  `tipo_solicitud` enum('comentario','sugerencia','reclamo','duda') NOT NULL,
+  `respuesta_admin` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `solicitud_ayuda`
+--
+
+INSERT INTO `solicitud_ayuda` (`id_ayuda`, `rut`, `asunto_solicitud`, `descripcion_solicitud`, `tipo_solicitud`, `respuesta_admin`) VALUES
+(1, '20.003.205-2', 'vsv', 'ssdfdsf', 'comentario', 'dfdfsf'),
+(2, '20.003.205-2', 'vsv', 'ssdfdsf', 'comentario', 'javi loca'),
+(6, '20.003.205-2', 'arreglo de pagina', 'jshdjsahjdhsa', 'sugerencia', 'selin carrasco'),
+(7, '20.123.657-9', 'Pagina', 'No me funciona la pagina', 'reclamo', 'solucionaremos su problema'),
+(8, '20.123.657-9', 'ggdghdf', 'dfdfddfd', 'comentario', NULL),
+(9, '20.123.657-9', '1dsfsdf', '1dsfsdfsd', 'sugerencia', NULL),
+(10, '20.003.205-2', 'auto', 'Hola, necesito mas colores en un auto', 'sugerencia', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `sucursal`
 --
 
@@ -897,7 +936,6 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`rut_usuario`) VALUES
 ('12.456.789-9'),
-('20.003.205-0'),
 ('20.003.205-2'),
 ('20.050.994-3'),
 ('20.123.657-9'),
@@ -947,7 +985,6 @@ CREATE TABLE `usuario_registrado` (
 INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contrasenia`, `tipo_persona`) VALUES
 ('11.111.111-1', 'Matías', 'Admin', 'mcarrascob@ing.ucsc.cl', '$2y$10$w9HvwZiN6IttWdniLCEwXuOp5zi6LBBVs.r.bmHhuqxcTftsfjpQC', 'administrador'),
 ('12.456.789-9', 'Benjamin', 'Cifuentes', 'benja.cifuentes.r@gmail.com', '$2y$10$iK3F4bOoLfM.oToM.ju2YurgnnBjfOBAOhOufO5WtJ6aVBUnoUy1S', 'usuario'),
-('20.003.205-0', 'Juan', 'Perez', 'usuario9@gmail.com', '$2y$10$UQ64IHKDOlEioLQnKebIROxzwVxquWhlP7YMlI5txl3SDCYCkCRm.', 'usuario'),
 ('20.003.205-2', 'Juan', 'Perez', 'nmarileo@ing.ucsc.cl', '$2y$10$2YxAZ.9oAjJkU5a7QgOoNuzNg6tbp7PN05j.bNlzHSeWEr.lUbStO', 'usuario'),
 ('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
 ('20.123.657-9', 'PILAR', 'Guzman', 'nataliamarileo98@gmail.com', '$2y$10$0EBVhz8YzhTgDjrpcVARA.DIAxpJnghJ0giVpWjVv7PyIDa.nFiLi', 'usuario'),
@@ -1077,6 +1114,13 @@ CREATE TABLE `vehiculo_favorito` (
   `id_vehiculo` int(11) NOT NULL,
   `rut` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_favorito`
+--
+
+INSERT INTO `vehiculo_favorito` (`id_vehiculo`, `rut`) VALUES
+(9, '20.003.205-2');
 
 -- --------------------------------------------------------
 
@@ -1250,6 +1294,12 @@ ALTER TABLE `pais`
   ADD PRIMARY KEY (`id_pais`);
 
 --
+-- Indices de la tabla `palabra_prohibida`
+--
+ALTER TABLE `palabra_prohibida`
+  ADD PRIMARY KEY (`id_palabra_prohibida`);
+
+--
 -- Indices de la tabla `permiso`
 --
 ALTER TABLE `permiso`
@@ -1342,6 +1392,13 @@ ALTER TABLE `seguro_cobertura`
 --
 ALTER TABLE `servicio`
   ADD PRIMARY KEY (`id_servicio`);
+
+--
+-- Indices de la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  ADD PRIMARY KEY (`id_ayuda`),
+  ADD KEY `rut` (`rut`);
 
 --
 -- Indices de la tabla `sucursal`
@@ -1528,6 +1585,12 @@ ALTER TABLE `pais`
   MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `palabra_prohibida`
+--
+ALTER TABLE `palabra_prohibida`
+  MODIFY `id_palabra_prohibida` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
@@ -1586,6 +1649,12 @@ ALTER TABLE `seguro`
 --
 ALTER TABLE `servicio`
   MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  MODIFY `id_ayuda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursal`
@@ -1763,6 +1832,12 @@ ALTER TABLE `seguro`
 ALTER TABLE `seguro_cobertura`
   ADD CONSTRAINT `seguro_cobertura_ibfk_1` FOREIGN KEY (`id_seguro`) REFERENCES `seguro` (`id_seguro`),
   ADD CONSTRAINT `seguro_cobertura_ibfk_2` FOREIGN KEY (`id_cobertura`) REFERENCES `cobertura` (`id_cobertura`);
+
+--
+-- Filtros para la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  ADD CONSTRAINT `solicitud_ayuda_ibfk_1` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
 -- Filtros para la tabla `sucursal_servicio`
