@@ -49,12 +49,12 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                 Buscador
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href='<?php echo $carpetaMain;?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
+                <li><a class="dropdown-item" href='<?php echo $carpetaMain;?>pages/buscador_vehiculo.php'>Vehículo</a></li>
                 <li><a class="dropdown-item" href="#">Accesorios</a></li>
             </ul>
             </li>
             <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehiculo</a>
+                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehículo</a>
             </li>
             <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>

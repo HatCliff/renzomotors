@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="carousel-item active">
                 <img src="./src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
-                    <h4>Conoce tu Proximo vehículo</h4>
+                    <h4>Conoce tu Próximo vehículo</h4>
                     <a href="pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="carousel-item">
                 <img src="./src/images/banner3.jpg" class="d-block w-100" alt="Compra Accesorios">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Compra Accesorios</h5>
+                    <h4>Compra Accesorios</h4>
                     <a href="#" class="btn btn-warning">Ver Accesorios</a>
                 </div>
             </div>
