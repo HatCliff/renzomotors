@@ -5,7 +5,6 @@ include('../config/conexion.php');
 $rut = $_SESSION['rut'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //$rut= $_POST['rut'];
     $asunto_solicitud = $_POST['asunto_solicitud'];
     $descripcion_solicitud = $_POST['descripcion_solicitud'];
     $tipo_solicitud = $_POST['tipo_solicitud'];
@@ -23,10 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "El tipo de atención no es válido.";
         exit;
     }
+
+    // Validar malas palabras desde la base de datos
+    $consulta_palabra = "SELECT palabra FROM palabra_prohibida";
+    $resultado_palabras = mysqli_query($conexion, $consulta_palabra);
+
+    if ($resultado_palabras) {
+        while ($fila = mysqli_fetch_assoc($resultado_palabras)) {
+            $palabra_prohibida = $fila['palabra'];
+            // Validar si alguna palabra prohibida está en el asunto o descripción
+            if (stripos($asunto_solicitud, $palabra_prohibida) !== false || stripos($descripcion_solicitud, $palabra_prohibida) !== false) {
+                echo "Tu solicitud contiene palabras inapropiadas. Por favor, corrige el texto.";
+                exit;
+            }
+        }
+    }else {
+        echo "Error al consultar palabras prohibidas: " . mysqli_error($conexion);
+        exit;
+    }
+
+    
     $query = "INSERT INTO solicitud_ayuda (rut, asunto_solicitud, descripcion_solicitud, tipo_solicitud) 
                 VALUES ('$rut', '$asunto_solicitud', '$descripcion_solicitud', '$tipo_solicitud')";
     // Insertar datos en la base de datos
-    // Intentar ejecutar la consulta
+    
     try {
         $resultado = mysqli_query($conexion, $query);
 

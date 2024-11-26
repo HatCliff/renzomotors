@@ -44,8 +44,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <!--
                     <th>ID</th>
-                    <th>rut</th>
+                    <th>rut</th>-->
                     <th>Asunto</th>
                     <th>Descripción</th>
                     <th>Tipo</th>
@@ -56,8 +57,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             <tbody>
                 <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
                     <tr>
-                        <td><?= $fila['id_ayuda'] ?></td>
-                        <td><?= $fila['rut'] ?></td>
+                        
+                        
                         <td><?= $fila['asunto_solicitud'] ?></td>
                         <td><?= $fila['descripcion_solicitud'] ?></td>
                         <td><?= $fila['tipo_solicitud'] ?></td>
