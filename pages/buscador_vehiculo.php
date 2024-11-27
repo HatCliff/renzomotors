@@ -92,6 +92,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
     <title>Vehiculos</title>
     <style>
+        body {
+            background: #E6E6E6;
+        }
         .favorite-icon {
             position: absolute;
             top: 10px;
@@ -115,6 +118,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             transform: translateX(-50%);
             z-index: 1050; /* Por encima del contenido */
         }
+        .card { background: #fffcf4; border-radius: 20px; overflow: hidden; transition: transform 0.3s ease; }
+        .card:hover { transform: scale(1.05); }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -313,7 +318,7 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
         $favorito_result = mysqli_query($conexion, $favorito_query);
         $isFavorito = mysqli_num_rows($favorito_result) > 0;
     }
-    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch position-relative'>";
+    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch '>";
 
     // Icono de favorito en la esquina superior derecha
     echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo'>";
