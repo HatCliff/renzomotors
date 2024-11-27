@@ -34,6 +34,11 @@ $error_message = ""; // Variable para almacenar el mensaje de error
     
             if ($result) {
                 $_SESSION['success'] = "Registro exitoso. Por favor, inicia sesión.";
+
+                // Se le asigna un carrito al usuario
+                $query_carrito = "INSERT into carrito_usuario (rut_usuario, valor_carrito) VALUES ('$rut', 0)";
+                $result_carrito = mysqli_query($conexion, $query_carrito);
+
                 header('Location: login.php'); // Redirigir al login solo si es exitoso
                 exit();
             }
@@ -58,26 +63,26 @@ $error_message = ""; // Variable para almacenar el mensaje de error
 <body style="background-color: #f0f0f0;">
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
         <div class="card shadow-lg p-4" style="width: 100%; max-width: 450px;">
-            <h3 class="text-center mb-4" style="color: #333;">Registro en Renzo Motors</h3>
+            <h3 class="text-center mb-4" style="color: #333;">Registrate en Renzo Motors</h3>
             <form action="" method="post" name="register">
                 <?php if ($error_message): ?>
                     <div class="alert alert-danger text-center"><?php echo $error_message; ?></div>
                 <?php endif; ?>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" name="nombre" class="form-control" required>
+                    <input type="text" name="nombre" class="form-control" placeholder="Juan" required>
                 </div>
                 <div class="mb-3">
                     <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" name="apellido" class="form-control" required>
+                    <input type="text" name="apellido" class="form-control" placeholder="Perez" required>
                 </div>
                 <div class="mb-3">
                     <label for="rut" class="form-label">RUN</label>
-                    <input type="text" name="rut" class="form-control" pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" required>
+                    <input type="text" name="rut" class="form-control" maxlength="12" pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" placeholder="12.3456.789-k" required>
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
-                    <input type="email" name="correo" class="form-control" required>
+                    <input type="email" name="correo" class="form-control" placeholder="" required>
                 </div>
                 <div class="mb-3">
                     <label for="contrasenia" class="form-label">Contraseña</label>

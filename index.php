@@ -15,7 +15,7 @@ else{
 }
 
 // Consulta de sucursales
-$query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal";
+$query_sucursales = "SELECT id_sucursal, nombre_sucursal FROM sucursal ORDER BY zona_sucursal";
 $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
 
 $estado = $_POST['estado'] ?? [];
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="carousel-item active">
                 <img src="./src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
-                    <h4>Conoce tu Proximo vehículo</h4>
+                    <h4>Conoce tu Próximo vehículo</h4>
                     <a href="pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>
@@ -128,14 +128,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <img src="./src/images/banner2.jpg" class="d-block w-100" alt="Cotizar Seguro">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>Cotiza tu Seguro</h4>
-                    <a href="#" class="btn btn-warning">Cotizar Ahora</a>
+                    <a href="pages/c_seguro/seguro.php" class="btn btn-warning">Cotizar Ahora</a>
                 </div>
             </div>
             <!-- Tercer slide -->
             <div class="carousel-item">
                 <img src="./src/images/banner3.jpg" class="d-block w-100" alt="Compra Accesorios">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Compra Accesorios</h5>
+                    <h4>Compra Accesorios</h4>
                     <a href="#" class="btn btn-warning">Ver Accesorios</a>
                 </div>
             </div>
@@ -154,14 +154,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Sección Sucursales -->
     <div class="row">
         <div class="col-md-3">
-            <h5>Sucursales</h5>
+            <h5>Nuestras Sucursales</h5>
             <div class="list-group">
                 <?php
                 if ($resultado_sucursales->num_rows > 0) {
                     while($row = $resultado_sucursales->fetch_assoc()) {
                         echo '<label class="list-group-item">';
-                        echo '<input class="form-check-input me-1" type="checkbox" value="">';
-                        echo $row['nombre_sucursal'];
+                        echo "
+                        <a href='pages/sucursales/sucursales.php?suc={$row['id_sucursal']}' style='text-decoration: none'>{$row['nombre_sucursal']}</a>
+                        ";
                         echo '</label>';
                     }
                 } else {

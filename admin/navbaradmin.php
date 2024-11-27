@@ -22,6 +22,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitud_ayuda.php"> Ver Ayuda usuario</a></li>
                                     <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                                 </ul>
                 </li>
@@ -48,12 +49,12 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                 Buscador
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href='<?php echo $carpetaMain;?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
+                <li><a class="dropdown-item" href='<?php echo $carpetaMain;?>pages/buscador_vehiculo.php'>Vehículo</a></li>
                 <li><a class="dropdown-item" href="#">Accesorios</a></li>
             </ul>
             </li>
             <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehiculo</a>
+                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehículo</a>
             </li>
             <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
@@ -64,6 +65,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitud_ayuda.php"> Ver Ayuda usuario</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
             </li>

@@ -7,6 +7,12 @@ $id_proveedor = $_GET['id'];
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     //eliminar del mantendor
+
+    $query_imagen = "SELECT imagen_proveedor FROM proveedor WHERE id_proveedor = $id_proveedor";
+    $resultado_imagen = mysqli_query($conexion, $query_imagen);
+    $proveedor = mysqli_fetch_assoc($resultado_imagen);
+    $imagen_proveedor = $proveedor['imagen_proveedor'];
+
     $query = "DELETE FROM proveedor WHERE id_proveedor = $id_proveedor";
     $resultado = mysqli_query($conexion, $query);
 

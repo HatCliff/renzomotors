@@ -55,7 +55,7 @@ if (!$resultado_vehiculos) {
             <div class="carousel-item active">
                 <img src="../src/images/banner1.jpg" class="d-block w-100" alt="Ver Vehículos">
                 <div class="carousel-caption d-none d-md-block ">
-                    <H4>Conoce tu Proximo vehículo</H4>
+                    <H4>Conoce tu Próximo vehículo</H4>
                     <a href="../pages/buscador_vehiculo.php" class="btn btn-dark">Ver Vehículos</a>
                 </div>
             </div>

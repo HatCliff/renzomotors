@@ -59,8 +59,8 @@ include '../../navbaradmin.php';
                     ?>
                     <tr>
                         <td>
-                            <?php 
-                            echo "<span class='text-primary fw-bold'>{$accesorio['sku_accesorio']}</span> - {$accesorio['nombre_accesorio']}"; 
+                            <?php
+                            echo "<span class='text-primary fw-bold'>{$accesorio['sku_accesorio']}</span> - {$accesorio['nombre_accesorio']}";
                             echo "<br>";
                             echo "<span>Stock: {$accesorio['stock_accesorio']}</span><br>";
                             echo "<span>Precio: {$accesorio['precio_accesorio']}</span>";
@@ -68,8 +68,8 @@ include '../../navbaradmin.php';
                         </td>
                         <td><?php echo $accesorio['descripcion_accesorio']; ?></td>
                         <td>
-                        <?php
-                        echo "<div id='carousel-{$accesorio['sku_accesorio']}' class='carousel slide d-flex align-items-center' data-bs-ride='carousel' style='width: 200px; max-height: 100px;'>
+                            <?php
+                            echo "<div id='carousel-{$accesorio['sku_accesorio']}' class='carousel slide d-flex align-items-center' data-bs-ride='carousel' style='width: 200px; max-height: 100px;'>
                                 <div class='carousel-inner' style='width: 200px; max-height: 100px; overflow: hidden;'>";
                             $sku_accesorio = $accesorio['sku_accesorio'];
                             $fotos_resultado = mysqli_query($conexion, "SELECT foto_accesorio FROM fotos_accesorio WHERE sku_accesorio= '$sku_accesorio'");
@@ -90,7 +90,7 @@ include '../../navbaradmin.php';
                                     <span class='visually-hidden'>Siguiente</span>
                                 </button>
                             </div>";
-                        ?>
+                            ?>
                         </td>
                         <td>
                             <?php

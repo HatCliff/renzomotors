@@ -11,8 +11,10 @@ if (session_status() == PHP_SESSION_NONE) {
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
             <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo"
                 style="width: 40px; height: 40px;  filter: invert(1); ">
-            RenzoMotors
+            RenzoMotors     
         </a>
+        <a></a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,17 +28,26 @@ if (session_status() == PHP_SESSION_NONE) {
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehículo</a></li>
-                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/buscador_accesorio.php">Accesorios</a></li>
+                        <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/accesorios/buscador_accesorio.php">Accesorios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehiculo</a>
+                    <a href='<?php echo $carpetaMain; ?>pages/arriendo.php' class="nav-link active" aria-current="page">Arriendo de vehículo</a>
+                </li>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/sucursales/mantenimientos.php' class="nav-link active" aria-current="page">Mantenimientos</a>
+                </li>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/c_seguro/seguro.php' class="nav-link active" aria-current="page">Cotización seguro</a>
                 </li>
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/prueba_manejo/test_manejo.php' class="nav-link active" aria-current="page">Prueba de Manejo</a>
+                </li>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/solicitudes_venta/venta_vehiculos.php' class="nav-link active" aria-current="page">Vendenos tu auto</a>
                 </li>
                 <?php
                 if (isset($_SESSION['usuario'])) {
@@ -48,6 +59,9 @@ if (session_status() == PHP_SESSION_NONE) {
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/centro_ayuda.php">Ayuda</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_venta/mis_solicitudes.php">Ver Mis solicitudes</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
                           </li>';

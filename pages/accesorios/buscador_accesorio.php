@@ -1,6 +1,8 @@
 <?php
-session_start();
-include('../config/conexion.php'); 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+include('../../config/conexion.php'); 
 
 $orden = $_POST['orden'] ?? '';
 $id_tipo_accesorio = $_POST['id_tipo_accesorio'] ?? [];
@@ -10,7 +12,8 @@ $query = "SELECT DISTINCT a.*, nombre_tipo_accesorio
           FROM accesorio a
           JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
           JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio
-          WHERE a.stock_accesorio != 0";
+          WHERE a.stock_accesorio != 0
+          GROUP BY a.sku_accesorio";
 
 $resultado = mysqli_query($conexion, $query);
 
@@ -53,10 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
     // Usuario es administrador, incluye el navbar de administrador
-    include '../admin/navbaradmin.php';
+    include '../../admin/navbaradmin.php';
 } else {
     // Usuario es normal, incluye el navbar de usuario
-    include '../components/navbaruser.php';
+    include '../../components/navbaruser.php';
 }
 
 ?>
@@ -96,8 +99,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             history.replaceState(null, '', '?' + queryString);
         }
     });
-
-    //Función para acceder al modal con ajax:
     
 </script>
 <body class="pt-5">
@@ -109,11 +110,18 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                 <h1 class="mb-4">Accesorios</h1>
                 <form id="filtroForm" method="POST" enctype="multipart/form-data" >
                     <div class="d-flex flex-column flex-md-row align-items-start">
-                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
+                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 d-flex justify-content-center align-items-start">
                             <input class="form-control" type="text" name="accesorio_i" placeholder="Nombre del accesorio" 
                             aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_accesorio); ?>"  
                             onchange="document.getElementById('filtroForm').submit()">
                             <button type="submit" style="display: none;"></button>
+
+                            <button type="submit" name="Limpiar" id="Limpiar" 
+                            class="btn btn-danger ml-2" title="Limpiar Filtros">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                            </svg></button>
                         </div>
                             
                         <div class="col-12 col-md-7 d-flex flex-wrap align-items-start justify-content-end">
@@ -163,75 +171,91 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             </div>
                             
                             <!-- Carrito -->
-                            <div class="mx-2 d-flex justify-content-center align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                </svg>
-                            </div>
+                            <?php
+                                if (isset($_SESSION['usuario'])){?>
+                                    <a href="carrito_accesorio.php">
+                                        <div class="mx-2 d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    <?php }
+                                else{?>
+                                    <a href="#" title="Inicia Sesíon para acceder al carrito">
+                                        <div class="mx-2 d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="carrito" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+
+                            <?php }
+                            ?>
+                            
                             
                         </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" name="Limpiar" id="Limpiar" 
-                        class="btn btn-danger mt-4" >Limpiar Filtros</button>
-                    </div>                
+                    </div>              
                 </form>
                 <div class='alert alert-danger alert-container' 
                 id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
             </div>
         
-            <!-- Muestra todos los vehiculos -->
+            <!-- Muestra todos los accesorios -->
             <div class="row">
-            <?php
+            <?php 
                 while ($fila = mysqli_fetch_assoc($resultado)) {
-                    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch' style='width: 25%'>";
-                    echo "<a href='javascript:void(0);' class='text-decoration-none' id='openModal' data-id='{$fila['sku_accesorio']}'>";
-                    echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
-        
+                    echo "<div class='col-lg-3 col-md-4 col-sm-6 mb-3'>"; // 4 en lg, 3 en md, 2 en sm
+                    echo "<a href='javascript:void(0);' class='text-decoration-none openModal' data-id='{$fila['sku_accesorio']}'>";
+                    echo "<div class='card h-100 d-flex flex-column' style='max-height: 350px; background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
+                
                     // Carrusel de fotos del vehículo
                     $sku_accesorio = $fila['sku_accesorio'];
                     $fotos_resultado = mysqli_query($conexion, "SELECT foto_accesorio FROM fotos_accesorio WHERE sku_accesorio = '$sku_accesorio'");
-
+                
                     echo "<div id='carousel{$sku_accesorio}' class='carousel slide' data-bs-ride='carousel'>";
-                    echo "<div class='carousel-inner'>";
+                    echo "<div class='carousel-inner' style='height: 250px;'>"; // Estilo para altura fija del carrusel
                     $active = "active";
                     while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
-                        $ruta_imagen = '../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
-                        echo "<div class='carousel-item $active'>";
-                        echo "<div class='d-block img-fluid' style='background-image: url($ruta_imagen); background-repeat: no-repeat; max-width: 100%; max-height: 200px;
-                                 width: auto; object-fit: contain; background-position: center; height: 400px; border-radius: 15px 15px 0 0;'></div>";
-                        echo "</div>";
-                        $active = ""; // Solo la primera imagen es "active"
+                        $ruta_imagen = '../../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
+                        echo "<div class='carousel-item $active'>
+                                <img class='d-block w-100 h-100' src='$ruta_imagen' alt='' style='object-fit: cover;'>
+                              </div>";
+                        $active = "";
                     }
                     echo "</div>";
-                    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='prev'>...</button>";
-                    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='next'>...</button>";
+                    echo "</a>";
+                    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='prev'>
+                            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Previous</span>
+                          </button>";
+                    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$sku_accesorio}' data-bs-slide='next'>
+                            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Next</span>
+                          </button>";
                     echo "</div>";
-                
-                    // Información del vehículo
-                    echo "<div class='card-body mt-1 text-center py-2'>";
+                    
+                    // Información del accesorio
+                    echo "<a href='javascript:void(0);' class='text-decoration-none openModal' data-id='{$fila['sku_accesorio']}'>";
                     $precio_formateado = number_format($fila['precio_accesorio'], 0, ',', '.');
-                    echo "<h5 class='card-title fs-6 text-dark fw-bold mb-2'>{$fila['nombre_accesorio']}</h5>";
-                    echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP</p>";
+                    echo "<div class='card-body mt-1 text-center py-2' style='position: relative; height: 100px;'>";
+                    echo "<span class='text-muted' style='position: absolute; top: 5px; left: 10px;'>{$fila['nombre_tipo_accesorio']}</span>";
+                    echo "<span class='text-success fw-bold' style='position: absolute; top: 5px; right: 10px;'>$ {$precio_formateado} CLP</span>";
+                    echo "<h5 class='card-title fs-5 fw-bold mt-4 mb-0 text-dark text-start'>{$fila['nombre_accesorio']}</h5>";
                     echo "</div>"; // card-body
                 
                     echo "</div>"; // card
                     echo "</a>";
-
+                    
                     echo "
                     <!-- Modal -->
                     <div class='modal fade' id='accesorioModal' tabindex='-1' aria-labelledby='accesorioModalLabel' aria-hidden='true'>
                       <div class='modal-dialog modal-dialog-centered modal-lg'>
-                        <div class='modal-content'>
+                        <div class='modal-content' style='background: #E6E6E6;'>
                           <div class='modal-header'>
-                            <h5 class='modal-title' id='accesorioModalLabel'>{$fila['nombre_accesorio']}</h5>
                             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                           </div>
                           <div class='modal-body' id='modalContent'>
-                            
-                          </div>
-                          <div class='modal-footer'>
-                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
                           </div>
                         </div>
                       </div>
@@ -243,22 +267,24 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
             <script>
               // Capturamos el evento del clic en el enlace
-              document.getElementById('openModal').addEventListener('click', function() {
-                var id = this.getAttribute('data-id'); // Obtenemos el ID del accesorio
+              document.querySelectorAll('.openModal').forEach(button => {
+                  button.addEventListener('click', function() {
+                    var sku = this.getAttribute('data-id'); // Obtenemos el ID del accesorio                
 
-                // Hacemos la petición AJAX a accesorio.php
-                fetch('accesorio.php?id=' + id)
-                  .then(response => response.text())
-                  .then(data => {
-                    // Cargamos el contenido recibido dentro del modal
-                    document.getElementById('modalContent').innerHTML = data;
-                
-                    // Mostramos el modal usando Bootstrap
-                    var myModal = new bootstrap.Modal(document.getElementById('accesorioModal'));
-                    myModal.show();
-                  })
-                  .catch(error => console.error('Error:', error));
-              });
+                    // Hacemos la petición AJAX a accesorio.php
+                    fetch('accesorio.php?sku=' + sku)
+                      .then(response => response.text())
+                      .then(data => {
+                        // Cargamos el contenido recibido dentro del modal
+                        document.getElementById('modalContent').innerHTML = data;               
+
+                        // Mostramos el modal usando Bootstrap
+                        var myModal = new bootstrap.Modal(document.getElementById('accesorioModal'));
+                        myModal.show();
+                      })
+                      .catch(error => console.error('Error:', error));
+                  });
+                });
             </script>
 
             </div>    

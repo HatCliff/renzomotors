@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2024 a las 04:02:08
+-- Tiempo de generación: 26-11-2024 a las 02:49:54
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors`
+-- Base de datos: `renzo_motors6`
 --
 
 -- --------------------------------------------------------
@@ -59,7 +59,8 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`rut_administrador`, `id_rol`) VALUES
-('11.111.111-1', NULL);
+('11.111.111-1', NULL),
+('22.222.222-2', NULL);
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,8 @@ CREATE TABLE `arriendo_vehiculo` (
 --
 
 INSERT INTO `arriendo_vehiculo` (`cod_arriendo`, `id_vehiculo`, `rut`, `fecha_arriendo`, `hora_arriendo`, `recibido`) VALUES
-(2, 37, '12.456.789-9', '2024-11-04', '13:39:22', 0);
+(2, 37, '12.456.789-9', '2024-11-04', '13:39:22', 0),
+(3, 37, '20.003.205-2', '2024-11-22', '00:16:55', 0);
 
 -- --------------------------------------------------------
 
@@ -354,6 +356,17 @@ INSERT INTO `pais` (`id_pais`, `nombre_pais`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `palabra_prohibida`
+--
+
+CREATE TABLE `palabra_prohibida` (
+  `id_palabra_prohibida` int(11) NOT NULL,
+  `palabra` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `permiso`
 --
 
@@ -449,10 +462,10 @@ CREATE TABLE `proveedor` (
 --
 
 INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `imagen_proveedor`) VALUES
-(1, 'Banco de Chile', NULL),
-(2, 'Banco Falabella', NULL),
-(3, 'Banco Santander', NULL),
-(4, 'Banco Renzo Motors', NULL);
+(1, 'Banco de Chile', 'fotos_proveedor/banco_de_chile.png'),
+(2, 'Banco Falabella', 'fotos_proveedor/banco-falabella-logo-0.png'),
+(3, 'Banco Santander', 'fotos_proveedor/Santander_bank_logo.png'),
+(4, 'Renzo Motors', 'fotos_proveedor/logo_renzo_motor.png');
 
 -- --------------------------------------------------------
 
@@ -488,6 +501,13 @@ CREATE TABLE `registro_arriendo` (
   `fecha_termino` date NOT NULL,
   `valor_arriendo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `registro_arriendo`
+--
+
+INSERT INTO `registro_arriendo` (`id_registro_arriendo`, `cod_arriendo`, `nombre_arrendedor`, `correo_arrendedor`, `telefono_arrendedor`, `sucursal_arriendo`, `metodo_pago`, `fecha_inicio`, `fecha_termino`, `valor_arriendo`) VALUES
+(1, 3, 'Juan', 'nmarileo@ing.ucsc.cl', '971938850', '4', 'credito', '2024-11-23', '2024-11-25', 120000);
 
 -- --------------------------------------------------------
 
@@ -634,7 +654,7 @@ CREATE TABLE `seguro` (
 INSERT INTO `seguro` (`id_seguro`, `id_proveedor`, `nombre_seguro`, `descripcion_seguro`, `precio_seguro`) VALUES
 (1, 1, 'Seguro anti-robo BdC', 'dasdawd', 100000),
 (3, 3, 'Seguro de fallo Ruedas', 'Ruedas malas', 50000),
-(4, 4, 'Seguro contra accidentes Renzo-Motors', 'No chocar', 120000);
+(4, 4, 'Seguro contra accidentes ', 'No chocar', 120000);
 
 -- --------------------------------------------------------
 
@@ -670,7 +690,8 @@ CREATE TABLE `servicio` (
   `id_servicio` int(11) NOT NULL,
   `descripcion_servicio` text NOT NULL,
   `nombre_servicio` varchar(100) NOT NULL,
-  `telefono_encargado` varchar(100) NOT NULL,
+  `telefono_encargado` int(11) NOT NULL,
+  `imagen_servicio` varchar(250) NOT NULL,
   `precio_servicio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -678,9 +699,39 @@ CREATE TABLE `servicio` (
 -- Volcado de datos para la tabla `servicio`
 --
 
-INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`, `telefono_encargado`, `precio_servicio`) VALUES
-(1, 'Cambio de Aceite para todo vehículo', 'Cambio de aceite', '911111111', 70000),
-(2, 'asdasda', 'Cambio de ruedas', '922222222', 12340);
+INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`, `telefono_encargado`, `imagen_servicio`, `precio_servicio`) VALUES
+(1, 'Un cambio de aceite es un servicio esencial para el mantenimiento de vehículos, el cual consiste en retirar el aceite usado del motor y reemplazarlo por aceite nuevo para garantizar una lubricación óptima de las piezas móviles. Durante el proceso, también se sustituye el filtro de aceite, que atrapa partículas y sedimentos. Este servicio ayuda a mantener el motor limpio, reduce el desgaste y prolonga su vida útil. En la sucursal, el cliente puede elegir entre distintos tipos de aceites (mineral, sintético o semisintético), según las especificaciones de su vehículo. Se realiza en un área designada con personal capacitado y herramientas especializadas, asegurando eficiencia y calidad.', 'Cambio de aceite', 911111111, 'imagen_servicio/cambio_aceite.jpg', 70000),
+(2, 'Un cambio de ruedas es un servicio que asegura la correcta instalación de los neumáticos en un vehículo, mejorando su desempeño y seguridad en carretera. Este procedimiento incluye desmontar las ruedas usadas, inspeccionar los neumáticos y los componentes del sistema de rodamiento (como baleros y frenos), e instalar las nuevas ruedas o neumáticos.\r\n\r\nEl personal utiliza herramientas específicas como gatos hidráulicos, desmontadoras y balanceadoras para garantizar una instalación precisa. Además, se verifica la presión de los neumáticos y el torque de las tuercas para cumplir con las especificaciones del fabricante. Este servicio es ideal para reemplazar neumáticos desgastados o dañados, o cuando se requiere una actualización estacional, como el cambio a neumáticos de invierno o verano.', 'Cambio de ruedas', 922222222, 'imagen_servicio/cambio_ruedas.jpg', 12340),
+(4, 'El cambio de pastillas de freno es un servicio fundamental para mantener la seguridad y el rendimiento del sistema de frenado de un vehículo. Este procedimiento implica desmontar las ruedas para acceder al sistema de frenos, retirar las pastillas desgastadas y reemplazarlas por nuevas. Antes de la instalación, se inspeccionan los discos de freno para asegurarse de que estén en buen estado o determinar si requieren rectificación o reemplazo.\r\n\r\nEl técnico aplica lubricante en las partes móviles del sistema para garantizar un funcionamiento suave y realiza un ajuste adecuado de las nuevas pastillas. Al finalizar, se prueba el sistema de frenado para confirmar que funciona correctamente. Este servicio ayuda a prevenir ruidos, vibraciones y, sobre todo, asegura una respuesta eficiente del freno al conducir.', 'Cambio de Pastillas de Freno', 912147483, 'imagen_servicio/Cambio_pastillas_freno.jpg', 27000),
+(20, 'Está Tio tranquilo Chill de Cojones', 'Servicio Chill', 123456789, 'imagen_servicio/chill.jpg', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitud_ayuda`
+--
+
+CREATE TABLE `solicitud_ayuda` (
+  `id_ayuda` int(11) NOT NULL,
+  `rut` varchar(100) NOT NULL,
+  `asunto_solicitud` varchar(40) NOT NULL,
+  `descripcion_solicitud` varchar(200) NOT NULL,
+  `tipo_solicitud` enum('comentario','sugerencia','reclamo','duda') NOT NULL,
+  `respuesta_admin` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `solicitud_ayuda`
+--
+
+INSERT INTO `solicitud_ayuda` (`id_ayuda`, `rut`, `asunto_solicitud`, `descripcion_solicitud`, `tipo_solicitud`, `respuesta_admin`) VALUES
+(1, '20.003.205-2', 'vsv', 'ssdfdsf', 'comentario', 'dfdfsf'),
+(2, '20.003.205-2', 'vsv', 'ssdfdsf', 'comentario', 'javi loca'),
+(6, '20.003.205-2', 'arreglo de pagina', 'jshdjsahjdhsa', 'sugerencia', 'selin carrasco'),
+(7, '20.123.657-9', 'Pagina', 'No me funciona la pagina', 'reclamo', 'solucionaremos su problema'),
+(8, '20.123.657-9', 'ggdghdf', 'dfdfddfd', 'comentario', NULL),
+(9, '20.123.657-9', '1dsfsdf', '1dsfsdfsd', 'sugerencia', NULL),
+(10, '20.003.205-2', 'auto', 'Hola, necesito mas colores en un auto', 'sugerencia', NULL);
 
 -- --------------------------------------------------------
 
@@ -693,7 +744,7 @@ CREATE TABLE `sucursal` (
   `nombre_sucursal` varchar(100) NOT NULL,
   `encargado_sucursal` varchar(100) NOT NULL,
   `direccion_sucursal` varchar(100) NOT NULL,
-  `zona_sucursal` enum('norte','centro','sur') NOT NULL
+  `zona_sucursal` enum('Norte','Centro','Sur') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -701,11 +752,11 @@ CREATE TABLE `sucursal` (
 --
 
 INSERT INTO `sucursal` (`id_sucursal`, `nombre_sucursal`, `encargado_sucursal`, `direccion_sucursal`, `zona_sucursal`) VALUES
-(1, 'Gran Central Renzo Motors', 'Mr. Renzo Motors', 'Caletera General San Martin 6700, Colina, Santiago, Región Metropolitana', 'centro'),
-(2, 'Santiago centro', 'Joaquín Rojas Paredes', 'Portugal 306, Santiago, Región Metropolitana', 'centro'),
-(3, 'Santiago Sur', 'Francisca Sepúlveda Contreras', 'Av. Gabriela 3041-3235, 8830503 La Pintana, Región Metropolitana', 'centro'),
-(4, 'Concepción Centro', 'Camila Gutiérrez Zambrano', 'Angol 920, 4030483 Concepción, Bío Bío', 'sur'),
-(5, 'Coquimbo Centro', 'Claudio Méndez Araya', 'Avenida Varela 1524, 1781107 Coquimbo', 'norte');
+(1, 'Gran Central Renzo Motors', 'Mr. Renzo Motors', '-33.3042316,-70.708928', 'Centro'),
+(2, 'Santiago centro', 'Joaquín Rojas Paredes', '-33.4462135,-70.6383408', 'Centro'),
+(3, 'Santiago Sur', 'Francisca Sepúlveda Contreras', '-33.5847473,-70.6193912', 'Centro'),
+(4, 'Concepción Centro', 'Camila Gutiérrez Zambrano', '-36.8239637,-73.0578559', 'Sur'),
+(5, 'Coquimbo Centro', 'Claudio Méndez Araya', '-29.9580085,-71.3402436', 'Norte');
 
 -- --------------------------------------------------------
 
@@ -723,9 +774,18 @@ CREATE TABLE `sucursal_servicio` (
 --
 
 INSERT INTO `sucursal_servicio` (`id_sucursal`, `id_servicio`) VALUES
-(1, 1),
-(2, 2),
-(3, 2);
+(1, 2),
+(2, 1),
+(2, 4),
+(2, 20),
+(3, 4),
+(3, 20),
+(4, 1),
+(4, 4),
+(4, 20),
+(5, 1),
+(5, 4),
+(5, 20);
 
 -- --------------------------------------------------------
 
@@ -835,7 +895,8 @@ INSERT INTO `tipo_vehiculo` (`id_tipo_vehiculo`, `nombre_tipo_vehiculo`) VALUES
 (3, 'Sedán'),
 (5, 'Muscle Car'),
 (6, 'SUV'),
-(7, 'Deportivo');
+(7, 'Deportivo'),
+(8, 'Camioneta');
 
 -- --------------------------------------------------------
 
@@ -875,7 +936,9 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`rut_usuario`) VALUES
 ('12.456.789-9'),
+('20.003.205-2'),
 ('20.050.994-3'),
+('20.123.657-9'),
 ('216379020');
 
 -- --------------------------------------------------------
@@ -922,8 +985,11 @@ CREATE TABLE `usuario_registrado` (
 INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contrasenia`, `tipo_persona`) VALUES
 ('11.111.111-1', 'Matías', 'Admin', 'mcarrascob@ing.ucsc.cl', '$2y$10$w9HvwZiN6IttWdniLCEwXuOp5zi6LBBVs.r.bmHhuqxcTftsfjpQC', 'administrador'),
 ('12.456.789-9', 'Benjamin', 'Cifuentes', 'benja.cifuentes.r@gmail.com', '$2y$10$iK3F4bOoLfM.oToM.ju2YurgnnBjfOBAOhOufO5WtJ6aVBUnoUy1S', 'usuario'),
+('20.003.205-2', 'Juan', 'Perez', 'nmarileo@ing.ucsc.cl', '$2y$10$2YxAZ.9oAjJkU5a7QgOoNuzNg6tbp7PN05j.bNlzHSeWEr.lUbStO', 'usuario'),
 ('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
-('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario');
+('20.123.657-9', 'PILAR', 'Guzman', 'nataliamarileo98@gmail.com', '$2y$10$0EBVhz8YzhTgDjrpcVARA.DIAxpJnghJ0giVpWjVv7PyIDa.nFiLi', 'usuario'),
+('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario'),
+('22.222.222-2', 'Natalia', 'Marileo', 'nataliamarileo14@gmail.com', '$2y$10$2n0MHmE7FwYBfMBBEc3STO/J5nfh9w9bQmb0E4VaxIvRr6dr4yLKS', 'administrador');
 
 --
 -- Disparadores `usuario_registrado`
@@ -980,12 +1046,25 @@ DELIMITER ;
 CREATE TABLE `usuario_seguro` (
   `id_contratacion_seguro` int(11) NOT NULL,
   `id_seguro` int(11) NOT NULL,
-  `rut_usuario` varchar(100) NOT NULL,
+  `rut` varchar(100) NOT NULL,
+  `id_tipo_vehiculo` int(11) NOT NULL,
+  `marca_s` varchar(50) NOT NULL,
+  `modelo_s` varchar(50) NOT NULL,
+  `anio_s` int(4) NOT NULL,
   `telefono` int(11) NOT NULL,
   `patente` varchar(30) NOT NULL,
-  `titulo_propiedad` varchar(255) NOT NULL,
-  `dia_contratacion` date NOT NULL
+  `numero_motor` varchar(14) NOT NULL,
+  `numero_chasis` varchar(14) NOT NULL,
+  `fecha_inicio_con` date NOT NULL,
+  `fecha_termino_cont` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_seguro`
+--
+
+INSERT INTO `usuario_seguro` (`id_contratacion_seguro`, `id_seguro`, `rut`, `id_tipo_vehiculo`, `marca_s`, `modelo_s`, `anio_s`, `telefono`, `patente`, `numero_motor`, `numero_chasis`, `fecha_inicio_con`, `fecha_termino_cont`) VALUES
+(20, 3, '22.222.222-2', 2, 'susuki', 'susuki 2', 2001, 971938850, 'BBCI24', '12F345678', '12FGTGDFDFDF', '2024-11-26', '2025-11-26');
 
 -- --------------------------------------------------------
 
@@ -1035,6 +1114,13 @@ CREATE TABLE `vehiculo_favorito` (
   `id_vehiculo` int(11) NOT NULL,
   `rut` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_favorito`
+--
+
+INSERT INTO `vehiculo_favorito` (`id_vehiculo`, `rut`) VALUES
+(9, '20.003.205-2');
 
 -- --------------------------------------------------------
 
@@ -1092,7 +1178,7 @@ INSERT INTO `vehiculo_sucursal` (`id_sucursal`, `id_vehiculo`, `unidades_arriend
 (3, 37, 0),
 (4, 9, NULL),
 (4, 34, NULL),
-(4, 37, 3),
+(4, 37, 2),
 (5, 9, NULL),
 (5, 34, NULL),
 (5, 37, 1);
@@ -1208,6 +1294,12 @@ ALTER TABLE `pais`
   ADD PRIMARY KEY (`id_pais`);
 
 --
+-- Indices de la tabla `palabra_prohibida`
+--
+ALTER TABLE `palabra_prohibida`
+  ADD PRIMARY KEY (`id_palabra_prohibida`);
+
+--
 -- Indices de la tabla `permiso`
 --
 ALTER TABLE `permiso`
@@ -1302,6 +1394,13 @@ ALTER TABLE `servicio`
   ADD PRIMARY KEY (`id_servicio`);
 
 --
+-- Indices de la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  ADD PRIMARY KEY (`id_ayuda`),
+  ADD KEY `rut` (`rut`);
+
+--
 -- Indices de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
@@ -1383,7 +1482,8 @@ ALTER TABLE `usuario_registrado`
 ALTER TABLE `usuario_seguro`
   ADD PRIMARY KEY (`id_contratacion_seguro`),
   ADD KEY `id_seguro` (`id_seguro`),
-  ADD KEY `rut_usuario` (`rut_usuario`);
+  ADD KEY `id_tipo_vehiculo` (`id_tipo_vehiculo`),
+  ADD KEY `rut` (`rut`);
 
 --
 -- Indices de la tabla `vehiculo`
@@ -1434,7 +1534,7 @@ ALTER TABLE `anio`
 -- AUTO_INCREMENT de la tabla `arriendo_vehiculo`
 --
 ALTER TABLE `arriendo_vehiculo`
-  MODIFY `cod_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito_usuario`
@@ -1485,6 +1585,12 @@ ALTER TABLE `pais`
   MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `palabra_prohibida`
+--
+ALTER TABLE `palabra_prohibida`
+  MODIFY `id_palabra_prohibida` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
@@ -1500,7 +1606,7 @@ ALTER TABLE `promocion_especial`
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_accesorio`
@@ -1512,7 +1618,7 @@ ALTER TABLE `registro_accesorio`
 -- AUTO_INCREMENT de la tabla `registro_arriendo`
 --
 ALTER TABLE `registro_arriendo`
-  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_registro_arriendo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_reserva`
@@ -1542,7 +1648,13 @@ ALTER TABLE `seguro`
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
-  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  MODIFY `id_ayuda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursal`
@@ -1578,7 +1690,7 @@ ALTER TABLE `tipo_rueda`
 -- AUTO_INCREMENT de la tabla `tipo_vehiculo`
 --
 ALTER TABLE `tipo_vehiculo`
-  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipo_vehiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `transmision`
@@ -1590,7 +1702,7 @@ ALTER TABLE `transmision`
 -- AUTO_INCREMENT de la tabla `usuario_seguro`
 --
 ALTER TABLE `usuario_seguro`
-  MODIFY `id_contratacion_seguro` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contratacion_seguro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculo`
@@ -1722,6 +1834,12 @@ ALTER TABLE `seguro_cobertura`
   ADD CONSTRAINT `seguro_cobertura_ibfk_2` FOREIGN KEY (`id_cobertura`) REFERENCES `cobertura` (`id_cobertura`);
 
 --
+-- Filtros para la tabla `solicitud_ayuda`
+--
+ALTER TABLE `solicitud_ayuda`
+  ADD CONSTRAINT `solicitud_ayuda_ibfk_1` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
+
+--
 -- Filtros para la tabla `sucursal_servicio`
 --
 ALTER TABLE `sucursal_servicio`
@@ -1753,7 +1871,8 @@ ALTER TABLE `usuario_pago`
 --
 ALTER TABLE `usuario_seguro`
   ADD CONSTRAINT `usuario_seguro_ibfk_1` FOREIGN KEY (`id_seguro`) REFERENCES `seguro` (`id_seguro`),
-  ADD CONSTRAINT `usuario_seguro_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`);
+  ADD CONSTRAINT `usuario_seguro_ibfk_3` FOREIGN KEY (`id_tipo_vehiculo`) REFERENCES `tipo_vehiculo` (`id_tipo_vehiculo`),
+  ADD CONSTRAINT `usuario_seguro_ibfk_4` FOREIGN KEY (`rut`) REFERENCES `usuario_registrado` (`rut`);
 
 --
 -- Filtros para la tabla `vehiculo`

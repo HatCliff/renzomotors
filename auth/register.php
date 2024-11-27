@@ -22,9 +22,4 @@ $contrasenia = password_hash($contrasenia, PASSWORD_DEFAULT);
 $query = "INSERT into usuario_registrado (nombre, apellido, rut, contrasenia, correo) VALUES ('$nombre', '$apellido', '$rut', '$contrasenia','$correo')";
 $result = mysqli_query($conexion, $query);
 
-
-
-
-
-
 ?>
