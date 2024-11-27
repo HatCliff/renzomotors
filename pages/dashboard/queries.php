@@ -2,31 +2,31 @@
 require_once(__DIR__ . "/../../config/conexion.php");
 
 function ContadorVentaAccesorios(){
-    global $conn;
+    global $conexion;
     $query = "SELECT COUNT(*) as `count`  FROM `registro_accesorio`;";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conexion, $query);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
         return $row['count']; // Devuelve el resultado
     } else {
-        return "Error: " . mysqli_error($conn); // Maneja errores
+        return "Error: " . mysqli_error($conexion); // Maneja errores
     }
-    //return mysqli_query($conn,$query);
+    //return mysqli_query($conexion,$query);
 }
 function ContadorVentaTotalAccesorios(){
-    global $conn;
+    global $conexion;
     $query = "SELECT SUM(valor_compra) as `total` FROM `registro_accesorio`; ";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conexion, $query);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        return $row['total']; // Devuelve el resultado
+        return $row['total'] ? $row['total'] : 0; // Devuelve el resultado o 0 si no hay resultado
     } else {
-        return "Error: " . mysqli_error($conn); // Maneja errores
+        return "Error: " . mysqli_error($conexion); // Maneja errores
     }
 }
 
 function ContadorReservasConcretadas(){
-    global $conn; 
+    global $conexion; 
     $query = "
     SELECT 
         COUNT(CASE WHEN compra_concretada IS NOT NULL THEN 1 END) AS reservas_concretadas,
@@ -34,15 +34,53 @@ function ContadorReservasConcretadas(){
     FROM registro_reserva
     ";
 
-    $result = mysqli_query($conn,$query);
+    $result = mysqli_query($conexion,$query);
     if($result){
         $row = mysqli_fetch_assoc($result);
-        $total_res = mysqli_num_rows($result);
-        echo $row['reservas_concretadas']/$total_res;
-        echo $row['reservas_no_concretadas'];
+        //$total_res = $row['reservas_concretadas'] + $row['reservas_no_concretadas'];
+        //echo $row['reservas_concretadas']/$total_res;
+        //echo $row['reservas_no_concretadas'];
         return $row;
     }else{
-        return "Error:" .mysqli_error($conn);
+        return "Error:" .mysqli_error($conexion);
+    }
+}
+function ContadorSegurosContratados(){
+    global $conexion;
+    $query = "SELECT COUNT(*) as `count` FROM `usuario_seguro`;";
+    $result = mysqli_query($conexion, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['count']; // Devuelve el resultado
+    } else {
+        return "Error: " . mysqli_error($conexion); // Maneja errores
+    }
+}
+
+function HistoricoVentasPorMes($local){
+    global $conexion;
+
+    // Si se proporciona un 'local', ajustamos la consulta, sino la consulta será global.
+    $query = "SELECT MONTH(fecha_compra_a) as mes, COUNT(*) as ventas FROM registro_accesorio";
+    
+    if ($local == null) {
+        $query .= " WHERE sucursal_compra = '$local'"; // Asegúrate de tener una columna local_id en tu base de datos
+    }
+
+    $query .= " GROUP BY MONTH(fecha_compra_a);";
+    
+    $result = mysqli_query($conexion, $query);
+    if ($result) {
+        $data = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+
+        // Retorna los datos como JSON
+        echo json_encode($data);
+    } else {
+        // Si hay un error, retornamos un mensaje de error
+        echo json_encode(array("error" => "Error: " . mysqli_error($conexion)));
     }
 }
 
