@@ -20,10 +20,16 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <title>Solicitud Test Drive</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
+        main{
+            flex:1;
+        }
         body {
             font-family: Arial, sans-serif;
+            background: #E6E6E6;
+            margin: 0;
         }
         .container-form {
             display: flex;
@@ -35,14 +41,32 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             background-image: url('../../src/images/test_manejo.webp'); 
             background-size: cover;
             background-position: center;
+            min-height: 30vh;
             width: 40%;
-            height: 70vh;
+            height: 100vh;
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
             font-size: 2rem;
+            position: relative;
+            overflow: hidden; 
+            z-index: 1;
+        }
+        .left-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1; 
+        }
+
+        .left-image * {
+            position: relative;
+
         }
         .right-form {
             padding: 50px;
@@ -70,11 +94,14 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             display: block;
         }
 
-        /* Responsive Styles */
+
         @media (max-width: 991px) {
+            .container-form {
+                flex-direction: column;
+            }
             .left-image, .right-form {
                 width: 100%;
-                height: auto;
+                height: 51vh;
             }
             .left-image {
                 font-size: 1.5rem;
@@ -88,10 +115,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         @media (max-width: 768px) {
             .container-form {
                 flex-direction: column;
-                padding-right: 0px;
             }
             .left-image {
-                height: 200px;
+                height: 30vh;
                 width: 100%;
                 font-size: 1.2rem;
             }
@@ -102,9 +128,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
         @media (max-width: 576px) {
             .left-image {
-                height: 150px;
+                height: 31vh;
                 font-size: 1rem;
-                text-align: center;
+            
             }
             .right-form {
                 padding: 15px;
@@ -113,8 +139,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     </style>
 
 </head>
+
 <body>
-<div class="container-fluid container-form">
+<main>
+<div class="container-fluid container-form px-0">
     <div class="left-image">
 
     </div>
@@ -203,7 +231,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     <label>Modelo</label>
                     <select class="form-control" id="modelo" name="modelo" required>
                         <option value="">Seleccione un modelo</option>
-                        <!-- Los modelos se cargarán aquí con AJAX -->
                     </select>
                 </div>
                 
@@ -238,7 +265,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     <label for="hora">Hora de la Prueba</label>
                     <select id="hora" name="hora" class="form-control" required>
                         <?php
-                        // Horas de 8:00 a 14:00 en intervalos de 30 minutos
+
                         $hora_inicio = strtotime("08:00");
                         $hora_fin = strtotime("14:00");
                         while ($hora_inicio <= $hora_fin) {
@@ -259,6 +286,12 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</main>
+<?php
+include("../../components/footer2.php")
+?>
+
+</body>
 <script>
     
 // Función para combinar los datos de varios formularios
@@ -274,7 +307,7 @@ function mergeFormData(...forms) {
 }
 
 document.getElementById("form-sucursal").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita el recargo de la página
+    event.preventDefault(); 
 
     // Combinar datos de los tres formularios en un solo FormData
     const combinedFormData = mergeFormData(
@@ -299,11 +332,11 @@ document.getElementById("form-sucursal").addEventListener("submit", function(eve
 
 
 
-// Configuración de la fecha mínima para el campo de fecha
+// Configuración de la fecha para el campo de fecha
     document.addEventListener('DOMContentLoaded', function () {
         const fechaCampo = document.getElementById('fecha');
         const hoy = new Date();
-        // Añadir 7 días a la fecha actual
+        // Añadir 7 dias a la fecha actual
         hoy.setDate(hoy.getDate() + 7);
         const fechaMinima = hoy.toISOString().split('T')[0];
         fechaCampo.setAttribute('min', fechaMinima);
@@ -326,7 +359,6 @@ document.getElementById("form-sucursal").addEventListener("submit", function(eve
                 }
             };
             
-            // Enviar el id de la marca seleccionada al servidor
             xhr.send("marca=" + marcaId);
         } else {
 
@@ -390,6 +422,5 @@ document.getElementById("form-sucursal").addEventListener("submit", function(eve
     
 
 </script>
-</body>
 </html>
 
