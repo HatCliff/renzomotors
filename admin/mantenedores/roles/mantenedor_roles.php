@@ -18,7 +18,7 @@ include '../../navbaradmin.php';
                 <tr>
                     <th>ID</th>
                     <th>Nombre del Rol</th>
-                    <th>Permisos Asociados</th>
+                    <th style="max-width: 400px">Permisos Asociados</th>
                     <th>Acciones</th>
                 </tr>
             </thead>

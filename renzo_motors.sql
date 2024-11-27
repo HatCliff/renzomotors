@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2024 a las 02:49:54
+-- Tiempo de generación: 27-11-2024 a las 04:16:54
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `renzo_motors6`
+-- Base de datos: `renzo_motors`
 --
 
 -- --------------------------------------------------------
@@ -59,8 +59,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`rut_administrador`, `id_rol`) VALUES
-('11.111.111-1', NULL),
-('22.222.222-2', NULL);
+('11.111.111-1', 2);
 
 -- --------------------------------------------------------
 
@@ -148,6 +147,13 @@ CREATE TABLE `carrito_usuario` (
   `rut_usuario` varchar(100) NOT NULL,
   `valor_carrito` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito_usuario`
+--
+
+INSERT INTO `carrito_usuario` (`id_carrito`, `rut_usuario`, `valor_carrito`) VALUES
+(1, '24.012.271-5', 0);
 
 -- --------------------------------------------------------
 
@@ -380,9 +386,10 @@ CREATE TABLE `permiso` (
 --
 
 INSERT INTO `permiso` (`id_permiso`, `nombre_permiso`) VALUES
-(2, 'Gestión Vehículos'),
-(3, 'Gestión de Administradores'),
-(4, 'Gestión de Accesorios');
+(3, 'Personal'),
+(8, 'Ventas'),
+(9, 'Solicitudes'),
+(11, 'Mantenedores');
 
 -- --------------------------------------------------------
 
@@ -605,10 +612,11 @@ CREATE TABLE `rol` (
 --
 
 INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
-(2, 'Administrador Superior'),
+(2, 'Encargado General'),
 (3, 'Recursos Humanos'),
-(4, 'Administrador de Accesorios'),
-(5, 'Administrador de Vehículos');
+(8, 'Admin, de Mantenedores'),
+(9, 'Analista de Ventas'),
+(10, 'Admin. Solicitudes');
 
 -- --------------------------------------------------------
 
@@ -626,12 +634,14 @@ CREATE TABLE `rol_permiso` (
 --
 
 INSERT INTO `rol_permiso` (`id_rol`, `id_permiso`) VALUES
-(2, 2),
 (2, 3),
-(2, 4),
+(2, 8),
+(2, 9),
+(2, 11),
 (3, 3),
-(4, 4),
-(5, 2);
+(8, 11),
+(9, 8),
+(10, 9);
 
 -- --------------------------------------------------------
 
@@ -939,7 +949,8 @@ INSERT INTO `usuario` (`rut_usuario`) VALUES
 ('20.003.205-2'),
 ('20.050.994-3'),
 ('20.123.657-9'),
-('216379020');
+('216379020'),
+('24.012.271-5');
 
 -- --------------------------------------------------------
 
@@ -989,7 +1000,8 @@ INSERT INTO `usuario_registrado` (`rut`, `nombre`, `apellido`, `correo`, `contra
 ('20.050.994-3', 'Matías', 'Carrasco', 'mcarrascoa@ing.ucsc.cl', '$2y$10$nJ39YUO1eg.ldxrgdl5pzeKhZGjFWBoN4dk./Pl1egS/BYyBS/T0m', 'usuario'),
 ('20.123.657-9', 'PILAR', 'Guzman', 'nataliamarileo98@gmail.com', '$2y$10$0EBVhz8YzhTgDjrpcVARA.DIAxpJnghJ0giVpWjVv7PyIDa.nFiLi', 'usuario'),
 ('216379020', 'aaa', 'bbb', 'aaa@bbb.ccc', '12345', 'usuario'),
-('22.222.222-2', 'Natalia', 'Marileo', 'nataliamarileo14@gmail.com', '$2y$10$2n0MHmE7FwYBfMBBEc3STO/J5nfh9w9bQmb0E4VaxIvRr6dr4yLKS', 'administrador');
+('22.222.222-2', 'Natalia', 'Marileo', 'nataliamarileo14@gmail.com', '$2y$10$2n0MHmE7FwYBfMBBEc3STO/J5nfh9w9bQmb0E4VaxIvRr6dr4yLKS', 'administrador'),
+('24.012.271-5', 'Juan', 'Perez', 'juan@gmail.com', '$2y$10$PbCPq7zBTgB6da4pkIt07urS4hhKZt7hLtQG.xFmjB.MlaxbWDyUG', 'usuario');
 
 --
 -- Disparadores `usuario_registrado`
@@ -1540,7 +1552,7 @@ ALTER TABLE `arriendo_vehiculo`
 -- AUTO_INCREMENT de la tabla `carrito_usuario`
 --
 ALTER TABLE `carrito_usuario`
-  MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `cobertura`
@@ -1594,7 +1606,7 @@ ALTER TABLE `palabra_prohibida`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `promocion_especial`
@@ -1636,7 +1648,7 @@ ALTER TABLE `reserva_vehiculo`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `seguro`
