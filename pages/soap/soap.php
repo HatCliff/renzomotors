@@ -147,9 +147,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <div class="container-fluid container-form px-0">
     <div class="left-form mt-5 pt-5">
         <div class="step-indicator">
-            <span id="step-1" class="active"> Tu Patente</span>
-            <span id="step-2"> Datos del Vehículo</span>
-            <span id="step-3"> Pago SOAP</span>
+            <span id="step-1" class="active">01 | Tu Patente</span>
+            <span id="step-2">02 | Datos del Vehículo</span>
+            <span id="step-3">03 | Pago SOAP</span>
         </div>
 
         <!-- Sección 1: Tu Patente -->
@@ -264,7 +264,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 </div>
 </main>
 <?php
-include("../../components/footer2.php")
+include("../../components/footer.php")
 ?>
 
 

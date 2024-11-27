@@ -148,9 +148,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     </div>
     <div class="right-form mt-5 pt-5">
         <div class="step-indicator">
-            <span id="step-1" class="active"> Tus datos</span>
-            <span id="step-2"> Modelo</span>
-            <span id="step-3"> Sucursal</span>
+            <span id="step-1" class="active">01 | Tus datos</span>
+            <span id="step-2">02 | Modelo</span>
+            <span id="step-3">03 | Sucursal</span>
         </div>
 
         <!-- Sección 1: Tus datos -->
@@ -288,7 +288,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </main>
 <?php
-include("../../components/footer2.php")
+include("../../components/footer.php")
 ?>
 
 </body>
