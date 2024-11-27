@@ -13,9 +13,9 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
             RenzoMotors
         </a>
         <?php
-        if($_SERVER['REQUEST_URI'] !== '/xampp/renzomotors/pages/dashboard.php'){
+        if($_SERVER['REQUEST_URI'] !== '/xampp/renzomotors/admin/gestion/dashboard.php'){
            echo '<ul class="navbar-nav ms-auto">  
-                <a href="/xampp/renzomotors/pages/dashboard.php" class="btn btn-success">Dashboard</a>
+                <a href="/xampp/renzomotors/admin/gestion/dashboard.php" class="btn btn-success">Dashboard</a>
                 <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user-circle"></i> Perfil
@@ -152,7 +152,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#AcordeonVehiculos">
             <div class="accordion-body">
                 <ul class="list-group">
-                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>paises/mantenedor_permisos.php'>Permisos</a></li>
+                    <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>permisos/mantenedor_permisos.php'>Permisos</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>roles/mantenedor_roles.php'>Roles</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>servicios/mantenedor_servicios.php'>Servicios</a></li>
                     <li><a class="list-group-item border-0" href='<?php echo $carpetaMantenedores; ?>sucursales/mantenedor_sucursales.php'>Sucursales</a></li>
