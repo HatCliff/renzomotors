@@ -399,26 +399,25 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         $id_vehiculo = $fila['id_vehiculo'];
                         $isFavorito = false;
-                        // Verifica si el usuario está logueado y si el vehículo está en los favoritos
                         if (isset($_SESSION['rut'])) {
                             $id_usuario = $_SESSION['rut'];
                             $favorito_query = "SELECT * FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
                             $favorito_result = mysqli_query($conexion, $favorito_query);
                             $isFavorito = mysqli_num_rows($favorito_result) > 0;
                         }
-                        // Contenedor de la tarjeta de vehículo
-                        echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch'>";
+                        echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch position-relative'>";
 
-                        // Icono de favorito
-                        echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo' style='position: absolute; top: 10px; right: 10px; z-index: 10;'>";
-                        echo "<i class='fas fa-star " . ($isFavorito ? 'favorite-checked' : 'favorite-unchecked') . "' onclick='toggleFavorito(event, $id_vehiculo); actualizar_fav($id_vehiculo);' style='font-size: 24px; color: " . ($isFavorito ? '#FFD700' : '#CCCCCC') . "; cursor: pointer;'></i>";
+                        // Icono de favorito en la esquina superior derecha
+                        echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo'>";
+                        echo "<i class='fas fa-star " . ($isFavorito ? 'favorite-checked' : 'favorite-unchecked') . "' onclick='toggleFavorito(event, $id_vehiculo);'></i>";
                         echo "</div>";
+
 
                         // Contenido de la tarjeta
                         echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
                         echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
 
-                        // Carrusel de fotos
+                        // Carrusel de fotos del vehículo
                         $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
                         echo "<div id='carousel{$id_vehiculo}' class='carousel slide' data-bs-ride='carousel'>";
                         echo "<div class='carousel-inner'>";
@@ -441,7 +440,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             </button>";
                         echo "</div>";
 
-                        // Estado del vehículo
+                        // Estado del vehículo (Nuevo o Usado)
                         echo "<div class='position-absolute p-2' style='top: 10px; left: 10px;'>
                                 <span class='badge bg-light text-dark border' style='border-radius: 20px; padding: 5px 10px;'>{$fila['estado_vehiculo']}</span>
                             </div>";
@@ -451,10 +450,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                         $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
                         echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
                         echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
-                        echo "<p class='text-muted mb-2'>{$fila['nombre_pais']}</p>";
+                        echo "<p class='text-muted mb-2'>{$fila['nombre_pais']} </p>";
                         echo "</div>";
 
-                        // Colores
+                        // Colores del vehículo en la parte inferior
                         $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
                                                                     FROM color_vehiculo vc
                                                                     JOIN color c ON vc.id_color = c.id_color
@@ -468,7 +467,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
                         echo "</div>"; // Cierre de div.card
                         echo "</a>";   // Cierre de enlace
-                        echo "</div>"; // Cierre de la columna
+                        echo "</div>"; // Cierre de columna
                     }
                     ?>
                 </div>
@@ -515,14 +514,22 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         var isFavorito = icono.classList.contains('favorite-checked');
 
         // AJAX para alternar el favorito
-        $.post('favoritos/toggle_favorito.php', { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' }, function (response) {
-            console.log(response);
+        const datos = { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' };
+        console.log("Datos enviados:", datos); // Esto imprimirá los datos en la consola del navegador
+
+        $.post('favoritos/toggle_favorito.php', datos, function (response) {
+            console.log("Respuesta del servidor:", response); // Imprime la respuesta recibida
             if (response.success) {
                 actualizar_fav(id_vehiculo, icono);
             } else {
                 alert('Hubo un error al actualizar el favorito: ' + (response.error || ''));
             }
         }, 'json').fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error en la solicitud AJAX:", {
+                textStatus: textStatus,
+                errorThrown: errorThrown,
+                responseText: jqXHR.responseText, // Verifica el contenido del error
+            });
             alert("Error en la solicitud AJAX: " + textStatus + " - " + errorThrown);
         });
     }
