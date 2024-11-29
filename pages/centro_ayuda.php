@@ -9,6 +9,7 @@ if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['
     echo "<script>
         alert('Debe estar logueado para contratar un seguro.');
         window.location.href = '../pages/login.php';
+        
     </script>";
     exit();
 }

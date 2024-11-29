@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-2">
         <div class="form-container">
             <form action='' method="POST" enctype="multipart/form-data">
-                <h4 class="mb-2">Cotización de seguro</h4>
+                <h4 class="mb-2 d-flex justify-content-center">Cotización de seguro</h4>
 
                 <!-- Mostrar la información del seguro    sin metodo de pago que envie un correo  -->
                 <div class="mb-3">
@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         disabled><?php echo $descripcion_seguro; ?></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="precio_seguro" class="form-label ">Precio</label>
+                    <label for="precio_seguro" class="form-label ">Precio desde</label>
                     <input type="text" class="form-control" id="precio_seguro" name="precio_seguro"
                         value="<?php echo number_format($precio_seguro, 0, ',', '.'); ?> CLP" disabled>
                 </div>
@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Número Telefónico</label>
-                            <input type="number" name="telefono" class="form-control" id="telefono" maxlength="11"
+                            <input type="text" name="telefono" class="form-control" id="telefono" maxlength="11"
                                 placeholder="569..." required>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-md-6">
                             <label for="patente" class="form-label">Patente</label>
-                            <input type="text" name="patente" class="form-control" id="patente" maxlength="6"
+                            <input type="text" name="patente" class="form-control" id="patente" maxlength="8"
                                 placeholder="BBCC21" required>
                         </div>
                     </div>

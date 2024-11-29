@@ -8,6 +8,7 @@ use Fpdf\Fpdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+
 // Verificar sesión del usuario
 if (!isset($_SESSION['correo']) || !isset($_SESSION['nombre'])) {
     echo "<script>alert('Error: No se encontró la información del usuario.'); window.location.href = '../pages/login.php';</script>";
@@ -56,7 +57,8 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $patente = $detalle_seguro['patente'];
     $numero_motor = $detalle_seguro['numero_motor'];
     $numero_chasis = $detalle_seguro['numero_chasis'];
-    //hasta aca se cambio
+    
+    
     // Crear el PDF
     $pdf = new FPDF();
     $pdf->AddPage();
@@ -74,10 +76,16 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $pdf->Cell(50, 10, utf8_decode('Seguro:'), 1);
     $pdf->Cell(100, 10, utf8_decode($nombre_seguro), 1, 1);
 
-    $pdf->Cell(50, 10, utf8_decode('Descripción:'), 1);
-    $pdf->MultiCell(100, 10, utf8_decode($descripcion_seguro), 1);
+    // Descripción - Ajustamos la altura para sincronizar columnas
+    $descripcion_altura = $pdf->GetStringWidth($descripcion_seguro) > 100
+        ? $pdf->NbLines(100, utf8_decode($descripcion_seguro)) * 10
+        : 10;
 
-    $pdf->Cell(50, 10, utf8_decode('Precio Mínimo:'), 1);
+    $pdf->Cell(50, $descripcion_altura, utf8_decode('Descripción:'), 1, 0, 'L');
+    $pdf->MultiCell(100, 10, utf8_decode($descripcion_seguro), 1, 'L');
+
+
+    $pdf->Cell(50, 10, utf8_decode('Precio desde:'), 1);
     $pdf->Cell(100, 10, utf8_decode($precio_seguro), 1, 1);
 
     $pdf->Cell(50, 10, utf8_decode('Fecha consulta:'), 1);
@@ -106,7 +114,7 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
 
     $pdf->Ln(10);
     #guardar el PDF con un nombre
-    $pdfOutput = __DIR__ . '/data/cotizacion_'  . time() . '.pdf';
+    $pdfOutput = __DIR__ . '/data/cotizacion_' . time() . '.pdf';
     $pdf->Output('F', $pdfOutput);
 
     // Enviar el correo
