@@ -140,22 +140,23 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Historico ventas por local</h6>
                         <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                <p class="text-center dropdown-header">Local:</p>
-                                    <?php
-                                        $query = "SELECT * FROM sucursal";
-                                        $resultado = mysqli_query($conexion, $query);
-                                        while ($row = mysqli_fetch_array($resultado)) {
-                                            echo "<button class='dropdown-item' onClick='cargarGrafico(`$row[nombre_sucursal]`)'>$row[nombre_sucursal]</button>";
-                                        }
-                                    ?>
-                            </div>
+                                <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                    <p class="text-center dropdown-header">Local:</p>
+                                        <?php
+                                            $query = "SELECT * FROM sucursal";
+                                            $resultado = mysqli_query($conexion, $query);
+                                            while ($row = mysqli_fetch_array($resultado)) {
+                                                echo "<button class='dropdown-item' onClick='cargarGrafico(`$row[nombre_sucursal]`)'>$row[nombre_sucursal]</button>";
+                                            }
+                                        ?>
+                                </div>
                         </div>
                     </div>
                     <div class="card-body">
     <div id="lineChart" style="width: 100%; height: 400px;"></div>
     <script>
         function cargarGrafico(argument){
+            let data = [];
             console.log("Cargando gráfico...");
         // Dimensiones del gráfico
 
@@ -171,8 +172,9 @@
             .attr("height", height);
 
             console.error("Valor por defecto:", argument);
-            d3.json(`./dashboard/chartAjax.php?local=${argument}`).then(data => {
-    console.log("Datos recibidos:", data); // Asegúrate de ver los datos en la consola
+            d3.json(`./dashboard/chartAjax.php?local='${argument}'`).then(data => {
+                console.log("Argumento:", argument);
+                console.log("Datos recibidos:", data); // Asegúrate de ver los datos en la consola
 
     if (!data || data.length === 0) {
         console.log("No hay datos disponibles");
@@ -201,24 +203,20 @@
         .attr("transform", `translate(0, ${height - margin.bottom})`)
         .call(xAxis)
         .attr("font-size", "12px");
-
     svg.append("g")
         .attr("transform", `translate(${margin.left}, 0)`)
         .call(yAxis)
         .attr("font-size", "12px");
-
     // Línea
     const line = d3.line()
         .x(d => xScale(d.mes) + xScale.bandwidth() / 2)
         .y(d => yScale(d.ventas));
-
     svg.append("path")
         .datum(data)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2)
         .attr("d", line);
-
     // Puntos
     svg.selectAll(".circle")
         .data(data)
@@ -228,13 +226,11 @@
         .attr("cy", d => yScale(d.ventas))
         .attr("r", 4)
         .attr("fill", "steelblue");
-
 }).catch(error => {
     console.error("Error al cargar los datos:", error);
 });
-
         }
-        cargarGrafico('null');
+        cargarGrafico(null);
     </script>
 </div>
 

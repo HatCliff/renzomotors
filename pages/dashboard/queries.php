@@ -56,17 +56,24 @@ function ContadorSegurosContratados(){
         return "Error: " . mysqli_error($conexion); // Maneja errores
     }
 }
-
 function HistoricoVentasPorMes($local){
     global $conexion;
+
+    // Escapar el valor de $local para prevenir inyecciones SQL
+    $local = mysqli_real_escape_string($conexion, $local);
 
     // Si se proporciona un 'local', ajustamos la consulta, sino la consulta será global.
     $query = "SELECT MONTH(fecha_compra_a) as mes, COUNT(*) as ventas FROM registro_accesorio";
     
-    if ($local == null) {
-        $query .= " WHERE sucursal_compra = '$local'"; // Asegúrate de tener una columna local_id en tu base de datos
+    if ($local != null) {
+        // Si el parámetro 'local' no es null, filtramos por la sucursal.
+        $query .= " WHERE sucursal_compra = '$local'";
+    }else{
+        //Load all
+        $query .= " WHERE sucursal_compra IS NOT NULL";
     }
 
+    // Agrupamos los resultados por mes
     $query .= " GROUP BY MONTH(fecha_compra_a);";
     
     $result = mysqli_query($conexion, $query);
@@ -83,5 +90,6 @@ function HistoricoVentasPorMes($local){
         echo json_encode(array("error" => "Error: " . mysqli_error($conexion)));
     }
 }
+
 
 ?>
