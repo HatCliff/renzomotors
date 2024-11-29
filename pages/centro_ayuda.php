@@ -4,6 +4,15 @@ include('../config/conexion.php');
 
 $rut = $_SESSION['rut'];
 
+// Verificación de usuario
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['usuario'])) {
+    echo "<script>
+        alert('Debe estar logueado para contratar un seguro.');
+        window.location.href = '../pages/login.php';
+    </script>";
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asunto_solicitud = $_POST['asunto_solicitud'];
     $descripcion_solicitud = $_POST['descripcion_solicitud'];
@@ -82,7 +91,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #E6E6E6;
         }
 
         .form-container {
@@ -101,7 +110,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             border-radius: 5px;
 
         }
-
 
         .btn-custom:hover {
             background-color: #366c35;

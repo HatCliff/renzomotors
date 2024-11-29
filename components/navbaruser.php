@@ -61,7 +61,6 @@ if (session_status() == PHP_SESSION_NONE) {
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/centro_ayuda.php">Ayuda</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
-                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_venta/mis_solicitudes.php">Ver Mis solicitudes</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                             </ul>
                           </li>';

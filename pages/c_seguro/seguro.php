@@ -48,7 +48,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             <br>
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card text-center">
+                    <div class="card text-center"  style="background: #fffcf4;">
                         <!-- Mostrar el logo del proveedor -->
                         <img src="../../admin/mantenedores/proveedores/<?php echo $row['imagen_proveedor']; ?>" alt="Logo de <?php echo $row['nombre_seguro']; ?>" class="card-img-top mt-3" style="max-height: 50px; object-fit: contain;">
 
@@ -59,7 +59,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <span class="text-success"> Desde <?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?>
                                 CLP</span>
-                            <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>" class="btn btn-primary">Contratar</a>
+                            <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>" class="btn btn-secondary">Contratar</a>
                         </div>
                     </div>
                 </div>

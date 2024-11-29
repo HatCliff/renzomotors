@@ -1,8 +1,24 @@
 <?php
 session_start();
 include('../config/conexion.php');
-// Verificar si es administrador
 
+// Incluye el navbar correspondiente según el tipo de usuario
+if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
+    // Usuario es administrador, incluye el navbar de administrador
+    include '../admin/navbaradmin.php';
+} else {
+    // Usuario es normal, incluye el navbar de usuario
+    include '../components/navbaruser.php';
+}
+
+// Verificación de usuario
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
+    echo "<script>
+        alert('Debe estar logueado para contratar un seguro.');
+        window.location.href = '../pages/login.php';
+    </script>";
+    exit();
+}
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['rut'])) {
@@ -19,14 +35,7 @@ $rut = $_SESSION['rut'];
 $query = "SELECT * FROM solicitud_ayuda WHERE rut = '$rut'";
 $resultado = mysqli_query($conexion, $query);
 
-// Incluye el navbar correspondiente según el tipo de usuario
-if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
-    // Usuario es administrador, incluye el navbar de administrador
-    include '../admin/navbaradmin.php';
-} else {
-    // Usuario es normal, incluye el navbar de usuario
-    include '../components/navbaruser.php';
-}
+
 ?>
 
 ?>
@@ -80,6 +89,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             </a>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

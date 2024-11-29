@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Contración seguro</title>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #E6E6E6;
         }
 
         .form-container {

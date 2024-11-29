@@ -2,11 +2,6 @@
 session_start();
 include('../config/conexion.php');
 
-// Verificar si es administrador
-if (!isset($_SESSION['tipo_persona']) || $_SESSION['tipo_persona'] !== 'administrador') {
-    echo "Acceso denegado.";
-    exit;
-}
 
 // Manejar la respuesta del administrador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ayuda'], $_POST['respuesta_admin'])) {
