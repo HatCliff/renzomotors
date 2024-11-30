@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_verificar = mysqli_fetch_assoc($resultado_verificar);
 
     // Si ya ha alcanzado el límite de 2 seguros, se mostrara un mensaje y se detendra el proceso
-    if ($data_verificar['total'] >= 2){
+    if ($data_verificar['total'] >= 2) {
         echo "<script>
             alert('Ya has cotizado el máximo de 2 seguros.');
             window.location.href = 'seguro.php'; // Redirige a la página principal de seguros
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "Error al contratar el seguro: " . mysqli_error($conexion);
     }
-    
+
 }
 
 
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Contración seguro</title>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #E6E6E6;
         }
 
         .form-container {
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mt-2">
         <div class="form-container">
             <form action='' method="POST" enctype="multipart/form-data">
-                <h4 class="mb-2">Cotización de seguro</h4>
+                <h4 class="mb-2 d-flex justify-content-center">Cotización de seguro</h4>
 
                 <!-- Mostrar la información del seguro    sin metodo de pago que envie un correo  -->
                 <div class="mb-3">
@@ -187,11 +187,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="mb-3">
                     <label for="descripcion_seguro" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion_seguro" name="descripcion_seguro" rows="3"
-                        disabled><?php echo $descripcion_seguro; ?></textarea>
+                    <textarea class="form-control" id="descripcion_seguro" name="descripcion_seguro" rows="3" disabled><?php echo $descripcion_seguro; ?></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="precio_seguro" class="form-label ">Precio</label>
+                    <label for="precio_seguro" class="form-label ">Precio desde</label>
                     <input type="text" class="form-control" id="precio_seguro" name="precio_seguro"
                         value="<?php echo number_format($precio_seguro, 0, ',', '.'); ?> CLP" disabled>
                 </div>
@@ -230,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Número Telefónico</label>
-                            <input type="number" name="telefono" class="form-control" id="telefono" maxlength="11"
+                            <input type="text" name="telefono" class="form-control" id="telefono" maxlength="11"
                                 placeholder="569..." required>
                         </div>
                     </div>
@@ -248,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-md-6">
                             <label for="patente" class="form-label">Patente</label>
-                            <input type="text" name="patente" class="form-control" id="patente" maxlength="6"
+                            <input type="text" name="patente" class="form-control" id="patente" maxlength="8"
                                 placeholder="BBCC21" required>
                         </div>
                     </div>

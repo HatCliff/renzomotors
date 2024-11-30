@@ -56,57 +56,103 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $patente = $detalle_seguro['patente'];
     $numero_motor = $detalle_seguro['numero_motor'];
     $numero_chasis = $detalle_seguro['numero_chasis'];
-    //hasta aca se cambio
     // Crear el PDF
     $pdf = new FPDF();
     $pdf->AddPage();
+
+    // Crear el PDF
+    $pdf = new FPDF();
+    $pdf->AddPage();
+
+    //  logo 
+    $logoPath = $carpetaMain . "logo.png";
+    $pdf->Image($logoPath, 5, 5, 10); // x, y, ancho (ajusta según necesites)
+
+    // Espaciado después del logo
+    //$pdf->Ln(10);
+    $pdf->Ln(10);
     $pdf->SetFont('Arial', 'B', 12);
 
-    $pdf->Cell(0, 10, utf8_decode("Hola $nombre, aquí tienes los detalles de tu cotización de seguro."), 0, 1);
+    // Obtener el ancho del texto
+    $text = 'Cotización de Seguro';
+    $textWidth = $pdf->GetStringWidth($text);
+
+    // Calcular la posición X para centrar el texto
+    $pageWidth = $pdf->GetPageWidth();
+    $x = ($pageWidth - $textWidth) / 2; // Centrado
+
+    // Colocar el texto en el centro de la página
+    $pdf->SetX($x);
+    $pdf->Cell($textWidth, 10, $text, 0, 1, 'C');
     $pdf->Ln(10);
 
+
     //Detalle cotizacion
-    $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(50, 10, utf8_decode('Detalle'), 1, 0, 'C');
-    $pdf->Cell(100, 10, utf8_decode('Información'), 1, 1, 'C');
+$pdf->SetFont('Arial', 'B', 12);
 
-    $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(50, 10, utf8_decode('Seguro:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($nombre_seguro), 1, 1);
+// Anchos de las celdas de la tabla
+$cellWidth1 = 50; // Detalle
+$cellWidth2 = 100; // Información
 
-    $pdf->Cell(50, 10, utf8_decode('Descripción:'), 1);
-    $pdf->MultiCell(100, 10, utf8_decode($descripcion_seguro), 1);
+// Calcular el ancho total de la tabla
+$tableWidth = $cellWidth1 + $cellWidth2;
 
-    $pdf->Cell(50, 10, utf8_decode('Precio Mínimo:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($precio_seguro), 1, 1);
+// Calcular la posición X para centrar la tabla
+$pageWidth = $pdf->GetPageWidth();
+$x = ($pageWidth - $tableWidth) / 2; // Centrado
 
-    $pdf->Cell(50, 10, utf8_decode('Fecha consulta:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($fecha_inicio), 1, 1);
+// Colocar la tabla en la página
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Detalle'), 1, 0, 'C');
+$pdf->Cell($cellWidth2, 10, utf8_decode('Información'), 1, 1, 'C');
 
-    //$pdf->Cell(50, 10, utf8_decode('Fecha Término:'), 1);
-    //$pdf->Cell(100, 10, utf8_decode($fecha_termino), 1, 1);
+$pdf->SetFont('Arial', '', 12);
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Seguro:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($nombre_seguro), 1, 1);
 
-    $pdf->Cell(50, 10, utf8_decode('Vehículo:'), 1);
-    $pdf->Cell(100, 10, utf8_decode("$marca $modelo"), 1, 1);
+$descripcion_altura = $pdf->GetStringWidth($descripcion_seguro) > $cellWidth2
+    ? $pdf->NbLines($cellWidth2, utf8_decode($descripcion_seguro)) * 10
+    : 10;
 
-    $pdf->Cell(50, 10, utf8_decode('Patente:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($patente), 1, 1);
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, $descripcion_altura, utf8_decode('Descripción:'), 1, 0, 'L');
+$pdf->MultiCell($cellWidth2, 10, utf8_decode($descripcion_seguro), 1, 'L');
 
-    $pdf->Cell(50, 10, utf8_decode('Número motor:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($numero_motor), 1, 1);
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Precio desde:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($precio_seguro), 1, 1);
 
-    $pdf->Cell(50, 10, utf8_decode('Número chasis:'), 1);
-    $pdf->Cell(100, 10, utf8_decode($numero_chasis), 1, 1);
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Fecha consulta:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($fecha_inicio), 1, 1);
 
-    // Pie de página
-    date_default_timezone_set("America/Santiago");
-    $pdf->SetFont('Arial', 'I', 8);
-    $pdf->Cell(0, 10, utf8_decode('Documento generado automáticamente. Fecha: ' . date("d-m-Y")), 0, 0, 'C');
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Vehículo:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode("$marca $modelo"), 1, 1);
+
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Patente:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($patente), 1, 1);
+
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Número motor:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($numero_motor), 1, 1);
+
+$pdf->SetX($x);
+$pdf->Cell($cellWidth1, 10, utf8_decode('Número chasis:'), 1);
+$pdf->Cell($cellWidth2, 10, utf8_decode($numero_chasis), 1, 1);
+
+// Pie de página
+date_default_timezone_set("America/Santiago");
+$pdf->SetFont('Arial', 'I', 8);
+$pdf->Cell(0, 10, utf8_decode('Documento generado automáticamente. Fecha: ' . date("d-m-Y")), 0, 0, 'C');
+
     //
 
     $pdf->Ln(10);
     #guardar el PDF con un nombre
-    $pdfOutput = __DIR__ . '/data/cotizacion_'  . time() . '.pdf';
+    $pdfOutput = __DIR__ . '/data/cotizacion_' . time() . '.pdf';
     $pdf->Output('F', $pdfOutput);
 
     // Enviar el correo

@@ -86,7 +86,7 @@ $error_message = ""; // Variable para almacenar el mensaje de error
                 </div>
                 <div class="mb-3">
                     <label for="contrasenia" class="form-label">Contraseña</label>
-                    <input type="password" name="contrasenia" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}" required>
+                    <input type="password" name="contrasenia" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}" maxlength="20" required>
                 </div>
                 <div class="d-grid mb-3">
                     <button type="submit" name="submit" class="btn btn-dark">Registrarse</button>

@@ -4,6 +4,16 @@ include('../config/conexion.php');
 
 $rut = $_SESSION['rut'];
 
+// Verificación de usuario
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['usuario'])) {
+    echo "<script>
+        alert('Debe estar logueado para contratar un seguro.');
+        window.location.href = '../pages/login.php';
+        
+    </script>";
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asunto_solicitud = $_POST['asunto_solicitud'];
     $descripcion_solicitud = $_POST['descripcion_solicitud'];
@@ -36,16 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         }
-    }else {
+    } else {
         echo "Error al consultar palabras prohibidas: " . mysqli_error($conexion);
         exit;
     }
 
-    
+
     $query = "INSERT INTO solicitud_ayuda (rut, asunto_solicitud, descripcion_solicitud, tipo_solicitud) 
                 VALUES ('$rut', '$asunto_solicitud', '$descripcion_solicitud', '$tipo_solicitud')";
     // Insertar datos en la base de datos
-    
+
     try {
         $resultado = mysqli_query($conexion, $query);
 
@@ -79,10 +89,13 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <head>
     <title>Centro de Ayuda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chevron_left" />
+    
 
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #E6E6E6;
         }
 
         .form-container {
@@ -102,7 +115,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
         }
 
-
         .btn-custom:hover {
             background-color: #366c35;
         }
@@ -112,7 +124,20 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <body class="mt-5 pt-5">
     <div class="container mt-5">
         <div class="form-container">
-            <h4 class="d-flex justify-content-center">Centro de Ayuda</h4>
+            <div class="row align-items-center mb-4">
+                <div class="col-auto">
+                    <a href="../index.php" class="btn btn-light">
+                        <span class="material-symbols-outlined">
+                            chevron_left
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Título centrado -->
+                <div class="col text-center">
+                    <h4 class="m-0">Centro de Ayuda</h4>
+                </div>
+            </div>
             <form method="POST" action="">
                 <div class="mb-3">
                     <label for="tipo_solicitud">Tipo de Atención</label>
@@ -134,17 +159,17 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     <textarea class="form-control" id="descripcion_solicitud" name="descripcion_solicitud"
                         maxlength="200" required></textarea>
                 </div>
-                
+
                 <div class="d-flex justify-content-center  mt-4">
                     <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
                 </div>
 
-                <div class="d-flex justify-content-center  mt-4">
-                    <a class="btn btn-secondarY" href='<?php echo $carpetaMain; ?>index.php'>
+                <div class="d-flex justify-content-center  mt-2">
+                    <a class="btn btn-secondary" href='<?php echo $carpetaMain; ?>index.php'>
                         Volver
                     </a>
                 </div>
-                
+
 
             </form>
 
