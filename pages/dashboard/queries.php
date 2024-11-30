@@ -56,40 +56,39 @@ function ContadorSegurosContratados(){
         return "Error: " . mysqli_error($conexion); // Maneja errores
     }
 }
-function HistoricoVentasPorMes($local){
+function HistoricoVentasPorMes($local) {
     global $conexion;
 
     // Escapar el valor de $local para prevenir inyecciones SQL
     $local = mysqli_real_escape_string($conexion, $local);
 
-    // Si se proporciona un 'local', ajustamos la consulta, sino la consulta será global.
-    $query = "SELECT MONTH(fecha_compra_a) as mes, COUNT(*) as ventas FROM registro_accesorio";
-    
-    if ($local != null) {
-        // Si el parámetro 'local' no es null, filtramos por la sucursal.
+    // Construimos la consulta base con condición opcional
+    $query = "SELECT DATE_FORMAT(fecha_compra_a, '%M %Y') AS mes, COUNT(*) AS ventas 
+            FROM registro_accesorio";
+
+    // Agregamos el filtro por sucursal si $local no es null
+    if ($local !== 'all') {
         $query .= " WHERE sucursal_compra = '$local'";
-    }else{
-        //Load all
-        $query .= " WHERE sucursal_compra IS NOT NULL";
     }
 
-    // Agrupamos los resultados por mes
-    $query .= " GROUP BY MONTH(fecha_compra_a);";
-    
+    // Agregamos GROUP BY y ORDER BY
+    $query .= " GROUP BY mes ORDER BY fecha_compra_a ASC";
+
+    // Ejecutamos la consulta
     $result = mysqli_query($conexion, $query);
+
     if ($result) {
         $data = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
         }
 
-        // Retorna los datos como JSON
+        // Retornamos los datos como JSON
         echo json_encode($data);
     } else {
-        // Si hay un error, retornamos un mensaje de error
+        // Retornamos un mensaje de error si ocurre un problema
         echo json_encode(array("error" => "Error: " . mysqli_error($conexion)));
     }
 }
-
 
 ?>
