@@ -63,7 +63,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <title>Detalles del Vehículo</title>
 </head>
 <style>
@@ -103,10 +103,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
     }
 
     .rating i {
-        visibility: visible !important;
-        font-size: 2rem; /* Tamaño uniforme */
-        pointer-events: none; /* Prevenir interacción no deseada */
-    }
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .text-warning {
+            color: #f39c12;
+        }
 </style>
 
 <body class="pt-5">
@@ -348,12 +350,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                     while ($row = mysqli_fetch_assoc($opiniones_result)) {
                         echo "<div class='card ms-2 me-2 mb-2' style='width: 18rem;'>";
                             echo "<div class='card-body'>";
-                                echo "<div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
+                                echo "<div class=' d-flex justify-content-center' style='font-size: 2rem;'>";
                                 for ($i = 1; $i <= 5; $i++) {
                                     if ($i <= (int)$row['calificacion']) {
-                                        echo '<i class="bi bi-star-fill text-warning"></i>'; 
+                                        echo "<i class='bi bi-star-fill text-warning'></i>"; 
                                     } else {
-                                        echo '<i class="bi bi-star text-secondary"></i>'; 
+                                        echo "<i class='bi bi-star text-secondary'></i>"; 
                                     }
                                 }
                                 echo "</div>";
@@ -386,8 +388,8 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                     </div>
                 </div>
             </div>
-             
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
         </div>
     </body>
 </html>
