@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Verificación de usuario
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
+    header("Location: ../../pages/login.php");
+    exit();
+}
 include("../../config/conexion.php");    
 
 // Incluye el navbar correspondiente según el tipo de usuario
