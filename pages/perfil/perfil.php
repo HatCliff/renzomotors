@@ -43,11 +43,20 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container-fluid {
+            flex: 1;
+        }
+    </style>
 </head>
-  <body class="pt-5 mt-3">
-    <div class="container-fluid d-flex align-items-center justify-content-center height: 100vh;">
+<body class="pt-5 mt-3" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <div class="container-fluid d-flex align-items-center justify-content-center" style="flex: 1;">
         <div class="row m-5 p-3 d-flex justify-content-center border" style="border-radius: 20px; max-width: 800px; width: 100%; background: #f8f9fa;">
-
             <!-- Fotos de perfil -->
             <div class="col-4 text-center d-flex align-items-center justify-content-center">
                 <span class="material-symbols-outlined border" style="background: white; font-size: 10vw; border-radius: 50%; display: inline-block;">
