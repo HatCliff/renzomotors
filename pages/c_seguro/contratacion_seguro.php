@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_verificar = mysqli_fetch_assoc($resultado_verificar);
 
     // Si ya ha alcanzado el límite de 2 seguros, se mostrara un mensaje y se detendra el proceso
-    if ($data_verificar['total'] >= 2){
+    if ($data_verificar['total'] >= 2) {
         echo "<script>
             alert('Ya has cotizado el máximo de 2 seguros.');
             window.location.href = 'seguro.php'; // Redirige a la página principal de seguros
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "Error al contratar el seguro: " . mysqli_error($conexion);
     }
-    
+
 }
 
 
@@ -187,8 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="mb-3">
                     <label for="descripcion_seguro" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion_seguro" name="descripcion_seguro" rows="3"
-                        disabled><?php echo $descripcion_seguro; ?></textarea>
+                    <textarea class="form-control" id="descripcion_seguro" name="descripcion_seguro" rows="3" disabled><?php echo $descripcion_seguro; ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="precio_seguro" class="form-label ">Precio desde</label>

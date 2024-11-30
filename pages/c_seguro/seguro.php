@@ -43,7 +43,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <div class="container mt-5">
         <div class="row justify-content-center">
             <h2 class="text-center mb-4">Cotización de seguros</h2>
-
+            <hr>
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
                 <div class="col-md-4 mb-4">
                     <div class="card text-center shadow-sm rounded" style="background: #fffcf4;">
@@ -54,14 +54,13 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
                         <div class="card-body">
                             <h5 class="card-title text-dark fw-bold mb-2"><?php echo $row['nombre_seguro']; ?></h5>
-                            <p class="card-text text-muted"><?php echo $row['descripcion_seguro']; ?></p>
+                            <p class="card-text text-muted" style="text-align: justify;"><?php echo $row['descripcion_seguro']; ?></p>
                         </div>
-
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <span class="text-success fw-bold">Desde
+                            <span class="text-secondary fw-bold">Desde
                                 <?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?> CLP</span>
                             <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>"
-                                class="btn btn-secondary btn-sm">Cotizar</a>
+                                class="btn btn-secondary">Cotizar</a>
                         </div>
                     </div>
                 </div>

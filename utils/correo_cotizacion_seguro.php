@@ -8,7 +8,6 @@ use Fpdf\Fpdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-
 // Verificar sesión del usuario
 if (!isset($_SESSION['correo']) || !isset($_SESSION['nombre'])) {
     echo "<script>alert('Error: No se encontró la información del usuario.'); window.location.href = '../pages/login.php';</script>";
@@ -57,8 +56,6 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $patente = $detalle_seguro['patente'];
     $numero_motor = $detalle_seguro['numero_motor'];
     $numero_chasis = $detalle_seguro['numero_chasis'];
-    
-    
     // Crear el PDF
     $pdf = new FPDF();
     $pdf->AddPage();

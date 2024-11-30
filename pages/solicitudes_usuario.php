@@ -38,57 +38,63 @@ $resultado = mysqli_query($conexion, $query);
 
 ?>
 
-?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <title>Mis Solicitudes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            margin-bottom: 1.5rem; /* Espacio entre tarjetas */
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Efecto de levitación*/
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .estado-respondida {
+            color: #28a745;/*sera para el estado resultado*/ 
+            font-weight: bold;
+        }
+
+        .estado-pendiente {/*sera para el estado pendiente*/ 
+            color: #ffc107; 
+            font-weight: bold;
+        }
+    </style>
 </head>
 
-<body class="mt-5 pt-5">
+<body class="mt-5 pt-5 bg-light">
     <div class="container mt-5">
-        <h3>Mis Solicitudes de Ayuda</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <!--
-                    <th>ID</th>
-                    <th>rut</th>-->
-                    <th>Asunto</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
-                    <th>Respuesta del Administrador</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
-                    <tr>
-                        
-                        
-                        <td><?= $fila['asunto_solicitud'] ?></td>
-                        <td><?= $fila['descripcion_solicitud'] ?></td>
-                        <td><?= $fila['tipo_solicitud'] ?></td>
-                        <td>
-                            <?= empty($fila['respuesta_admin']) ? 'Pendiente' : 'Respondida' ?>
-                        </td>
-                        <td>
-                            <?= $fila['respuesta_admin'] ?? 'Aún no hay respuesta' ?>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
+        <h3 class="text-center mb-4">Mis Solicitudes de Ayuda</h3>
+        <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">
+                        <i class="bi bi-info-circle"></i> <?= $fila['asunto_solicitud'] ?>
+                    </h5>
+                    <p class="card-text"><strong>Descripción:</strong> <?= $fila['descripcion_solicitud'] ?></p>
+                    <p><strong>Tipo:</strong> <?= ucfirst($fila['tipo_solicitud']) ?></p>
+                    <p class="<?= empty($fila['respuesta_admin']) ? 'estado-pendiente' : 'estado-respondida' ?>">
+                        <strong>Estado:</strong> <?= empty($fila['respuesta_admin']) ? 'Pendiente' : 'Respondida' ?>
+                    </p>
+                    <p><strong>Respuesta de Renzo Motors:</strong>
+                        <?= $fila['respuesta_admin'] ?? 'Aún no hay respuesta' ?>
+                    </p>
+                </div>
+            </div>
+        <?php endwhile; ?>
 
-        </table>
-
-        <div class="d-flex justify-content-center  mt-4">
-            <a class="btn btn-secondarY" href='<?php echo $carpetaMain; ?>index.php'>
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-secondary" href="<?= $carpetaMain; ?>index.php">
                 Volver
             </a>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

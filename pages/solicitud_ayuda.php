@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ayuda'], $_POST['r
     $resultado = mysqli_query($conexion, $query);
 
     if ($resultado) {
-        echo "Respuesta enviada con éxito.";
+        //echo "Respuesta enviada con éxito.";
     } else {
-        echo "Error al enviar la respuesta: " . mysqli_error($conexion);
+        //echo "Error al enviar la respuesta: " . mysqli_error($conexion);
     }
 }
 

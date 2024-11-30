@@ -149,7 +149,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                 </div>
 
                 <div class="d-flex justify-content-center  mt-4">
-                    <a class="btn btn-secondarY" href='<?php echo $carpetaMain; ?>index.php'>
+                    <a class="btn btn-secondary" href='<?php echo $carpetaMain; ?>index.php'>
                         Volver
                     </a>
                 </div>
