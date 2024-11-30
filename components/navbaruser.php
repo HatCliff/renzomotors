@@ -77,32 +77,37 @@ if (session_status() == PHP_SESSION_NONE) {
                     <a href='<?php echo $carpetaMain; ?>pages/solicitudes_venta/venta_vehiculos.php'
                         class="nav-link active">Véndenos tu auto</a>
                 </li>
-
-                <!-- Usuario -->
-                <?php if (isset($_SESSION['usuario'])): ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-user-circle"></i> Perfil
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/perfil.php">Ver Perfil</a>
-                            </li>
-                            <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/favoritos/favoritos.php">Mis
-                                    Favoritos</a></li>
-                            <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>pages/solicitudes_usuario.php">Mis
-                                    Solicitudes</a></li>
-                            <li><a class="dropdown-item" href="<?php echo $carpetaMain; ?>auth/logout.php">Cerrar Sesión</a>
-                            </li>
-                        </ul>
-                    </li>
-                <?php else: ?>
-                    <li class="nav-item">
-                        <a href="<?php echo $carpetaMain; ?>pages/register.php" class="btn btn-light">
-                            <i class="fas fa-sign-in-alt"></i> Únete
-                        </a>
-                    </li>
-                <?php endif; ?>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/prueba_manejo/test_manejo.php' class="nav-link active" aria-current="page">Prueba de Manejo</a>
+                </li>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/solicitudes_venta/venta_vehiculos.php' class="nav-link active" aria-current="page">Vendenos tu auto</a>
+                </li>
+                <?php
+                if (isset($_SESSION['usuario'])) {
+                    // Si el usuario ha iniciado sesión, muestra el icono de perfil y la opción de cerrar sesión
+                    echo '<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> Perfil
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil/perfil.php?accion=0">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/centro_ayuda.php">Ayuda</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_venta/mis_solicitudes.php">Ver Mis solicitudes</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
+                            </ul>
+                          </li>';
+                } else {
+                    // Si no hay una sesión activa, muestra el botón de unirse
+                    echo '<li class="nav-item d-flex justify-content-center">
+                             <a href="' . $carpetaMain . 'pages/register.php" class="btn btn-light">
+                                 <i class="fas fa-sign-in-alt"></i> Únetenos
+                             </a>
+                          </li>';
+                }
+                ?>
             </ul>
         </div>
     </div>

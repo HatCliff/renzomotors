@@ -1,5 +1,4 @@
 <?php
-include('../config/conexion.php');
 
 $error_message = '';
 $rut = $_SESSION['rut'] ?? ''; 
@@ -31,7 +30,7 @@ if (!isset($_SESSION['usuario'])) {
 
         if (mysqli_num_rows($resultado_compra_check) == 0) {
             // Si no se encuentra una compra concretada, mostrar mensaje de error
-            $error_message = "Usted no ha realizado una compra de este vehículo o la compra no está concretada.";
+            $error_message = "La compra no está concretada todavia.";
             $showButton = false;
         } else {
             // Procesar el formulario en el servidor solo si todo está validado
@@ -46,15 +45,24 @@ if (!isset($_SESSION['usuario'])) {
                           VALUES ('$idRecibida', '$rut', '$titulo', '$resenia', '$fecha', '$anonimo', '$rating')";
 
                 $resultado = mysqli_query($conexion, $query);
-                if ($resultado) {
-                    echo "<script>document.getElementById('success').value = 'true';</script>";
-                }
+
+                echo"<script>
+                    window.location.reload();  // Recarga la página actual
+                </script>";
             }
         }
     }
 }
 
 ?>
+<div class="alert alert-warning" id="alerta_registro" role="alert" style="display: <?php echo $error_message ? 'block' : 'none'; ?>">
+    <?php echo $error_message; ?>
+</div>
+<!-- Botón para abrir el modal de opinion -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#opinion_modal" <?php echo !$showButton ? 'hidden' : ''; ?>>
+    Ingresar opinion
+</button>
+
 
 <div id="opinion_modal" class="modal fade" tabindex="-1" aria-labelledby="opinionModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -65,10 +73,6 @@ if (!isset($_SESSION['usuario'])) {
       </div>
       <div class="modal-body">
         <form name="reseaForm" method="POST" onsubmit="return validateRating()">
-            <div class="alert alert-danger" id="alerta_registro" role="alert" style="display: <?php echo $error_message ? 'block' : 'none'; ?>">
-                <?php echo $error_message; ?>
-            </div>
-
             <!-- Formulario de reseña -->
             <div class="rating row-2 d-flex justify-content-center" style="font-size: 2rem;">
                 <i class="bi bi-star" data-value="1"></i>
@@ -76,85 +80,107 @@ if (!isset($_SESSION['usuario'])) {
                 <i class="bi bi-star" data-value="3"></i>
                 <i class="bi bi-star" data-value="4"></i>
                 <i class="bi bi-star" data-value="5"></i>
-                <input type="hidden" name="rating" id="rating" value="0" />
+                <input type="hidden" id="rating" name="rating" value="0" />
+
             </div>
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título Reseña</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Ingrese título de la reseña" required
-                       <?php echo !$showButton ? 'disabled' : ''; ?>>
+                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Ingrese título de la reseña" required>
             </div>
             <div class="mb-3">
                 <label for="resenia" class="form-label">Reseña</label>
-                <textarea class="form-control" id="resenia" name="resenia" rows="3" placeholder="Ingrese su reseña" required
-                          <?php echo !$showButton ? 'disabled' : ''; ?>></textarea>
+                <textarea class="form-control" id="resenia" name="resenia" rows="3" placeholder="Ingrese su reseña" required></textarea>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="anonimo" id="flexCheckDefault" 
-                       <?php echo !$showButton ? 'disabled' : ''; ?>>
+                <input class="form-check-input" type="checkbox" name="anonimo" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">Anónimo</label>
             </div>
 
              <!-- Botón de envío -->
-            <button type="submit" name="enviar" id="enviar" class="btn btn-primary" 
-                    style="<?php echo $showButton ? '' : 'display: none;'; ?>">
+            <button type="submit" name="enviar" id="enviar" class="btn btn-primary" >
                 Enviar Opinión
             </button>
         </form>
-        <input type="hidden" id="success" value="false" />
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Verifica si el envío fue exitoso
-                if (document.getElementById('success').value === 'true') {
-                    location.reload(); // Recarga la página
-                }
-            });
-        </script>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const stars = document.querySelectorAll('.rating i');
-    const ratingInput = document.getElementById('rating');
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('button[type="submit"]'); // Selecciona el botón de envío
+    let formSubmitted = false; // Flag para saber si el formulario ha sido enviado
 
-    // Desactivar interacción de estrellas si el botón de enviar está oculto
-    <?php if (!$showButton): ?>
-        stars.forEach(star => {
-            star.style.pointerEvents = 'none';
-            star.classList.add('text-secondary');  // Cambia el color para indicar que están desactivadas
-        });
-    <?php endif; ?>
-
-    function updateStars(rating) {
-        stars.forEach((star, index) => {
-            if (index < rating) {
-                star.classList.remove('bi-star');
-                star.classList.add('bi-star-fill', 'text-warning');
-            } else {
-                star.classList.remove('bi-star-fill', 'text-warning');
-                star.classList.add('bi-star');
-            }
-        });
+    // Verificar si el formulario ya fue enviado (evitar envío accidental tras recarga)
+    if (localStorage.getItem('formSubmitted')) {
+        formSubmitted = true; // Si el formulario ya fue enviado, marcamos el flag
     }
 
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            const rating = star.getAttribute('data-value');
-            ratingInput.value = rating;
-            updateStars(rating);
+    // Prevenir el envío al presionar "Enter" accidentalmente
+    form.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevenir el envío accidental
+        }
+    });
+
+    // Prevenir el envío del formulario si no fue enviado con el botón
+    form.addEventListener('submit', function(event) {
+            if (!formSubmitted) {
+                event.preventDefault(); // Previene el envío si no fue hecho por el botón
+                alert('Por favor, presione el botón de enviar.');
+            }
         });
 
-        star.addEventListener('mouseover', () => {
-            const rating = star.getAttribute('data-value');
-            updateStars(rating);
-        });
-
-        star.addEventListener('mouseout', () => {
-            updateStars(ratingInput.value);
+        // Cuando el botón de envío es presionado, marcamos que el formulario se va a enviar
+        submitButton.addEventListener('click', function() {
+            formSubmitted = true; // Marcamos que el formulario ha sido enviado
+            localStorage.setItem('formSubmitted', 'true'); // Guardamos el estado en el almacenamiento local
+            form.submit(); // Ahora enviamos el formulario
         });
     });
-});
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ratingInput = document.getElementById('rating'); // Obtener el input hidden
+        const stars = document.querySelectorAll('.rating i'); // Obtener todas las estrellas
+
+        // Función para actualizar la apariencia de las estrellas
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('bi-star');
+                    star.classList.add('bi-star-fill', 'text-warning');
+                } else {
+                    star.classList.remove('bi-star-fill', 'text-warning');
+                    star.classList.add('bi-star');
+                }
+            });
+        }
+
+        // Función para gestionar el clic en las estrellas
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(star.getAttribute('data-value')); // Obtener el valor de la estrella seleccionada
+                ratingInput.value = rating; // Guardar el valor en el input hidden
+                updateStars(rating); // Actualizar la apariencia de las estrellas
+            });
+
+            // Evento de hover sobre las estrellas (previsualización de la calificación)
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(star.getAttribute('data-value'));
+                updateStars(rating); // Previsualizar las estrellas resaltadas
+            });
+
+            // Evento de mouseout (restaurar la calificación seleccionada)
+            star.addEventListener('mouseout', function() {
+                updateStars(parseInt(ratingInput.value)); // Restaurar la calificación visual
+            });
+        });
+
+        // Inicializar las estrellas con el valor actual de la calificación
+        updateStars(parseInt(ratingInput.value)); // Si el valor es 0, no se llenarán las estrellas.
+    });
 </script>

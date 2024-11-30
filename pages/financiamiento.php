@@ -26,13 +26,13 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     </div>
     <br>
     <!-- Alerta de faltan datos; -->
-    <div class="alert alert-danger alert-container" id="alerta_datos" role="alert" style="display: none;">
+    <div class="alert alert-warning alert-container" id="alerta_datos" role="alert" style="display: none;">
             
     </div>
     <div>
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Pie</label>
         <!-- //alerta para cuando el pie no es un rango valdio -->
-        <div class="alert alert-danger alert-container" id="alerta_pie" role="alert" style="display: none;">
+        <div class="alert alert-warning alert-container" id="alerta_pie" role="alert" style="display: none;">
             
         </div>
         <?php echo" <input type='number' class='form-control' placeholder='Ingrese el pie (Debe estar en el rango \$ " . $precio_minimo . "- \$ " . $precio_maximo . " CLP del precio total)' aria-label='Username' aria-describedby='addon-wrapping' id='pie' required>" ?>
@@ -54,7 +54,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     <div>
         <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">Cantidad de cuotas</label>
         <!-- //alerta de cantidad de cuotas es mayor al tipo de financiamiento -->
-        <div class="alert alert-danger alert-container" id="alerta_cuota" role="alert" style="display: none;">
+        <div class="alert alert-warning alert-container" id="alerta_cuota" role="alert" style="display: none;">
             
         </div>
         <input id="cuotas" type="number" class="form-control" placeholder="Ingrese la cantidad de cuotas" aria-label="Username" aria-describedby="addon-wrapping" required>
