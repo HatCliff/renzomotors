@@ -44,24 +44,30 @@ $resultado = mysqli_query($conexion, $query);
 <head>
     <title>Mis Solicitudes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chevron_left" />
     <style>
         .card {
-            margin-bottom: 1.5rem; /* Espacio entre tarjetas */
+            margin-bottom: 1.5rem;
+            /* Espacio entre tarjetas */
             transition: transform 0.2s ease-in-out;
         }
 
         .card:hover {
-            transform: translateY(-5px); /* Efecto de levitación*/
+            transform: translateY(-5px);
+            /* Efecto de levitación*/
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .estado-respondida {
-            color: #28a745;/*sera para el estado resultado*/ 
+            color: #28a745;
+            /*sera para el estado resultado*/
             font-weight: bold;
         }
 
-        .estado-pendiente {/*sera para el estado pendiente*/ 
-            color: #ffc107; 
+        .estado-pendiente {
+            /*sera para el estado pendiente*/
+            color: #ffc107;
             font-weight: bold;
         }
     </style>
@@ -69,7 +75,18 @@ $resultado = mysqli_query($conexion, $query);
 
 <body class="mt-5 pt-5 bg-light">
     <div class="container mt-5">
-        <h3 class="text-center mb-4">Mis Solicitudes de Ayuda</h3>
+        <div class="row align-items-center mb-4">
+            <div class="col-auto">
+                <a href="../index.php" class="btn btn-light">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </a>
+            </div>
+            <div class="col text-center">
+                <h3 class="m-0">Mis Solicitudes de Ayuda</h3>
+            </div>
+        </div>
         <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
             <div class="card">
                 <div class="card-body">
@@ -87,12 +104,6 @@ $resultado = mysqli_query($conexion, $query);
                 </div>
             </div>
         <?php endwhile; ?>
-
-        <div class="d-flex justify-content-center mt-4">
-            <a class="btn btn-secondary" href="<?= $carpetaMain; ?>index.php">
-                Volver
-            </a>
-        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

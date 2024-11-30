@@ -1858,4 +1858,3 @@ class Fpdf
 		return $nl;
 	}
 }
-?>
