@@ -101,6 +101,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
             margin-left: 20px;
         }
     }
+
+    .rating i {
+        visibility: visible !important;
+        font-size: 2rem; /* Tamaño uniforme */
+        pointer-events: none; /* Prevenir interacción no deseada */
+    }
 </style>
 
 <body class="pt-5">
@@ -294,7 +300,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             class='d-flex align-items-end'>Descargar Documento</a>";
                             ?>
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-4 ms-3">
                         <!-- Sección de calculadora -->
                         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -316,9 +322,9 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                     </div>
                 </div>
             </div>
-            
             <!-- Sección de opiniones de los usuarios -->
-            <div class="row mt-5 ms-5">
+            <hr>
+            <div class="row me-2 ms-2">
                 <div class="row">
                     <div class="col-8">
                         <?php
@@ -332,59 +338,56 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
 
                         // Calcular el promedio
                         $promedio = $cant > 0 ? $suma / $cant : 0; // Evitar división por cero   
-                        
                         // Mostrar el promedio con dos decimales
-                        echo "<p>Opinión de los usuarios: " . number_format($promedio, 1) . "★</p>"
-                            ?>
-                    </div>
-                    <div class="col-4">
-                        <!-- Botón para abrir el modal de opinion -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#opinion_modal">
-                            Ingresar opinion
-                        </button>
-                        <!-- Incluir archivo de modal -->
-                        <?php include 'opinion.php'; ?>
+                        echo "<h4>Opiniones de los usuarios: " . number_format($promedio, 1) . "  <i class='bi bi-star-fill text-warning'></i></h4>";
+                        ?>
                     </div>
                 </div>
-                <div class="row overflow-auto" style="max-height: 400px;">
+                <div class="row overflow-auto mt-3" style="max-height: 400px;">
                     <?php
                     while ($row = mysqli_fetch_assoc($opiniones_result)) {
-
-                        echo "<div class='card me-2 mb-2' style='width: 18rem;'>";
-                        echo " <div class='card-body'>";
-                        echo "<div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
-                        for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= $row['calificacion']) {
-                                echo '<i class="bi bi-star-fill text-warning"></i>'; // Estrella llena
-                            } else {
-                                echo '<i class="bi bi-star"></i>'; // Estrella vacía
-                            }
-                        }
-                        echo "</div>";
-                        echo " <h5 class='card-title'>{$row['titulo_resenia']}</h5>";
-                        echo " <p class='card-text mb-4'>{$row['resenia']}</p>";
-                        if ($row['anonima'] == 1) {
-                            echo "<h6 class='card-subtitle mb-2 text-body-secondary'>anonimo</h6>";
-                        } else {
-                            $re = mysqli_query($conexion, "SELECT nombre FROM usuario_registrado where rut = '{$row['rut']}'");
-                            $nombreRow = mysqli_fetch_assoc($re);
-                            $nombre = $nombreRow['nombre'];
-                            echo " <h6 class='card-subtitle mb-2 text-body-secondary'>$nombre</h6>";
-                        }
-                        $fechaFormatoInvertido = date("d-m-y", strtotime($row['fecha_resenia']));
-                        echo " <h6 class='card-subtitle mb-2 text-body-secondary'>$fechaFormatoInvertido</h6>";
-
-                        echo " </div>";
-                        echo " </div>";
+                        echo "<div class='card ms-2 me-2 mb-2' style='width: 18rem;'>";
+                            echo "<div class='card-body'>";
+                                echo "<div class='rating d-flex justify-content-center' style='font-size: 2rem;'>";
+                                for ($i = 1; $i <= 5; $i++) {
+                                    if ($i <= (int)$row['calificacion']) {
+                                        echo '<i class="bi bi-star-fill text-warning"></i>'; 
+                                    } else {
+                                        echo '<i class="bi bi-star text-secondary"></i>'; 
+                                    }
+                                }
+                                echo "</div>";
+                                echo "<h5 class='card-title mt-3'>{$row['titulo_resenia']}</h5>";
+                                echo "<p class='card-text mb-4'>{$row['resenia']}</p>";
+                                if ((int)$row['anonima'] === 1) {
+                                    echo "<h6 class='card-subtitle mb-2 text-body-secondary'>Anónimo</h6>";
+                                } else {
+                                    $re = mysqli_query($conexion, "SELECT nombre FROM usuario_registrado WHERE rut = '{$row['rut']}'");
+                                    if ($re && mysqli_num_rows($re) > 0) {
+                                        $nombreRow = mysqli_fetch_assoc($re);
+                                        $nombre = htmlspecialchars($nombreRow['nombre'], ENT_QUOTES, 'UTF-8');
+                                        echo "<h6 class='card-subtitle mb-2 text-body-secondary'>$nombre</h6>";
+                                    } else {
+                                        echo "<h6 class='card-subtitle mb-2 text-body-secondary'>Usuario desconocido</h6>";
+                                    }
+                                }
+                                $fechaFormatoInvertido = date("d-m-y", strtotime($row['fecha_resenia']));
+                                echo "<h6 class='card-subtitle mb-2 text-body-secondary'>$fechaFormatoInvertido</h6>";
+                            echo "</div>";
+                        echo "</div>"; 
                     }
                     ?>
                 </div>
-
-
+                <div class="row mb-3 mt-2">
+                    <div class="col">
+                        <?php
+                        include 'opinion.php';
+                        ?>
+                    </div>
+                </div>
             </div>
-
-
+             
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+        </div>
+    </body>
 </html>
