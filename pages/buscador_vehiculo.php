@@ -92,6 +92,11 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
     <title>Vehiculos</title>
     <style>
+        body {
+            background-color: #e6e6e6;
+        }
+
+
         .favorite-icon {
             position: absolute;
             top: 10px;
@@ -108,12 +113,33 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             color: #d3d3d3;
         }
         .alert-session {
-            display: none; /* Oculta la alerta inicialmente */
+            display: none; 
             position: fixed;
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1050; /* Por encima del contenido */
+            z-index: 1050; 
+        }
+        .card { background: #fffcf4; border-radius: 20px; overflow: hidden; transition: transform 0.3s ease; }
+        .card:hover { transform: scale(1.05); }
+
+        .accordion-button {
+            background-color: #5c636a; 
+            color: white;    
+        }
+        .no-style {
+            list-style-type: none;
+            padding-left: 0;  
+        }
+        .no-style .accordion-item {
+            border-radius: 5px;      
+            margin-bottom: 5px;       
+            padding: 5px;             
+            background-color: #f9f9f9; 
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #426b42; 
+            color: white;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -138,253 +164,316 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         }
     });
 </script>
-<body class="pt-5">
+<body class="pt-5 ">
     <!-- Alerta de sesión -->
     <div id="alertSession" class="alert alert-warning alert-session" role="alert">
         Debe iniciar sesión para guardar favoritos.
     </div>
-    <div class="container mt-5">
-    <div class="col-md-12">
-        <div class="row mb-4">
-            <!-- buscador y filtros -->
-            <div class="row mb-4">
-                <h1 class="mb-4">Vehículos</h1>
-                <form id="filtroForm" method="POST" enctype="multipart/form-data" >
-                    <div class="d-flex flex-column flex-md-row align-items-center">
-                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 ">
-                            <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo" 
-                            aria-label="Modelo del vehículo" value="<?php echo htmlspecialchars($nombre_modelo); ?>"  
-                            onchange="document.getElementById('filtroForm').submit()">
+    <div class="container mt-5 ">
+        <div class="row  justify-content-center mb-4">
+            <h1 class="mb-4">Vehículos</h1>
+            <div class="col-12 ms-2 mb-4">
+                <form id="filtroForm" method="POST" enctype="multipart/form-data">
+                    <div class="row d-flex flex-column flex-md-row align-items-center">
+                        <div class="col-12 col-md-5 me-md-3 mb-3 mb-md-0 d-flex justify-content-center">
+                            <input class="form-control" type="text" name="modelo_i" placeholder="Modelo del vehículo"
+                                aria-label="Modelo del vehículo" value="<?php echo htmlspecialchars($nombre_modelo); ?>"
+                                onchange="document.getElementById('filtroForm').submit()">
                             <button type="submit" style="display: none;"></button>
                         </div>
-                            
-                        <div class="col-12 col-md-7 d-flex flex-wrap align-items-center">
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="estadoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Estado
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="estadoDropdown">
-                                    <li class="dropdown-item">
-                                        <label>
-                                            <input type="checkbox" name="estado[]" value="nuevo"
-                                            <?php if (in_array('nuevo', $estado)) echo 'checked'; ?> 
-                                            onchange="document.getElementById('filtroForm').submit()"> Nuevo
-                                        </label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <label>
-                                            <input type="checkbox" name="estado[]" value="usado"
-                                            <?php if (in_array('usado', $estado)) echo 'checked'; ?> 
-                                            onchange="document.getElementById('filtroForm').submit()"> Usado
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="ordenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ordenar por
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="ordenDropdown">
-                                    <li class="dropdown-item">
-                                        <label>
-                                            <input type="radio" name="orden" value="mayor_a_menor"
-                                             <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?> 
-                                             onchange="document.getElementById('filtroForm').submit()"> Precio de mayor a menor
-                                        </label>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <label>
-                                            <input type="radio" name="orden" value="menor_a_mayor" 
-                                            <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?> 
-                                            onchange="document.getElementById('filtroForm').submit()"> Precio de menor a mayor
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="marcaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Marca
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
-                                    <?php
-                                        
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM marca");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            $isChecked = in_array($row['id_marca'], $id_marcas) ? 'checked' : '';
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_marcas[]' value='{$row['id_marca']}'  
-                                                $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
-                                            echo "{$row['nombre_marca']}";
-                                            echo "</label>";
-                                            echo "</li>";
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="anioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Año
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="financiamientoDropdown">
-                                    <?php
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM anio");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            $isChecked = in_array($row['id_anio'], $id_anios) ? 'checked' : '';
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}' 
-                                                $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
-                                            echo "{$row['anio']}";
-                                            echo "</label>";
-                                            echo "</li>";
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="combusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Combustible
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="combusDropdown">
-                                    <?php
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM tipo_combustible");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            $isChecked = in_array($row['id_tipo_combustible'], $id_combustible) ? 'checked' : '';
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_combustible[]' 
-                                                value='{$row['id_tipo_combustible']}' $isChecked 
-                                                onchange='document.getElementById(\"filtroForm\").submit()'>";
-                                            echo "{$row['nombre_tipo_combustible']}";
-                                            echo "</label>";
-                                            echo "</li>";
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-1 mb-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                                id="transmisionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Transmisión
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="transmisionDropdown">
-                                    <?php
-                                        $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
-                                        while ($row = mysqli_fetch_assoc($consulta)) {
-                                            $isChecked = in_array($row['id_transmision'], $id_transmision) ? 'checked' : '';
-                                            echo "<li class='dropdown-item'>";
-                                            echo "<label>";
-                                            echo "<input type='checkbox' name='id_transmision[]' 
-                                                value='{$row['id_transmision']}' $isChecked 
-                                                onchange='document.getElementById(\"filtroForm\").submit()'>";
-                                            echo "{$row['nombre_transmision']}";
-                                            echo "</label>";
-                                            echo "</li>";
-                                        }
-                                    ?>
-                                </ul>
+                    </div>
+                <div class='alert alert-danger alert-container mt-2'
+                    id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
+                </div>
+            <!-- buscador y filtros -->
+            <div class="col-9 col-md-3 me-3 mb-4" style="background: #fffcf4; border-radius: 20px;">
+            <h3 class="mb-4 mt-3 d-flex justify-content-center">Filtros</h3>
+                    <div class="row d-flex flex-column flex-md-row align-items-center">
+                        <div class="col-12 d-flex flex-column mt-3">
+                            <div class="accordion">
+                                <!-- Filtro: Estado -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingEstado">
+                                        <button class="btn btn-secondary accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseEstado" aria-expanded="false"
+                                                aria-controls="collapseEstado">
+                                            Estado
+                                        </button>
+                                    </h2>
+                                    <div id="collapseEstado" class="accordion-collapse collapse" aria-labelledby="headingEstado"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <li class="accordion-item">
+                                                    <label>
+                                                        <input type="checkbox" name="estado[]" value="nuevo"
+                                                            <?php if (in_array('nuevo', $estado)) echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Nuevo
+                                                    </label>
+                                                </li>
+                                                <li class="accordion-item">
+                                                    <label>
+                                                        <input type="checkbox" name="estado[]" value="usado"
+                                                            <?php if (in_array('usado', $estado)) echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Usado
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro: Ordenar por -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingOrden">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseOrden" aria-expanded="false"
+                                                aria-controls="collapseOrden">
+                                            Ordenar por
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOrden" class="accordion-collapse collapse" aria-labelledby="headingOrden"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <li class="accordion-item">
+                                                    <label>
+                                                        <input type="radio" name="orden" value="mayor_a_menor"
+                                                            <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Precio de
+                                                        mayor a menor
+                                                    </label>
+                                                </li>
+                                                <li class="accordion-item">
+                                                    <label>
+                                                        <input type="radio" name="orden" value="menor_a_mayor"
+                                                            <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Precio de
+                                                        menor a mayor
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro: Marca -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingMarca">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseMarca" aria-expanded="false"
+                                                aria-controls="collapseMarca">
+                                            Marca
+                                        </button>
+                                    </h2>
+                                    <div id="collapseMarca" class="accordion-collapse collapse" aria-labelledby="headingMarca"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <?php
+                                                $consulta = mysqli_query($conexion, "SELECT * FROM marca");
+                                                while ($row = mysqli_fetch_assoc($consulta)) {
+                                                    $isChecked = in_array($row['id_marca'], $id_marcas) ? 'checked' : '';
+                                                    echo "<li class='accordion-item'>";
+                                                    echo "<label>";
+                                                    echo "<input type='checkbox' name='id_marcas[]' value='{$row['id_marca']}'  
+                                                        $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                    echo "{$row['nombre_marca']}";
+                                                    echo "</label>";
+                                                    echo "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro: Año -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingAnio">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseAnio" aria-expanded="false"
+                                                aria-controls="collapseAnio">
+                                            Año
+                                        </button>
+                                    </h2>
+                                    <div id="collapseAnio" class="accordion-collapse collapse" aria-labelledby="headingAnio"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <?php
+                                                $consulta = mysqli_query($conexion, "SELECT * FROM anio");
+                                                while ($row = mysqli_fetch_assoc($consulta)) {
+                                                    $isChecked = in_array($row['id_anio'], $id_anios) ? 'checked' : '';
+                                                    echo "<li class='accordion-item'>";
+                                                    echo "<label>";
+                                                    echo "<input type='checkbox' name='id_anios[]' value='{$row['id_anio']}'
+                                                        $isChecked onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                    echo "{$row['anio']}";
+                                                    echo "</label>";
+                                                    echo "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro: Combustible -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingCombustible">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseCombustible" aria-expanded="false"
+                                                aria-controls="collapseCombustible">
+                                            Combustible
+                                        </button>
+                                    </h2>
+                                    <div id="collapseCombustible" class="accordion-collapse collapse" aria-labelledby="headingCombustible"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <?php
+                                                $consulta = mysqli_query($conexion, "SELECT * FROM tipo_combustible");
+                                                while ($row = mysqli_fetch_assoc($consulta)) {
+                                                    $isChecked = in_array($row['id_tipo_combustible'], $id_combustible) ? 'checked' : '';
+                                                    echo "<li class='accordion-item'>";
+                                                    echo "<label>";
+                                                    echo "<input type='checkbox' name='id_combustible[]' 
+                                                        value='{$row['id_tipo_combustible']}' $isChecked 
+                                                        onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                    echo "{$row['nombre_tipo_combustible']}";
+                                                    echo "</label>";
+                                                    echo "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro: Transmisión -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingTransmision">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseTransmision" aria-expanded="false"
+                                                aria-controls="collapseTransmision">
+                                            Transmisión
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTransmision" class="accordion-collapse collapse" aria-labelledby="headingTransmision"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <?php
+                                                $consulta = mysqli_query($conexion, "SELECT * FROM transmision");
+                                                while ($row = mysqli_fetch_assoc($consulta)) {
+                                                    $isChecked = in_array($row['id_transmision'], $id_transmision) ? 'checked' : '';
+                                                    echo "<li class='accordion-item'>";
+                                                    echo "<label>";
+                                                    echo "<input type='checkbox' name='id_transmision[]' 
+                                                        value='{$row['id_transmision']}' $isChecked 
+                                                        onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                    echo "{$row['nombre_transmision']}";
+                                                    echo "</label>";
+                                                    echo "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Limpiar filtros -->
+                        <div class="d-flex gap-2 mt-3 mb-4 d-flex justify-content-center">
+                            <button type="submit" name="Limpiar" id="Limpiar" class="btn btn-danger mt-4">Limpiar Filtros</button>
+                        </div>
                     </div>
-                    <div class="d-flex gap-2 mt-2">
-                        <button type="submit" name="Limpiar" id="Limpiar" 
-                        class="btn btn-danger mt-4" >Limpiar Filtros</button>
-                    </div>                
                 </form>
-                <div class='alert alert-danger alert-container' 
-                id='alerta_datos' role='alert' style='display: none;'>¡No se encontraron resultados!</div>
             </div>
-        
-            <!-- Muestra todos los vehiculos -->
-            <div id="vehiculos-container" class="row">
-            <?php
-while ($fila = mysqli_fetch_assoc($resultado)) {
-    $id_vehiculo = $fila['id_vehiculo'];
-    $isFavorito = false;
-    if (isset($_SESSION['rut'])) {
-        $id_usuario = $_SESSION['rut'];
-        $favorito_query = "SELECT * FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
-        $favorito_result = mysqli_query($conexion, $favorito_query);
-        $isFavorito = mysqli_num_rows($favorito_result) > 0;
-    }
-    echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch position-relative'>";
 
-    // Icono de favorito en la esquina superior derecha
-    echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo'>";
-    echo "<i class='fas fa-star " . ($isFavorito ? 'favorite-checked' : 'favorite-unchecked') . "' onclick='toggleFavorito(event, $id_vehiculo); actualizar_fav($id_vehiculo);' style='font-size: 24px; color: " . ($isFavorito ? '#FFD700' : '#CCCCCC') . "; cursor: pointer;'></i>";
-    echo "</div>";
+            <div id="vehiculos-container" class="col-8">
+                <div class="row">
+                    <?php
+                    while ($fila = mysqli_fetch_assoc($resultado)) {
+                        $id_vehiculo = $fila['id_vehiculo'];
+                        $isFavorito = false;
+                        if (isset($_SESSION['rut'])) {
+                            $id_usuario = $_SESSION['rut'];
+                            $favorito_query = "SELECT * FROM vehiculo_favorito WHERE rut = '$id_usuario' AND id_vehiculo = $id_vehiculo";
+                            $favorito_result = mysqli_query($conexion, $favorito_query);
+                            $isFavorito = mysqli_num_rows($favorito_result) > 0;
+                        }
+                        echo "<div class='col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch position-relative'>";
 
-
-    // Contenido de la tarjeta
-    echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
-    echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
-
-    // Carrusel de fotos del vehículo
-    $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
-    echo "<div id='carousel{$id_vehiculo}' class='carousel slide' data-bs-ride='carousel'>";
-    echo "<div class='carousel-inner'>";
-    $active = "active";
-    while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
-        $ruta_imagen = '../admin/mantenedores/vehiculo/' . $foto['ruta_foto'];
-        echo "<div class='carousel-item $active'>";
-        echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 180px; border-radius: 15px 15px 0 0;'></div>";
-        echo "</div>";
-        $active = "";
-    }
-    echo "</div>";
-    echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='prev'>
-            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-            <span class='visually-hidden'>Previous</span>
-          </button>";
-    echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='next'>
-            <span class='carousel-control-next-icon' aria-hidden='true'></span>
-            <span class='visually-hidden'>Next</span>
-          </button>";
-    echo "</div>";
-
-    // Estado del vehículo (Nuevo o Usado)
-    echo "<div class='position-absolute p-2' style='top: 10px; left: 10px;'>
-            <span class='badge bg-light text-dark border' style='border-radius: 20px; padding: 5px 10px;'>{$fila['estado_vehiculo']}</span>
-          </div>";
-
-    // Información del vehículo
-    echo "<div class='card-body mt-1 text-center py-2'>";
-    $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
-    echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
-    echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
-    echo "<p class='text-muted mb-2'>{$fila['nombre_pais']} </p>";
-    echo "</div>";
-
-    // Colores del vehículo en la parte inferior
-    $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
-                                                  FROM color_vehiculo vc
-                                                  JOIN color c ON vc.id_color = c.id_color
-                                                  WHERE vc.id_vehiculo = $id_vehiculo");
-    echo "<div class='d-flex justify-content-center align-items-center mb-2'>";
-    while ($color = mysqli_fetch_assoc($colores_resultado)) {
-        $codigo_color = htmlspecialchars($color['codigo_color']);
-        echo "<span style='background-color: $codigo_color; width: 20px; height: 20px; border-radius: 50%; display: inline-block; margin: 0 5px;'></span>";
-    }
-    echo "</div>";
-
-    echo "</div>"; // Cierre de div.card
-    echo "</a>";   // Cierre de enlace
-    echo "</div>"; // Cierre de columna
-}
-?>
+                        // Icono de favorito en la esquina superior derecha
+                        echo "<div class='favorite-icon' id='icono-favorito-$id_vehiculo'>";
+                        echo "<i class='fas fa-star " . ($isFavorito ? 'favorite-checked' : 'favorite-unchecked') . "' onclick='toggleFavorito(event, $id_vehiculo);'></i>";
+                        echo "</div>";
 
 
+                        // Contenido de la tarjeta
+                        echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
+                        echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
 
-            </div>    
+                        // Carrusel de fotos del vehículo
+                        $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
+                        echo "<div id='carousel{$id_vehiculo}' class='carousel slide' data-bs-ride='carousel'>";
+                        echo "<div class='carousel-inner'>";
+                        $active = "active";
+                        while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
+                            $ruta_imagen = '../admin/mantenedores/vehiculo/' . $foto['ruta_foto'];
+                            echo "<div class='carousel-item $active'>";
+                            echo "<div style='background-image: url($ruta_imagen); background-size: cover; background-position: center; height: 180px; border-radius: 15px 15px 0 0;'></div>";
+                            echo "</div>";
+                            $active = "";
+                        }
+                        echo "</div>";
+                        echo "<button class='carousel-control-prev' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='prev'>
+                                <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                                <span class='visually-hidden'>Previous</span>
+                            </button>";
+                        echo "<button class='carousel-control-next' type='button' data-bs-target='#carousel{$id_vehiculo}' data-bs-slide='next'>
+                                <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                                <span class='visually-hidden'>Next</span>
+                            </button>";
+                        echo "</div>";
+
+                        // Estado del vehículo (Nuevo o Usado)
+                        echo "<div class='position-absolute p-2' style='top: 10px; left: 10px;'>
+                                <span class='badge bg-light text-dark border' style='border-radius: 20px; padding: 5px 10px;'>{$fila['estado_vehiculo']}</span>
+                            </div>";
+
+                        // Información del vehículo
+                        echo "<div class='card-body mt-1 text-center py-2'>";
+                        $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
+                        echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
+                        echo "<p class='text-success fw-bold mb-2'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
+                        echo "<p class='text-muted mb-2'>{$fila['nombre_pais']} </p>";
+                        echo "</div>";
+
+                        // Colores del vehículo en la parte inferior
+                        $colores_resultado = mysqli_query($conexion, "SELECT c.codigo_color 
+                                                                    FROM color_vehiculo vc
+                                                                    JOIN color c ON vc.id_color = c.id_color
+                                                                    WHERE vc.id_vehiculo = $id_vehiculo");
+                        echo "<div class='d-flex justify-content-center align-items-center mb-2'>";
+                        while ($color = mysqli_fetch_assoc($colores_resultado)) {
+                            $codigo_color = htmlspecialchars($color['codigo_color']);
+                            echo "<span style='background-color: $codigo_color; width: 20px; height: 20px; border-radius: 50%; display: inline-block; margin: 0 5px;'></span>";
+                        }
+                        echo "</div>";
+
+                        echo "</div>"; // Cierre de div.card
+                        echo "</a>";   // Cierre de enlace
+                        echo "</div>"; // Cierre de columna
+                    }
+                    ?>
+                </div>
+            </div>       
         </div>
-    </div>
-    </div>
+    </div>    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
@@ -425,14 +514,22 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
         var isFavorito = icono.classList.contains('favorite-checked');
 
         // AJAX para alternar el favorito
-        $.post('favoritos/toggle_favorito.php', { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' }, function (response) {
-            console.log(response);
+        const datos = { id_vehiculo: id_vehiculo, action: isFavorito ? 'remove' : 'add' };
+        console.log("Datos enviados:", datos); // Esto imprimirá los datos en la consola del navegador
+
+        $.post('favoritos/toggle_favorito.php', datos, function (response) {
+            console.log("Respuesta del servidor:", response); // Imprime la respuesta recibida
             if (response.success) {
                 actualizar_fav(id_vehiculo, icono);
             } else {
                 alert('Hubo un error al actualizar el favorito: ' + (response.error || ''));
             }
         }, 'json').fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error en la solicitud AJAX:", {
+                textStatus: textStatus,
+                errorThrown: errorThrown,
+                responseText: jqXHR.responseText, // Verifica el contenido del error
+            });
             alert("Error en la solicitud AJAX: " + textStatus + " - " + errorThrown);
         });
     }
