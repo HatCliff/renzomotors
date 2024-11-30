@@ -1,6 +1,6 @@
 <?php
 // require_once("./../config/conexion.php");
-require('./dashboard/queries.php');
+require('./ventas/queries.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
