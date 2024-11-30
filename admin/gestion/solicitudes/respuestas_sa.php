@@ -31,9 +31,8 @@ if (isset($_SESSION['usuario'])) {
     header('Location: ../../../pages/login.php');
 }
 
-// Se obtiene todas las solicitudes de ayuda
-$query = "SELECT * FROM solicitud_ayuda WHERE respuesta_admin IS NOT NULL";
-$resultado = mysqli_query($conexion, $query);
+$solicitudes = "SELECT * FROM vehiculo_ofertado WHERE aprobacion IS NOT NULL";
+$result_solicitudes = $conexion->query($solicitudes);
 
 ?>
 <!DOCTYPE html>
@@ -53,41 +52,76 @@ $resultado = mysqli_query($conexion, $query);
     <div class="container mt-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center mb-4">Centro de ayuda</h1>
-                <a href='centro_ayuda.php' class='btn btn-secondary' title='Volver'> ← Volver</a>
+                <h1 class="text-center mb-4">Solicitudes de venta</h1>
+                <a href='solicitudes_autos.php' class='btn btn-secondary' title='Volver a Solicitudes'> ← Volver</a>
                 <table id="miTabla" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Asunto</th>
-                            <th>Descripción</th>
-                            <th>Tipo</th>
-                            <th>Respuesta del Administrador</th>
-                            <th>Acción</th>
+                            <th>Solicitud</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
-                            <tr>
-                                <td><?= $fila['id_ayuda'] ?></td>
-                                <td><?= $fila['asunto_solicitud'] ?></td>
-                                <td><?= $fila['descripcion_solicitud'] ?></td>
-                                <td class="text-capitalize"><?= $fila['tipo_solicitud'] ?></td>
-                                <td><?= $fila['respuesta_admin'] ?? 'Sin respuesta' ?></td>
+                        <?php while ($solicitud = mysqli_fetch_assoc($result_solicitudes)) {
+                            if (is_null($solicitud['aprobacion'])) {
+                                $estado = "En Proceso";
+                                $claseBoton = "btn-warning";
+                            } elseif ($solicitud['aprobacion'] == 1) {
+                                $estado = "Aprobado";
+                                $claseBoton = "btn-success";
+                            } else {
+                                $estado = "Rechazado";
+                                $claseBoton = "btn-danger";
+                            }
+                            echo "<tr>
                                 <td>
-                                    <?php if (empty($fila['respuesta_admin'])): ?>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="id_ayuda" value="<?= $fila['id_ayuda'] ?>">
-                                            <textarea name="respuesta_admin" class="form-control mb-2"
-                                                placeholder="Escribe una respuesta" required></textarea>
-                                            <button type="submit" class="btn btn-primary btn-sm">Enviar Respuesta</button>
-                                        </form>
-                                    <?php else: ?>
-                                        <button class="btn btn-secondary btn-sm" disabled>Respondida</button>
-                                    <?php endif; ?>
+                                    <div class='border d-flex flex-row align-items-stretch position-relative'
+                                        style='border-radius: 20px; overflow: hidden; max-height: 300px;'>
+                                        <!-- Imagen del vehículo -->
+                                        <div class='d-flex align-items-center'>
+                                            <img src='../../../pages/solicitudes_venta/{$solicitud['imagen_oferta']}' alt='Imagen del Vehículo'
+                                                class='img-thumbnail'
+                                                style='width: 100%; max-width: 400px; height: auto; max-height: 300px; object-fit: cover; border-radius: 20px 0 0 20px;'>
+                                        </div>
+                                        <!-- Resumen de datos -->
+                                        <div class='p-3 d-flex justify-content-between'>
+                                            <!-- Vehículo -->
+                                            <div class='me-3'>
+                                                <h5 class='mb-3'><strong>Datos del Vehículo</strong></h5>
+                                                <ul style='list-style: none; padding-left: 20px;'>
+                                                    <li><strong>Modelo:</strong> {$solicitud['modelo_oferta']}</li>
+                                                    <li><strong>Marca:</strong> {$solicitud['marca_oferta']}</li>
+                                                    <li><strong>País de Origen:</strong> {$solicitud['pais_oferta']}</li>
+                                                    <li><strong>Año:</strong> {$solicitud['anio_oferta']}</li>
+                                                    <li><strong>Kilometraje:</strong> {$solicitud['kilometraje']} km</li>
+                                                    <li><strong>Precio Solicitado:</strong> $
+                                                        {$solicitud['precio_solicitud']}</li>
+                                                    <li><strong>Patente:</strong> {$solicitud['patente']}</li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Propietario -->
+                                            <div class=''>
+                                                <h5 class='mb-3'><strong>Datos del Propietario</strong></h5>
+                                                <ul style='list-style: none; padding-left: 20px;'>
+                                                    <li><strong>Nombre:</strong> {$solicitud['nombre_duenio']}</li>
+                                                    <li><strong>RUT:</strong> {$solicitud['rut_duenio']}</li>
+                                                    <li><strong>Correo:</strong> {$solicitud['correo_duenio']}</li>
+                                                    <li><strong>Teléfono:</strong> {$solicitud['telefono_duenio']}</li>
+                                                    <li><strong>Fecha de Solicitud:</strong> {$solicitud['fecha_solicitud']}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Botón de estado -->
+                                        <button class='btn $claseBoton position-absolute'
+                                            style='bottom: 10px; right: 10px;'>
+                                            $estado
+                                        </button>
+                                    </div>
                                 </td>
-                            </tr>
-                        <?php endwhile; ?>
+                            </tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>

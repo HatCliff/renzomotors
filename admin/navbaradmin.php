@@ -13,9 +13,54 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                 style="width: 40px; height: 40px; margin-right: 10px; filter: invert(1); ">
             RenzoMotors
         </a>
-        <?php
-        if ($_SERVER['REQUEST_URI'] !== '/xampp/renzomotors/admin/gestion/dashboard.php') {
-            echo '<ul class="navbar-nav ms-auto">  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <?php
+                $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+                if (strpos($url, '/admin/mantenedores/') !== false || strpos($url, '/gestion/mantenedores.php') !== false) {
+                    echo '
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMantenedores" role="button"
+                                aria-controls="offcanvasMantenedores">
+                                ⌵ Mantenedores
+                            </a>
+                        </li>
+                        ';
+                }
+                if (strpos($url, '/solicitudes/') !== false) {
+                    echo '
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Solicitudes
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="centro_ayuda.php">Centro de Ayuda</a></li>
+                                <li><a class="dropdown-item" href="solicitudes_autos.php">Solicitudes Venta</a></li>
+                            </ul>
+                        </li>
+                        ';
+                }
+                ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Buscador
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item"
+                                href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
+                        <li><a class="dropdown-item" href="#">Accesorios</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <?php
+            if ($_SERVER['REQUEST_URI'] !== '/xampp/renzomotors/admin/gestion/dashboard.php') {
+                echo '<ul class="navbar-nav">  
                 <a href="/xampp/renzomotors/admin/gestion/dashboard.php" class="btn btn-success">Dashboard</a>
                 <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,31 +73,9 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                 </li>
             </ul>
             ';
-        } else {
-            ?>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarNavDropdown">
-                <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMantenedores" role="button"
-                        aria-controls="offcanvasMantenedores">
-                        ⌵ Mantenedores
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Buscador
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item"
-                                href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
-                        <li><a class="dropdown-item" href="#">Accesorios</a></li>
-                    </ul>
-                </li>
+            }
+            else{
+                echo '<ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -64,8 +87,10 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                     </ul>
                 </li>
             </ul>
+                ';
+            }
+            ?>
         </div>
-        <?php } ?>
     </div>
 </nav>
 

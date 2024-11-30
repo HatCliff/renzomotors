@@ -30,6 +30,10 @@ if (isset($_SESSION['usuario'])) {
 } else {
     header('Location: ../../../pages/login.php');
 }
+
+$solicitudes = "SELECT * FROM vehiculo_ofertado WHERE aprobacion IS NULL";
+$result_solicitudes = $conexion->query($solicitudes);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,37 +52,68 @@ if (isset($_SESSION['usuario'])) {
     <div class="container mt-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center mb-4">Centro de ayuda</h1>
+                <h1 class="text-center mb-4">Solicitudes de venta</h1>
                 <a href='../solicitudes.php' class='btn btn-secondary' title='Volver a Solicitudes'> ← Volver</a>
-                <a href='restuestas_cy.php' class='btn btn-info' title='Ver Respuestas'>Respuestas</a>
+                <a href='respuestas_sa.php' class='btn btn-info' title='Ver Respuestas'>Respuestas</a>
                 <table id="miTabla" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Solicitud</th>
+                            <th>Respuesta</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($fila = mysqli_fetch_assoc($resultado)): ?>
-                            <tr>
-                                <td><?= $fila['id_ayuda'] ?></td>
-                                <td><?= $fila['asunto_solicitud'] ?></td>
-                                <td><?= $fila['descripcion_solicitud'] ?></td>
-                                <td class="text-capitalize"><?= $fila['tipo_solicitud'] ?></td>
-                                <td><?= $fila['respuesta_admin'] ?? 'Sin respuesta' ?></td>
+                        <?php while ($solicitud = mysqli_fetch_assoc($result_solicitudes)) {
+                            echo "<tr>
                                 <td>
-                                    <?php if (empty($fila['respuesta_admin'])): ?>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="id_ayuda" value="<?= $fila['id_ayuda'] ?>">
-                                            <textarea name="respuesta_admin" class="form-control mb-2"
-                                                placeholder="Escribe una respuesta" required></textarea>
-                                            <button type="submit" class="btn btn-primary btn-sm">Enviar Respuesta</button>
-                                        </form>
-                                    <?php else: ?>
-                                        <button class="btn btn-secondary btn-sm" disabled>Respondida</button>
-                                    <?php endif; ?>
+                                    <div class='border d-flex flex-row align-items-stretch position-relative'
+                                        style='border-radius: 20px; overflow: hidden; max-height: 300px;'>
+                                        <!-- Imagen del vehículo -->
+                                        <div class='d-flex flex-column align-items-center text-center'>
+                                            <img src='../../../pages/solicitudes_venta/{$solicitud['imagen_oferta']}' alt='Imagen del Vehículo'
+                                                class='img-thumbnail'
+                                                style='width: 100%; max-width: 400px; height: auto; max-height: 280px; object-fit: cover; border-radius: 20px 0 0 20px;'>
+                                                <a href='../../../pages/solicitudes_venta/{$solicitud['titulo_propiedad']}' class=''>Ver documento</a>
+                                        </div>
+                                        <!-- Resumen de datos -->
+                                        <div class='p-3 d-flex justify-content-between'>
+                                            <!-- Vehículo -->
+                                            <div class='me-3'>
+                                                <h5 class='mb-3'><strong>Datos del Vehículo</strong></h5>
+                                                <ul style='list-style: none; padding-left: 20px;'>
+                                                    <li><strong>Modelo:</strong> {$solicitud['modelo_oferta']}</li>
+                                                    <li><strong>Marca:</strong> {$solicitud['marca_oferta']}</li>
+                                                    <li><strong>País de Origen:</strong> {$solicitud['pais_oferta']}</li>
+                                                    <li><strong>Año:</strong> {$solicitud['anio_oferta']}</li>
+                                                    <li><strong>Kilometraje:</strong> {$solicitud['kilometraje']} km</li>
+                                                    <li><strong>Precio Solicitado:</strong> $
+                                                        {$solicitud['precio_solicitud']}</li>
+                                                    <li><strong>Patente:</strong> {$solicitud['patente']}</li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Propietario -->
+                                            <div class=''>
+                                                <h5 class='mb-3'><strong>Datos del Propietario</strong></h5>
+                                                <ul style='list-style: none; padding-left: 20px;'>
+                                                    <li><strong>Nombre:</strong> {$solicitud['nombre_duenio']}</li>
+                                                    <li><strong>RUT:</strong> {$solicitud['rut_duenio']}</li>
+                                                    <li><strong>Correo:</strong> {$solicitud['correo_duenio']}</li>
+                                                    <li><strong>Teléfono:</strong> {$solicitud['telefono_duenio']}</li>
+                                                    <li><strong>Fecha de Solicitud:</strong> {$solicitud['fecha_solicitud']}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
-                            </tr>
-                        <?php endwhile; ?>
+                                <td class='d-flex flex-row align-items-center h-100' style='height: 300px'>
+                                    <a href='aprobado.php?patente={$solicitud['patente']}' class='btn btn-success'>Aprobar</a>
+                                    <a href='rechazado.php?patente={$solicitud['patente']}' class='btn btn-danger'>Rechazar</a>
+                                </td>
+                            </tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
