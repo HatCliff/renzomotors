@@ -53,7 +53,6 @@ if (isset($_SESSION['usuario'])) {
         transform: scale(1.05);
     }
 </style>
-
 <body class="pt-5 mt-3">
     <div class="container my-5">
         <div class="row g-4 mb-5">
