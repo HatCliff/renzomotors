@@ -60,7 +60,7 @@ if (session_status() == PHP_SESSION_NONE) {
                                 <i class="fas fa-user-circle"></i> Perfil
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil/perfil.php?accion=0">Ver Perfil</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/centro_ayuda.php">Ayuda</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
