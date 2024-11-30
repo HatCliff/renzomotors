@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top ">
     <div class="container-fluid">
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>
             <img src="<?php echo $carpetaMain; ?>logo.png" alt="Logo"
@@ -39,6 +39,9 @@ if (session_status() == PHP_SESSION_NONE) {
                 </li>
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/c_seguro/seguro.php' class="nav-link active" aria-current="page">Cotización seguro</a>
+                </li>
+                <li class="nav-item">
+                    <a href='<?php echo $carpetaMain; ?>pages/soap/soap.php' class="nav-link active" aria-current="page">Compra Tu SOAP</a>
                 </li>
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>

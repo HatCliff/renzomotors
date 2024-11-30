@@ -19,7 +19,26 @@ $query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
           AND v.arriendo=0";
 
 $resultado = mysqli_query($conexion, $query);
-
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $estadoget = $_GET['estado'] ?? [];
+    $tipoget = $_GET['tipo'] ?? [];
+    $marcaget = $_GET['marca'] ?? [];
+    if (!empty($estadoget)) {
+        $query .= " AND v.estado_vehiculo ='$estadoget'";
+    }
+    if (!empty($tipoget)) {
+        $query .= " AND v.id_tipo_vehiculo ='$tipoget'";
+    }
+    if (!empty($marcaget)) {
+        $query .= " AND v.id_marca ='$marcaget'";
+    }
+    $resultado = mysqli_query($conexion, $query);
+    if (mysqli_num_rows($resultado) == 0) {
+        echo "<script>var showAlert = true;</script>";
+    } else {
+        echo "<script>var showAlert = false;</script>";
+    }
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['Limpiar'])) {
         // Resetea los valores de los filtros a sus valores iniciales
