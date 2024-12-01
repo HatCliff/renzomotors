@@ -44,7 +44,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <a href='<?php echo $carpetaMain; ?>pages/soap/soap.php' class="nav-link active" aria-current="page">Compra Tu SOAP</a>
                 </li>
                 <li class="nav-item">
-                    <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
+                    <a href='<?php echo $carpetaMain; ?>pages/comparador/comparador.php' class="nav-link active" aria-current="page">Comparador</a>
                 </li>
                 <li class="nav-item">
                     <a href='<?php echo $carpetaMain; ?>pages/prueba_manejo/test_manejo.php' class="nav-link active" aria-current="page">Prueba de Manejo</a>

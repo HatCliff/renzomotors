@@ -1,7 +1,10 @@
 <?php
 session_start();
 include("../../config/conexion.php");    
-
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
+    header("Location: ../../pages/login.php");
+    exit();
+}
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
     // Usuario es administrador, incluye el navbar de administrador

@@ -12,7 +12,7 @@ $nombre = $_SESSION['nombre'];
     $pdf->SetFont('Arial', 'B', 12);
 
     // Añadir el contenido al PDF con utf8_decode
-    $pdf->Cell(0, 10, utf8_decode("Hola $nombre, tu soap ha sido pagado exitosamente. Gracias por confiar en RenzoMotors."), 0, 1);
+    $pdf->Cell(0, 10, utf8_decode("Tu soap ha sido pagado exitosamente. Gracias por confiar en RenzoMotors."), 0, 1);
     $pdf->Ln(10);
     $pdf->Cell(0, 10, utf8_decode("Aquí están los detalles:"), 0, 1);
     $pdf->Ln(5);
