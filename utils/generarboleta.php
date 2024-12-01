@@ -23,6 +23,17 @@ class PDF extends FPDF
 
     function generarBoleta($data, $buyOrder)
     {
+        include('../config/conexion.php');
+        $dato = [];
+        $datos_s = $conexion->query("SELECT nombre_sucursal FROM sucursal WHERE id_sucursal = {$data['sucursal']}");
+        $dato['nombre_sucursal'] = $datos_s->fetch_assoc()['nombre_sucursal'];
+
+        $datos_c = $conexion->query("SELECT nombre_color FROM color WHERE id_color = {$data['sucursal']}");
+        $dato['nombre_color'] = $datos_c->fetch_assoc()['nombre_color'];
+
+        $datos_v = $conexion->query("SELECT nombre_modelo FROM vehiculo WHERE id_vehiculo = {$data['id_vehiculo']}");
+        $dato['nombre_modelo'] = $datos_v->fetch_assoc()['nombre_modelo'];
+
         $this->SetFont('Arial', '', 12);
 
         // Información del cliente
@@ -40,9 +51,9 @@ class PDF extends FPDF
 
         // Detalles de la compra
         $this->Cell(0, 10, utf8_decode('Detalle de la Compra'), 0, 1);
-        $this->Cell(0, 10, utf8_decode('ID Vehículo: ' . $data['id_vehiculo']), 0, 1);
-        $this->Cell(0, 10, utf8_decode('Color: ' . $data['color']), 0, 1);
-        $this->Cell(0, 10, utf8_decode('Sucursal: ' . $data['sucursal']), 0, 1);
+        $this->Cell(0, 10, utf8_decode('ID Vehículo: ' . $dato['nombre_modelo']), 0, 1);
+        $this->Cell(0, 10, utf8_decode('Color: ' . $dato['nombre_color']), 0, 1);
+        $this->Cell(0, 10, utf8_decode('Sucursal: ' . $dato['nombre_sucursal']), 0, 1);
         // $this->Cell(0, 10, utf8_decode('Forma de Pago: ' . $data['pago']), 0, 1);
         $this->Cell(0, 10, utf8_decode('Total: $' . number_format($data['precio'], 0, ',', '.')), 0, 1);
         $this->Ln(10);

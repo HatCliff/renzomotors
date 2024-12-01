@@ -33,7 +33,8 @@ if (isset($_SESSION['usuario'])) {
 
 $administradores = "SELECT a.*, ur.nombre , ur.apellido, r.nombre_rol FROM usuario_registrado ur
                     JOIN administrador a ON ur.rut = a.rut_administrador
-                    LEFT JOIN rol r ON a.id_rol = r.id_rol";
+                    LEFT JOIN rol r ON a.id_rol = r.id_rol
+                    WHERE a.rut_administrador NOT IN ('$rut_user')";
 $result_admin = $conexion->query($administradores);
 
 ?>
