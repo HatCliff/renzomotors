@@ -56,7 +56,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
                 <?php if (!isset($_SESSION['usuario'])) { ?>
                     <li class="nav-item">
-                        <a href='<?php echo $carpetaMain; ?>pages/comparador.php' class="nav-link active">Comparador</a>
+                        <a href='<?php echo $carpetaMain; ?>pages/comparador/comparador.php' class="nav-link active">Comparador</a>
                     </li>
                 <?php } else { ?>
                     <li class="nav-item dropdown">
@@ -70,7 +70,7 @@ if (session_status() == PHP_SESSION_NONE) {
                                     vehículo</a>
                             </li>
                             <li><a class="dropdown-item"
-                                    href='<?php echo $carpetaMain; ?>pages/comparador.php'>Comparador</a></li>
+                                    href='<?php echo $carpetaMain; ?>pages/comparador/comparador.php'>Comparador</a></li>
                             <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/soap/soap.php'
                                     class="nav-link active">Compra Tu SOAP</a>
                             </li>

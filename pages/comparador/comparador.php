@@ -45,7 +45,7 @@ if (isset($_POST['eliminarVehiculo3'])) {
 
 // Función para obtener la información del vehículo desde la base de datos
 function getVehiculoInfo($conexion, $idVehiculo) {
-    $query = "SELECT v.nombre_modelo, v.precio_modelo, v.caballos_fuerza, v.cantidad_puertas, m.nombre_marca, a.anio, c.nombre_tipo_combustible, p.nombre_pais, t.nombre_transmision, tv.nombre_tipo_vehiculo, f.ruta_foto 
+    $query = "SELECT v.id_vehiculo,v.nombre_modelo, v.precio_modelo, v.caballos_fuerza, v.cantidad_puertas, m.nombre_marca, a.anio, c.nombre_tipo_combustible, p.nombre_pais, t.nombre_transmision, tv.nombre_tipo_vehiculo, f.ruta_foto 
               FROM vehiculo v
               LEFT JOIN fotos_vehiculo f ON v.id_vehiculo = f.id_vehiculo
               LEFT JOIN marca m ON v.id_marca = m.id_marca
@@ -173,7 +173,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                 <li class="list-group-item">País de fabricación: <?= $vehiculo1['nombre_pais']; ?></li>
                             </ul>
                             <form method="POST" action="" class="w-100">
-                                <button type="submit" name="eliminarVehiculo1" class="btn btn-dark w-100">Eliminar</button>
+                                <a href="../vehiculo.php?id=<?php echo $vehiculo1['id_vehiculo']; ?>" class="btn btn-warning mb-2 w-100">
+                                    Ver Vehículo
+                                </a>
+                                    <button type="submit" name="eliminarVehiculo1" class="btn btn-dark w-100">Eliminar</button>
                             </form>
                         <?php else: ?>
                             <img src="../../src/icons/añadir.svg" alt="Añadir vehículo" width="80" class="mb-3">
@@ -202,6 +205,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                 <li class="list-group-item">País de fabricación: <?= $vehiculo2['nombre_pais']; ?></li>
                             </ul>
                             <form method="POST" action="" class="w-100">
+                                <a href="../vehiculo.php?id=<?php echo $vehiculo2['id_vehiculo']; ?>" class="btn btn-warning mb-2 w-100">
+                                    Ver Vehículo
+                                </a>
                                 <button type="submit" name="eliminarVehiculo2" class="btn btn-dark w-100">Eliminar</button>
                             </form>
                         <?php else: ?>
@@ -231,6 +237,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                 <li class="list-group-item">País de fabricación: <?= $vehiculo3['nombre_pais']; ?></li>
                             </ul>
                             <form method="POST" action="" class="w-100">
+                                <a href="../vehiculo.php?id=<?php echo $vehiculo3['id_vehiculo']; ?>" class="btn btn-warning mb-2 w-100">
+                                    Ver Vehículo
+                                </a>
                                 <button type="submit" name="eliminarVehiculo3" class="btn btn-dark w-100">Eliminar</button>
                             </form>
                         <?php else: ?>

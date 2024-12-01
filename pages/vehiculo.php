@@ -70,6 +70,9 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
     <title>Detalles del Vehículo</title>
 </head>
 <style>
+    body{
+        background-color: #e6e6e6;
+    }
     .card-img-top {
         height: auto;
         width: 100%;
@@ -393,6 +396,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+            
         </div>
+    </div>
+        <?php
+            include("../components/footer.php")
+        ?>
+    
     </body>
 </html>
