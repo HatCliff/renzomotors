@@ -122,7 +122,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
         <div class="row">
             <!-- Tarjeta con carrusel, nombre, precio y país de origen -->
             <div class="col-lg-8 mb-3">
-                <div class="card" style="border-radius: 20px;">
+                <div class="card" style="background: #fffcf4; border-radius: 20px;">
                     <div id="carouselFotos" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <?php
@@ -149,7 +149,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                     </div>
                     <div class="card-body">
                         <h4 class="card-title" style="font-weight: bold;"><?php echo $vehiculo['nombre_modelo']; ?></h4>
-                        <p class="card-text" style="color: #426B1F; font-weight: bold;">
+                        <p class="card-text" style="color:#3c4043; font-weight: bold;">
                             $<?php echo number_format($vehiculo['precio_modelo'], 0, ',', '.'); ?> CLP -
                             <?php echo $vehiculo['anio']; ?>
                         </p>

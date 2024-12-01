@@ -269,79 +269,81 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                 </div>
 
                 <!-- buscador y filtros -->
-                <div class="col-lg-2 col-12  d-none d-lg-block" style="background: #fffcf4; border-radius: 20px; border: 0.1em solid grey;">
-                    <h3 class="mb-4 mt-3 d-flex justify-content-center">Filtros</h3>
+                <div class="col-lg-2 col-12  d-none d-lg-block" >
+                    <div class="px-2" style="background: #fffcf4; border-radius: 20px; border: 0.1em solid grey;">
+                        <h3 class="mb-4 mt-3 d-flex justify-content-center">Filtros</h3>
 
-                    <div class="col d-flex flex-column mt-3" >
-                        <div class="accordion">
-                            <!-- Contenido de Categoria -->
-                            <div class="accordion-item me-1">
-                                <h2 class="accordion-header" id="headingCategoria">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseCategoria" aria-expanded="false" aria-controls="collapseCategoria">
-                                        Categoría
-                                    </button>
-                                </h2>
-                                <div id="collapseCategoria" class="accordion-collapse collapse" aria-labelledby="headingCategoria"
-                                    data-bs-parent="#accordionFiltros">
-                                    <div class="accordion-body">
-                                        <ul class="no-style">
-                                            <?php
-                                                $consulta = mysqli_query($conexion, "SELECT * FROM tipo_accesorio");
-                                                while ($row = mysqli_fetch_assoc($consulta)) {
-                                                    $isChecked = in_array($row['id_tipo_accesorio'], $id_tipo_accesorio) ? 'checked' : '';
-                                                    echo "<li class='accordion-item'>";
-                                                    echo "<label>";
-                                                    echo "<input type='checkbox' name='id_tipo_accesorio[]' 
-                                                        value='{$row['id_tipo_accesorio']}' $isChecked 
-                                                        onchange='document.getElementById(\"filtroForm\").submit()'>";
-                                                    echo "  {$row['nombre_tipo_accesorio']}";
-                                                    echo "</label>";
-                                                    echo "</li>";
-                                                }
-                                            ?>
-                                        </ul>                                        
+                        <div class="col d-flex flex-column mt-3" >
+                            <div class="accordion">
+                                <!-- Contenido de Categoria -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingCategoria">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseCategoria" aria-expanded="false" aria-controls="collapseCategoria">
+                                            Categoría
+                                        </button>
+                                    </h2>
+                                    <div id="collapseCategoria" class="accordion-collapse collapse" aria-labelledby="headingCategoria"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <?php
+                                                    $consulta = mysqli_query($conexion, "SELECT * FROM tipo_accesorio");
+                                                    while ($row = mysqli_fetch_assoc($consulta)) {
+                                                        $isChecked = in_array($row['id_tipo_accesorio'], $id_tipo_accesorio) ? 'checked' : '';
+                                                        echo "<li class='accordion-item'>";
+                                                        echo "<label>";
+                                                        echo "<input type='checkbox' name='id_tipo_accesorio[]' 
+                                                            value='{$row['id_tipo_accesorio']}' $isChecked 
+                                                            onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                        echo "  {$row['nombre_tipo_accesorio']}";
+                                                        echo "</label>";
+                                                        echo "</li>";
+                                                    }
+                                                ?>
+                                            </ul>                                        
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Contenido de Ordenar por -->
-                            <div class="accordion-item me-1">
-                                <h2 class="accordion-header" id="headingOrdenar">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOrdenar" aria-expanded="false" aria-controls="collapseOrdenar">
-                                        Ordenar por
-                                    </button>
-                                </h2>
-                                <div id="collapseOrdenar" class="accordion-collapse collapse" aria-labelledby="headingOrdenar"
-                                    data-bs-parent="#accordionFiltros">
-                                    <div class="accordion-body">
-                                        <ul class="no-style">
-                                            <li class="accordion-item">
-                                                <label for="ordenMayor">
-                                                    <input type="radio" id="ordenMayor" name="orden" value="mayor_a_menor"
-                                                        <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>
-                                                        onchange="document.getElementById('filtroForm').submit()"> Precio de mayor a menor
+                                <!-- Contenido de Ordenar por -->
+                                <div class="accordion-item me-1">
+                                    <h2 class="accordion-header" id="headingOrdenar">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOrdenar" aria-expanded="false" aria-controls="collapseOrdenar">
+                                            Ordenar por
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOrdenar" class="accordion-collapse collapse" aria-labelledby="headingOrdenar"
+                                        data-bs-parent="#accordionFiltros">
+                                        <div class="accordion-body">
+                                            <ul class="no-style">
+                                                <li class="accordion-item">
+                                                    <label for="ordenMayor">
+                                                        <input type="radio" id="ordenMayor" name="orden" value="mayor_a_menor"
+                                                            <?php if ($orden == 'mayor_a_menor') echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Precio de mayor a menor
+                                                        </label>
+                                                    </li>
+                                                <li class="accordion-item">
+                                                    <label for="ordenMenor">
+                                                        <input type="radio" id="ordenMenor" name="orden" value="menor_a_mayor"
+                                                            <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>
+                                                            onchange="document.getElementById('filtroForm').submit()"> Precio de menor a mayor
                                                     </label>
                                                 </li>
-                                            <li class="accordion-item">
-                                                <label for="ordenMenor">
-                                                    <input type="radio" id="ordenMenor" name="orden" value="menor_a_mayor"
-                                                        <?php if ($orden == 'menor_a_mayor') echo 'checked'; ?>
-                                                        onchange="document.getElementById('filtroForm').submit()"> Precio de menor a mayor
-                                                </label>
-                                             </li>
-                                        </ul>                                        
+                                            </ul>                                        
+                                        </div>
                                     </div>
-                                </div>
-                            </div>  
+                                </div>  
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Limpiar filtros -->
-                    <div class="d-flex gap-2 mt-3 mb-4 d-flex justify-content-center">
-                        <button type="submit" name="Limpiar" id="Limpiar" class="btn mt-4" style="background: #c0c0c0;">Limpiar Filtros</button>
+                        <!-- Limpiar filtros -->
+                        <div class="d-flex gap-2 mt-3 mb-4 d-flex justify-content-center">
+                            <button type="submit" name="Limpiar" id="Limpiar" class="btn mt-4" style="background: #c0c0c0;">Limpiar Filtros</button>
+                        </div>
+                        </form>
                     </div>
-                    </form>
                 </div> 
                 <!-- Acessorio -->
                 <div class="col-lg-10 col-12" id="accesorio-container">
