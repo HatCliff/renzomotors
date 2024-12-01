@@ -92,8 +92,9 @@ if (isset($_SESSION['usuario'])) {
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
       <h3 class="text-dark mb-0">Analisis de Ventas
         <a href='ventas/confirmacion_ventas.php' class='btn btn-success' title='Ver Ventas'>Concretar Ventas</a>
-      </h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i
-          class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
+        <a class="btn btn-primary btn-sm d-none d-sm-inline-block mx-auto" role="button"
+          href="../../utils/Exportacion_informe_venta.php"><i class="fas fa-download fa-sm text-white-50"></i> Generar
+          Reporte</a>
 
     </div>
     <div class="row">

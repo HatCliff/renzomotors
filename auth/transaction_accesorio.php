@@ -33,13 +33,30 @@ $result_compra_a = $conexion->query("SELECT id_carrito, valor_carrito FROM carri
 $datos_compra_a = mysqli_fetch_array($result_compra_a);
 
 $buyOrder = rand(100000, 999999);
+
+$fecha = date('Y-m-d');
+$query_cantidad_compras = "
+    SELECT COUNT(*) AS cantidad
+    FROM registro_accesorio
+    WHERE DATE(fecha_compra_a) = '$fecha'";
+$result_compras = mysqli_query($conexion, $query_cantidad_compras);
+$cantidad_compra = mysqli_fetch_assoc($result_compras);
+
+$codigo_verificador = '';
+$codigo_verificador =
+    str_pad($_GET['suc'], 3, '0', STR_PAD_LEFT) .
+    date('dmY', strtotime($fecha)) .
+    str_pad($cantidad_compra['cantidad'], 4, '0', STR_PAD_LEFT);
+
 $_SESSION['compra_accesorio'] = [
     'sucursal_compra' => $_GET['suc'],
     'id_carrito' => $datos_compra_a['id_carrito'],
     'valor_carrito' => $datos_compra_a['valor_carrito'],
     'listado_accesorio' => $accesorios_concatenados,
-    'fecha_compra_a' => date('Y-m-d'),
+    'fecha_compra_a' => $fecha,
     'correo_compra' => $user['correo'],
+    'cantidad_compras' => $cantidad,
+    'cod_compra' => $codigo_verificador,
 ];
 
 $transaction = new Transaction();

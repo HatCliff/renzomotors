@@ -16,44 +16,49 @@ if (!$token) {
     die('No es un flujo de pago normal.');
 }
 
+$path = '';
+
 $response = (new Transaction)->commit($token);
 if ($response->isApproved()) {
-    $array = $_SESSION['compra_accesorio'];
+    if (isset($_SESSION['processed_token']) && $_SESSION['processed_token'] === $token) {
 
-    $query_cantidad_compras = "
+    } else {
+        $_SESSION['processed_token'] = $token;
+        $array = $_SESSION['compra_accesorio'];
+
+        $query_cantidad_compras = "
     SELECT COUNT(*) AS cantidad
     FROM registro_accesorio
     WHERE DATE(fecha_compra_a) = '$array[fecha_compra_a]'";
-    $result_compras = mysqli_query($conexion, $query_cantidad_compras);
-    $cantidad = mysqli_fetch_assoc($result_compras);
+        $result_compras = mysqli_query($conexion, $query_cantidad_compras);
+        $cantidad = mysqli_fetch_assoc($result_compras);
 
-    $codigo_verificador = '';
-    $codigo_verificador =
-        str_pad($array['sucursal_compra'], 3, '0', STR_PAD_LEFT) .
-        date('dmY', strtotime($array['fecha_compra_a'])) .
-        str_pad($cantidad['cantidad'], 4, '0', STR_PAD_LEFT);
+        $codigo_verificador = '';
+        $codigo_verificador =
+            str_pad($array['sucursal_compra'], 3, '0', STR_PAD_LEFT) .
+            date('dmY', strtotime($array['fecha_compra_a'])) .
+            str_pad($cantidad['cantidad'], 4, '0', STR_PAD_LEFT);
 
-    $cod_orden = [
-        'cod_orden' => $codigo_verificador,
-    ];
-    $_SESSION['compra_accesorio'][] = $cod_orden;
+        $cod_orden = [
+            'cod_orden' => $codigo_verificador,
+        ];
 
-    $query = "INSERT INTO registro_accesorio
+        $query = "INSERT INTO registro_accesorio
     VALUES ('$cod_orden[cod_orden]', '$array[sucursal_compra]', '$array[correo_compra]', '$array[fecha_compra_a]', '$array[listado_accesorio]', '$array[valor_carrito]', '$array[id_carrito]')";
-    $resultado = mysqli_query($conexion, $query);
+        $resultado = mysqli_query($conexion, $query);
 
 
-    if ($resultado) {
+        if ($resultado) {
 
-        $delete_carro = "DELETE FROM carrito_accesorio WHERE id_carrito = (SELECT id_carrito FROM carrito_usuario WHERE rut_usuario = '$rut_user')";
-        $result_delete = mysqli_query($conexion, $delete_carro);
+            $delete_carro = "DELETE FROM carrito_accesorio WHERE id_carrito = (SELECT id_carrito FROM carrito_usuario WHERE rut_usuario = '$rut_user')";
+            $result_delete = mysqli_query($conexion, $delete_carro);
 
-        $update_carro = $conexion->query("UPDATE carrito_usuario SET valor_carrito= 0 WHERE rut_usuario = '$rut_user'");
+            $update_carro = $conexion->query("UPDATE carrito_usuario SET valor_carrito= 0 WHERE rut_usuario = '$rut_user'");
 
-        require '../../utils/generarboleta_accesorio.php';
-        $path = '../../utils/data/boleta/vehiculo/boleta_accesorios_' . $codigo_verificador . '.pdf';
+        }
     }
-
+    require '../../utils/generarboleta_accesorio.php';
+    $path = 'C:\xampp\htdocs\xampp\renzomotors\utils\data\boleta\accesorio\boleta_accesorios_' . $_SESSION['compra_accesorio']['cod_compra']  . '.pdf';//modificado
     success(true, botonBoleta($path));
 } else {
     $accesorios_array = explode(', ', $accesorios_concatenados);

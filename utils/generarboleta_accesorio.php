@@ -1,5 +1,6 @@
 <?php
-require './../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php'; // modificado
+include 'correo_accesorio.php';
 
 use Fpdf\Fpdf;
 
@@ -21,11 +22,17 @@ class PDF extends FPDF
 
     function generarBoleta($data)
     {
+
+        require __DIR__ .'/../config/conexion.php';
+        $dato = [];
+        $datos_s = $conexion->query("SELECT nombre_sucursal FROM sucursal WHERE id_sucursal = {$data['sucursal_compra']}");
+        $dato['nombre_sucursal'] = $datos_s->fetch_assoc()['nombre_sucursal'];
+
         $this->SetFont('Arial', '', 12);
 
         // Información de la compra
         $this->Cell(0, 10, utf8_decode('Fecha: ' . $data['fecha_compra_a']), 0, 1, 'R');
-        $this->Cell(0, 10, utf8_decode('Sucursal: ' . $data['sucursal_compra']), 0, 1, 'R');
+        $this->Cell(0, 10, utf8_decode('Sucursal: ' . $dato['nombre_sucursal']), 0, 1, 'R');
         $this->Ln(5);
 
         // Detalles del cliente
@@ -35,22 +42,38 @@ class PDF extends FPDF
         // Detalles de los accesorios
         $this->Cell(0, 10, utf8_decode('Productos Comprados'), 0, 1);
         $this->SetFont('Arial', '', 10);
-        
+
         // Aquí asumimos que el listado de accesorios está en el campo 'listado_accesorio'
-        $accesorios = explode(', ', $data['listado_accesorio']);
-        
+        $accesorios = array_filter(explode(', ', $data['listado_accesorio']));
+
         foreach ($accesorios as $accesorio) {
-            // Aquí asumimos que cada accesorio tiene el formato 'SKU:CANTIDAD' para la concatenación
+            // Dividimos el accesorio en SKU y cantidad
             list($sku, $cantidad) = explode(':', $accesorio);
-            $this->Cell(0, 10, utf8_decode('SKU: ' . $sku . ' - Cantidad: ' . $cantidad), 0, 1);
+
+            // Consulta segura con sentencia preparada
+            $stmt = $conexion->prepare("SELECT nombre_accesorio FROM accesorio WHERE sku_accesorio = ?");
+            $stmt->bind_param('s', $sku);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if ($resultado->num_rows > 0) {
+                $nombre_sku = $resultado->fetch_assoc()['nombre_accesorio'];
+
+                $this->Cell(0, 10, utf8_decode('Producto: ' . $nombre_sku . ' - Cantidad: ' . $cantidad), 0, 1);
+            } else {
+                $this->Cell(0, 10, utf8_decode('Producto: ' . $sku . ' no encontrado - Cantidad: ' . $cantidad), 0, 1);
+            }
+
+            // Cerramos el statement
+            $stmt->close();
         }
+
 
         $this->Ln(10);
 
         // Código de barras (Código verificador)
         $this->SetFont('Arial', '', 12);
-        $codigoVerificador = 'n' . str_pad($data['sucursal_id'], 3, '0', STR_PAD_LEFT) . date('dmY', strtotime($data['fecha_compra_a'])) . str_pad($data['cantidad_compras'], 4, '0', STR_PAD_LEFT);
-        $this->Cell(0, 10, utf8_decode('Código de Orden: ' . $data['cod_orden']), 0, 1, 'C');
+        $codigoVerificador = $data['cod_compra'];
         $this->SetFont('Courier', '', 24);
         $this->Cell(0, 10, "| $codigoVerificador |", 0, 1, 'C'); // Representación simple del código de barras
 
@@ -73,6 +96,7 @@ function botonBoleta($savePath)
 {
     // Obtener los datos de la compra y cod_orden desde la sesión
     $compra = $_SESSION['compra_accesorio'];
+    $correo = $_SESSION['compra_accesorio']['correo_compra'];
 
     // Crear una nueva instancia del PDF
     $pdf = new PDF();
@@ -86,6 +110,8 @@ function botonBoleta($savePath)
 
     // Ajustar la ruta para eliminar parte del directorio
     $savePath = trimPathToUtils($savePath);
+
+    enviarCorreo($correo, $savePath);
 
     // Retornar el HTML para descargar la boleta
     return "<i>Transacción aprobada</i><a href='" . "/xampp" . htmlspecialchars($savePath) . "' class='btn btn-primary'>Descargar Boleta</a>";
