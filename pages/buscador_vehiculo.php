@@ -10,29 +10,94 @@ $id_combustible = $_POST['id_combustible'] ?? [];
 $id_transmision = $_POST['id_transmision'] ?? [];
 $nombre_modelo = $_POST['modelo_i'] ?? ''; 
 
-$query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais
+$query = "SELECT v.*, m.nombre_marca, a.anio, p.nombre_pais, t.nombre_transmision
           FROM vehiculo v
           JOIN marca m ON v.id_marca = m.id_marca
           JOIN anio a ON v.id_anio = a.id_anio
           JOIN pais p ON v.id_pais = p.id_pais
+          JOIN transmision t ON v.id_transmision = t.id_transmision
           WHERE 1=1 AND v.cantidad_vehiculo != 0
           AND v.arriendo=0";
 
 $resultado = mysqli_query($conexion, $query);
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        
+        $get_estado = $_GET['estado'] ?? [];
+        $get_orden = $_GET['orden'] ?? '';
+        $get_id_marcas = $_GET['id_marcas'] ?? [];
+        $get_id_anios = $_GET['id_anios'] ?? [];
+        $get_id_combustible = $_GET['id_combustible'] ?? [];
+        $get_id_transmision = $_GET['id_transmision'] ?? [];
+        $get_nombre_modelo = $_GET['modelo_i'] ?? '';
 
-
-if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    echo "<script>
-        window.onload = function() {
-            if (!sessionStorage.getItem('retroceso_control')) {
-                document.getElementById('Limpiar').click();
-                sessionStorage.setItem('retroceso_control', '1');
+        if (!empty($get_estado)) {
+            $estado = array_merge($estado, (array) $get_estado );
+            $estado = array_unique($estado);
+            $estado_string = implode(",", array_map(function($val) {
+                return "'" . addslashes($val) . "'";
+            }, $estado));
+            $query .= " AND v.estado_vehiculo IN ($estado_string)";
+        }
+        
+        if (!empty($get_orden)) {
+            if ($get_orden == 'mayor_a_menor') {
+                $query .= " ORDER BY precio_modelo DESC";
+            } elseif ($get_orden == 'menor_a_mayor') {
+                $query .= " ORDER BY precio_modelo ASC";
             } else {
-                sessionStorage.removeItem('retroceso_control');
+                $query .= " ORDER BY precio_modelo ASC";
             }
-        };
-    </script>";
-}
+        }
+        
+        if (!empty($get_id_marcas)) {
+            $id_marcas = array_merge($id_marcas, (array) $get_id_marcas);
+            $id_marcas = array_unique($id_marcas);
+            $get_id_marcas_string = implode(",", array_map(function($val) {
+                return "'" . addslashes($val) . "'";
+            }, $id_marcas));
+            $query .= " AND v.id_marca IN ($get_id_marcas_string)";
+        }
+        
+        if (!empty($get_id_anios)) {
+            $id_anios = array_merge($id_anios, (array) $get_id_anios);
+            $id_anios = array_unique($id_anios);
+            $get_id_anios_string = implode(",", array_map(function($val) {
+                return "'" . addslashes($val) . "'";
+            }, $id_anios));
+            $query .= " AND v.id_anio IN ($get_id_anios_string)";
+        }
+        
+        if (!empty($get_id_combustible)) {
+            $id_combustible = array_merge($id_combustible, (array) $get_id_combustible);
+            $id_combustible = array_unique($id_combustible);
+            $get_id_combustible_string = implode(",", array_map(function($val) {
+                return "'" . addslashes($val) . "'";
+            }, $id_combustible));
+            $query .= " AND v.id_tipo_combustible IN ($get_id_combustible_string)";
+        }
+        
+        if (!empty($get_id_transmision)) {
+            $id_transmision = array_merge($id_transmision, (array) $get_id_transmision);
+            $id_transmision = array_unique($id_transmision);
+            $get_id_transmision_string = implode(",", array_map(function($val) {
+                return "'" . addslashes($val) . "'";
+            }, $id_transmision));
+            $query .= " AND v.id_transmision IN ($get_id_transmision_string)";
+        }
+        
+        if (!empty($get_nombre_modelo)) {
+            $nombre_modelo = addslashes($get_nombre_modelo);
+            $query .= " AND v.nombre_modelo LIKE '%$nombre_modelo%'";
+        }
+
+        $resultado = mysqli_query($conexion, $query);
+        if (mysqli_num_rows($resultado) == 0) {
+            echo "<script>var showAlert = true;</script>";
+        } else {
+            echo "<script>var showAlert = false;</script>";
+        }
+    }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
 
@@ -161,6 +226,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             text-align: center; 
             padding: 10px; /
         }
+        .no-style .accordion-item label {
+            color: #000; 
+            font-size: 14px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -236,12 +305,11 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                     Abrir Filtros
                 </button>
         </div>
-        
 
         <div class="row">
             <div class="row w-100 flex-column-reverse flex-lg-row">
                         <!-- Offcanvas para filtros -->
-                        <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasFiltros" aria-labelledby="offcanvasFiltrosLabel">
+                        <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasFiltros" aria-labelledby="offcanvasFiltrosLabel" style="background-color: #e6e6e6;">
                             <div class="offcanvas-header">
                                 <h5 class="offcanvas-title" id="offcanvasFiltrosLabel">Filtros</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -425,8 +493,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                                         echo "<li class='accordion-item'>";
                                                         echo "<label>";
                                                         echo "<input type='checkbox' name='id_transmision[]' value='{$row['id_transmision']}' 
-                                                            $isChecked onchange='handleCheckboxChange(this, \"id_transmision\", \"{$row['id_transmision']}\")'";
-                                                        echo "  {$row['nombre_transmision']}";
+                                                            $isChecked onchange='handleCheckboxChange(this, \"id_transmision\", \"{$row['id_transmision']}\")'>";
+                                                        echo " {$row['nombre_transmision']}";
                                                         echo "</label>";
                                                         echo "</li>";
                                                     }
@@ -625,7 +693,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                                         echo "<li class='accordion-item'>";
                                                         echo "<label>";
                                                         echo "<input type='checkbox' name='id_transmision[]' value='{$row['id_transmision']}' 
-                                                            $isChecked onchange='handleCheckboxChange(this, \"id_transmision\", \"{$row['id_transmision']}\")'";
+                                                            $isChecked onchange='handleCheckboxChange(this, \"id_transmision\", \"{$row['id_transmision']}\")'>";
                                                         echo "  {$row['nombre_transmision']}";
                                                         echo "</label>";
                                                         echo "</li>";

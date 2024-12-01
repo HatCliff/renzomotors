@@ -8,8 +8,8 @@ $action = $_GET['action'] ?? '';
 if ($action === 'getEstados') {
     // Opciones estáticas para el estado del vehículo
     $estados = [
-        ['value' => 'Usado', 'label' => 'Usado'],
-        ['value' => 'Nuevo', 'label' => 'Nuevo']
+        ['value' => 'usado', 'label' => 'Usado'],
+        ['value' => 'nuevo', 'label' => 'Nuevo']
     ];
     echo json_encode($estados);
 } elseif ($action === 'getTiposVehiculo') {
