@@ -11,7 +11,11 @@ if (isset($_GET['sku'])) {
     }
 
     // Realizar la consulta para obtener los detalles del accesorio
-    $query = "SELECT * FROM accesorio WHERE sku_accesorio = '$sku'";
+    $query = "SELECT * FROM accesorio a
+            JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
+            JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio 
+            WHERE a.sku_accesorio = '$sku'";
+
     $resultado = mysqli_query($conexion, $query);
 
     if ($fila = mysqli_fetch_assoc($resultado)) {
@@ -34,16 +38,15 @@ if (isset($_GET['sku'])) {
         // Reiniciar el puntero para reutilizar el resultado de la consulta
         mysqli_data_seek($fotos_resultado, 0);
 
-        echo "</div>
-              <div class='carousel-inner' style='max-height: 50vh'>";
+        echo "</div><div class='carousel-inner' style='max-height: 50vh'>";
 
         $index = 0;
         // Generar elementos del carrusel dinámicos
         while ($foto = mysqli_fetch_assoc($fotos_resultado)) {
             $ruta_imagen = '../../admin/mantenedores/accesorios/' . $foto['foto_accesorio'];
             $active = $index === 0 ? 'active' : '';
-            echo "<div class='carousel-item $active'>";
-            echo "<img src='$ruta_imagen' class='d-block w-100' alt='Foto accesorio' style='object-fit: cover; height: 100%; width: 100%'>";
+            echo "<div class='carousel-item $active' style='border: 0.1em solid grey;'>";
+            echo "<img src='$ruta_imagen' class='d-block w-100' alt='Foto accesorio' style='object-fit: cover; height: 100%; width: 100%';>";
             echo "</div>";
             $index++;
         }
@@ -60,35 +63,40 @@ if (isset($_GET['sku'])) {
             </div>
             </div>
             <div class='col-6'>
-                <h3>" . $fila['nombre_accesorio'] . "</h3>
-                <p class='text-success'><strong>Precio:</strong> $" . number_format($fila['precio_accesorio'], 0, ',', '.') . " CLP</p>
-                <p>" . $fila['descripcion_accesorio'] . "</p>
-            </div>
+                <h2><strong>" . $fila['nombre_accesorio'] . "</strong></h2>
+                <p class='fw-bold mb-2''style='color:#3c4043'><strong>Precio:</strong> $" . number_format($fila['precio_accesorio'], 0, ',', '.') . " CLP</p>
+                <p><strong>Descripción: </strong>" . $fila['descripcion_accesorio'] . "</p>
+                <p><strong>Categoria: </strong>" . $fila['nombre_tipo_accesorio'] ."</p>
+                <p><strong>Stock en linea: </strong>" . $fila['stock_accesorio'] ." unidades</p>";
+                
+
+                if (isset($_SESSION['usuario'])) {
+                    $estado = "SELECT sku_accesorio FROM carrito_accesorio WHERE id_carrito = (SELECT id_carrito FROM carrito_usuario WHERE rut_usuario = '$rut_user')";
+                    $estado_result = mysqli_query($conexion, $estado);
+                    $item_list = [];
+                    while ($item = mysqli_fetch_assoc($estado_result)) {
+                        $item_list[] = $item['sku_accesorio'];
+                    }
+                    if(!in_array($sku, $item_list)){
+                        echo "
+                        <div class='d-grid mt-2 p-5'>
+                            <a href='funciones_carrito/agregar_item.php?sku={$fila['sku_accesorio']}' type='button' class='btn btn-outline-primary'>Añadir a mi carrito</a>
+                        </div>";
+                    }else{
+                        echo "
+                        <div class='d-grid mt-2 p-5'>
+                            <button type='button' class='btn btn-success disabled'>Accesorio ya agregado al carrito</a>
+                        </div>";
+                    }
+                } else {
+                    echo "
+                    <div class='d-grid mt-2 p-5'>
+                        <button type='button' class='btn btn-outline-primary disabled' data-bs-dismiss='modal'>Inicia Sesíon para usar el carrito</button>
+                    </div>";
+                }
+                
+    echo"   </div>
         </div>";
-        if (isset($_SESSION['usuario'])) {
-            $estado = "SELECT sku_accesorio FROM carrito_accesorio WHERE id_carrito = (SELECT id_carrito FROM carrito_usuario WHERE rut_usuario = '$rut_user')";
-            $estado_result = mysqli_query($conexion, $estado);
-            $item_list = [];
-            while ($item = mysqli_fetch_assoc($estado_result)) {
-                $item_list[] = $item['sku_accesorio'];
-            }
-            if(!in_array($sku, $item_list)){
-                echo "
-                <div class='d-grid mt-2'>
-                    <a href='funciones_carrito/agregar_item.php?sku={$fila['sku_accesorio']}' type='button' class='btn btn-outline-primary'>Añadir a mi carrito</a>
-                </div>";
-            }else{
-                echo "
-                <div class='d-grid mt-2'>
-                    <button type='button' class='btn btn-success disabled'>Accesorio ya agregado al carrito</a>
-                </div>";
-            }
-        } else {
-            echo "
-            <div class='d-grid mt-2'>
-                <button type='button' class='btn btn-outline-primary disabled' data-bs-dismiss='modal'>Inicia Sesíon para usar el carrito</button>
-            </div>";
-        }
     } else {
         echo "<p>Accesorio no encontrado.</p>";
     }
