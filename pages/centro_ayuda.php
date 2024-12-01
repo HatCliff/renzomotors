@@ -1,18 +1,16 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include('../config/conexion.php');
 
-$rut = $_SESSION['rut'];
-
-// Verificación de usuario
 if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['usuario'])) {
     echo "<script>
-        alert('Debe estar logueado para contratar un seguro.');
-        window.location.href = '../pages/login.php';
-        
+    window.location.href = '../pages/login.php';
     </script>";
     exit();
 }
+$rut = $_SESSION['rut'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asunto_solicitud = $_POST['asunto_solicitud'];
@@ -54,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $query = "INSERT INTO solicitud_ayuda (rut, asunto_solicitud, descripcion_solicitud, tipo_solicitud) 
                 VALUES ('$rut', '$asunto_solicitud', '$descripcion_solicitud', '$tipo_solicitud')";
-    // Insertar datos en la base de datos
 
     try {
         $resultado = mysqli_query($conexion, $query);

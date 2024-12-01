@@ -3,7 +3,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include("../../config/conexion.php");
-// Incluye el navbar correspondiente según el tipo de usuario
+
+if(!isset($_SESSION['usuario'])){
+    header('Location: ../login.php');
+}
+
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
     // Usuario es administrador, incluye el navbar de administrador
     include '../../admin/navbaradmin.php';
@@ -35,7 +39,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         }
 
         .left-image {
-            background-image: url('../../src/images/for_sale.jpg');
+            background-image: url('../../src/images/for_sale.jpeg');
             background-size: cover;
             background-position: center;
             width: 40%;
@@ -130,14 +134,14 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 </head>
 
 <body>
-    <div class="container-fluid container-form">
+    <div class="container-fluid container-form mt-5">
         <div class="left-image">
             <div>
                 Véndenos<br>
                 Tu Vehículo
             </div>
         </div>
-        <div class="right-form mt-5 pt-5">
+        <div class="right-form mt-5">
             <div class="step-indicator">
                 <span id="step-1" class="active">01 | Propietario</span>
                 <span id="step-2">02 | Vehículo</span>
@@ -175,13 +179,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             <label class="form-check-label" for="aceptar_terminos1">
                                 Autorizo de manera libre y voluntaria para que mis datos personales sean tratados y
                                 usados para ser contactado.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="aceptar_terminos2" required>
-                            <label class="form-check-label" for="aceptar_terminos2">
-                                Autorizo de manera libre y voluntaria a la Compañía para la recolección y almacenamiento
-                                de mis datos personales.
                             </label>
                         </div>
                     </div>

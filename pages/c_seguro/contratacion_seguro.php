@@ -1,6 +1,15 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include('../../config/conexion.php');
+// Verificación de usuario
+if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
+    echo "<script>
+        window.location.href = '../../pages/login.php';
+    </script>";
+    exit();
+}
 
 // Incluye el navbar correspondiente según el tipo de usuario
 if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administrador') {
@@ -11,14 +20,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     include '../../components/navbaruser.php';
 }
 
-// Verificación de usuario
-if (!isset($_SESSION['tipo_persona']) || !in_array($_SESSION['tipo_persona'], ['administrador', 'usuario'])) {
-    echo "<script>
-        alert('Debe estar logueado para contratar un seguro.');
-        window.location.href = '../../pages/login.php';
-    </script>";
-    exit();
-}
 // Verificar que el ID del seguro esté presente en la URL
 if (isset($_GET['id_seguro'])) {
     $id_seguro = $_GET['id_seguro'];

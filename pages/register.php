@@ -70,7 +70,6 @@ if (isset($_POST['submit'])) {
             min-height: 100vh;
         }
 
-        /* Contenedor que hace que la imagen y el formulario estén juntos como un solo card */
         .card-container {
             display: flex;
             flex-wrap: wrap;

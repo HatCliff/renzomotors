@@ -186,8 +186,8 @@ $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
     </style>
 </head>
 <body class="pt-5 mt-3">
-    <div class="banner">
-        <div class="overlay text-center py-5">
+    <div class="banner mb-4">
+        <div class="overlay text-center pt-5">
             <h1 class="text-white">ENCUENTRA AHORA TU AUTO IDEAL CON RENZOMOTORS</h1>
             <div class="search-container mt-4 d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
                 <select id="estado-vehiculo" class="form-select w-100 w-md-auto">
@@ -207,7 +207,7 @@ $resultado_sucursales = mysqli_query($conexion, $query_sucursales);
             </div>
         </div>
     </div>
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4 mt-4">
         <h1 class="text-center mb-4 fw-bold">Explora nuestras marcas</h1>
         <div class="d-flex align-items-center">
             <button class="btn btn-outline-secondary me-3" id="prevSlide" style="font-size: 1.5rem; border-radius: 50%; height: 40px; width: 40px;">&#8249;</button>

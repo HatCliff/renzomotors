@@ -5,10 +5,6 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION['usuario'])) {
     header('Location: /xampp/renzomotors/index.php');
 }
-
-if (isset($_SESSION['error'])) {
-    echo "<div class='mx-auto fcol-3 fixed-top alert alert-danger' role='alert'>Error ". $_SESSION['error_code'] . ": ". $_SESSION['error'] . "</div>";
-}
 ?>
 
 <!DOCTYPE html>
