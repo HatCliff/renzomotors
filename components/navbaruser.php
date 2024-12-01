@@ -13,10 +13,6 @@ if (session_status() == PHP_SESSION_NONE) {
                 style="width: 40px; height: 40px; filter: invert(1);">
             RenzoMotors
         </a>
-        <!-- boton ayuda  -->
-        <a class="nav-link active ms-3" href="<?php echo $carpetaMain; ?>pages/centro_ayuda.php" style="color: white;">
-            <i class="fas fa-question-circle"></i> Ayuda
-        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

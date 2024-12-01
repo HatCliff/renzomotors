@@ -56,10 +56,10 @@ require('./ventas/queries.php');
   }
 
     </style>
-    <?php include __DIR__ . "/../admin/navbaradmin.php"; ?>
+    <?php include __DIR__ . "../../../admin/navbaradmin.php"; ?>
     <div class="container-fluid p-5">
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
+            <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="../../utils/Exportacion_informe_venta.php"><i class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
         </div>
         <div class="row">
             <div class="col-md-6 col-xl-3 mb-4">
