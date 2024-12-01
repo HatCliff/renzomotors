@@ -37,15 +37,45 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/seguros-banner.jpg'); 
+            background-size: cover;
+            background-position: center 85%;
+            height: 25vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body class="mt-5 pt-5">
-
+    <div class="container banner">
+        <h1 class="text-white">Protege tu Auto con los mejores seguros del mercado</h1>
+        <h2>Encuentra el seguro perfecto para tu tranquilidad y la de tu vehículo.</h2>
+    </div>    
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <h2 class="text-center mb-4">Cotización de seguros</h2>
-            <hr>
             <?php while ($row = mysqli_fetch_assoc($resultado)) { ?>
                 <div class="col-md-4 mb-4">
                     <div class="card text-center shadow-sm rounded" style="background: #fffcf4;">
@@ -59,10 +89,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             <p class="card-text text-muted" style="text-align: justify;"><?php echo $row['descripcion_seguro']; ?></p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <span class="text-secondary fw-bold">Desde
+                            <span class="text-success fw-bold">Desde
                                 <?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?> CLP</span>
                             <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>"
-                                class="btn btn-secondary">Cotizar</a>
+                                class="btn btn-warning">Cotizar</a>
                         </div>
                     </div>
                 </div>

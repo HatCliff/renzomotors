@@ -45,14 +45,47 @@ $resulta_mantenimiento = $conexion->query($mantenimientos)
     body {
         background: #E6E6E6;
     }
+    .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/banner-mantenciones.jpg'); 
+            background-size: cover;
+            background-position: center;
+            height: 25vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
 </style>
 
 <body class="pt-5">
+
     <div class="container mt-5">
+    <div class="container banner">
+        <h1 class="text-white">Realiza tus Mantenciones con RenzoMotors</h1>
+        <h2>Encuentra las mantenciones ideales para tu vehículo, siempre cerca de ti.</h2>
+    </div>
         <div class="row">
             <div class="col-12">
-                <div class="">
-                    <h1 class="mb-4">Mantenimientos</h1>
+                <div class="mt-4">
+
                     <div class="mb-3 d-flex">
                     <?php
                     $sucursales = "SELECT * FROM sucursal ORDER BY zona_sucursal";

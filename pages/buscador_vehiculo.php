@@ -230,6 +230,35 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             color: #000; 
             font-size: 14px;
         }
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../src/images/buscador-banner.png'); 
+            background-size: cover;
+            background-position: center top  ;
+            height: 25vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -278,15 +307,17 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
 
 </script>
-<body class="pt-5">
+<body class="pt-5 mt-5">
     <!-- Alerta de sesión -->
     <div id="alertSession" class="alert alert-warning alert-session" role="alert">
         Debe iniciar sesión para guardar favoritos.
     </div>
+    <div class="container banner">
+        <h1 class="text-white">Encuentra el Auto de tus Sueños en RenzoMotors.</h1>
+        <h2>Usa nuestro buscador para ver todos nuestros modelos, conoce los precios y características de los mejores vehículos.</h2>
+    </div>
     <div class="container mt-5">
-        <div class="row  justify-content-center mb-4">
-            <h1 class="m-0 ps-0"><strong>VEHÍCULOS</strong></h1>
-        </div>
+
         <div class="row mb-4">
             <div class="col-6 ps-0">
                 <form id="filtroForm" method="POST" enctype="multipart/form-data">
@@ -735,7 +766,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
                             // Contenido de la tarjeta
                             echo "<a href='vehiculo.php?id={$fila['id_vehiculo']}' class='text-decoration-none w-100'>";
-                            echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;'>";
+                            echo "<div class='card h-100 d-flex flex-column' style='background: #fffcf4; border-radius: 20px; overflow: hidden;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);'>";
 
                             // Carrusel de fotos del vehículo
                             $fotos_resultado = mysqli_query($conexion, "SELECT ruta_foto FROM fotos_vehiculo WHERE id_vehiculo = $id_vehiculo");
@@ -798,6 +829,11 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<footer class="mt-5">
+    <?php
+        include("../components/footer.php")
+    ?>
+</footer>
 </html>
 <script>
         // Función para manejar los cambios en los checkboxes

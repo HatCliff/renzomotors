@@ -33,9 +33,12 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             flex:1;
         }
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
             font-family: Arial, sans-serif;
             background: #E6E6E6;
-            margin: 0;
         }
         .container-form {
             display: flex;
@@ -50,14 +53,12 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             min-height: 30vh;
             width: 40%;
             height: 100vh;
-            color: white;
             display: flex;
-            justify-content: center;
-            align-items: center;
             font-size: 2rem;
             position: relative;
             overflow: hidden; 
             z-index: 1;
+
         }
         .left-image::before {
             content: '';
@@ -74,6 +75,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             position: relative;
 
         }
+        
         .right-form {
             padding: 50px;
             width: 60%;
@@ -140,164 +142,166 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             }
             .right-form {
                 padding: 15px;
+                margin-bottom: 500px;
             }
+            
         }
     </style>
 
 </head>
 
-<body>
-<main>
-<div class="container-fluid container-form px-0">
-    <div class="left-image">
+<body >
+    <main>
+        <div class="container-fluid container-form px-0">
+            <div class="left-image">
 
-    </div>
-    <div class="right-form mt-5 pt-5">
-        <div class="step-indicator">
-            <span id="step-1" class="active">01 | Tus datos</span>
-            <span id="step-2">02 | Modelo</span>
-            <span id="step-3">03 | Sucursal</span>
-        </div>
-
-        <!-- Sección 1: Tus datos -->
-<div id="section-1" class="section active-section">
-    <h2 class="mb-4">Tus Datos</h2>
-    <form id="form-datos" method="POST">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
-            <div class="form-group col-md-6">
-                <label for="apellido">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" required>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="rut">RUT</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="rut" 
-                       name="rut" 
-                       placeholder="12.345.678-9" 
-                       required 
-                       pattern="^\d{1,2}\.\d{3}\.\d{3}-[0-9kK]$" 
-                       title="Ingrese un RUT válido en el formato 12.345.678-9.">
-            
-            </div>
-            <div class="form-group col-md-6">
-                <label for="correo">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" name="correo" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="text" 
-                   class="form-control" 
-                   id="telefono" 
-                   name="telefono" 
-                   placeholder="+569" 
-                   required 
-                   pattern="^\+?[0-9]{9,15}$" 
-                   title="Ingrese un teléfono válido. Puede incluir el símbolo + al inicio, seguido de 9 a 15 dígitos.">
-        </div>
-        <div class="form-group mt-4">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="aceptar_terminos1" required>
-                <label class="form-check-label" for="aceptar_terminos1">
-                    Autorizo que mis datos personales sean tratados y usados para ser contactado.
-                </label>
-            </div>
-        </div>
-        <button type="button" class="btn btn-dark mt-4" onclick="nextSection(2, 'form-datos')">Confirmar datos</button>
-    </form>
-</div>
-
-
-        <!-- Sección 2: Modelo -->
-        <div id="section-2" class="section">
-            <h2 class="mb-4">Selecciona el Modelo</h2>
-            <form id="form-modelo" method="POST">
-                <div class="form-group">
-                    <label>Marca</label>
-                    <select class="form-control" id="marca" name="marca" onchange="cargarModelos()" required>
-                        <option value="">Seleccione una marca</option>
-                        <?php
-                        $marcas = mysqli_query($conexion, "SELECT * FROM marca");
-                        while ($marca = mysqli_fetch_assoc($marcas)) {
-                            $selected = ($marca_seleccionada == $marca['id_marca']) ? 'selected' : '';
-                            echo "<option value='{$marca['id_marca']}' $selected>{$marca['nombre_marca']}</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Modelo</label>
-                    <select class="form-control" id="modelo" name="modelo" required>
-                        <option value="">Seleccione un modelo</option>
-                    </select>
-                </div>
-                
-                <button type="button" class="btn btn-dark mt-4" onclick="nextSection(3, 'form-modelo')">Continuar</button>
-            </form>
-        </div>
-
-        <!-- Sección 3: Sucursal -->
-        <div id="section-3" class="section">
-            <h2 class="mb-4">Selecciona la Sucursal</h2>
-            <form id="form-sucursal" method="POST">
-                <div class="form-group">
-                    <label>Sucursal</label>
-                    <select class="form-control" id="sucursal" name="sucursal" required>
-                        <?php
-                        $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
-                        while ($sucursal = mysqli_fetch_assoc($sucursales)) {
-                            echo "<option value='{$sucursal['id_sucursal']}'>{$sucursal['nombre_sucursal']}</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                
-                <!-- Campo de selección de fecha -->
-                <div class="form-group mt-4">
-                    <label for="fecha">Fecha de la Prueba</label>
-                    <input type="date" id="fecha" name="fecha" class="form-control" required>
-                </div>
-                
-                <!-- Campo de selección de hora -->
-                <div class="form-group mt-4">
-                    <label for="hora">Hora de la Prueba</label>
-                    <select id="hora" name="hora" class="form-control" required>
-                        <?php
-
-                        $hora_inicio = strtotime("08:00");
-                        $hora_fin = strtotime("14:00");
-                        while ($hora_inicio <= $hora_fin) {
-                            $hora_formato = date("H:i", $hora_inicio);
-                            echo "<option value='$hora_formato'>$hora_formato</option>";
-                            $hora_inicio = strtotime('+30 minutes', $hora_inicio);
-                        }
-                        ?>
-                    </select>
+            <div class="right-form mt-5 pt-5">
+                <div class="step-indicator">
+                    <span id="step-1" class="active">01 | Tus datos</span>
+                    <span id="step-2">02 | Modelo</span>
+                    <span id="step-3">03 | Sucursal</span>
                 </div>
 
-                <button type="submit" class="btn btn-dark mt-4">Confirmar Solicitud</button>
-            </form>
+                <!-- Sección 1: Tus datos -->
+                <div id="section-1" class="section active-section">
+                    <h2 class="mb-4">Tus Datos</h2>
+                    <form id="form-datos" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="apellido">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="rut">RUT</label>
+                                <input type="text" 
+                                    class="form-control" 
+                                    id="rut" 
+                                    name="rut" 
+                                    placeholder="12.345.678-9" 
+                                    required 
+                                    pattern="^\d{1,2}\.\d{3}\.\d{3}-[0-9kK]$" 
+                                    title="Ingrese un RUT válido en el formato 12.345.678-9.">
+                            
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="correo">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="correo" name="correo" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" 
+                                class="form-control" 
+                                id="telefono" 
+                                name="telefono" 
+                                placeholder="+569" 
+                                required 
+                                pattern="^\+?[0-9]{9,15}$" 
+                                title="Ingrese un teléfono válido. Puede incluir el símbolo + al inicio, seguido de 9 a 15 dígitos.">
+                        </div>
+                        <div class="form-group mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="aceptar_terminos1" required>
+                                <label class="form-check-label" for="aceptar_terminos1">
+                                    Autorizo que mis datos personales sean tratados y usados para ser contactado.
+                                </label>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-dark mt-4" onclick="nextSection(2, 'form-datos')">Confirmar datos</button>
+                    </form>
+                </div>
+
+
+                <!-- Sección 2: Modelo -->
+                <div id="section-2" class="section">
+                    <h2 class="mb-4">Selecciona el Modelo</h2>
+                    <form id="form-modelo" method="POST">
+                        <div class="form-group">
+                            <label>Marca</label>
+                            <select class="form-control" id="marca" name="marca" onchange="cargarModelos()" required>
+                                <option value="">Seleccione una marca</option>
+                                <?php
+                                $marcas = mysqli_query($conexion, "SELECT * FROM marca");
+                                while ($marca = mysqli_fetch_assoc($marcas)) {
+                                    $selected = ($marca_seleccionada == $marca['id_marca']) ? 'selected' : '';
+                                    echo "<option value='{$marca['id_marca']}' $selected>{$marca['nombre_marca']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Modelo</label>
+                            <select class="form-control" id="modelo" name="modelo" required>
+                                <option value="">Seleccione un modelo</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="btn btn-dark mt-4" onclick="nextSection(3, 'form-modelo')">Continuar</button>
+                    </form>
+                </div>
+
+                <!-- Sección 3: Sucursal -->
+                <div id="section-3" class="section">
+                    <h2 class="mb-4">Selecciona la Sucursal</h2>
+                    <form id="form-sucursal" method="POST">
+                        <div class="form-group">
+                            <label>Sucursal</label>
+                            <select class="form-control" id="sucursal" name="sucursal" required>
+                                <?php
+                                $sucursales = mysqli_query($conexion, "SELECT * FROM sucursal");
+                                while ($sucursal = mysqli_fetch_assoc($sucursales)) {
+                                    echo "<option value='{$sucursal['id_sucursal']}'>{$sucursal['nombre_sucursal']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        
+                        <!-- Campo de selección de fecha -->
+                        <div class="form-group mt-4">
+                            <label for="fecha">Fecha de la Prueba</label>
+                            <input type="date" id="fecha" name="fecha" class="form-control" required>
+                        </div>
+                        
+                        <!-- Campo de selección de hora -->
+                        <div class="form-group mt-4">
+                            <label for="hora">Hora de la Prueba</label>
+                            <select id="hora" name="hora" class="form-control" required>
+                                <?php
+
+                                $hora_inicio = strtotime("08:00");
+                                $hora_fin = strtotime("14:00");
+                                while ($hora_inicio <= $hora_fin) {
+                                    $hora_formato = date("H:i", $hora_inicio);
+                                    echo "<option value='$hora_formato'>$hora_formato</option>";
+                                    $hora_inicio = strtotime('+30 minutes', $hora_inicio);
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark mt-4">Confirmar Solicitud</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-</main>
-<?php
-include("../../components/footer.php")
-?>
 
+    </main>
+    <?php
+    include("../../components/footer.php")
+    ?>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <script>
     

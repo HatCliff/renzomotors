@@ -28,7 +28,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background: #E6E6E6;
+            min-height: 100vh;
         }
 
         .container-form {
@@ -44,12 +47,26 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             background-position: center;
             width: 40%;
             height: 100vh;
-            color: white;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             font-size: 2rem;
+            position: relative;
+            overflow: hidden; 
+            z-index: 1;
+        }
+        .left-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1; 
+        }
+
+        .left-image * {
+            position: relative;
+
         }
 
         .right-form {
@@ -85,7 +102,15 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         }
 
         @media (max-width: 991px) {
-
+            body{
+                height: 100vh;
+                flex:1;
+                
+            }
+            .container-form {
+                flex-direction: column;
+                padding-right: 0;
+            }
             .left-image,
             .right-form {
                 width: 100%;
@@ -95,6 +120,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             .left-image {
                 font-size: 1.5rem;
                 padding: 20px;
+                margin-right: 0;
             }
 
             .right-form {
@@ -136,10 +162,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 <body>
     <div class="container-fluid container-form mt-5">
         <div class="left-image">
-            <div>
-                Véndenos<br>
-                Tu Vehículo
-            </div>
         </div>
         <div class="right-form mt-5">
             <div class="step-indicator">
@@ -272,6 +294,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<?php
+    include("../../components/footer.php")
+?>
 </body>
 
 </html>

@@ -24,6 +24,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
@@ -33,9 +34,12 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         }
         
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
             font-family: Arial, sans-serif;
             background: #E6E6E6;
-            margin: 0;
         }
         .container-form {
             display: flex;
@@ -47,10 +51,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             width: 60%;
         }
         .right-image {
-            background-image: url('../../src/images/soap.avif'); 
+            background-image: url('../../src/images/CGbEDE2WsAA7b9P.png'); 
             background-size: cover;
             min-height: 30vh;
-            background-position: center;
+            background-position: top;
             width: 40%;
             height: 100vh;
             color: white;
@@ -117,6 +121,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             }
             .left-form {
                 padding: 30px;
+                margin-bottom: 400px;
             }
         }
 
@@ -131,6 +136,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             }
             .left-form {
                 padding: 20px;
+                margin-bottom: 400px;
             }
         }
 
@@ -141,6 +147,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             }
             .left-form {
                 padding: 15px;
+                margin-bottom: 400px;
             }
         }
     </style>
@@ -267,15 +274,16 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
 
 </div>
 </main>
-<?php
-include("../../components/footer.php")
-?>
+<FOOTer>
+    <?php
+    include("../../components/footer.php")
+    ?>
+</FOOTer>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 

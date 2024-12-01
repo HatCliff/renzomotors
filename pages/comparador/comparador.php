@@ -94,9 +94,13 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             display: flex;
             flex-direction: column;
         }
-        .container{
-            flex:1;
+        main{
+            flex: 1;
         }
+        .container-banner{
+            flex: 1;
+        }
+
         h1 {
             font-weight: bold;
         }
@@ -134,6 +138,35 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             color: #fff;
         }
 
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/sucursal_banner.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            height: 15vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
 
         .modal-title {
             font-weight: bold;
@@ -146,14 +179,13 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     </style>
 </head>
 <body class="mt-5 pt-5">
-
-
-
-    <div class="text-center pt-4">
-        <h1>Comparador de Vehículos RenzoMotors</h1>
+<main>
+    <div class="container banner">
+        <h1 class="text-white">Comparador de autos RenzoMotors</h1>
+        <h2>¿No estas seguro de que auto elegir? Aquí podrás comparar los precios y especificaciones de nuestros modelos.</h2>
     </div>
     <div class="container mb-5">
-        <div class="row text-center mt-5 g-4">
+        <div class="row text-center mt-3 g-4">
             <div class="col-md-4">
                 <div class="card border-warning text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalVehiculo1">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
@@ -328,6 +360,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         </div>
     </div>
 </div>
+</main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <?php
     include("../../components/footer.php")

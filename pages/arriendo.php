@@ -27,10 +27,43 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
         body {
             background: #E6E6E6;
         }
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../src/images/arriendo_banner.jpeg'); 
+            background-size: cover;
+            background-position: center 70%;
+            height: 30vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
     </style>
 </head>
 
-<body class="pt-5">
+<body class="pt-5 mt-5">
+    <div class="container banner">
+        <h1 class="text-white">Arrienda el Auto Perfecto con RenzoMotors</h1>
+        <h2>Descubre nuestra flota disponible cerca de ti y encuentra el vehículo ideal para tu próximo viaje.</h2>
+    </div>
     <div class="container mt-5">
         <div class="col-md-12">
             <div class="row mb-4">
