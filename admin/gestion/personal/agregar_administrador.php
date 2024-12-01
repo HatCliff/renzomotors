@@ -24,6 +24,9 @@ if (isset($_SESSION['usuario'])) {
             include("../../navbaradmin.php");
 
             $nuevo = $_GET['rut'];
+            $carro = "DELETE FROM carrito_usuario WHERE rut_usuario = '$nuevo'";
+            $del_carro = $conexion->query($carro);
+
             $agregar = "UPDATE usuario_registrado SET tipo_persona = 'administrador' WHERE rut = '$nuevo'";
             $result_agregar = $conexion->query($agregar);
 

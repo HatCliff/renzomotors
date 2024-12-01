@@ -1,7 +1,7 @@
 <?php
 
 //Logica transbank
-
+include('../config/conexion.php');
 include('../vendor/autoload.php');
 
 use Transbank\Webpay\WebpayPlus\Transaction;
@@ -14,7 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      // Obtencion de las zona horarias para guardar fecha y hora
     date_default_timezone_set('America/Santiago');
     
-    $buyOrder = rand(100000, 999999);
+    $max = $conexion->query("SELECT COUNT(*) as maximo FROM reserva_vehiculo");
+    $maximo = $max->fetch_assoc();
+    
+    $buyOrder = 100001 + intval($maximo['maximo']); 
     $_SESSION['compra'] = [
         'id_vehiculo' => $_POST['id_vehiculo'],
         'rut' => $user['rut'],

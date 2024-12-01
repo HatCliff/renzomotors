@@ -1,9 +1,12 @@
 <?php
-include('../config/conexion.php');
-include('../components/navbaruser.php');
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+}
+include('../config/conexion.php');
+if ($_SESSION['tipo_persona'] === 'administrador') {
+    include '../admin/navbaradmin.php';
+} else {
+    include '../components/navbaruser.php';
 }
 
 $id_vehiculo = $_GET['id'];

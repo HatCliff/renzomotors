@@ -5,7 +5,16 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ?>
 
-<!-- NAV -->
+<!-- <style>
+    *{
+        font-family: "Montserrat", serif;
+    }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top ">
     <div class="container-fluid">
         <a class="navbar-brand" href='<?php echo $carpetaMain; ?>index.php'>

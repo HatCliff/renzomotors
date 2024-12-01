@@ -3,6 +3,16 @@ $carpetaMain = 'http://localhost/xampp/renzomotors/';
 $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
 ?>
 
+<!-- <style>
+    *{
+        font-family: "Montserrat", serif;
+    }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg  navbar-dark bg-black fixed-top">
@@ -54,7 +64,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
                                 href='<?php echo $carpetaMain; ?>pages/buscador_vehiculo.php'>Vehiculo</a></li>
-                        <li><a class="dropdown-item" href="#">Accesorios</a></li>
+                        <li><a class="dropdown-item" href='<?php echo $carpetaMain; ?>pages/accesorios/buscador_accesorio.php'>Accesorios</a></li>
                     </ul>
                 </li>
             </ul>
