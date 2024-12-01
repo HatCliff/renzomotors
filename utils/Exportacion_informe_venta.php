@@ -1,6 +1,8 @@
 <?php
 
-require('../config/conexion.php');
+require_once("../config/conexion.php"); // Conexión a la base de datos
+
+require('../admin/gestion/ventas/queries.php');
 
 require './../vendor/autoload.php';
 
@@ -8,61 +10,7 @@ use Fpdf\Fpdf;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
-// Función para contar ventas de accesorios
-function ContadorVentaAccesorios() {
-    global $conexion;
-    $query = "SELECT COUNT(*) as count FROM registro_accesorio;";
-    $result = mysqli_query($conexion, $query);
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['count'];
-    } else {
-        return "Error: " . mysqli_error($conexion);
-    }
-}
-
-// Función para calcular el valor total de ventas
-function ContadorVentaTotalAccesorios() {
-    global $conexion;
-    $query = "SELECT SUM(valor_compra) as total FROM registro_accesorio;";
-    $result = mysqli_query($conexion, $query);
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['total'] ? $row['total'] : 0;
-    } else {
-        return "Error: " . mysqli_error($conexion);
-    }
-}
-
-// Función para contar reservas concretadas y no concretadas
-function ContadorReservasConcretadas() {
-    global $conexion;
-    $query = "
-        SELECT 
-            COUNT(CASE WHEN compra_concretada IS NOT NULL THEN 1 END) AS reservas_concretadas,
-            COUNT(CASE WHEN compra_concretada IS NULL THEN 1 END) AS reservas_no_concretadas
-        FROM registro_reserva";
-    $result = mysqli_query($conexion, $query);
-    if ($result) {
-        return mysqli_fetch_assoc($result);
-    } else {
-        return "Error:" . mysqli_error($conexion);
-    }
-}
-
-// Función para contar seguros contratados
-function ContadorSegurosContratados() {
-    global $conexion;
-    $query = "SELECT COUNT(*) as count FROM usuario_seguro;";
-    $result = mysqli_query($conexion, $query);
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['count'];
-    } else {
-        return "Error: " . mysqli_error($conexion);
-    }
-}
-
+/*
 // Función para obtener el histórico de ventas por mes
 function HistoricoVentasPorMes($local = null) {
     global $conexion;
@@ -80,7 +28,7 @@ function HistoricoVentasPorMes($local = null) {
     }
     return $data;
 }
-
+*/
 // Crear el PDF
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -113,15 +61,20 @@ $pdf->Cell(0, 10, '3. Seguros Contratados:', 0, 1);
 $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 10, 'Total seguros contratados: ' . ContadorSegurosContratados(), 0, 1);
 $pdf->Ln(5);
-
+/*
 // Ventas por mes
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(0, 10, '4. Historico de Ventas por Mes:', 0, 1);
 $pdf->SetFont('Arial', '', 10);
-$historico = HistoricoVentasPorMes();
-foreach ($historico as $mes) {
-    $pdf->Cell(0, 10, 'Mes ' . $mes['mes'] . ': ' . $mes['ventas'] . ' ventas', 0, 1);
+$historico = HistoricoVentasPorMes('all');
+if (!empty($historico)) {
+    foreach ($historico as $mes) {
+        $pdf->Cell(0, 10, 'Mes: ' . $mes['mes'] . ' - Ventas: ' . $mes['ventas'], 0, 1);
+    }
+} else {
+    $pdf->Cell(0, 10, 'No hay datos disponibles.', 0, 1);
 }
+*/
 
 // Salida del PDF
 $pdf->Output('D', 'InformeVentas.pdf'); // Abre el PDF en el navegador
