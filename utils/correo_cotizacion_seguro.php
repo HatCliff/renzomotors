@@ -2,6 +2,7 @@
 session_start();
 require('../config/conexion.php');
 require('../vendor/autoload.php');
+//require('../vendor/fpdf.php');
 
 $carpetaMain = 'http://localhost/xampp/renzomotors/';
 use Fpdf\Fpdf;
