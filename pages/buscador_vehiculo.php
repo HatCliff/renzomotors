@@ -800,7 +800,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             echo "<div class='card-body mt-1 text-center py-2'>";
                             $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
                             echo "<h4 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h4>";
-                            echo "<p class='fw-bold mb-2' style='color:#3c4043'>$ {$precio_formateado} CLP - {$fila['anio']}</p>";
+                            echo "<p class='text-success fw-bold mb-2' >$ {$precio_formateado} CLP - {$fila['anio']}</p>";
                             echo "<p class='text-muted mb-2'>{$fila['nombre_pais']} </p>";
                             echo "</div>";
 

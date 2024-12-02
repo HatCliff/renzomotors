@@ -141,10 +141,10 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         .banner {
             position: relative;
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                            url('../../src/images/sucursal_banner.jpeg'); 
+                            url('../../src/images/vs-banner.jpg'); 
             background-size: cover;
-            background-position: center;
-            height: 15vh; 
+            background-position: center 60%;
+            height: 25vh; 
             border-radius: 10px;
             display: flex;
             flex-direction: column;
