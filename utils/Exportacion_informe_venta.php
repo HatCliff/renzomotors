@@ -71,9 +71,9 @@ crearSeccion($pdf, 'Reservas Concretadas', $datosReservas, [utf8_decode('Descrip
 
 // Seguros Contratados
 $datosSeguros = [
-    ['Total seguros contratados', ContadorSegurosContratados()]
+    ['Total seguros cotizados', ContadorSegurosContratados()]
 ];
-crearSeccion($pdf, 'Seguros Contratados', $datosSeguros, [utf8_decode('Descripción'), 'Cantidad']);
+crearSeccion($pdf, 'Seguros cotizados', $datosSeguros, [utf8_decode('Descripción'), 'Cantidad']);
 
 // Pie de página
 date_default_timezone_set("America/Santiago");

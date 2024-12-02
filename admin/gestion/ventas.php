@@ -20,7 +20,7 @@ if (isset($_SESSION['usuario'])) {
       $lista_permisos[] = $permiso['nombre_permiso'];
     }
 
-    if (in_array('Solicitudes', $lista_permisos)) {
+    if (in_array('Ventas', $lista_permisos)) {
       include($_SERVER['DOCUMENT_ROOT'] . "/xampp/renzomotors/admin/navbaradmin.php");
     } else {
       header('Location: dashboard.php');

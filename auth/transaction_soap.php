@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set('America/Santiago');
     
     $buyOrder = rand(100000, 999999);
+    $poliza = rand(100000, 999999);
     $_SESSION['compra'] = [
         'tipo' => $_POST['tipo'],
         'patente' => $_POST['patente'],
@@ -31,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'pago' => 'NULL',
         'orden_compra' => $buyOrder,
         'fecha_actual' => date('Y-m-d'),
-        'hora_actual' => date('H:i:s')
+        'hora_actual' => date('H:i:s'),
+        'poliza'=> $poliza
     ];
 
     //$amount = $_SESSION['compra']['precio'];

@@ -8,49 +8,50 @@ class PDF extends FPDF
 {
     function Header()
     {
-        $this->SetFont('Arial', 'B', 16);
-        $this->Cell(0, 10, 'Boleta de Compra', 0, 1, 'C');
+        // Encabezado con título
+        $this->SetFont('Arial', 'B', 14);
+        $this->SetFillColor(220, 220, 220);
+        $this->Cell(0, 10, utf8_decode('Comprobante de Pago - Accesorios'), 0, 1, 'C', true);
         $this->Ln(5);
     }
 
     function Footer()
     {
+        // Pie de página con número de página
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Página ' . $this->PageNo(), 0, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
     }
 
     function generarBoleta($data)
     {
-
-        require __DIR__ .'/../config/conexion.php';
+        require __DIR__ . '/../config/conexion.php';
         $dato = [];
         $datos_s = $conexion->query("SELECT nombre_sucursal FROM sucursal WHERE id_sucursal = {$data['sucursal_compra']}");
         $dato['nombre_sucursal'] = $datos_s->fetch_assoc()['nombre_sucursal'];
 
         $this->SetFont('Arial', '', 12);
 
-        // Información de la compra
+        // Fecha y hora
         $this->Cell(0, 10, utf8_decode('Fecha: ' . $data['fecha_compra_a']), 0, 1, 'R');
         $this->Cell(0, 10, utf8_decode('Sucursal: ' . $dato['nombre_sucursal']), 0, 1, 'R');
-        $this->Ln(5);
+        $this->Ln(10);
 
-        // Detalles del cliente
+        // Sección de cliente
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Datos del Cliente'), 0, 1, 'L');
+        $this->SetFont('Arial', '', 12);
         $this->Cell(0, 10, utf8_decode('Correo Cliente: ' . $data['correo_compra']), 0, 1);
-        $this->Ln(5);
+        $this->Ln(10);
 
-        // Detalles de los accesorios
+        // Detalles de los productos comprados
+        $this->SetFont('Arial', 'B', 12);
         $this->Cell(0, 10, utf8_decode('Productos Comprados'), 0, 1);
         $this->SetFont('Arial', '', 10);
 
-        // Aquí asumimos que el listado de accesorios está en el campo 'listado_accesorio'
         $accesorios = array_filter(explode(', ', $data['listado_accesorio']));
-
         foreach ($accesorios as $accesorio) {
-            // Dividimos el accesorio en SKU y cantidad
             list($sku, $cantidad) = explode(':', $accesorio);
-
-            // Consulta segura con sentencia preparada
             $stmt = $conexion->prepare("SELECT nombre_accesorio FROM accesorio WHERE sku_accesorio = ?");
             $stmt->bind_param('s', $sku);
             $stmt->execute();
@@ -58,26 +59,21 @@ class PDF extends FPDF
 
             if ($resultado->num_rows > 0) {
                 $nombre_sku = $resultado->fetch_assoc()['nombre_accesorio'];
-
                 $this->Cell(0, 10, utf8_decode('Producto: ' . $nombre_sku . ' - Cantidad: ' . $cantidad), 0, 1);
             } else {
                 $this->Cell(0, 10, utf8_decode('Producto: ' . $sku . ' no encontrado - Cantidad: ' . $cantidad), 0, 1);
             }
-
-            // Cerramos el statement
             $stmt->close();
         }
-
-
         $this->Ln(10);
 
-        // Código de barras (Código verificador)
-        $this->SetFont('Arial', '', 12);
-        $codigoVerificador = $data['cod_compra'];
+        // Código de barras (Código Verificador)
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Código de Orden'), 0, 1, 'L');
         $this->SetFont('Courier', '', 24);
-        $this->Cell(0, 10, "| $codigoVerificador |", 0, 1, 'C'); // Representación simple del código de barras
-
-        $this->Ln(200);
+        $codigoVerificador = $data['cod_compra'];
+        $this->Cell(0, 10, "| $codigoVerificador |", 0, 1, 'C');
+        $this->Ln(10);
     }
 }
 
