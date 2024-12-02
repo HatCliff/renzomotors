@@ -149,7 +149,7 @@ if (isset($_POST['submit'])) {
                         <div class="mb-3">
                             <label for="rut" class="form-label">RUN</label>
                             <input type="text" name="rut" class="form-control" maxlength="12"
-                                pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" placeholder="12.3456.789-k" required>
+                                pattern="\d{1,2}\.\d{3}\.\d{3}-[\dkK]" placeholder="12.345.678-k" required>
                         </div>
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo</label>
