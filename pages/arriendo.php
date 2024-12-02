@@ -67,13 +67,11 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
     <div class="container mt-5">
         <div class="col-md-12">
             <div class="row mb-4">
-                <h1 class="mb-2">Bienvenido</h1>
-                <h1 class="mb-2">Seleccione Sucursal</h1>
                 
                 <!-- Formulario para seleccionar la sucursal -->
                 <form id="sucursal-form" method="POST">
                     <div class='mb-3'>
-                        <label for='id_sucursal' class='form-label'>Disponible en: </label>
+                        <label for='id_sucursal' class='form-label'>Autos disponibles en: </label>
                         <select id="id_sucursal" class='form-select' name='id_sucursal' required onchange="this.form.submit()">
                             <option value="">Seleccionar Sucursal</option>
                             <?php
@@ -160,11 +158,9 @@ $id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : null;
                                 echo "<div class='card-body mt-1 text-center py-2'>";
                                 $precio_formateado = number_format($fila['precio_modelo'], 0, ',', '.');
                                 echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_modelo']}</h5>";
-                                echo "<p class='text-success fw-bold mb-2'>{$fila['anio']}</p>";
-                                echo "<p class='text-muted mb-2'>{$fila['pais']}</p>";
-                                echo "<p class='text-muted mb-2'>{$fila['transmision']}</p>";
-                                echo "<p class='text-muted mb-2'>{$fila['kilometraje']}</p>";
-                                echo "<p class='text-muted mb-2'>{$fila['tipo_combustible']}</p>";
+                                echo "<p class='text-success fw-bold mb-2'>Año de Fabricación: {$fila['anio']}</p>";
+                                echo "<p class='text-muted mb-2'>Tipo de Transmisión: {$fila['transmision']}</p>";
+                                echo "<p class='text-muted mb-2'>Tipo de Combustible: {$fila['tipo_combustible']}</p>";
                                 echo "</div>"; // card-body
 
                                 // Colores del vehículo en la parte inferior

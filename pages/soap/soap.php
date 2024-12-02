@@ -43,44 +43,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         }
         .container-form {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: flex-start;
-        }
-        .left-form {
-            padding: 50px;
-            width: 60%;
-        }
-        .right-image {
-            background-image: url('../../src/images/CGbEDE2WsAA7b9P.png'); 
-            background-size: cover;
-            min-height: 30vh;
-            background-position: top;
-            width: 40%;
-            height: 100vh;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            position: relative;
-            overflow: hidden; 
-            z-index: 1;
-        }
-
-        .right-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); 
-            z-index: 1; 
-        }
-
-        .right-image * {
-            position: relative;
-            z-index: 2; 
         }
         .step-indicator {
             font-size: 1.2rem;
@@ -103,60 +67,48 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         .active-section {
             display: block;
         }
-        .left-form h2 {
-            margin-top: 0; 
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/seguro_soap_card.jpg'); 
+            background-size: cover;
+            background-position: center 30%;
+            height: 30vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
         }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
+
         
-        @media (max-width: 991px) {
-            .container-form {
-                flex-direction: column-reverse;
-            }
-            .left-form, .right-image {
-                width: 100%;
-                height: 51vh;
-            }
-            .right-image {
-                font-size: 1.5rem;
-
-            }
-            .left-form {
-                padding: 30px;
-                margin-bottom: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container-form {
-                flex-direction: column-reverse;
-            }
-            .right-image {
-                height: 200px;
-                width: 100%;
-                font-size: 1.2rem;
-            }
-            .left-form {
-                padding: 20px;
-                margin-bottom: 400px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .right-image {
-                height: 150px;
-                font-size: 1rem;
-            }
-            .left-form {
-                padding: 15px;
-                margin-bottom: 400px;
-            }
-        }
     </style>
 </head>
 
 <body>
-<main>
-<div class="container-fluid container-form px-0">
-    <div class="left-form mt-5 pt-5">
+<main class="pt-5 mt-5">
+    <div class="container banner">
+        <h1 class="text-white">Obtén tu SOAP con RenzoMotors</h1>
+        <h2>Adquiere tu Seguro Obligatorio de Accidentes Personales (SOAP) fácil y rápido, y prepárate para circular seguro en las calles de Chile.</h2>
+    </div>
+<div class="container mt-2 ">
+    <div class=" mt-1 pt-5 mb-5">
         <div class="step-indicator">
             <span id="step-1" class="active">01 | Tu Patente</span>
             <span id="step-2">02 | Datos del Vehículo</span>

@@ -41,38 +41,6 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             padding-left: 0px;
         }
 
-        .left-image {
-            background-image: url('../../src/images/for_sale.jpeg');
-            background-size: cover;
-            background-position: center;
-            width: 40%;
-            height: 100vh;
-            display: flex;
-            font-size: 2rem;
-            position: relative;
-            overflow: hidden; 
-            z-index: 1;
-        }
-        .left-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); 
-            z-index: 1; 
-        }
-
-        .left-image * {
-            position: relative;
-
-        }
-
-        .right-form {
-            padding: 50px;
-            width: 60%;
-        }
 
         .step-indicator {
             font-size: 1.2rem;
@@ -101,69 +69,45 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             display: block;
         }
 
-        @media (max-width: 991px) {
-            body{
-                height: 100vh;
-                flex:1;
-                
-            }
-            .container-form {
-                flex-direction: column;
-                padding-right: 0;
-            }
-            .left-image,
-            .right-form {
-                width: 100%;
-                height: auto;
-            }
-
-            .left-image {
-                font-size: 1.5rem;
-                padding: 20px;
-                margin-right: 0;
-            }
-
-            .right-form {
-                padding: 30px;
-            }
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/venta-banner.jpg'); 
+            background-size: cover;
+            background-position: center 90%;
+            height: 30vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
         }
 
-        @media (max-width: 768px) {
-            .container-form {
-                flex-direction: column;
-                padding-right: 0px;
-            }
-
-            .left-image {
-                height: 200px;
-                width: 100%;
-                font-size: 1.2rem;
-            }
-
-            .right-form {
-                padding: 20px;
-            }
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
         }
 
-        @media (max-width: 576px) {
-            .left-image {
-                height: 150px;
-                font-size: 1rem;
-                text-align: center;
-            }
-
-            .right-form {
-                padding: 15px;
-            }
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
         }
     </style>
 </head>
 
-<body>
-    <div class="container-fluid container-form mt-5">
-        <div class="left-image">
-        </div>
-        <div class="right-form mt-5">
+<body class="pt-5 mt-5">
+    <div class="container banner">
+        <h1 class="text-white">Vende tu Auto con Confianza</h1>
+        <h2>Obtén la mejor oferta de manera rápida y segura. Nosotros nos encargamos del resto.</h2>
+    </div>
+    <div class="container mt-2">
+        <div class="mt-1 pt-5 mb-5">
             <div class="step-indicator">
                 <span id="step-1" class="active">01 | Propietario</span>
                 <span id="step-2">02 | Vehículo</span>
