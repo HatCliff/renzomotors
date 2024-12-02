@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-12-2024 a las 07:37:09
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 02-12-2024 a las 16:34:48
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -1123,8 +1123,7 @@ CREATE TABLE `servicio` (
 INSERT INTO `servicio` (`id_servicio`, `descripcion_servicio`, `nombre_servicio`, `telefono_encargado`, `imagen_servicio`, `precio_servicio`) VALUES
 (1, 'Un cambio de aceite es un servicio esencial para el mantenimiento de vehículos, el cual consiste en retirar el aceite usado del motor y reemplazarlo por aceite nuevo para garantizar una lubricación óptima de las piezas móviles. Durante el proceso, también se sustituye el filtro de aceite, que atrapa partículas y sedimentos. Este servicio ayuda a mantener el motor limpio, reduce el desgaste y prolonga su vida útil. En la sucursal, el cliente puede elegir entre distintos tipos de aceites (mineral, sintético o semisintético), según las especificaciones de su vehículo. Se realiza en un área designada con personal capacitado y herramientas especializadas, asegurando eficiencia y calidad.', 'Cambio de aceite', 911111111, 'imagen_servicio/cambio_aceite.jpg', 70000),
 (2, 'Un cambio de ruedas es un servicio que asegura la correcta instalación de los neumáticos en un vehículo, mejorando su desempeño y seguridad en carretera. Este procedimiento incluye desmontar las ruedas usadas, inspeccionar los neumáticos y los componentes del sistema de rodamiento (como baleros y frenos), e instalar las nuevas ruedas o neumáticos.\r\n\r\nEl personal utiliza herramientas específicas como gatos hidráulicos, desmontadoras y balanceadoras para garantizar una instalación precisa. Además, se verifica la presión de los neumáticos y el torque de las tuercas para cumplir con las especificaciones del fabricante. Este servicio es ideal para reemplazar neumáticos desgastados o dañados, o cuando se requiere una actualización estacional, como el cambio a neumáticos de invierno o verano.', 'Cambio de ruedas', 922222222, 'imagen_servicio/cambio_ruedas.jpg', 12340),
-(4, 'El cambio de pastillas de freno es un servicio fundamental para mantener la seguridad y el rendimiento del sistema de frenado de un vehículo. Este procedimiento implica desmontar las ruedas para acceder al sistema de frenos, retirar las pastillas desgastadas y reemplazarlas por nuevas. Antes de la instalación, se inspeccionan los discos de freno para asegurarse de que estén en buen estado o determinar si requieren rectificación o reemplazo.\r\n\r\nEl técnico aplica lubricante en las partes móviles del sistema para garantizar un funcionamiento suave y realiza un ajuste adecuado de las nuevas pastillas. Al finalizar, se prueba el sistema de frenado para confirmar que funciona correctamente. Este servicio ayuda a prevenir ruidos, vibraciones y, sobre todo, asegura una respuesta eficiente del freno al conducir.', 'Cambio de Pastillas de Freno', 912147483, 'imagen_servicio/Cambio_pastillas_freno.jpg', 27000),
-(20, 'Está Tio tranquilo Chill de Cojones', 'Servicio Chill', 123456789, 'imagen_servicio/chill.jpg', 0);
+(4, 'El cambio de pastillas de freno es un servicio fundamental para mantener la seguridad y el rendimiento del sistema de frenado de un vehículo. Este procedimiento implica desmontar las ruedas para acceder al sistema de frenos, retirar las pastillas desgastadas y reemplazarlas por nuevas. Antes de la instalación, se inspeccionan los discos de freno para asegurarse de que estén en buen estado o determinar si requieren rectificación o reemplazo.\r\n\r\nEl técnico aplica lubricante en las partes móviles del sistema para garantizar un funcionamiento suave y realiza un ajuste adecuado de las nuevas pastillas. Al finalizar, se prueba el sistema de frenado para confirmar que funciona correctamente. Este servicio ayuda a prevenir ruidos, vibraciones y, sobre todo, asegura una respuesta eficiente del freno al conducir.', 'Cambio de Pastillas de Freno', 912147483, 'imagen_servicio/Cambio_pastillas_freno.jpg', 27000);
 
 -- --------------------------------------------------------
 
@@ -1232,15 +1231,14 @@ INSERT INTO `sucursal_servicio` (`id_sucursal`, `id_servicio`) VALUES
 (1, 2),
 (2, 1),
 (2, 4),
-(2, 20),
 (3, 4),
-(3, 20),
 (4, 1),
 (4, 4),
-(4, 20),
 (5, 1),
 (5, 4),
-(5, 20);
+(8, 2),
+(9, 2),
+(10, 2);
 
 -- --------------------------------------------------------
 
@@ -1594,48 +1592,48 @@ CREATE TABLE `vehiculo` (
 --
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `nombre_modelo`, `precio_modelo`, `estado_vehiculo`, `descripcion_vehiculo`, `cantidad_vehiculo`, `cantidad_puertas`, `caballos_fuerza`, `documento_tecnico`, `kilometraje`, `id_marca`, `id_anio`, `id_tipo_combustible`, `id_pais`, `id_transmision`, `id_tipo_vehiculo`, `id_tipo_rueda`, `arriendo`, `valor_garantia`) VALUES
-(1, 'Spark GT', 8500000, 'Usado', 'Un hatchback compacto con gran eficiencia de combustible.', 5, '4', 82, 'documento_spark_gt.pdf', 0, 2, 3, 1, 1, 2, 3, 1, 0, 0),
-(2, 'Sportage', 20000000, 'Nuevo', 'SUV compacto ideal para familias.', 4, '4', 150, 'documento_sportage.pdf', 0, 3, 5, 3, 9, 5, 6, 1, 1, 1200000),
-(3, 'Aventador', 500000000, 'Usado', 'Superdeportivo de alto rendimiento.', 2, '2', 700, 'documento_aventador.pdf', 0, 4, 4, 7, 3, 6, 7, 6, 0, 0),
-(4, 'Jetta', 18000000, 'Usado', 'Sedán confiable y eficiente.', 6, '4', 147, 'documento_jetta.pdf', 0, 5, 5, 2, 11, 2, 3, 1, 0, 0),
-(5, 'Charger', 25000000, 'Nuevo', 'Muscle car icónico con gran potencia.', 3, '4', 370, 'documento_charger.pdf', 15000, 9, 6, 3, 6, 6, 5, 1, 0, 0),
-(6, 'Corolla', 16500000, 'Usado', 'Sedán japonés confiable y eficiente.', 7, '4', 132, 'documento_corolla.pdf', 0, 10, 7, 1, 8, 5, 3, 1, 0, 0),
-(7, 'Mustang', 30000000, 'Nuevo', 'Deportivo americano icónico.', 2, '2', 450, 'documento_mustang.pdf', 0, 11, 8, 3, 6, 2, 7, 1, 0, 0),
-(8, 'Civic', 17500000, 'Usado', 'Sedán japonés compacto, eficiente y tecnológico.', 6, '4', 158, 'documento_civic.pdf', 0, 12, 3, 2, 8, 5, 3, 1, 0, 0),
-(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'Ficha_Tenica_Chevrolet-Tracker.pdf', 0, 2, 4, 1, 5, 1, 6, 1, 0, 0),
-(10, 'Dodge Challenger', 30000000, 'Usado', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 11, '4', 320, 'Ficha_Dodge-Challenger.pdf', 0, 9, 5, 7, 6, 4, 5, 6, 0, 0),
-(11, 'CX-5', 24000000, 'Usado', 'SUV japonés con diseño y desempeño deportivo.', 4, '4', 187, 'documento_cx5.pdf', 0, 15, 8, 3, 8, 5, 6, 1, 0, 0),
-(12, 'Forester', 22000000, 'Usado', 'SUV seguro con tracción integral.', 4, '4', 182, 'documento_forester.pdf', 0, 16, 9, 4, 8, 2, 6, 1, 0, 0),
-(13, 'Model S', 75000000, 'Usado', 'Sedán eléctrico con tecnología de punta.', 3, '4', 1020, 'documento_model_s.pdf', 0, 17, 8, 7, 6, 6, 3, 6, 0, 0),
-(14, 'Wrangler', 30000000, 'Nuevo', 'Todoterreno robusto y aventurero.', 4, '4', 285, 'documento_wrangler.pdf', 0, 18, 4, 3, 6, 1, 6, 1, 0, 0),
-(15, 'Sierra 1500', 35000000, 'Usado', 'Camioneta confiable y poderosa.', 3, '4', 355, 'documento_sierra_1500.pdf', 0, 19, 9, 2, 6, 2, 8, 1, 0, 0),
-(16, 'Enclave', 45000000, 'Nuevo', 'SUV premium con interior lujoso.', 3, '4', 310, 'documento_enclave.pdf', 0, 20, 5, 3, 6, 6, 6, 1, 1, 2200000),
-(17, 'Escalade', 80000000, 'Usado', 'SUV de lujo emblemático.', 2, '4', 420, 'documento_escalade.pdf', 0, 21, 4, 2, 6, 6, 6, 1, 1, 4000000),
-(18, 'RDX', 45000000, 'Usado', 'SUV deportivo de lujo.', 3, '4', 272, 'documento_rdx.pdf', 0, 22, 8, 3, 8, 5, 6, 1, 1, 2200000),
-(19, 'Q50', 47000000, 'Usado', 'Sedán de lujo con alto rendimiento.', 3, '4', 300, 'documento_q50.pdf', 0, 23, 9, 2, 8, 2, 3, 1, 0, 0),
-(20, 'RX 350', 50000000, 'Usado', 'SUV de lujo refinado y eficiente.', 3, '4', 295, 'documento_rx350.pdf', 0, 24, 4, 3, 8, 5, 6, 1, 0, 0),
-(21, '911 Carrera', 120000000, 'Usado', 'Deportivo alemán icónico.', 1, '2', 379, 'documento_911.pdf', 0, 25, 8, 7, 11, 6, 7, 6, 0, 0),
-(22, '488 GTB', 130000000, 'Usado', 'Superdeportivo italiano con diseño espectacular.', 1, '2', 660, 'documento_488_gtb.pdf', 0, 26, 5, 7, 3, 6, 7, 6, 0, 0),
-(23, 'Chiron', 280000000, 'Nuevo', 'Hiperauto con velocidad extrema y lujo.', 1, '2', 1500, 'documento_chiron.pdf', 0, 27, 7, 7, 3, 6, 7, 6, 0, 0),
-(24, '720S', 200000000, 'Usado', 'Deportivo británico de alto rendimiento.', 1, '2', 710, 'documento_720s.pdf', 0, 28, 9, 7, 3, 6, 7, 6, 0, 0),
-(25, 'DB11', 210000000, 'Usado', 'Coupé de lujo con diseño elegante.', 1, '2', 630, 'documento_db11.pdf', 0, 29, 9, 3, 3, 6, 7, 1, 0, 0),
-(31, 'Altima', 21000000, 'Nuevo', 'Sedán elegante y confortable.', 3, '4', 188, 'documento_altima.pdf', 12000, 14, 5, 1, 8, 6, 3, 1, 0, 0),
-(34, 'Kia Seltos', 18000000, 'Usado', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 13, '4', 127, 'Ficha_Tenica_Chevrolet-Tracker (5).pdf', 1000, 3, 3, 4, 7, 5, 6, 1, 0, 0),
-(40, 'Eclipse Cross', 19000000, 'Usado', 'SUV japonés compacto con diseño futurista.', 5, '4', 152, 'documento_eclipse_cross.pdf', 0, 30, 7, 3, 8, 5, 6, 1, 0, 0),
-(41, 'Swift', 14500000, 'Nuevo', 'Auto compacto y económico, ideal para ciudad.', 10, '4', 83, 'documento_swift.pdf', 0, 31, 5, 1, 8, 5, 3, 1, 1, 800000),
-(42, '3008', 25000000, 'Usado', 'SUV francés elegante y bien equipado.', 5, '4', 130, 'documento_3008.pdf', 0, 32, 4, 2, 10, 5, 6, 1, 1, 1200000),
-(43, 'Clio', 12000000, 'Usado', 'Auto compacto y versátil de diseño francés.', 8, '4', 90, 'documento_clio.pdf', 0, 33, 11, 1, 10, 1, 3, 1, 1, 750000),
-(44, 'C5 Aircross', 23000000, 'Nuevo', 'SUV cómodo y tecnológico.', 4, '4', 177, 'documento_c5_aircross.pdf', 0, 34, 7, 2, 10, 5, 6, 1, 1, 1100000),
-(45, '500', 14000000, 'Usado', 'Icónico auto compacto italiano.', 10, '2', 70, 'documento_500.pdf', 0, 35, 13, 1, 3, 6, 3, 1, 1, 700000),
-(46, 'Giulia', 26000000, 'Usado', 'Sedán deportivo italiano con diseño sofisticado.', 3, '4', 280, 'documento_giulia.pdf', 0, 36, 8, 3, 3, 6, 3, 1, 0, 0),
-(47, 'XC90', 35000000, 'Usado', 'SUV premium sueco con enfoque en seguridad.', 4, '4', 316, 'documento_xc90.pdf', 0, 37, 9, 4, 11, 5, 6, 1, 1, 2000000),
-(48, 'Defender', 43000000, 'Usado', 'SUV todoterreno británico con lujo y capacidad extrema.', 2, '4', 395, 'documento_defender.pdf', 0, 38, 5, 3, 11, 6, 6, 1, 1, 2200000),
-(49, 'F-Type', 67000000, 'Usado', 'Deportivo británico de diseño atractivo y alto rendimiento.', 1, '2', 575, 'documento_f_type.pdf', 0, 39, 4, 7, 11, 6, 7, 6, 0, 0),
-(50, 'Ghost', 250000000, 'Nuevo', 'Sedán de lujo supremo.', 1, '4', 563, 'documento_ghost.pdf', 0, 40, 8, 7, 11, 5, 3, 6, 0, 0),
-(51, 'Continental GT', 220000000, 'Usado', 'Coupé británico de lujo.', 1, '2', 626, '3f505d9a-b9ee-443d-bfd0-e7a965dcdc69.jpg', 0, 41, 7, 7, 11, 5, 7, 6, 0, 0),
-(52, 'Cooper S', 18000000, 'Usado', 'Hatchback británico compacto y dinámico.', 8, '4', 189, 'documento_cooper_s.pdf', 0, 42, 9, 3, 11, 2, 3, 1, 0, 0),
-(53, 'R1T', 67000000, 'Usado', 'Camioneta eléctrica todoterreno.', 1, '4', 835, 'documento_r1t.pdf', 0, 43, 5, 7, 6, 2, 8, 6, 0, 0),
-(120, 'Tucson', 23000000, 'Usado', 'SUV versátil con diseño moderno y gran capacidad.', 5, '4', 180, 'documento_tucson.pdf', 0, 13, 7, 3, 9, 2, 6, 1, 1, 1300000);
+(1, 'Spark GT', 8500000, 'Usado', 'Un hatchback compacto con gran eficiencia de combustible.', 5, '4', 82, 'documento_general.pdf', 0, 2, 3, 1, 1, 2, 3, 1, 0, 0),
+(2, 'Sportage', 20000000, 'Nuevo', 'SUV compacto ideal para familias.', 4, '4', 150, 'documento_general.pdf', 0, 3, 5, 3, 9, 5, 6, 1, 1, 1200000),
+(3, 'Aventador', 500000000, 'Usado', 'Superdeportivo de alto rendimiento.', 2, '2', 700, 'documento_general.pdf', 0, 4, 4, 7, 3, 6, 7, 6, 0, 0),
+(4, 'Jetta', 18000000, 'Usado', 'Sedán confiable y eficiente.', 6, '4', 147, 'documento_general.pdf', 0, 5, 5, 2, 11, 2, 3, 1, 0, 0),
+(5, 'Charger', 25000000, 'Nuevo', 'Muscle car icónico con gran potencia.', 3, '4', 370, 'documento_general.pdf', 15000, 9, 6, 3, 6, 6, 5, 1, 0, 0),
+(6, 'Corolla', 16500000, 'Usado', 'Sedán japonés confiable y eficiente.', 7, '4', 132, 'documento_general.pdf', 0, 10, 7, 1, 8, 5, 3, 1, 0, 0),
+(7, 'Mustang', 30000000, 'Nuevo', 'Deportivo americano icónico.', 2, '2', 450, 'documento_general.pdf', 0, 11, 8, 3, 6, 2, 7, 1, 0, 0),
+(8, 'Civic', 17500000, 'Usado', 'Sedán japonés compacto, eficiente y tecnológico.', 6, '4', 158, 'documento_general.pdf', 0, 12, 3, 2, 8, 5, 3, 1, 0, 0),
+(9, 'Chevrolet Tracker', 19000000, 'Usado', 'La Chevrolet Tracker es un SUV compacto y moderno, ideal para quienes buscan versatilidad y tecnología avanzada en su vehículo diario. Con un diseño atractivo, amplio espacio interior, y eficiencia en combustible, la Tracker es perfecta para la vida urbana. Equipado con tecnología de conectividad como Apple CarPlay y Android Auto, y con múltiples características de seguridad, este SUV ofrece comodidad y tranquilidad en cada viaje.\r\n\r\nIdeal para: Familias, jóvenes profesionales y conductores urbanos que buscan un vehículo eficiente y seguro.', 20, '2', 132, 'documento_general.pdf', 0, 2, 4, 1, 5, 1, 6, 1, 0, 0),
+(10, 'Dodge Challenger', 30000000, 'Usado', 'El Dodge Challenger 2023 es un muscle car icónico que combina potencia bruta con un diseño retro y moderno a la vez. Equipado con motores de alto rendimiento, como el V8 HEMI, ofrece una experiencia de conducción emocionante, ideal para los entusiastas de la velocidad. Su interior incluye tecnología avanzada y confort, manteniendo su legado como un verdadero clásico americano con un toque contemporáneo.', 11, '4', 320, 'documento_general.pdf', 0, 9, 5, 7, 6, 4, 5, 6, 0, 0),
+(11, 'CX-5', 24000000, 'Usado', 'SUV japonés con diseño y desempeño deportivo.', 4, '4', 187, 'documento_general.pdf', 0, 15, 8, 3, 8, 5, 6, 1, 0, 0),
+(12, 'Forester', 22000000, 'Usado', 'SUV seguro con tracción integral.', 4, '4', 182, 'documento_general.pdf', 0, 16, 9, 4, 8, 2, 6, 1, 0, 0),
+(13, 'Model S', 75000000, 'Usado', 'Sedán eléctrico con tecnología de punta.', 3, '4', 1020, 'documento_general.pdf', 0, 17, 8, 7, 6, 6, 3, 6, 0, 0),
+(14, 'Wrangler', 30000000, 'Nuevo', 'Todoterreno robusto y aventurero.', 4, '4', 285, 'documento_general.pdf', 0, 18, 4, 3, 6, 1, 6, 1, 0, 0),
+(15, 'Sierra 1500', 35000000, 'Usado', 'Camioneta confiable y poderosa.', 3, '4', 355, 'documento_general.pdf', 0, 19, 9, 2, 6, 2, 8, 1, 0, 0),
+(16, 'Enclave', 45000000, 'Nuevo', 'SUV premium con interior lujoso.', 3, '4', 310, 'documento_general.pdf', 0, 20, 5, 3, 6, 6, 6, 1, 1, 2200000),
+(17, 'Escalade', 80000000, 'Usado', 'SUV de lujo emblemático.', 2, '4', 420, 'documento_general.pdf', 0, 21, 4, 2, 6, 6, 6, 1, 1, 4000000),
+(18, 'RDX', 45000000, 'Usado', 'SUV deportivo de lujo.', 3, '4', 272, 'documento_general.pdf', 0, 22, 8, 3, 8, 5, 6, 1, 1, 2200000),
+(19, 'Q50', 47000000, 'Usado', 'Sedán de lujo con alto rendimiento.', 3, '4', 300, 'documento_general.pdf', 0, 23, 9, 2, 8, 2, 3, 1, 0, 0),
+(20, 'RX 350', 50000000, 'Usado', 'SUV de lujo refinado y eficiente.', 3, '4', 295, 'documento_general.pdf', 0, 24, 4, 3, 8, 5, 6, 1, 0, 0),
+(21, '911 Carrera', 120000000, 'Usado', 'Deportivo alemán icónico.', 1, '2', 379, 'documento_general.pdf', 0, 25, 8, 7, 11, 6, 7, 6, 0, 0),
+(22, '488 GTB', 130000000, 'Usado', 'Superdeportivo italiano con diseño espectacular.', 1, '2', 660, 'documento_general.pdf', 0, 26, 5, 7, 3, 6, 7, 6, 0, 0),
+(23, 'Chiron', 280000000, 'Nuevo', 'Hiperauto con velocidad extrema y lujo.', 1, '2', 1500, 'documento_general.pdf', 0, 27, 7, 7, 3, 6, 7, 6, 0, 0),
+(24, '720S', 200000000, 'Usado', 'Deportivo británico de alto rendimiento.', 1, '2', 710, 'documento_general.pdf', 0, 28, 9, 7, 3, 6, 7, 6, 0, 0),
+(25, 'DB11', 210000000, 'Usado', 'Coupé de lujo con diseño elegante.', 1, '2', 630, 'documento_general.pdf', 0, 29, 9, 3, 3, 6, 7, 1, 0, 0),
+(31, 'Altima', 21000000, 'Nuevo', 'Sedán elegante y confortable.', 3, '4', 188, 'documento_general.pdf', 12000, 14, 5, 1, 8, 6, 3, 1, 0, 0),
+(34, 'Kia Seltos', 18000000, 'Usado', 'El Kia Seltos 2020 es un SUV compacto que combina un diseño moderno y atractivo con una funcionalidad excepcional. Su diseño exterior se caracteriza por líneas agresivas y una parrilla frontal distintiva, lo que le otorga una presencia imponente en la carretera.', 13, '4', 127, 'documento_general.pdf', 1000, 3, 3, 4, 7, 5, 6, 1, 0, 0),
+(40, 'Eclipse Cross', 19000000, 'Usado', 'SUV japonés compacto con diseño futurista.', 5, '4', 152, 'documento_general.pdf', 0, 30, 7, 3, 8, 5, 6, 1, 0, 0),
+(41, 'Swift', 14500000, 'Nuevo', 'Auto compacto y económico, ideal para ciudad.', 10, '4', 83, 'documento_general.pdf', 0, 31, 5, 1, 8, 5, 3, 1, 1, 800000),
+(42, '3008', 25000000, 'Usado', 'SUV francés elegante y bien equipado.', 5, '4', 130, 'documento_general.pdf', 0, 32, 4, 2, 10, 5, 6, 1, 1, 1200000),
+(43, 'Clio', 12000000, 'Usado', 'Auto compacto y versátil de diseño francés.', 8, '4', 90, 'documento_general.pdf', 0, 33, 11, 1, 10, 1, 3, 1, 1, 750000),
+(44, 'C5 Aircross', 23000000, 'Nuevo', 'SUV cómodo y tecnológico.', 4, '4', 177, 'documento_general.pdf', 0, 34, 7, 2, 10, 5, 6, 1, 1, 1100000),
+(45, '500', 14000000, 'Usado', 'Icónico auto compacto italiano.', 10, '2', 70, 'documento_general.pdf', 0, 35, 13, 1, 3, 6, 3, 1, 1, 700000),
+(46, 'Giulia', 26000000, 'Usado', 'Sedán deportivo italiano con diseño sofisticado.', 3, '4', 280, 'documento_general.pdf', 0, 36, 8, 3, 3, 6, 3, 1, 0, 0),
+(47, 'XC90', 35000000, 'Usado', 'SUV premium sueco con enfoque en seguridad.', 4, '4', 316, 'documento_general.pdf', 0, 37, 9, 4, 11, 5, 6, 1, 1, 2000000),
+(48, 'Defender', 43000000, 'Usado', 'SUV todoterreno británico con lujo y capacidad extrema.', 2, '4', 395, 'documento_general.pdf', 0, 38, 5, 3, 11, 6, 6, 1, 1, 2200000),
+(49, 'F-Type', 67000000, 'Usado', 'Deportivo británico de diseño atractivo y alto rendimiento.', 1, '2', 575, 'documento_general.pdf', 0, 39, 4, 7, 11, 6, 7, 6, 0, 0),
+(50, 'Ghost', 250000000, 'Nuevo', 'Sedán de lujo supremo.', 1, '4', 563, 'documento_general.pdf', 0, 40, 8, 7, 11, 5, 3, 6, 0, 0),
+(51, 'Continental GT', 220000000, 'Usado', 'Coupé británico de lujo.', 1, '2', 626, 'documento_general.pdf', 0, 41, 7, 7, 11, 5, 7, 6, 0, 0),
+(52, 'Cooper S', 18000000, 'Usado', 'Hatchback británico compacto y dinámico.', 8, '4', 189, 'documento_general.pdf', 0, 42, 9, 3, 11, 2, 3, 1, 0, 0),
+(53, 'R1T', 67000000, 'Usado', 'Camioneta eléctrica todoterreno.', 1, '4', 835, 'documento_general.pdf', 0, 43, 5, 7, 6, 2, 8, 6, 0, 0),
+(120, 'Tucson', 23000000, 'Usado', 'SUV versátil con diseño moderno y gran capacidad.', 5, '4', 180, 'documento_general.pdf', 0, 13, 7, 3, 9, 2, 6, 1, 1, 1300000);
 
 -- --------------------------------------------------------
 
