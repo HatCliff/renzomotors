@@ -115,6 +115,35 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
             color: #000; 
             font-size: 14px;
         }
+        .banner {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url('../../src/images/accesorios-banner.jpg'); 
+            background-size: cover;
+            background-position: center 70%  ;
+            height: 25vh; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .banner h1 {
+            font-size: 2rem; 
+            margin: 0;
+        }
+
+        .banner h2 {
+            font-size: 1rem; 
+            font-weight: 300;
+            margin: 0;
+        }
     </style>
 </head>
 <script>
@@ -137,11 +166,12 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     });
     
 </script>
-<body class="pt-5">
-    <div class="container mt-5">
-        <div class="row  justify-content-center mb-4">
-            <h1 class="m-0 ps-0"><strong>ACCESORIOS</strong></h1>
-        </div>
+<body class="pt-5 mt-5">
+    <div class="container banner">
+        <h1 class="text-white">Encuentra el Auto de tus Sueños en RenzoMotors.</h1>
+        <h2>Usa nuestro buscador para ver todos nuestros modelos, conoce los precios y características de los mejores vehículos.</h2>
+    </div>
+    <div class="container mt-2 mb-5">
         <div class="row mb-4">
             <div class="col-6 ps-0">
                 <form id="filtroForm" method="POST" enctype="multipart/form-data">
@@ -438,6 +468,9 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     </div>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<?php
+    include("../../components/footer.php")
+?>
 </html>
 <script>
         // Función para manejar los cambios en los checkboxes
