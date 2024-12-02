@@ -1,3 +1,7 @@
+<head>
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <footer class="bg-black text-white pt-5 pb-3 z-2 mb-0">
     <div class="container">
         <div class="row">
