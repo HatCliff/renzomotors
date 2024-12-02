@@ -11,10 +11,12 @@ if (isset($_GET['sku'])) {
     }
 
     // Realizar la consulta para obtener los detalles del accesorio
-    $query = "SELECT * FROM accesorio a
-            JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
-            JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio 
-            WHERE a.sku_accesorio = '$sku'";
+    $query = "SELECT a.*, GROUP_CONCAT(DISTINCT ta.nombre_tipo_accesorio SEPARATOR ', ') AS categorias
+                FROM accesorio a
+                JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
+                JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio
+                WHERE a.sku_accesorio = '$sku'
+                GROUP BY a.sku_accesorio";
 
     $resultado = mysqli_query($conexion, $query);
 
@@ -23,7 +25,7 @@ if (isset($_GET['sku'])) {
             <div class='col-6'>";
         echo "<div id='carouselExampleIndicators' class='carousel slide'>";
         echo "<div class='carousel-indicators'>";
-
+        $categorias = $fila['categorias'];
         $sku_accesorio = $fila['sku_accesorio'];
         $fotos_resultado = mysqli_query($conexion, "SELECT foto_accesorio FROM fotos_accesorio WHERE sku_accesorio = '$sku_accesorio'");
         $index = 0;
@@ -66,7 +68,7 @@ if (isset($_GET['sku'])) {
                 <h2><strong>" . $fila['nombre_accesorio'] . "</strong></h2>
                 <p class='fw-bold mb-2''style='color:#3c4043'><strong>Precio:</strong> $" . number_format($fila['precio_accesorio'], 0, ',', '.') . " CLP</p>
                 <p><strong>Descripción: </strong>" . $fila['descripcion_accesorio'] . "</p>
-                <p><strong>Categoria: </strong>" . $fila['nombre_tipo_accesorio'] ."</p>
+                <p><strong>Categoria: </strong>{$categorias}</p>
                 <p><strong>Stock en linea: </strong>" . $fila['stock_accesorio'] ." unidades</p>";
                 
 

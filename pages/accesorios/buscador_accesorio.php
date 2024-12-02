@@ -8,12 +8,11 @@ $orden = $_POST['orden'] ?? '';
 $id_tipo_accesorio = $_POST['id_tipo_accesorio'] ?? [];
 $nombre_accesorio = $_POST['modelo_i'] ?? ''; 
 
-$query = "SELECT DISTINCT a.*, nombre_tipo_accesorio
-          FROM accesorio a
-          JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
-          JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio
-          WHERE a.stock_accesorio != 0
-          GROUP BY a.sku_accesorio";
+$query = "SELECT DISTINCT a.*
+            FROM accesorio a
+            JOIN pertenece_tipo pt ON a.sku_accesorio = pt.sku_accesorio
+            JOIN tipo_accesorio ta ON ta.id_tipo_accesorio = pt.id_tipo_accesorio
+            WHERE a.stock_accesorio != 0";
 
 $resultado = mysqli_query($conexion, $query);
 
@@ -146,7 +145,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
         <div class="row mb-4">
             <div class="col-6 ps-0">
                 <form id="filtroForm" method="POST" enctype="multipart/form-data">
-                    <input class="form-control" type="text" name="accesorio_i" placeholder="Ejemplo: Limpiador de ruedas" aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_accesorio); ?>"
+                    <input class="form-control" type="text" name="modelo_i" placeholder="Ejemplo: Limpiador de ruedas" aria-label="Nombre del accesorio" value="<?php echo htmlspecialchars($nombre_accesorio); ?>"
                     onchange="document.getElementById('filtroForm').submit()">
                     <button type="submit" style="display: none;"></button>
             </div>
@@ -385,7 +384,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                 echo "<div class='card-body mt-1 text-center py-3' style='position: relative; height: 150px;'>"; 
                                 echo "<h5 class='card-title text-dark fw-bold mb-2'>{$fila['nombre_accesorio']}</h5>";
                                 echo "<p class='fw-bold mb-2' style='color:#3c4043'>$ {$precio_formateado} CLP</p>";
-                                echo "<p class='text-muted mb-2'>{$fila['nombre_tipo_accesorio']}</p>";
+                                // echo "<p class='text-muted mb-2'>{$fila['nombre_tipo_accesorio']}</p>";
+
                                 echo "</div>"; // card-body
                                 
                                 echo "</div>"; // card
