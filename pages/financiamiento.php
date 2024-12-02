@@ -15,7 +15,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
 <!-- Contenido del modal -->
     <div class="mt-3">
         <div class="row d-flex justify-content-center align-items-center text-center"> 
-            <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold; font-size: 30px;">Valor del vehiculo</label>
+            <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold; font-size: 30px;">Valor del vehículo</label>
             <?php
             $precio_formateado = number_format($precio_vehiculo, 0, ',', '.'); 
             echo "<p>\$ " . $precio_formateado . " CLP</p>";
@@ -71,7 +71,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     </div>
     <br>
     <div class="d-grid gap-2 col-6 mx-auto">
-        <button class="btn btn-dark" onclick="realizarCalculo()">CALCULAR</button>
+        <button class="btn"style="background: #2E2E2E; color:white;" onclick="realizarCalculo()">CALCULAR</button>
     </div>
     <br>
     <!-- Informacion sobre los calculos ingresados -->
@@ -123,7 +123,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
 
             if(pie<=precio*0.20 || pie>=precio*0.80){
                 
-                alerta_pie.innerText = "El pie no se encuentra entre el 20% y 80% del vehiculo"
+                alerta_pie.innerText = "El pie no se encuentra entre el 20% y 80% del precio del vehículo"
                 alerta_pie.style.display = 'block'; 
                 return;
             }else{

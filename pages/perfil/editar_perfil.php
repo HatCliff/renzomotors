@@ -41,9 +41,9 @@ if(isset($_POST['nombre'])&&isset($_POST['apellido'])&&isset($_POST['correo'])){
         <input type="email" name="correo" value=<?php echo $correo?> required>
         <br>
 
-        <input class="mt-2"type="submit" value="GUARDAR">
+        <input class="mt-2 btn btn-sm "type="submit" value="GUARDAR" style=' background: #ffc107;'>
         <hr>
-        <a href="perfil.php?accion=0">Cancelar</a>
+        <a href="perfil.php?accion=0" class='btn btn-sm' style=' background: #2E2E2E; color:white;'>Cancelar</a>
     </form>
 
 
