@@ -90,7 +90,7 @@ if (session_status() == PHP_SESSION_NONE) {
                             <a class="nav-link dropdown-toggle active btn btn-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i> Perfil
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end" style="max-height : 800px;">
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil/perfil.php?accion=0">Ver Perfil</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/favoritos/favoritos.php">Ver Mis Favoritos</a></li>
                                 <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/solicitudes_usuario.php">Ver Mis Ayuda</a></li>
