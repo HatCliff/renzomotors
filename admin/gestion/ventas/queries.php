@@ -90,5 +90,23 @@ function HistoricoVentasPorMes($local) {
         echo json_encode(array("error" => "Error: " . mysqli_error($conexion)));
     }
 }
+function ReservasConcretadas(){
+    global $conexion;
+    $query = "SELECT * FROM reservas_por_local;";
+    $result = mysqli_query($conexion,$query);
+    if ($result) {
+        $data = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        // Retornamos los datos como JSON
+        echo json_encode($data);
+    } else {
+        // Retornamos un mensaje de error si ocurre un problema
+        echo json_encode(array("error" => "Error: " . mysqli_error($conexion)));
+    }
+}
+
+
 
 ?>

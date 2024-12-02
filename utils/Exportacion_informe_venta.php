@@ -7,29 +7,7 @@ require('../admin/gestion/ventas/queries.php');
 require './../vendor/autoload.php';
 $carpetaMain = 'http://localhost/xampp/renzomotors/';
 use Fpdf\Fpdf;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
 
-/*
-// Función para obtener el histórico de ventas por mes
-function HistoricoVentasPorMes($local = null) {
-    global $conexion;
-    $query = "SELECT MONTH(fecha_compra_a) as mes, COUNT(*) as ventas FROM registro_accesorio";
-    if ($local != null) {
-        $query .= " WHERE sucursal_compra = '$local'";
-    }
-    $query .= " GROUP BY MONTH(fecha_compra_a);";
-    $result = mysqli_query($conexion, $query);
-    $data = [];
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $data[] = $row;
-        }
-    }
-    return $data;
-}
-*/
-// Crear el PDF
 // Crear el PDF
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -97,21 +75,6 @@ $datosSeguros = [
 ];
 crearSeccion($pdf, 'Seguros Contratados', $datosSeguros, [utf8_decode('Descripción'), 'Cantidad']);
 
-/*
-// Histórico de Ventas por Mes
-$historico = HistoricoVentasPorMes('all');
-if (!empty($historico)) {
-    $datosHistorico = [];
-    foreach ($historico as $mes) {
-        $datosHistorico[] = ['Mes ' . $mes['mes'], $mes['ventas']];
-    }
-    crearSeccion($pdf, '4. Histórico de Ventas por Mes:', $datosHistorico, ['Mes', 'Ventas']);
-} else {
-    $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(0, 10, 'No hay datos disponibles.', 0, 1);
-    $pdf->Ln(5);
-}
-*/
 // Pie de página
 date_default_timezone_set("America/Santiago");
 $pdf->SetFont('Arial', 'I', 8);

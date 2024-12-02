@@ -91,7 +91,7 @@ if (isset($_SESSION['usuario'])) {
   <div class="container-fluid p-5">
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
       <h3 class="text-dark mb-0">Analisis de Ventas
-        <a href='ventas/confirmacion_ventas.php' class='btn btn-success' title='Ver Ventas'>Concretar Ventas</a>
+        <a href='ventas/confirmacion_ventas.php' class='btn btn-success btn-sm d-none d-sm-inline-block mx-auto' title='Ver Ventas'>Concretar Ventas</a>
         <a class="btn btn-primary btn-sm d-none d-sm-inline-block mx-auto" role="button"
           href="../../utils/Exportacion_informe_venta.php"><i class="fas fa-download fa-sm text-white-50"></i> Generar
           Reporte</a>
@@ -224,170 +224,172 @@ if (isset($_SESSION['usuario'])) {
           <div class="card-body">
             <div id="lineChart" style="width: 100%; height: 400px;"></div>
             <script>
-              function cargarGrafico(local) {
-                console.log("Cargando gráfico...");
+function cargarGrafico(local) {
+  console.log("Cargando gráfico...");
 
-                // Crear el gradiente para el gráfico
-                const createGradient = (select) => {
-                  const gradient = select
-                    .select("defs")
-                    .append("linearGradient")
-                    .attr("id", "gradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "100%")
-                    .attr("x2", "0%")
-                    .attr("y2", "0%");
+  // Crear el gradiente para el gráfico
+  const createGradient = (select) => {
+    const gradient = select
+      .select("defs")
+      .append("linearGradient")
+      .attr("id", "gradient")
+      .attr("x1", "0%")
+      .attr("y1", "100%")
+      .attr("x2", "0%")
+      .attr("y2", "0%");
 
-                  gradient
-                    .append("stop")
-                    .attr("offset", "0%")
-                    .attr("style", "stop-color:#BBF6CA;stop-opacity:0.05");
+    gradient
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("style", "stop-color:#BBF6CA;stop-opacity:0.05");
 
-                  gradient
-                    .append("stop")
-                    .attr("offset", "100%")
-                    .attr("style", "stop-color:#BBF6CA;stop-opacity:.5");
-                };
+    gradient
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("style", "stop-color:#BBF6CA;stop-opacity:.5");
+  };
 
-                // Crear el filtro de brillo para el gráfico
-                const createGlowFilter = (select) => {
-                  const filter = select
-                    .select("defs")
-                    .append("filter")
-                    .attr("id", "glow");
+  // Crear el filtro de brillo para el gráfico
+  const createGlowFilter = (select) => {
+    const filter = select
+      .select("defs")
+      .append("filter")
+      .attr("id", "glow");
 
-                  filter
-                    .append("feGaussianBlur")
-                    .attr("stdDeviation", "4")
-                    .attr("result", "coloredBlur");
+    filter
+      .append("feGaussianBlur")
+      .attr("stdDeviation", "4")
+      .attr("result", "coloredBlur");
 
-                  const femerge = filter.append("feMerge");
-                  femerge.append("feMergeNode").attr("in", "coloredBlur");
-                  femerge.append("feMergeNode").attr("in", "SourceGraphic");
-                };
+    const femerge = filter.append("feMerge");
+    femerge.append("feMergeNode").attr("in", "coloredBlur");
+    femerge.append("feMergeNode").attr("in", "SourceGraphic");
+  };
 
-                // Dimensiones del gráfico
-                const container = d3.select("#lineChart");
-                const width = container.node().clientWidth;
-                const height = container.node().clientHeight;
-                const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+  // Dimensiones del gráfico
+  const container = d3.select("#lineChart");
+  const width = container.node().clientWidth;
+  const height = container.node().clientHeight;
+  const margin = { top: 50, right: 50, bottom: 50, left: 50 };
 
-                // Limpiar el contenedor antes de renderizar el gráfico
-                container.selectAll("*").remove();
+  // Limpiar el contenedor antes de renderizar el gráfico
+  container.selectAll("*").remove();
 
-                // Crear el SVG principal
-                const svg = container
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height)
-                  .append("g")
-                  .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  // Crear el SVG principal
+  const svg = container
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-                // Agregar definiciones (para gradiente y brillo)
-                svg.append("defs");
-                svg.call(createGradient);
-                svg.call(createGlowFilter);
+  // Agregar definiciones (para gradiente y brillo)
+  svg.append("defs");
+  svg.call(createGradient);
+  svg.call(createGlowFilter);
 
-                // Construir la URL de la API
+  // Construir la URL de la API
+  const apiUrl = `./ventas/chartAjax.php?local=${local}`;
 
-                // Cargar datos desde la API
-                d3.json(`./dashboard/chartAjax.php?local='${local}'`)
-                  .then((data) => {
-                    if (!data || data.length === 0) {
-                      console.log("No hay datos disponibles.");
+  // Usar Fetch para hacer la petición AJAX
+  fetch(apiUrl)
+    .then(response => response.json()) // Parsear el JSON de la respuesta
+    .then((data) => {
+      if (!data || data.length === 0) {
+        console.log("No hay datos disponibles.");
 
-                      // Mostrar mensaje de "No hay datos"
-                      svg.append("text")
-                        .attr("text-anchor", "middle")
-                        .attr("x", (width - margin.left - margin.right) / 2)
-                        .attr("y", (height - margin.top - margin.bottom) / 2)
-                        .attr("class", "no-data-message")
-                        .style("font-size", "16px")
-                        .style("fill", "gray")
-                        .text("No hay datos disponibles.");
-                      return;
-                    }
+        // Mostrar mensaje de "No hay datos"
+        svg.append("text")
+          .attr("text-anchor", "middle")
+          .attr("x", (width - margin.left - margin.right) / 2)
+          .attr("y", (height - margin.top - margin.bottom) / 2)
+          .attr("class", "no-data-message")
+          .style("font-size", "16px")
+          .style("fill", "gray")
+          .text("No hay datos disponibles.");
+        return;
+      }
 
-                    // Parsear datos para asegurarse de que las ventas son numéricas
-                    data.forEach((d) => (d.ventas = +d.ventas));
+      // Parsear datos para asegurarse de que las ventas son numéricas
+      data.forEach((d) => (d.ventas = +d.ventas));
 
-                    // Escalas
-                    const xScale = d3
-                      .scaleBand()
-                      .domain(data.map((d) => d.mes))
-                      .range([0, width - margin.left - margin.right])
-                      .padding(0.1);
+      // Escalas
+      const xScale = d3
+        .scaleBand()
+        .domain(data.map((d) => d.mes))
+        .range([0, width - margin.left - margin.right])
+        .padding(0.1);
 
-                    const yScale = d3
-                      .scaleLinear()
-                      .domain([0, d3.max(data, (d) => d.ventas)])
-                      .nice()
-                      .range([height - margin.top - margin.bottom, 0]);
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d.ventas)])
+        .nice()
+        .range([height - margin.top - margin.bottom, 0]);
 
-                    // Ejes
-                    const xAxis = d3.axisBottom(xScale);
-                    const yAxis = d3.axisLeft(yScale);
+      // Ejes
+      const xAxis = d3.axisBottom(xScale);
+      const yAxis = d3.axisLeft(yScale);
 
-                    // Agregar título al gráfico
-                    svg.append("text")
-                      .attr("text-anchor", "middle")
-                      .attr("x", (width - margin.left - margin.right) / 2)
-                      .attr("y", -20)
-                      .attr("class", "chart-title")
-                      .text(`Histórico de Ventas por Mes en ${local || "Todos los locales"}`);
+      // Agregar título al gráfico
+      svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", (width - margin.left - margin.right) / 2)
+        .attr("y", -20)
+        .attr("class", "chart-title")
+        .text(`Histórico de Ventas por Mes en ${local && local !== 'all' ? local : "Todos los locales"}`);
 
-                    // Dibujar ejes
-                    svg.append("g")
-                      .attr("transform", `translate(0, ${height - margin.top - margin.bottom})`)
-                      .call(xAxis)
-                      .attr("font-size", "12px");
+      // Dibujar ejes
+      svg.append("g")
+        .attr("transform", `translate(0, ${height - margin.top - margin.bottom})`)
+        .call(xAxis)
+        .attr("font-size", "12px");
 
-                    // Título del eje X
-                    svg.append("text")
-                      .attr("text-anchor", "middle")
-                      .attr("x", (width - margin.left - margin.right) / 2 + margin.left)
-                      .attr("y", height - margin.bottom + 40)
-                      .attr("class", "axis-title")
-                      .text("Meses");
+      // Título del eje X
+      svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", (width - margin.left - margin.right) / 2 + margin.left)
+        .attr("y", height - margin.bottom + 40)
+        .attr("class", "axis-title")
+        .text("Meses");
 
-                    svg.append("g").call(yAxis).attr("font-size", "12px");
+      svg.append("g").call(yAxis).attr("font-size", "12px");
 
-                    // Título del eje Y
-                    svg.append("text")
-                      .attr("text-anchor", "middle")
-                      .attr("transform", "rotate(-90)")
-                      .attr("x", -(height - margin.top - margin.bottom) / 2 - margin.top)
-                      .attr("y", -margin.left + 20)
-                      .attr("class", "axis-title")
-                      .text("Ventas");
+      // Título del eje Y
+      svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -(height - margin.top - margin.bottom) / 2 - margin.top)
+        .attr("y", -margin.left + 20)
+        .attr("class", "axis-title")
+        .text("Ventas");
 
-                    // Línea
-                    const line = d3
-                      .line()
-                      .x((d) => xScale(d.mes) + xScale.bandwidth() / 2)
-                      .y((d) => yScale(d.ventas));
+      // Línea
+      const line = d3
+        .line()
+        .x((d) => xScale(d.mes) + xScale.bandwidth() / 2)
+        .y((d) => yScale(d.ventas));
 
-                    svg.append("path")
-                      .datum(data)
-                      .attr("fill", "url(#gradient)")
-                      .attr("stroke", "steelblue")
-                      .attr("stroke-width", 2)
-                      .attr("d", line);
+      svg.append("path")
+        .datum(data)
+        .attr("fill", "url(#gradient)")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2)
+        .attr("d", line);
 
-                    // Puntos
-                    svg.selectAll(".circle")
-                      .data(data)
-                      .enter()
-                      .append("circle")
-                      .attr("cx", (d) => xScale(d.mes) + xScale.bandwidth() / 2)
-                      .attr("cy", (d) => yScale(d.ventas))
-                      .attr("r", 4)
-                      .attr("fill", "steelblue");
-                  })
-                  .catch((error) => {
-                    console.error("Error al cargar los datos:", error);
-                  });
-              }
+      // Puntos
+      svg.selectAll(".circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => xScale(d.mes) + xScale.bandwidth() / 2)
+        .attr("cy", (d) => yScale(d.ventas))
+        .attr("r", 4)
+        .attr("fill", "steelblue");
+    })
+    .catch((error) => {
+      console.error("Error al cargar los datos:", error);
+    });
+}
 
               // Cargar el gráfico al inicializar
               cargarGrafico('all');
@@ -402,8 +404,7 @@ if (isset($_SESSION['usuario'])) {
         <div class="card shadow mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="text-primary fw-bold m-0">Reservas concretadas por local</h6>
-            <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false"
-                data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+            <div class="dropdown no-arrow">
               <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
                 <p class="text-center dropdown-header">Local:</p>
                 <?php
@@ -417,156 +418,97 @@ if (isset($_SESSION['usuario'])) {
             </div>
           </div>
 
-          <div class="card-body" id="doughnutChart">
+          <div class="card-body" id="donutDiv" style='min-height:42vh;'>
           </div>
+                <script>
 
-          <script src="http://d3js.org/d3.v3.min.js"></script>
-          <script>
-            var svg = d3.select("#doughnutChart")
-              .append("svg")
-              .append("g");
+                  // Función para cargar los datos y renderizar el gráfico
+async function cargarGraficoTorta() {
+  const container = d3.select("#donutDiv");
+  const width = container.node().clientWidth;
+  const height = container.node().clientHeight;
+  const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+  const radius = Math.min(width, height) / 2 - margin.top;
 
-            svg.append("g")
-              .attr("class", "slices");
-            svg.append("g")
-              .attr("class", "labels");
-            svg.append("g")
-              .attr("class", "lines");
+  // Limpiar el contenedor antes de renderizar el gráfico
+  container.selectAll("*").remove();
 
-            var container = d3.select("#doughnutChart");
-            var width = container.node().clientWidth / 2,
-              height = container.node().clientHeight / 2,
-              radius = Math.min(width, height) / 2;
-            var pie = d3.layout.pie()
-              .sort(null)
-              .value(function (d) {
-                return d.value;
-              });
+  // Crear el SVG principal
+  const svg = container
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-            var arc = d3.svg.arc()
-              .outerRadius(radius * 0.8)
-              .innerRadius(radius * 0.4);
+  // Crear el arco de la torta
+  const arc = d3.arc()
+    .outerRadius(radius)
+    .innerRadius(radius - 50); // Radio del "donut"
 
-            var outerArc = d3.svg.arc()
-              .innerRadius(radius * 0.9)
-              .outerRadius(radius * 0.9);
+  // Crear el arco de las etiquetas (en el centro de cada sección)
+  const labelArc = d3.arc()
+    .outerRadius(radius - 30)
+    .innerRadius(radius - 30);
 
-            svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+  // Crear el color scale
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-            var key = function (d) {
-              return d.data.label;
-            };
+  // Función para cargar y actualizar los datos desde la API
+  async function cargarDatos() {
+    try {
+      const response = await fetch("./ventas/donutAjax.php");
+      const data = await response.json();
 
-            var color = d3.scale.ordinal()
-              .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-              .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+      // Asegurarse que los datos sean correctos y formatearlos
+      data.forEach(d => {
+        d.reservas_concretadas = +d.reservas_concretadas; // Convertir a número
+      });
 
-            function randomData() {
-              var labels = color.domain();
-              return labels.map(function (label) {
-                return { label: label, value: Math.random() }
-              });
-            }
+      // Crear el pie chart
+      const pie = d3.pie()
+        .value(d => d.reservas_concretadas)
+        .sort(null); // Para mantener el orden original
 
-            change(randomData());
+      const pieData = pie(data);
 
-            d3.select(".randomize")
-              .on("click", function () {
-                change(randomData());
-              });
+      // Generar las secciones del gráfico
+      const arcs = svg
+        .selectAll(".arc")
+        .data(pieData)
+        .enter()
+        .append("g")
+        .attr("class", "arc");
 
-            function change(data) {
+      arcs
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", (d, i) => color(i));
 
-              /* ------- PIE SLICES -------*/
-              var slice = svg.select(".slices").selectAll("path.slice")
-                .data(pie(data), key);
+      // Añadir las etiquetas al gráfico
+      arcs
+        .append("text")
+        .attr("transform", d => `translate(${labelArc.centroid(d)})`)
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .text(d => d.data.nombre_sucursal);
 
-              slice.enter()
-                .insert("path")
-                .style("fill", function (d) { return color(d.data.label); })
-                .attr("class", "slice");
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+    }
+  }
 
-              slice
-                .transition().duration(1000)
-                .attrTween("d", function (d) {
-                  this._current = this._current || d;
-                  var interpolate = d3.interpolate(this._current, d);
-                  this._current = interpolate(0);
-                  return function (t) {
-                    return arc(interpolate(t));
-                  };
-                })
+  // Cargar los datos inicialmente
+  cargarDatos();
 
-              slice.exit()
-                .remove();
+  // Actualizar los datos periódicamente (cada 10 segundos en este caso)
+  setInterval(cargarDatos, 10000); // Ajusta el tiempo según tus necesidades
+}
 
-              /* ------- TEXT LABELS -------*/
+// Llamar a la función para cargar el gráfico
+cargarGraficoTorta();
 
-              var text = svg.select(".labels").selectAll("text")
-                .data(pie(data), key);
-
-              text.enter()
-                .append("text")
-                .attr("dy", ".35em")
-                .text(function (d) {
-                  return d.data.label;
-                });
-
-              function midAngle(d) {
-                return d.startAngle + (d.endAngle - d.startAngle) / 2;
-              }
-
-              text.transition().duration(1000)
-                .attrTween("transform", function (d) {
-                  this._current = this._current || d;
-                  var interpolate = d3.interpolate(this._current, d);
-                  this._current = interpolate(0);
-                  return function (t) {
-                    var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-                    return "translate(" + pos + ")";
-                  };
-                })
-                .styleTween("text-anchor", function (d) {
-                  this._current = this._current || d;
-                  var interpolate = d3.interpolate(this._current, d);
-                  this._current = interpolate(0);
-                  return function (t) {
-                    var d2 = interpolate(t);
-                    return midAngle(d2) < Math.PI ? "start" : "end";
-                  };
-                });
-
-              text.exit()
-                .remove();
-
-              /* ------- SLICE TO TEXT POLYLINES -------*/
-
-              var polyline = svg.select(".lines").selectAll("polyline")
-                .data(pie(data), key);
-
-              polyline.enter()
-                .append("polyline");
-
-              polyline.transition().duration(1000)
-                .attrTween("points", function (d) {
-                  this._current = this._current || d;
-                  var interpolate = d3.interpolate(this._current, d);
-                  this._current = interpolate(0);
-                  return function (t) {
-                    var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-                    return [arc.centroid(d2), outerArc.centroid(d2), pos];
-                  };
-                });
-
-              polyline.exit()
-                .remove();
-            };
-          </script>
-
+                </script>
         </div>
       </div>
     </div>
