@@ -59,7 +59,7 @@ if (!isset($_SESSION['usuario'])) {
     <?php echo $error_message; ?>
 </div>
 <!-- Botón para abrir el modal de opinion -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#opinion_modal" <?php echo !$showButton ? 'hidden' : ''; ?>>
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#opinion_modal" <?php echo !$showButton ? 'hidden' : ''; ?> style="background: #2E2E2E color:white">
     Ingresar opinion
 </button>
 
@@ -97,7 +97,7 @@ if (!isset($_SESSION['usuario'])) {
             </div>
 
              <!-- Botón de envío -->
-            <button type="submit" name="enviar" id="enviar" class="btn btn-primary" >
+            <button type="submit" name="enviar" id="enviar" class="btn" style="background: #2E2E2E; color:white;">
                 Enviar Opinión
             </button>
         </form>

@@ -115,6 +115,24 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
         .text-warning {
             color: #f39c12;
         }
+
+    td.dato{
+        background:#666666;
+        color: white;
+    }
+    td.l{
+        background:#CCCCCC; 
+    }
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+    .rounded {
+        border-radius: 10px; /* Redondeo para la tabla */
+        overflow: hidden; /* Asegura que el borde se mantenga redondeado */
+    }
 </style>
 
 <body class="pt-5">
@@ -162,8 +180,8 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
 
             <!-- Tarjeta para reservar el vehículo -->
             <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                <div class="card w-100 px-2">
-                    <div class="card-body">
+                <div class="card w-100 px-2" style="background: #CCCCCC;" >
+                    <div class="card-body" >
                         <h5 class="card-title">Reservar este vehículo</h5>
                         <div>
                             <?php
@@ -195,12 +213,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             if (isset($_SESSION['usuario'])) {
                                 // Si hay una sesión activa, muestra el botón habilitado
                                 echo '<div class="d-grid">
-                                        <a href="reservar_vehiculo.php?id=' . $id_vehiculo . '" class="btn btn-primary">Reservar</a>
+                                        <a href="reservar_vehiculo.php?id=' . $id_vehiculo . '" class="btn " style="text-decoration: none; background: #ffc107;">Reservar</a>
                                       </div>';
                             } else {
                                 // Si no hay sesión, muestra el botón deshabilitado
                                 echo '<div class="d-grid">
-                                          <a href="#" class="btn btn-primary disabled" aria-disabled="true">Reservar</a>
+                                          <a href="#" class="btn disabled" aria-disabled="true" style="text-decoration: none; background: #ffc107;">Reservar</a>
                                       </div>';
                             }
                             ?>
@@ -229,26 +247,26 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
             <!-- Información adicional del vehículo: Tabla y descripción ocupando todo el ancho -->
             <div class="row mt-4">
                 <div class="col-lg-12 d-flex flex-column flex-lg-row">
-                    <table class="table me-5">
+                    <table class="table me-5 rounded border">
                         <tr>
-                            <td>Marca</td>
-                            <td><?php echo $vehiculo['nombre_marca']; ?></td>
+                            <td class="dato">Marca</td>
+                            <td class="l"><?php echo $vehiculo['nombre_marca']; ?></td>
                         </tr>
                         <tr>
-                            <td>Kilometraje</td>
-                            <td><?php echo $vehiculo['kilometraje']; ?></td>
+                            <td class="dato">Kilometraje</td>
+                            <td class="l"><?php echo $vehiculo['kilometraje']; ?></td>
                         </tr>
                         <tr>
-                            <td>Año</td>
-                            <td><?php echo $vehiculo['anio']; ?></td>
+                            <td  class="dato">Año</td>
+                            <td class="l"><?php echo $vehiculo['anio']; ?></td>
                         </tr>
                         <tr>
-                            <td>Cantidad de Puertas</td>
-                            <td><?php echo $vehiculo['cantidad_puertas']; ?></td>
+                            <td  class="dato">Cantidad de Puertas</td>
+                            <td class="l"><?php echo $vehiculo['cantidad_puertas']; ?></td>
                         </tr>
                         <tr>
-                            <td>Colores</td>
-                            <td>
+                            <td  class="dato">Colores</td>
+                            <td class="l">
                                 <?php
                                 while ($color = mysqli_fetch_assoc($colores_result)) {
                                     echo "<span class='color-circle' style='background-color: {$color['codigo_color']};' title='{$color['nombre_color']}'></span>";
@@ -257,12 +275,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             </td>
                         </tr>
                         <tr>
-                            <td>Estado</td>
-                            <td><?php echo $vehiculo['estado_vehiculo']; ?></td>
+                            <td  class="dato">Estado</td>
+                            <td class="l"><?php echo $vehiculo['estado_vehiculo']; ?></td>
                         </tr>
                         <tr>
-                            <td>Ruedas</td>
-                            <td>
+                            <td  class="dato">Ruedas</td>
+                            <td  class="l">
                                 <?php
                                 while ($ruedas = mysqli_fetch_assoc($ruedas_result)) {
                                     echo $ruedas['nombre_tipo_rueda'];
@@ -270,12 +288,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             </td>
                         </tr>
                         <tr>
-                            <td>Combustible</td>
-                            <td><?php echo $vehiculo['nombre_tipo_combustible']; ?></td>
+                            <td  class="dato">Combustible</td>
+                            <td class="l"><?php echo $vehiculo['nombre_tipo_combustible']; ?></td>
                         </tr>
                         <tr>
-                            <td>Carroceria</td>
-                            <td>
+                            <td  class="dato">Carrocería</td>
+                            <td class="l">
                                 <?php
                                 while ($carroceria = mysqli_fetch_assoc($carroceria_result)) {
                                     echo $carroceria['nombre_tipo_vehiculo'];
@@ -284,12 +302,12 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                         </tr>
 
                         <tr>
-                            <td>Caballos de Fuerza</td>
-                            <td><?php echo $vehiculo['caballos_fuerza']; ?></td>
+                            <td  class="dato">Caballos de Fuerza</td>
+                            <td class="l"><?php echo $vehiculo['caballos_fuerza']; ?></td>
                         </tr>
                         <tr>
-                            <td>Transmisión</td>
-                            <td><?php echo $vehiculo['nombre_transmision']; ?></td>
+                            <td  class="dato">Transmisión</td>
+                            <td class="l"><?php echo $vehiculo['nombre_transmision']; ?></td>
                         </tr>
                     </table>
 
@@ -324,7 +342,7 @@ $opiniones_result = mysqli_query($conexion, $opiniones_query);
                             </div>
                         </div>
                         <!-- Botón para abrir el modal -->
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Financiamiento</button>                        
+                        <button class="btn" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style="background: #2E2E2E; color:white;">Financiamiento</button>                        
                         </div>
 
                     </div>

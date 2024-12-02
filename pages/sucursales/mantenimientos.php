@@ -119,42 +119,45 @@ $resulta_mantenimiento = $conexion->query($mantenimientos)
                     while ($servicio = mysqli_fetch_assoc($resulta_mantenimiento)) {
                         $precio_formateado = number_format($servicio['precio_servicio'], 0, ',', '.');
                         echo "
-                        <div class='col-12 mt-3 rounded px-3 py-3 d-flex shadow' style='background: #fffcf4; max-height: 330px;'>
-                            <div class='mx-3 w-100'>
-                                <div class='d-flex justify-content-between align-items-center w-100 mb-2'>
-                                    <strong class='fs-2 '>{$servicio['nombre_servicio']}</strong>
-                                    <p class='text-success fw-bold'>Desde $ {$precio_formateado}</p>
+                        <div class='col-12 mt-3 rounded shadow' style='background: #fffcf4;'>
+                            <div class='p-3'>
+                                <!-- Título y precio -->
+                                <div class='d-flex flex-column flex-md-row justify-content-between align-items-start mb-3'>
+                                    <strong class='fs-5'>{$servicio['nombre_servicio']}</strong>
+                                    <p class='fw-bold' style='color:#3c4043;'>Desde $ {$precio_formateado}</p>
                                 </div>
-                                <div class='d-flex justify-content-between align-items-center w-100 mb-2'>
-                                    <img src='../../admin/mantenedores/servicios/{$servicio['imagen_servicio']}' alt='' class='img-thumbnail' style='max-width: 250px'>
-                                    <p class='w-75'>
+                        
+                                <!-- Imagen y descripción -->
+                                <div class='d-flex flex-column flex-md-row align-items-start mb-3'>
+                                    <img src='../../admin/mantenedores/servicios/{$servicio['imagen_servicio']}' alt='' class='img-thumbnail img-fluid me-3 mb-3 mb-md-0' style='max-width: 250px;'>
+                                    <p class='flex-grow-1'>
                                         <strong>Detalle: </strong>
                                         {$servicio['descripcion_servicio']}
                                     </p>
                                 </div>
-                                <div class='d-flex justify-content-between align-items-center mb-2'>
-                                <div class=''>
-                                    <p class='text-secondary my-auto'>Contacto: +56  {$servicio['telefono_encargado']}</p>
-                                </div>
-                                <div class='dropdown'>
-                                <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                    Disponible en: 
-                                </button>
-                                <ul class='dropdown-menu'>";
-                                $disponibilidad = "SELECT ss.*, s.nombre_sucursal FROM sucursal_servicio ss
-                                               JOIN sucursal s ON ss.id_sucursal = s.id_sucursal
-                                               WHERE id_servicio = {$servicio['id_servicio']}
-                                               ORDER BY zona_sucursal";
-                                $resultado_disponibilidad = $conexion->query($disponibilidad);
-                                while($disponible = mysqli_fetch_assoc($resultado_disponibilidad)){
-                                    echo "<li><a class='dropdown-item' href='sucursales.php?suc={$disponible['id_sucursal']}'>{$disponible['nombre_sucursal']}</a></li>";
-                                }
-                                echo            "</ul>
-                                </div>
+                        
+                                <!-- Contacto y disponibilidad -->
+                                <div class='d-flex flex-column flex-md-row justify-content-between align-items-start'>
+                                    <p class='text-secondary'>Contacto: +56 {$servicio['telefono_encargado']}</p>
+                                    <div class='dropdown mt-2 mt-md-0'>
+                                        <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                            Disponible en:
+                                        </button>
+                                        <ul class='dropdown-menu'>";
+                                        $disponibilidad = "SELECT ss.*, s.nombre_sucursal FROM sucursal_servicio ss
+                                                           JOIN sucursal s ON ss.id_sucursal = s.id_sucursal
+                                                           WHERE id_servicio = {$servicio['id_servicio']}
+                                                           ORDER BY zona_sucursal";
+                                        $resultado_disponibilidad = $conexion->query($disponibilidad);
+                                        while($disponible = mysqli_fetch_assoc($resultado_disponibilidad)){
+                                            echo "<li><a class='dropdown-item' href='sucursales.php?suc={$disponible['id_sucursal']}'>{$disponible['nombre_sucursal']}</a></li>";
+                                        }
+                                        echo "</ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>";
-                    }
+                                    }
                     ?>
                 </div>
             </div>

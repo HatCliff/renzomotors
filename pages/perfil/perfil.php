@@ -82,7 +82,7 @@
                             </div>
                             <!-- Opciones -->
                             <div>
-                                <a href='perfil.php?accion=1' class='btn btn-primary btn-sm'>Editar Datos de Perfil</a>
+                                <a href='perfil.php?accion=1' class='btn btn-sm' style=' background: #ffc107;'>Editar Datos de Perfil</a>
                             </div>
                         ";
                     }
