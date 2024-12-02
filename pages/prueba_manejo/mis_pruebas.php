@@ -91,7 +91,7 @@ if (isset($_SESSION['usuario'])) {
         <!-- Imagen del vehículo -->
         <div class='d-flex align-items-center'>
             <img src='/../xampp/renzomotors/admin/mantenedores/vehiculo/{$foto_vehiculo}' alt='Imagen del Vehículo' 
-                 class='img-thumbnail' 
+                  
                  style='width: 100%; max-width: 400px; height: auto; max-height: 300px; object-fit: cover; border-radius: 20px 0 0 20px;'>
         </div>
         <!-- Información de la prueba y del vehículo -->
