@@ -54,4 +54,3 @@ if ($response->isApproved()) {
     success(false, "Transacción rechazada");
 }
 ?>
-a

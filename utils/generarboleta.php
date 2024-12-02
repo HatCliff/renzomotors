@@ -28,7 +28,7 @@ class PDF extends FPDF
         $datos_s = $conexion->query("SELECT nombre_sucursal FROM sucursal WHERE id_sucursal = {$data['sucursal']}");
         $dato['nombre_sucursal'] = $datos_s->fetch_assoc()['nombre_sucursal'];
 
-        $datos_c = $conexion->query("SELECT nombre_color FROM color WHERE id_color = {$data['sucursal']}");
+        $datos_c = $conexion->query("SELECT nombre_color FROM color WHERE id_color = {$data['color']}");
         $dato['nombre_color'] = $datos_c->fetch_assoc()['nombre_color'];
 
         $datos_v = $conexion->query("SELECT nombre_modelo FROM vehiculo WHERE id_vehiculo = {$data['id_vehiculo']}");
