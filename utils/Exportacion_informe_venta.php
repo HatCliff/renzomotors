@@ -81,7 +81,7 @@ $datosAccesorios = [
     ['Total de ventas', ContadorVentaAccesorios()],
     ['Valor total de ventas', '$' . number_format(ContadorVentaTotalAccesorios(), 2)]
 ];
-crearSeccion($pdf, 'Ventas de Accesorios', $datosAccesorios, ['Descripción', 'Valor']);
+crearSeccion($pdf, 'Ventas de Accesorios', $datosAccesorios, [utf8_decode('Descripción'), 'Valor']);
 
 // Reservas Concretadas
 $reservas = ContadorReservasConcretadas();
@@ -89,13 +89,13 @@ $datosReservas = [
     ['Reservas concretadas', $reservas['reservas_concretadas']],
     ['Reservas no concretadas', $reservas['reservas_no_concretadas']]
 ];
-crearSeccion($pdf, 'Reservas Concretadas', $datosReservas, ['Descripción', 'Cantidad']);
+crearSeccion($pdf, 'Reservas Concretadas', $datosReservas, [utf8_decode('Descripción'), 'Cantidad']);
 
 // Seguros Contratados
 $datosSeguros = [
     ['Total seguros contratados', ContadorSegurosContratados()]
 ];
-crearSeccion($pdf, 'Seguros Contratados', $datosSeguros, ['Descripción', 'Cantidad']);
+crearSeccion($pdf, 'Seguros Contratados', $datosSeguros, [utf8_decode('Descripción'), 'Cantidad']);
 
 /*
 // Histórico de Ventas por Mes

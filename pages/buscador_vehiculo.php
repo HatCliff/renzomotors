@@ -544,7 +544,8 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                         </div>
 
                 <!-- buscador y filtros -->
-                <div class="col-lg-2 col-12  d-none d-lg-block" style="background: #fffcf4; border-radius: 20px; border: 0.1em solid grey;">
+                <div class="col-lg-2 col-12  d-none d-lg-block">
+                <div class="px-2" style="background: #fffcf4; border-radius: 20px; border: 0.1em solid grey;">
                     <h3 class="mb-4 mt-3 d-flex justify-content-center">Filtros</h3>   
                         <div class="col d-flex flex-column mt-3" >
                                 <div class="accordion">
@@ -741,6 +742,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             <button type="submit" name="Limpiar" id="Limpiar" class="btn mt-4" style="background: #c0c0c0;">Limpiar Filtros</button>
                         </div>
                     </form>
+                </div>
                 </div><!-- termina buscador y filtros -->    
 
                 <!-- vehiculos -->                                      

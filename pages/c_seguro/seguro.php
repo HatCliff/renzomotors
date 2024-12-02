@@ -89,7 +89,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                             <p class="card-text text-muted" style="text-align: justify;"><?php echo $row['descripcion_seguro']; ?></p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <span class="text-success fw-bold">Desde
+                            <span class="fw-bold" style="color:#3c4043;">Desde
                                 <?php echo number_format($row['precio_seguro'], 0, ',', '.'); ?> CLP</span>
                             <a href="contratacion_seguro.php?id_seguro=<?php echo $row['id_seguro']; ?>"
                                 class="btn btn-warning">Cotizar</a>
