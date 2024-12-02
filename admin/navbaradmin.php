@@ -77,7 +77,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                                     <i class="fas fa-user-circle"></i> Perfil
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                                    <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil/perfil.php?accion=0">Ver Perfil</a></li>
                                     <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                                 </ul>
                 </li>
@@ -92,7 +92,7 @@ $carpetaMantenedores = $carpetaMain . 'admin/mantenedores/';
                         <i class="fas fa-user-circle"></i> Perfil
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil.php">Ver Perfil</a></li>
+                        <li><a class="dropdown-item" href="' . $carpetaMain . 'pages/perfil/perfil.php?accion=0">Ver Perfil</a></li>
                         <li><a class="dropdown-item" href="' . $carpetaMain . 'auth/logout.php">Cerrar Sesión</a></li>
                     </ul>
                 </li>
