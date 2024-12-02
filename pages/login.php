@@ -115,14 +115,18 @@ if (isset($_SESSION['usuario'])) {
                     <h5 class="modal-title">Restablecer Contraseña</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/recovery.php" method="post">
+                <form action="./recover.php" method="post">
                     <div class="modal-body">
-                        <label for="recoveryMail" class="form-label">Correo Electrónico</label>
-                        <input type="email" name="recoveryMail" class="form-control" required>
+                        <label for="correo" class="form-label">Correo Electrónico</label>
+                        <input type="email" name="correo" class="form-control" required>
+                        
+                        <label for="nueva_contrasena" class="form-label">Nueva Contraseña:</label>
+                        <input type="password" name="nueva_contrasena" class="form-control"
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}" maxlength="20" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Restablecer</button>
+                        <button type="submit" class="btn btn-primary">Generar Nueva Contraseña</button>
                     </div>
                 </form>
             </div>
