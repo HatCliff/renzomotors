@@ -218,7 +218,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                                         echo "<label>";
                                                         echo "<input type='checkbox' name='id_tipo_accesorio[]' 
                                                             value='{$row['id_tipo_accesorio']}' $isChecked 
-                                                            onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                            onchange='handleCheckboxChange(this, \"id_tipo_accesorio\", \"{$row['id_tipo_accesorio']}\")'>";
                                                         echo "  {$row['nombre_tipo_accesorio']}";
                                                         echo "</label>";
                                                         echo "</li>";
@@ -295,7 +295,7 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
                                                         echo "<label>";
                                                         echo "<input type='checkbox' name='id_tipo_accesorio[]' 
                                                             value='{$row['id_tipo_accesorio']}' $isChecked 
-                                                            onchange='document.getElementById(\"filtroForm\").submit()'>";
+                                                            onchange='handleCheckboxChange(this, \"id_tipo_accesorio\", \"{$row['id_tipo_accesorio']}\")'>";
                                                         echo "  {$row['nombre_tipo_accesorio']}";
                                                         echo "</label>";
                                                         echo "</li>";
@@ -439,6 +439,38 @@ if (isset($_SESSION['tipo_persona']) && $_SESSION['tipo_persona'] === 'administr
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<script>
+        // Función para manejar los cambios en los checkboxes
+        function handleCheckboxChange(checkbox, tipo, valor) {
+        let form = document.getElementById('filtroForm');
+        
+        // Si el checkbox está desmarcado, lo eliminamos del array
+        if (!checkbox.checked) {
+            removeValueFromArray(tipo, valor);
+        }
+
+        // Se envía el formulario después del cambio
+        form.submit();
+    }
+
+    // Función para manejar los cambios en los selects (multiselect)
+    function handleSelectChange(select, tipo) {
+        let form = document.getElementById('filtroForm');
+        
+        // Se envía el formulario después de seleccionar o deseleccionar
+        form.submit();
+    }
+
+    // Función para eliminar el valor del array en caso de que un checkbox sea desmarcado
+    function removeValueFromArray(tipo, valor) {
+        let inputs = document.querySelectorAll(`input[name="${tipo}[]"]`);
+        inputs.forEach(function(input) {
+            if (input.value === valor) {
+                input.remove();
+            }
+        });
+    }
+</script>
 
 <script>
         // Mostrar la alerta si no hay resultados
