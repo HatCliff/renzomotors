@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include('../config/conexion.php');
-if ($_SESSION['tipo_persona'] === 'administrador') {
+if (isset($_SESSION['tipo_persona'])=== 'administrador') {
     include '../admin/navbaradmin.php';
 } else {
     include '../components/navbaruser.php';
