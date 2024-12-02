@@ -75,7 +75,7 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $pdf->SetFont('Arial', 'B', 12);
 
     // Obtener el ancho del texto
-    $text = 'Cotización de Seguro';
+    $text = utf8_decode('Cotización de Seguro');
     $textWidth = $pdf->GetStringWidth($text);
 
     // Calcular la posición X para centrar el texto
@@ -170,7 +170,7 @@ $pdf->Cell(0, 10, utf8_decode('Documento generado automáticamente. Fecha: ' . d
         $mail->setFrom('renzomotors08@gmail.com', 'RenzoMotors');
         $mail->addAddress($correo);
 
-        $mail->Subject = 'Cotización de Seguro';
+        $mail->Subject = utf8_decode('Cotización de Seguro');
         $mail->Body = "Hola $nombre,\n\nAdjunto encontrarás los detalles de tu cotización de seguro.\n\nSaludos,\nRenzoMotors";
         $mail->addAttachment($pdfOutput);
         $mail->send();

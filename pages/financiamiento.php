@@ -67,7 +67,7 @@ if ($result_precio && mysqli_num_rows($result_precio) > 0) {
     <br>
     <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="laboral" checked>
-        <label class="form-check-label" for="flexCheckChecked"> Seguro de proteccion laboral </label>
+        <label class="form-check-label" for="flexCheckChecked"> Seguro de protección laboral </label>
     </div>
     <br>
     <div class="d-grid gap-2 col-6 mx-auto">
